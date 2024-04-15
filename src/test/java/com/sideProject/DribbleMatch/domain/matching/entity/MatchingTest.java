@@ -1,4 +1,4 @@
-package com.sideProject.DribbleMatch.domain.matching;
+package com.sideProject.DribbleMatch.domain.matching.entity;
 
 import com.sideProject.DribbleMatch.domain.matching.entity.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.domain.matching.entity.ENUM.MatchingType;
