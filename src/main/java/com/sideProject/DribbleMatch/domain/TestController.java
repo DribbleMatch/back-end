@@ -1,6 +1,10 @@
 package com.sideProject.DribbleMatch.domain;
 
+import com.sideProject.DribbleMatch.common.error.CustomException;
+import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.common.response.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -9,7 +13,7 @@ import java.time.LocalDate;
 public class TestController {
 
     @GetMapping("/")
-    public String test() {
-        return "success";
+    public ApiResponse<?> test() {
+        throw new CustomException(ErrorCode.TEST_ERROR);
     }
 }
