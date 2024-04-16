@@ -18,7 +18,7 @@ public class TeamMatchJoinTest {
     @DisplayName("BuilderTest")
     public class BuilderTest {
 
-        @DisplayName("createTeamMatchJoin")
+        @DisplayName("TeamMatchJoin을 생성한다")
         @Test
         public void createTeamMatchJoin() {
 

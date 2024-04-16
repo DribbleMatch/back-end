@@ -12,7 +12,7 @@ public class TeamTest {
     @DisplayName("BuilderTest")
     public class BuilderTest {
 
-        @DisplayName("createTeam")
+        @DisplayName("Team을 생성한다")
         @Test
         public void createTeam() {
 

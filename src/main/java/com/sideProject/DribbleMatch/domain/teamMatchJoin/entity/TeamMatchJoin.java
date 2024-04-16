@@ -19,12 +19,12 @@ public class TeamMatchJoin {
     @Column
     private Long id;
 
-    @NotNull
+    @NotNull(message = "팀이 입력되지 않았습니다.")
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @NotNull
+    @NotNull(message = "경기가 입력되지 않았습니다.")
     @ManyToOne
     @JoinColumn(name = "match_id")
     private Matching matching;

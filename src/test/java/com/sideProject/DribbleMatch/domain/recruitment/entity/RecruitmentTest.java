@@ -14,7 +14,7 @@ public class RecruitmentTest {
     @DisplayName("BuilderTest")
     public class BuilderTest {
 
-        @DisplayName("createRecruitment")
+        @DisplayName("Recruitment를 생성한다")
         @Test
         public void createRecruitment() {
 

@@ -17,7 +17,7 @@ public class MatchingTest {
     @DisplayName("BuilderTest")
     public class BuilderTest {
 
-        @DisplayName("createMatching")
+        @DisplayName("Matching을 생성한다")
         @Test
         public void createMatching() {
 
