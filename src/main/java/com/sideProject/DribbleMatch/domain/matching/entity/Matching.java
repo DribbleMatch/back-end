@@ -25,27 +25,26 @@ public class Matching {
     @Column
     private String name;
 
-    @NotNull
     @Column
     private int people;
 
-    @NotNull
+    @NotNull(message = "시작시간이 입력되지 않았습니다.")
     @Column
     LocalDateTime startAt;
 
-    @NotNull
+    @NotNull(message = "종료시간이 입력되지 않았습니다.")
     @Column
     LocalDateTime endAt;
 
-    @NotNull
+    @NotNull(message = "장소가 입력되지 않았습니다.")
     @Column
     String place;
 
-    @NotNull
+    @NotNull(message = "상태가 입력되지 않았습니다.")
     @Column
     MatchingStatus status;
 
-    @NotNull
+    @NotNull(message = "타입이 입력되지 않았습니다.")
     @Column
     MatchingType type;
 
