@@ -18,15 +18,14 @@ public class Team {
     private Long id;
 
     @Column
-    @NotNull
+    @NotNull(message = "이름이 입력되지 않았습니다.")
     private String name;
 
     @Column
-    @NotNull
+    @NotNull(message = "지역이 입력되지 않았습니다.")
     private String region;
 
     @Column
-    @NotNull
     private int winning;
 
     @Builder

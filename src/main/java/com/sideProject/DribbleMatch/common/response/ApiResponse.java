@@ -7,6 +7,8 @@ import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.util.List;
+
 @Getter
 @JsonPropertyOrder({"code", "message", "data"})
 public class ApiResponse<T> {
@@ -30,6 +32,13 @@ public class ApiResponse<T> {
         return new ApiResponse<>(
                 errorCode.getStatus(),
                 errorCode.getMessage(),
+                null);
+    }
+
+    public static ApiResponse<?> error(int code, String message) {
+        return new ApiResponse<>(
+                code,
+                message,
                 null);
     }
 }

@@ -21,32 +21,31 @@ public class User {
     @Column
     private Long id;
 
-    @Column
-    @NotNull
+    @Column(unique = true)
+    @NotNull(message = "이메일이 입력되지 않았습니다.")
     private String email;
 
     @Column
-    @NotNull
+    @NotNull(message = "비밀번호가 입력되지 않았습니다.")
     private String password;
 
     @Column
-    @NotNull
+    @NotNull(message = "닉네임이 입력되지 않았습니다.")
     private String nickName;
 
     @Column
-    @NotNull
+    @NotNull(message = "성별이 입력되지 않았습니다.")
     private Gender gender;
 
     @Column
-    @NotNull
+    @NotNull(message = "생년월일이 입력되지 않았습니다.")
     private LocalDate birth;
 
     @Column
-    @NotNull
+    @NotNull(message = "포지션이 입력되지 않았습니다.")
     private Position position;
 
     @Column
-    @NotNull
     private int winning;
 
     @Builder

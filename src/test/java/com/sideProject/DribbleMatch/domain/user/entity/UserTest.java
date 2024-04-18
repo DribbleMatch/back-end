@@ -1,8 +1,7 @@
-package com.sideProject.DribbleMatch.domain.user;
+package com.sideProject.DribbleMatch.domain.user.entity;
 
 import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Gender;
 import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Position;
-import com.sideProject.DribbleMatch.domain.user.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

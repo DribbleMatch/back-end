@@ -19,23 +19,22 @@ public class Recruitment {
     @Column
     private Long id;
 
-    @NotNull
+    @NotNull(message = "제목이 입력되지 않았습니다.")
     @Column
     private String title;
 
-    @NotNull
+    @NotNull(message = "내용이 입력되지 않았습니다.")
     @Column
     private String content;
 
-    @NotNull
+    @NotNull(message = "포지션이 입력되지 않았습니다.")
     @Column
     private Position position;
 
-    @NotNull
     @Column
     private int winning;
 
-    @NotNull
+    @NotNull(message = "팀이 입력되지 않았습니다.")
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
