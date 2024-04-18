@@ -16,13 +16,13 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PersonalMatchJoinTest {
+public class PersonalMatchJoinRepositoryTestTest {
 
     @Nested
     @DisplayName("BuilderTest")
     public class BuilderTest {
 
-        @DisplayName("createPersonalMatchJoin")
+        @DisplayName("PersonalMatchJoin을 생성한다")
         @Test
         public void createPersonalMatchJoin() {
 
