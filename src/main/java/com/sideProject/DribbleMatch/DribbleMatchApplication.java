@@ -1,4 +1,4 @@
-package com.sideProject.dribbleMatch;
+package com.sideProject.DribbleMatch;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

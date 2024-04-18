@@ -1,4 +1,4 @@
-package com.sideProject.dribbleMatch;
+package com.sideProject.DribbleMatch;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
