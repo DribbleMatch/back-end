@@ -118,7 +118,7 @@ public class TeamRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> teamRepository.findById(savedTeam.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_TEAM_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_TEAM_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 팀이 존재하지 않습니다.");
         }

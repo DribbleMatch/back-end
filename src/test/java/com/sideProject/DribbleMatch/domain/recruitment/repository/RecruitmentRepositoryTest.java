@@ -130,7 +130,7 @@ public class RecruitmentRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> recruitmentRepository.findById(savedRecruitment.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_RECRUITMENT_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_RECRUITMENT_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 모집글이 존재하지 않습니다.");
         }
