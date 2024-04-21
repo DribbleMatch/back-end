@@ -126,7 +126,7 @@ public class MatchingRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> matchingRepository.findById(savedMatching.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_MATCHING_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_MATCHING_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 경기가 존재하지 않습니다.");
         }

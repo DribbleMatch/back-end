@@ -148,7 +148,7 @@ public class TeamMatchJoinRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> teamMatchJoinRepository.findById(savedTeamMatchJoin.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_TEAM_MATCH_JOIN_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_TEAM_MATCH_JOIN_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 팀경기 참가 정보가 존재하지 않습니다.");
         }

@@ -156,7 +156,7 @@ public class PersonalMatchJoinRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> personalMatchJoinRepository.findById(savedPersonalMatchJoin.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_PERSONAL_MATCH_JOIN_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_PERSONAL_MATCH_JOIN_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 개인 경기 참가 정보가 존재하지 않습니다.");
         }
