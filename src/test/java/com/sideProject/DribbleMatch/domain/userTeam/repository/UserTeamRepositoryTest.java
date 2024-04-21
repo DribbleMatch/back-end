@@ -150,7 +150,7 @@ public class UserTeamRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> userTeamRepository.findById(savedUserTeam.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_USERTEAM_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_USERTEAM_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 소속팀 정보가 존재하지 않습니다.");
         }

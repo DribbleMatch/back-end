@@ -10,7 +10,17 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: update
     properties:
       hibernate:
         format_sql: true
+
+  jwt:
+    secret-key: ${SECRET_KEY}
+    access-token-expire: ${ACCESS_TOKEN_EXPIRE_LENGTH}
+    refresh-token-expire: ${REFRESH_TOKEN_EXPIRE_LENGTH}
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}

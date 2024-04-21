@@ -128,7 +128,7 @@ public class UserRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> userRepository.findById(savedUser.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_USER_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_USER_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 사용자가 존재하지 않습니다.");
         }
@@ -150,6 +150,74 @@ public class UserRepositoryTest {
 
             // then
             assertThat(userRepository.findById(savedUser.getId()).isPresent()).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("findByEmailTest")
+    public class findByEmailTest {
+
+        @DisplayName("Email로 User를 조회한다")
+        @Test
+        public void findByEmail() {
+
+            // given
+            User savedUser = userRepository.save(initUser("test@test.com"));
+
+            // when
+            User selectedUser = userRepository.findByEmail(savedUser.getEmail()).get();
+
+            // then
+            assertThat(selectedUser).isNotNull();
+            assertThat(savedUser).isEqualTo(selectedUser);
+        }
+
+        @DisplayName("없는 Email이면 에러가 발생한다")
+        @Test
+        public void findByEmail2() {
+
+            // given
+            User savedUser = userRepository.save(initUser("test@test.com"));
+
+            // when, then
+            assertThatThrownBy(() -> userRepository.findByEmail("no_exist_email.com").orElseThrow(() ->
+                    new CustomException(ErrorCode.NOT_FOUND_EMAIL)))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("해당 이메일이 존재하지 않습니다.");
+        }
+    }
+
+    @Nested
+    @DisplayName("findByNickNameTest")
+    public class findByNickNameTest {
+
+        @DisplayName("NickName으로 User를 조회한다")
+        @Test
+        public void findByNickName() {
+
+            // given
+            User savedUser = userRepository.save(initUser("test@test.com"));
+
+            // when
+            User selectedUser = userRepository.findByNickName(savedUser.getNickName()).get();
+
+            // then
+            assertThat(selectedUser).isNotNull();
+            assertThat(savedUser).isEqualTo(selectedUser);
+        }
+
+        @DisplayName("없는 NickName이면 에러가 발생한다")
+        @Test
+        public void findByNickNAme2() {
+
+            // given
+            User savedUser = userRepository.save(initUser("test@test.com"));
+
+            // when, then
+            assertThatThrownBy(() -> userRepository.findByNickName("no_exist_nickName").orElseThrow(() ->
+                    new CustomException(ErrorCode.NOT_FOUND_NICKNAME)))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("해당 닉네임이 존재하지 않습니다.");
         }
     }
 }
