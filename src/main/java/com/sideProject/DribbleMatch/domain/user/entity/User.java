@@ -29,7 +29,7 @@ public class User {
     @NotNull(message = "비밀번호가 입력되지 않았습니다.")
     private String password;
 
-    @Column
+    @Column(unique = true)
     @NotNull(message = "닉네임이 입력되지 않았습니다.")
     private String nickName;
 

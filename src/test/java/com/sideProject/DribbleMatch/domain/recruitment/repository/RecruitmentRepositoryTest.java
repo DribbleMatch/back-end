@@ -5,7 +5,10 @@ import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.domain.recruitment.entity.Recruitment;
 import com.sideProject.DribbleMatch.domain.team.entity.Team;
 import com.sideProject.DribbleMatch.domain.team.repository.TeamRepository;
+import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Gender;
 import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Position;
+import com.sideProject.DribbleMatch.domain.user.entity.User;
+import com.sideProject.DribbleMatch.domain.user.repository.UserRepository;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -15,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -30,11 +34,27 @@ public class RecruitmentRepositoryTest {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    private User initUser(String email) {
+        return userRepository.save(User.builder()
+                .email(email)
+                .password("test1234")
+                .nickName("test")
+                .gender(Gender.MALE)
+                .birth(LocalDate.of(2001, 1, 1))
+                .position(Position.CENTER)
+                .winning(10)
+                .build());
+    }
+
     private Team initTeam(String name) {
         return teamRepository.save(Team.builder()
                 .name(name)
                 .region("서울")
                 .winning(10)
+                .leader(initUser("test@test.com"))
                 .build());
     }
 
@@ -49,8 +69,8 @@ public class RecruitmentRepositoryTest {
     }
 
     @Nested
-    @DisplayName("createRecruitmentTest")
-    public class createRecruitmentTest {
+    @DisplayName("CreateRecruitmentTest")
+    public class CreateRecruitmentTest {
 
         @DisplayName("Recruitment를 생성한다")
         @Test
@@ -86,8 +106,8 @@ public class RecruitmentRepositoryTest {
     }
 
     @Nested
-    @DisplayName("selectRecruitmentTest")
-    public class selectRecruitmentTest {
+    @DisplayName("SelectRecruitmentTest")
+    public class SelectRecruitmentTest {
 
         @DisplayName("Recruitment를 조회한다")
         @Test
@@ -109,8 +129,9 @@ public class RecruitmentRepositoryTest {
         public void selectRecruitment2() {
 
             // given
-            Recruitment savedRecruitment1 = recruitmentRepository.save(initRecruitment(initTeam("testTeam1")));
-            Recruitment savedRecruitment2 = recruitmentRepository.save(initRecruitment(initTeam("testTeam2")));
+            Team team = initTeam("testTeam");
+            Recruitment savedRecruitment1 = recruitmentRepository.save(initRecruitment(team));
+            Recruitment savedRecruitment2 = recruitmentRepository.save(initRecruitment(team));
 
             // when
             List<Recruitment> recruitments = recruitmentRepository.findAll();
@@ -137,8 +158,8 @@ public class RecruitmentRepositoryTest {
     }
 
     @Nested
-    @DisplayName("deleteRecruitmentTest")
-    public class deleteRecruitmentTest {
+    @DisplayName("DeleteRecruitmentTest")
+    public class DeleteRecruitmentTest {
 
         @DisplayName("Recruitment을 생성한다")
         @Test
