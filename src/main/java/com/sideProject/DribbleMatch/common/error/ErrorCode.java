@@ -15,6 +15,7 @@ public enum ErrorCode {
         // unique
     NOT_UNIQUE_EMAIL(400, "이메일이 이미 존재합니다."),
     NOT_UNIQUE_NICKNAME(400, "닉네임이 이미 존재합니다."),
+    NOT_UNIQUE_TEAM_NAME(400, "팀 이름이 이미 존재합니다."),
 
     // 401
     INVALID_ACCESS_TOKEN(401, "ACCESS TOKEN 인증 오류"),

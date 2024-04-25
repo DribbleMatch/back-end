@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.common.error;
 import com.sideProject.DribbleMatch.common.response.ApiResponse;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageConversionException;
