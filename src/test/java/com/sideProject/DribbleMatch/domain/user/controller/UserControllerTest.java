@@ -1,51 +1,28 @@
 package com.sideProject.DribbleMatch.domain.user.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sideProject.DribbleMatch.common.error.GlobalExceptionHandler;
 import com.sideProject.DribbleMatch.common.security.JwtAuthenticationEntryPoint;
-import com.sideProject.DribbleMatch.common.security.JwtTokenFilter;
 import com.sideProject.DribbleMatch.common.util.JwtUtil;
 import com.sideProject.DribbleMatch.config.SecurityConfig;
 import com.sideProject.DribbleMatch.domain.user.dto.JwtResonseDto;
 import com.sideProject.DribbleMatch.domain.user.dto.UserSignInRequest;
 import com.sideProject.DribbleMatch.domain.user.dto.UserSignUpRequestDto;
-import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Gender;
-import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Position;
 import com.sideProject.DribbleMatch.domain.user.service.UserService;
-import com.sideProject.DribbleMatch.domain.user.service.UserServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.SpyBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
-
-import java.time.LocalDate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 //todo: security 미동작
 @ExtendWith(MockitoExtension.class)
@@ -66,8 +43,8 @@ public class UserControllerTest {
     private MockMvc mockMvc;
 
     @Nested
-    @DisplayName("userSignUpTest")
-    public class userSignUpTest {
+    @DisplayName("UserSignUpTest")
+    public class UserSignUpTest {
         @DisplayName("회원가입 API를 호출한다")
         @Test
         public void userSignUp() throws Exception {
@@ -85,7 +62,7 @@ public class UserControllerTest {
             when(userService.signUp(any(UserSignUpRequestDto.class))).thenReturn(1L);
 
             // when, then
-            mockMvc.perform(MockMvcRequestBuilders.post("/api/user/signUp").with(csrf())
+            mockMvc.perform(MockMvcRequestBuilders.post("/api/user/signUp")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(request))
                     .andExpect(MockMvcResultMatchers.status().isOk())
@@ -137,8 +114,8 @@ public class UserControllerTest {
     }
 
     @Nested
-    @DisplayName("userSignInTest")
-    public class userSignInTest {
+    @DisplayName("UserSignInTest")
+    public class UserSignInTest {
 
         @DisplayName("로그인을 하고 토큰을 받는다")
         @Test
@@ -182,8 +159,8 @@ public class UserControllerTest {
     }
 
     @Nested
-    @DisplayName("refreshTest")
-    public class refreshTest {
+    @DisplayName("RefreshTest")
+    public class RefreshTest {
 
         @DisplayName("Header에 있는 Refresh Token으로 토큰 재발급 API를 요청한다")
         @Test
