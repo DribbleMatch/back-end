@@ -40,8 +40,8 @@ public class MatchingRepositoryTest {
                 .build();
     }
     @Nested
-    @DisplayName("createMatchingTest")
-    public class createMatchingTest {
+    @DisplayName("CreateMatchingTest")
+    public class CreateMatchingTest {
 
         @DisplayName("Matching을 생성한다")
         @Test
@@ -84,8 +84,8 @@ public class MatchingRepositoryTest {
     }
 
     @Nested
-    @DisplayName("selectMatchingTest")
-    public class selectMatchingTest {
+    @DisplayName("SelectMatchingTest")
+    public class SelectMatchingTest {
 
         @DisplayName("Matching을 조회한다")
         @Test
@@ -133,8 +133,8 @@ public class MatchingRepositoryTest {
     }
 
     @Nested
-    @DisplayName("deleteMatchingTest")
-    public class deleteMatchingTest {
+    @DisplayName("DeleteMatchingTest")
+    public class DeleteMatchingTest {
 
         @DisplayName("Matching을 삭제한다")
         @Test
