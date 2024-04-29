@@ -9,6 +9,10 @@ import com.sideProject.DribbleMatch.domain.matching.repository.MatchingRepositor
 import com.sideProject.DribbleMatch.domain.team.entity.Team;
 import com.sideProject.DribbleMatch.domain.team.repository.TeamRepository;
 import com.sideProject.DribbleMatch.domain.teamMatchJoin.entity.TeamMatchJoin;
+import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Gender;
+import com.sideProject.DribbleMatch.domain.user.entity.ENUM.Position;
+import com.sideProject.DribbleMatch.domain.user.entity.User;
+import com.sideProject.DribbleMatch.domain.user.repository.UserRepository;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,6 +22,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -38,11 +43,27 @@ public class TeamMatchJoinRepositoryTest {
     @Autowired
     private MatchingRepository matchingRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    private User initUser(String email) {
+        return userRepository.save(User.builder()
+                .email(email)
+                .password("test1234")
+                .nickName("test")
+                .gender(Gender.MALE)
+                .birth(LocalDate.of(2001, 1, 1))
+                .position(Position.CENTER)
+                .winning(10)
+                .build());
+    }
+
     private Team initTeam(String name) {
         return teamRepository.save(Team.builder()
                 .name(name)
                 .region("서울")
                 .winning(10)
+                .leader(initUser("testTeam"))
                 .build());
     }
 
@@ -65,8 +86,8 @@ public class TeamMatchJoinRepositoryTest {
                 .build();
     }
     @Nested
-    @DisplayName("createTeamMatchJoinTest")
-    public class createTeamMatchJoinTest {
+    @DisplayName("CreateTeamMatchJoinTest")
+    public class CreateTeamMatchJoinTest {
 
         @DisplayName("TeamMatchJoin를 생성한다")
         @Test
@@ -104,8 +125,8 @@ public class TeamMatchJoinRepositoryTest {
     }
 
     @Nested
-    @DisplayName("selectTeamMatchJoinTest")
-    public class selectTeamMatchJoinTest {
+    @DisplayName("SelectTeamMatchJoinTest")
+    public class SelectTeamMatchJoinTest {
 
         @DisplayName("TeamMatchJoin을 조회한다")
         @Test
@@ -127,8 +148,9 @@ public class TeamMatchJoinRepositoryTest {
         public void selectTeamMatchJoin2() {
 
             // given
-            TeamMatchJoin savedTeamMatchJoin1 = teamMatchJoinRepository.save(initTeamMatchJoin(initTeam("testTeam1"), initMatching("testMatching1")));
-            TeamMatchJoin savedTeamMatchJoin2 = teamMatchJoinRepository.save(initTeamMatchJoin(initTeam("testTeam2"), initMatching("testMatching2")));
+            Team team = initTeam("testTeam");
+            TeamMatchJoin savedTeamMatchJoin1 = teamMatchJoinRepository.save(initTeamMatchJoin(team, initMatching("testMatching1")));
+            TeamMatchJoin savedTeamMatchJoin2 = teamMatchJoinRepository.save(initTeamMatchJoin(team, initMatching("testMatching2")));
 
             // when
             List<TeamMatchJoin> teamMatchJoins = teamMatchJoinRepository.findAll();
@@ -148,15 +170,15 @@ public class TeamMatchJoinRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> teamMatchJoinRepository.findById(savedTeamMatchJoin.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_TEAM_MATCH_JOIN_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_TEAM_MATCH_JOIN_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 팀경기 참가 정보가 존재하지 않습니다.");
         }
     }
 
     @Nested
-    @DisplayName("deleteTeamMatchJoinTest")
-    public class deleteTeamMatchJoinTest {
+    @DisplayName("DeleteTeamMatchJoinTest")
+    public class DeleteTeamMatchJoinTest {
 
         @DisplayName("TeamMatchJoin를 삭제한다")
         @Test

@@ -38,11 +38,11 @@ public class UserTeamRepositoryTest {
     @Autowired
     private UserTeamRepository userTeamRepository;
 
-    private User initUser(String email) {
+    private User initUser(String email, String nickName) {
         return userRepository.save(User.builder()
                 .email(email)
                 .password("test1234")
-                .nickName("test")
+                .nickName(nickName)
                 .gender(Gender.MALE)
                 .birth(LocalDate.of(2001, 1, 1))
                 .position(Position.CENTER)
@@ -55,6 +55,7 @@ public class UserTeamRepositoryTest {
                 .name(name)
                 .region("서울")
                 .winning(10)
+                .leader(initUser("test@test.com", "test"))
                 .build());
     }
 
@@ -74,7 +75,7 @@ public class UserTeamRepositoryTest {
         public void createUserTeam() {
 
             // given
-            User user = initUser("test@test.com");
+            User user = initUser("test1@test.com", "test1");
             Team team = initTeam("testTeam");
             UserTeam userTeam = initUserTeam(user, team);
 
@@ -92,8 +93,7 @@ public class UserTeamRepositoryTest {
         public void createUserTeam2() {
 
             // given
-            User user = initUser("test@test.com");
-            Team team = initTeam("testTeam");
+            User user = initUser("test@test.com", "test");
             UserTeam userTeam = initUserTeam(user, null);
 
             // when, then
@@ -114,7 +114,7 @@ public class UserTeamRepositoryTest {
         public void selectUserTeam() {
 
             // given
-            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(initUser("test@test.com"), initTeam("testTeam")));
+            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(initUser("test1@test.com", "test1"), initTeam("testTeam")));
 
             // when
             UserTeam selectedUserTeam = userTeamRepository.findById(savedUserTeam.getId()).get();
@@ -129,8 +129,9 @@ public class UserTeamRepositoryTest {
         public void selectUserTeam2() {
 
             // given
-            UserTeam savedUserTeam1 = userTeamRepository.save(initUserTeam(initUser("test1@test.com"), initTeam("testTeam1")));
-            UserTeam savedUserTeam2 = userTeamRepository.save(initUserTeam(initUser("test2@test.com"), initTeam("testTeam2")));
+            Team team = initTeam("testTeam");
+            UserTeam savedUserTeam1 = userTeamRepository.save(initUserTeam(initUser("test1@test.com", "test1"), team));
+            UserTeam savedUserTeam2 = userTeamRepository.save(initUserTeam(initUser("test2@test.com", "test2"), team));
 
             // when
             List<UserTeam> userTeams = userTeamRepository.findAll();
@@ -146,11 +147,11 @@ public class UserTeamRepositoryTest {
         public void selectUserTeam3() {
 
             // given
-            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(initUser("test@test.com"), initTeam("testTeam")));
+            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(initUser("test1@test.com", "test1"), initTeam("testTeam")));
 
             // when, then
             assertThatThrownBy(() -> userTeamRepository.findById(savedUserTeam.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_USERTEAM_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_USERTEAM_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 소속팀 정보가 존재하지 않습니다.");
         }
@@ -165,7 +166,8 @@ public class UserTeamRepositoryTest {
         public void deleteUserTeam() {
 
             // given
-            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(initUser("test@test.com"), initTeam("testTeam")));
+            User user = initUser("test1@test.com", "test1");
+            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(user, initTeam("testTeam")));
 
             // when
             userRepository.deleteById(savedUserTeam.getId());
