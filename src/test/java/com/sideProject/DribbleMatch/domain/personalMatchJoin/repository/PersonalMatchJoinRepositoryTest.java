@@ -73,8 +73,8 @@ public class PersonalMatchJoinRepositoryTest {
     }
 
     @Nested
-    @DisplayName("createPersonalMatchJoinTest")
-    public class createPersonalMatchJoinTest {
+    @DisplayName("CreatePersonalMatchJoinTest")
+    public class CreatePersonalMatchJoinTest {
 
         @DisplayName("PersonalMatchJoin를 생성한다")
         @Test
@@ -112,8 +112,8 @@ public class PersonalMatchJoinRepositoryTest {
     }
 
     @Nested
-    @DisplayName("selectPersonalMatchJoinTest")
-    public class selectPersonalMatchJoinTest {
+    @DisplayName("SelectPersonalMatchJoinTest")
+    public class SelectPersonalMatchJoinTest {
 
         @DisplayName("PersonalMatchJoin를 조회한다")
         @Test
@@ -135,8 +135,9 @@ public class PersonalMatchJoinRepositoryTest {
         public void selectPersonalMatchJoin2() {
 
             // given
-            PersonalMatchJoin savedPersonalMatchJoin1 = personalMatchJoinRepository.save(initPersonalMatchJoin(initUser("test@test.com1"), initMatching("testMatching1")));
-            PersonalMatchJoin savedPersonalMatchJoin2 = personalMatchJoinRepository.save(initPersonalMatchJoin(initUser("test@test.com2"), initMatching("testMatching2")));
+            User user = initUser("test@test.com");
+            PersonalMatchJoin savedPersonalMatchJoin1 = personalMatchJoinRepository.save(initPersonalMatchJoin(user, initMatching("testMatching1")));
+            PersonalMatchJoin savedPersonalMatchJoin2 = personalMatchJoinRepository.save(initPersonalMatchJoin(user, initMatching("testMatching2")));
 
             // when
             List<PersonalMatchJoin> personalMatchJoins = personalMatchJoinRepository.findAll();
@@ -156,15 +157,15 @@ public class PersonalMatchJoinRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> personalMatchJoinRepository.findById(savedPersonalMatchJoin.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_PERSONAL_MATCH_JOIN_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_PERSONAL_MATCH_JOIN_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 개인 경기 참가 정보가 존재하지 않습니다.");
         }
     }
 
     @Nested
-    @DisplayName("deletePersonalMatchJoinTest")
-    public class deletePersonalMatchJoinTest {
+    @DisplayName("DeletePersonalMatchJoinTest")
+    public class DeletePersonalMatchJoinTest {
 
         @DisplayName("PersonalMatchJoin를 삭제한다")
         @Test

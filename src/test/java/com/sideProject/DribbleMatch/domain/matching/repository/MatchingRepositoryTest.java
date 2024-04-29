@@ -40,8 +40,8 @@ public class MatchingRepositoryTest {
                 .build();
     }
     @Nested
-    @DisplayName("createMatchingTest")
-    public class createMatchingTest {
+    @DisplayName("CreateMatchingTest")
+    public class CreateMatchingTest {
 
         @DisplayName("Matching을 생성한다")
         @Test
@@ -84,8 +84,8 @@ public class MatchingRepositoryTest {
     }
 
     @Nested
-    @DisplayName("selectMatchingTest")
-    public class selectMatchingTest {
+    @DisplayName("SelectMatchingTest")
+    public class SelectMatchingTest {
 
         @DisplayName("Matching을 조회한다")
         @Test
@@ -126,15 +126,15 @@ public class MatchingRepositoryTest {
 
             // when, then
             assertThatThrownBy(() -> matchingRepository.findById(savedMatching.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.INVALID_MATCHING_ID)))
+                    new CustomException(ErrorCode.NOT_FOUND_MATCHING_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 경기가 존재하지 않습니다.");
         }
     }
 
     @Nested
-    @DisplayName("deleteMatchingTest")
-    public class deleteMatchingTest {
+    @DisplayName("DeleteMatchingTest")
+    public class DeleteMatchingTest {
 
         @DisplayName("Matching을 삭제한다")
         @Test

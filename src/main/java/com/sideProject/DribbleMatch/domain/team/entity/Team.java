@@ -1,5 +1,8 @@
 package com.sideProject.DribbleMatch.domain.team.entity;
 
+import com.sideProject.DribbleMatch.domain.team.dto.request.TeamCreateRequestDto;
+import com.sideProject.DribbleMatch.domain.team.dto.request.TeamUpdateRequestDto;
+import com.sideProject.DribbleMatch.domain.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -17,7 +20,7 @@ public class Team {
     @Column
     private Long id;
 
-    @Column
+    @Column(unique = true)
     @NotNull(message = "이름이 입력되지 않았습니다.")
     private String name;
 
@@ -28,10 +31,22 @@ public class Team {
     @Column
     private int winning;
 
+    @ManyToOne
+    @JoinColumn(name = "leader_id")
+    @NotNull(message = "팀장이 입력되지 않았습니다.")
+    private User leader;
+
     @Builder
-    public Team(String name, String region, int winning) {
+    public Team(String name, String region, int winning, User leader) {
         this.name = name;
         this.region = region;
         this.winning = winning;
+        this.leader = leader;
+    }
+
+    public void updateTeam(TeamUpdateRequestDto request, User leader) {
+        this.name = request.getName();
+        this.region = request.getRegion();
+        this.leader = leader;
     }
 }
