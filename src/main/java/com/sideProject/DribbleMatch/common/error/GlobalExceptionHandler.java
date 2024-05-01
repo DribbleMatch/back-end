@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = CustomException.class)
     protected ResponseEntity<ApiResponse<?>> handleCustomException(CustomException ex) {
-        return ResponseEntity.status(ex.getErrorCode().getStatus())
+        return ResponseEntity.status(ex.getErrorCode().getHttpStatus())
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(ApiResponse.error(ex.getErrorCode()));
     }
@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(400)
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(ApiResponse.error(400, errorMessages.toString()));
+                .body(ApiResponse.error(ErrorCode.INVALID_DATA_PATTERN, errorMessages.toString()));
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler {
         }
         return ResponseEntity.status(ex.getStatusCode())
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(ApiResponse.error(400, errorMessages.toString()));
+                .body(ApiResponse.error(ErrorCode.INVALID_DATA_PATTERN, errorMessages.toString()));
     }
 
     @ExceptionHandler(value = HttpMessageConversionException.class)
@@ -62,6 +62,6 @@ public class GlobalExceptionHandler {
     protected ResponseEntity<ApiResponse<?>> handleMissingRequestHeaderException(MissingRequestHeaderException ex) {
         return ResponseEntity.status(ex.getStatusCode())
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(ApiResponse.error(400, ex.getHeaderName() + "이/가 비어있습니다."));
+                .body(ApiResponse.error(ErrorCode.MISSING_REQUEST_HEADER, ex.getHeaderName() + "이/가 비어있습니다."));
     }
 }
