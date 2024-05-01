@@ -17,3 +17,28 @@
     Remove:           파일을 삭제하는 작업만 수행한 경우
   
 ==================================================================================
+
+## Error Code (4자리 숫자)
+
+### - 첫번째 자리: 도메인
+
+- 0: Auth / Token
+- 1: User
+- 2: Team
+- 3: Matching
+- 4: Personal Match Join
+- 5: Team Match Join
+- 6: UserTeam
+- 7: Recruitment
+
+### - 두번째 자리: 에러 종류
+
+- 0: 도메인 / Dto 객체 생성 오류 (MethodArgumentValidException, ConstraintViolationException 등)
+- 1: 도메인 로직 상의 오류
+- 2: 인증, 인가가 안된 오류
+- 3: 존재하지 않는 리소스에 대한 접근 오류
+- 4: 외부 API 관련 오류
+
+### - 나머지 두자리: 순서 부여
+
+- 00 ~ 99 까지 순서대로 부여

@@ -12,32 +12,36 @@ import java.util.List;
 @Getter
 @JsonPropertyOrder({"code", "message", "data"})
 public class ApiResponse<T> {
-    private int code;
-    private String message;
+    private final int httpStatus;
+    private final String code;
+    private final String message;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T data;
+    private final T data;
 
-    public ApiResponse(int code, String message, T data){
+    public ApiResponse(int httpStatus, String code, String message, T data){
+        this.httpStatus = httpStatus;
         this.code = code;
         this.message = message;
         this.data = data;
     }
 
     public static <T> ApiResponse<T> ok(T data) {
-        return new ApiResponse<>(HttpStatus.OK.value(), HttpStatus.OK.name(), data);
+        return new ApiResponse<>(HttpStatus.OK.value(), null, HttpStatus.OK.name(), data);
     }
 
     public static ApiResponse<?> error(ErrorCode errorCode) {
         return new ApiResponse<>(
-                errorCode.getStatus(),
+                errorCode.getHttpStatus(),
+                errorCode.getCode(),
                 errorCode.getMessage(),
                 null);
     }
 
-    public static ApiResponse<?> error(int code, String message) {
+    public static ApiResponse<?> error(ErrorCode errorCode, String message) {
         return new ApiResponse<>(
-                code,
+                errorCode.getHttpStatus(),
+                errorCode.getCode(),
                 message,
                 null);
     }
