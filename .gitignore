@@ -7,6 +7,9 @@ build/
 !**/src/main/resources/application-dev.yml
 !**/src/main/resources/application-test.yml
 
+## QueryDsl
+/src/main/generated/
+
 ### STS ###
 .apt_generated
 .classpath
