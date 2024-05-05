@@ -1,7 +1,7 @@
 package com.sideProject.DribbleMatch.common.util;
 
 import com.sideProject.DribbleMatch.config.JwtConfig;
-import com.sideProject.DribbleMatch.domain.user.entity.User;
+import com.sideProject.DribbleMatch.entity.user.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
