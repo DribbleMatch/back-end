@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
 
     private final JwtConfig jwtConfig;
+    private final RedisUtil redisUtil;
 
     public Long getUserIdFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtConfig.SECRET_KEY).parseClaimsJws(token).getBody();
@@ -36,7 +37,7 @@ public class JwtUtil {
         try {
             Jwts.parser().setSigningKey(jwtConfig.SECRET_KEY).parseClaimsJws(token);
         } catch (Exception e) {
-            // todo: redis 삭제 처리
+            redisUtil.deleteData(token);
             throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
         }
     }

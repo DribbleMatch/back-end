@@ -25,11 +25,14 @@
 - 0: Auth / Token
 - 1: User
 - 2: Team
-- 3: Matching
-- 4: Personal Match Join
-- 5: Team Match Join
-- 6: UserTeam
-- 7: Recruitment
+- 3: Personal Matching
+- 4: Team Matching
+- 5: Personal Match Join
+- 6: Team Match Join
+- 7: UserTeam
+- 8: Recruitment
+- 9: region
+- 10: global
 
 ### - 두번째 자리: 에러 종류
 

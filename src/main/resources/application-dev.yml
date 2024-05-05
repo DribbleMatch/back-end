@@ -10,7 +10,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create
     properties:
       hibernate:
         format_sql: true
@@ -24,3 +24,9 @@ spring:
     redis:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    path:
+      region-csv-path: ${REGION_CSV_PATH}
