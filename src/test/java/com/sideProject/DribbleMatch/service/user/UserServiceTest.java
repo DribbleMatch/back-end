@@ -138,7 +138,7 @@ public class UserServiceTest {
             User user = initUser("test@test.com", "test", region);
 
             // mocking
-            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(user));
+            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.ofNullable(user));
 
             // when, then
             assertThatThrownBy(() -> userService.signUp(request))
@@ -166,7 +166,7 @@ public class UserServiceTest {
             User user = initUser("test@test.com", "test", region);
 
             // mocking
-            when(userRepository.findByNickName(request.getNickName())).thenReturn(Optional.of(user));
+            when(userRepository.findByNickName(request.getNickName())).thenReturn(Optional.ofNullable(user));
 
             // when, then
             assertThatThrownBy(() -> userService.signUp(request))
@@ -236,7 +236,7 @@ public class UserServiceTest {
             User user = initUser("test@test.com", "test", region);
 
             // mocking
-            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(user));
+            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.ofNullable(user));
             when(jwtTokenProvider.createAccessToken(user)).thenReturn("testAccessToken");
             when(jwtTokenProvider.createRefreshToken(user)).thenReturn("testRefreshToken");
 
@@ -282,7 +282,7 @@ public class UserServiceTest {
             User user = initUser("test@test.com", "test", region);
 
             // mocking
-            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.of(user));
+            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.ofNullable(user));
 
             // when, given
             assertThatThrownBy(() -> userService.signIn(request))
@@ -307,7 +307,7 @@ public class UserServiceTest {
 
             // mocking
             doNothing().when(jwtUtil).validateRefreshToken(any(String.class));
-            when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+            when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
             when(redisUtil.getData("pastRefreshToken")).thenReturn("1");
             when(jwtTokenProvider.createAccessToken(user)).thenReturn("accessToken");
             when(jwtTokenProvider.createRefreshToken(user)).thenReturn("refreshToken");
