@@ -1,8 +1,12 @@
 package com.sideProject.DribbleMatch.repository.region;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.entity.region.Region;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,7 +15,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
+@Import(QuerydslConfig.class)
 public class RegionRepositoryTest {
 
     @Autowired
@@ -98,10 +108,10 @@ public class RegionRepositoryTest {
                     .build());
 
             // when
-            Region selectedRegion1 = regionRepository.findByRegionString("서울특별시", "영등포구", null, null, null).get();
-            Region selectedRegion2 = regionRepository.findByRegionString("서울특별시", "영등포구", "당산동", null, null).get();
-            Region selectedRegion3 = regionRepository.findByRegionString("서울특별시", "영등포구", "문래동", null, null).get();
-            Region selectedRegion4 = regionRepository.findByRegionString("서울특별시", "마포구", null, null, null).get();
+            Region selectedRegion1 = regionRepository.findByRegionString("서울특별시 영등포구").get();
+            Region selectedRegion2 = regionRepository.findByRegionString("서울특별시 영등포구 당산동").get();
+            Region selectedRegion3 = regionRepository.findByRegionString("서울특별시 영등포구 문래동").get();
+            Region selectedRegion4 = regionRepository.findByRegionString("서울특별시 마포구").get();
 
             // then
 
@@ -133,7 +143,7 @@ public class RegionRepositoryTest {
             Region region = regionRepository.save(initRegion(null));
 
             // when, then
-            assertThatThrownBy(() -> regionRepository.findByRegionString("서울특별시", "영등포구", "당산동", null, null).orElseThrow(() ->
+            assertThatThrownBy(() -> regionRepository.findByRegionString("서울특별시 영등포구 당산동").orElseThrow(() ->
                     new CustomException(ErrorCode.NOT_FOUND_REGION_STRING)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 지역 문자열에 해당하는 지역이 존재하지 않습니다.");
@@ -149,13 +159,56 @@ public class RegionRepositoryTest {
         public void findRegionStringById() {
 
             // given
-            Region region = regionRepository.save(initRegion("당산동"));
+            Region region1 = regionRepository.save(initRegion("당산동"));
+            Region region2 = regionRepository.save(initRegion("문래동"));
+            ReflectionTestUtils.setField(region2, "lee", "두북리");
 
             // when
-            String regionString = regionRepository.findRegionStringById(region.getId());
+            String regionString1 = regionRepository.findRegionStringById(region1.getId()).get();
+            String regionString2 = regionRepository.findRegionStringById(region2.getId()).get();
 
             // then
-            assertThat(regionString.trim()).isEqualTo("서울특별시 영등포구 당산동");
+            assertThat(regionString1).isEqualTo("서울특별시 영등포구 당산동");
+            assertThat(regionString2).isEqualTo("서울특별시 영등포구 문래동 두북리");
+        }
+    }
+
+    @Nested
+    @DisplayName("FindIdsByRegionStringTest")
+    public class FindIdsByRegionStringTest {
+
+        @DisplayName("입력된 매개변수에 맞는 Region들의 Id를 조회한다")
+        @Test
+        public void findIdsByRegionString() {
+
+            // given
+            Region region1 = regionRepository.save(initRegion("당산동"));
+            Region region2 = regionRepository.save(initRegion("문래동"));
+            Region region3 = regionRepository.save(initRegion("양평동"));
+            Region region4 = regionRepository.save(initRegion("합정동"));
+
+            ReflectionTestUtils.setField(region4, "siGunGu", "마포구");
+
+            String regionString1 = "서울특별시 영등포구";
+            String regionString2 = "서울특별시 마포구";
+            String regionString3 = "서울특별시 영등포구 당산동";
+
+            // when
+            List<Long> result1 = regionRepository.findIdsByRegionString(regionString1);
+            List<Long> result2 = regionRepository.findIdsByRegionString(regionString2);
+            List<Long> result3 = regionRepository.findIdsByRegionString(regionString3);
+
+            // then
+            assertThat(result1.size()).isEqualTo(3);
+            assertThat(result1.contains(region1.getId())).isTrue();
+            assertThat(result1.contains(region2.getId())).isTrue();
+            assertThat(result1.contains(region3.getId())).isTrue();
+
+            assertThat(result2.size()).isEqualTo(1);
+            assertThat(result2.contains(region4.getId())).isTrue();
+
+            assertThat(result3.size()).isEqualTo(1);
+            assertThat(result3.contains(region1.getId())).isTrue();
         }
     }
 }

@@ -119,7 +119,7 @@ public class TeamServiceTest {
 
             Long fakeUserId = 1L;
             ReflectionTestUtils.setField(leader, "id", fakeUserId);
-            when(userRepository.findById(fakeUserId)).thenReturn(Optional.of(leader));
+            when(userRepository.findById(fakeUserId)).thenReturn(Optional.ofNullable(leader));
 
             // when
             Long teamId =  teamService.createTeam(leader.getId(), request);
@@ -142,7 +142,7 @@ public class TeamServiceTest {
                     .build();
 
             // mocking
-            when(teamRepository.findByName("testTeam")).thenReturn(Optional.of(team));
+            when(teamRepository.findByName("testTeam")).thenReturn(Optional.ofNullable(team));
 
             // when
             assertThatThrownBy(() -> teamService.createTeam(leader.getId(), request))
@@ -179,9 +179,9 @@ public class TeamServiceTest {
             // mocking
             Long fakeTeamId = 1L;
             ReflectionTestUtils.setField(team, "id", fakeTeamId);
-            when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.ofNullable(team));
 
-            when(userRepository.findById(fakeNewLeaderId)).thenReturn(Optional.of(newLeader));
+            when(userRepository.findById(fakeNewLeaderId)).thenReturn(Optional.ofNullable(newLeader));
             when(regionService.findRegion("서울시 영등포구 문래동")).thenReturn(newRegion);
 
             // when
@@ -208,7 +208,7 @@ public class TeamServiceTest {
             Team team = initTeam("testTeam", leader, region);
 
             // mocking
-            when(teamRepository.findByName("testTeam")).thenReturn(Optional.of(team));
+            when(teamRepository.findByName("testTeam")).thenReturn(Optional.ofNullable(team));
 
             // when, then
             assertThatThrownBy(() -> teamService.updateTeam(team.getId(), request))
@@ -241,7 +241,7 @@ public class TeamServiceTest {
             when(teamRepository.findByName("testTeam")).thenReturn(Optional.empty());
             when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.empty());
 
-            when(userRepository.findById(fakeUserId)).thenReturn(Optional.of(leader));
+            when(userRepository.findById(fakeUserId)).thenReturn(Optional.ofNullable(leader));
 
             when(regionService.findRegion("서울시 영등포구 당산동")).thenReturn(region);
 
@@ -391,7 +391,7 @@ public class TeamServiceTest {
             // mocking
             Long fakeTeamId = 1L;
             ReflectionTestUtils.setField(team, "id", fakeTeamId);
-            when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.of(team));
+            when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.ofNullable(team));
 
             Long fakeRegionId = 1L;
             ReflectionTestUtils.setField(region, "id", fakeRegionId);
