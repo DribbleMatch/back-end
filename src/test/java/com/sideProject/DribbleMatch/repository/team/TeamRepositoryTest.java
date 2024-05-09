@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.repository.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +34,7 @@ import static org.assertj.core.api.Assertions.*;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
+@Import(QuerydslConfig.class)
 public class TeamRepositoryTest {
 
     @Autowired
@@ -311,45 +314,6 @@ public class TeamRepositoryTest {
             assertThat(teams3.getTotalElements()).isEqualTo(4);
             assertThat(teams3.get().toList().get(0)).isEqualTo(team1);
             assertThat(teams3.get().toList().get(1)).isEqualTo(team2);
-        }
-    }
-
-    @Nested
-    @DisplayName("FindIdsByRegionStringTest")
-    public class FindIdsByRegionStringTest {
-
-        @DisplayName("입력된 매개변수에 맞는 Region들의 Id를 조회한다")
-        @Test
-        public void findIdsByRegionString() {
-
-            // given
-            Region region1 = initRegion("당산동");
-            Region region2 = initRegion("문래동");
-            Region region3 = initRegion("양평동");
-            Region region4 = initRegion("합정동");
-
-            ReflectionTestUtils.setField(region4, "siGunGu", "마포구");
-
-            String siDo = "서울특별시";
-            String siGunGu1 = "영등포구";
-            String siGunGu2 = "마포구";
-
-            // when
-            List<Long> result1 = regionRepository.findIdsByRegionString(siDo, siGunGu1, null, null, null);
-            List<Long> result2 = regionRepository.findIdsByRegionString(siDo, siGunGu2, null, null, null);
-            List<Long> result3 = regionRepository.findIdsByRegionString(siDo, siGunGu1, "당산동", null, null);
-
-            // then
-            assertThat(result1.size()).isEqualTo(3);
-            assertThat(result1.contains(region1.getId())).isTrue();
-            assertThat(result1.contains(region2.getId())).isTrue();
-            assertThat(result1.contains(region3.getId())).isTrue();
-
-            assertThat(result2.size()).isEqualTo(1);
-            assertThat(result2.contains(region4.getId())).isTrue();
-
-            assertThat(result3.size()).isEqualTo(1);
-            assertThat(result3.contains(region1.getId())).isTrue();
         }
     }
 }

@@ -19,27 +19,18 @@ public class RegionServiceImpl implements RegionService{
 
     @Override
     public Region findRegion(String regionString) {
-        List<String> parsedRegionString = parseToRegion(regionString);
-        return regionRepository.findByRegionString(parsedRegionString.get(0), parsedRegionString.get(1), parsedRegionString.get(2), parsedRegionString.get(3), parsedRegionString.get(4)).orElseThrow(() ->
+        return regionRepository.findByRegionString(regionString).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
     }
 
     @Override
     public String findRegionString(Long regionId) {
-        return regionRepository.findRegionStringById(regionId).trim();
+        return regionRepository.findRegionStringById(regionId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_ID));
     }
 
     @Override
     public List<Long> findRegionIds(String regionString) {
-        List<String> parsedRegionString = parseToRegion(regionString);
-        return regionRepository.findIdsByRegionString(parsedRegionString.get(0), parsedRegionString.get(1), parsedRegionString.get(2), parsedRegionString.get(3), parsedRegionString.get(4));
-    }
-
-    private List<String> parseToRegion(String regionString) {
-        List<String> parsedRegionString = new ArrayList<>(Arrays.stream(regionString.split(" ")).toList());
-        while (parsedRegionString.size() < 5) {
-            parsedRegionString.add(null);
-        }
-        return parsedRegionString;
+        return regionRepository.findIdsByRegionString(regionString);
     }
 }
