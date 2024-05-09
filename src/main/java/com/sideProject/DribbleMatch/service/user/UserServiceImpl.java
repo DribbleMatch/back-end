@@ -10,8 +10,8 @@ import com.sideProject.DribbleMatch.dto.user.request.UserSignInRequest;
 import com.sideProject.DribbleMatch.dto.user.request.UserSignUpRequestDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.user.User;
+import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.service.region.RegionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService{
     private final JwtUtil jwtUtil;
     private final RedisUtil redisUtil;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final RegionService regionService;
+    private final RegionRepository regionRepository;
 
     @Override
     @Transactional
@@ -36,18 +36,11 @@ public class UserServiceImpl implements UserService{
         checkUniqueEmail(request.getEmail());
         validatePassword(request.getPassword());
         checkUniqueNickName(request.getNickName());
+        String password = checkAndEncodePassword(request.getPassword(), request.getRePassword());
 
-        Region region = regionService.findRegion(request.getRegionString());
-        User signUpUser = userRepository.save(User.builder()
-                        .email(request.getEmail())
-                        .password(checkAndEncodePassword(request.getPassword(), request.getRePassword()))
-                        .nickName(request.getNickName())
-                        .gender(request.getGender())
-                        .birth(request.getBirth())
-                        .position(request.getPosition())
-                        .winning(0)
-                        .region(region)
-                .build());
+        Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
+        User signUpUser = userRepository.save(UserSignUpRequestDto.toEntity(request, password, region));
 
         return signUpUser.getId();
     }

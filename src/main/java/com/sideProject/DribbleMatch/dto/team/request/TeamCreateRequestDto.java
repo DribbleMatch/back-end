@@ -1,5 +1,8 @@
 package com.sideProject.DribbleMatch.dto.team.request;
 
+import com.sideProject.DribbleMatch.entity.region.Region;
+import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -18,5 +21,14 @@ public class TeamCreateRequestDto {
     public TeamCreateRequestDto(String name, String regionString) {
         this.name = name;
         this.regionString = regionString;
+    }
+
+    public static Team toEntity(TeamCreateRequestDto request, User leader, Region region) {
+        return Team.builder()
+                .name(request.name)
+                .winning(0)
+                .leader(leader)
+                .region(region)
+                .build();
     }
 }

@@ -13,7 +13,6 @@ import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import com.sideProject.DribbleMatch.repository.userTeam.UserTeamRepository;
-import com.sideProject.DribbleMatch.service.region.RegionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -40,7 +39,7 @@ import static org.mockito.Mockito.*;
 public class TeamServiceTest {
 
     @Mock
-    private RegionService regionService;
+    private RegionRepository regionRepository;
 
     @Mock
     private TeamRepository teamRepository;
@@ -111,7 +110,7 @@ public class TeamServiceTest {
                     .build();
 
             // mocking
-            when(regionService.findRegion("서울시 영등포구 당산동")).thenReturn(region);
+            when(regionRepository.findByRegionString("서울시 영등포구 당산동")).thenReturn(Optional.ofNullable(region));
 
             Long fakeTeamId = 1L;
             ReflectionTestUtils.setField(team, "id", fakeTeamId);
@@ -182,7 +181,7 @@ public class TeamServiceTest {
             when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.ofNullable(team));
 
             when(userRepository.findById(fakeNewLeaderId)).thenReturn(Optional.ofNullable(newLeader));
-            when(regionService.findRegion("서울시 영등포구 문래동")).thenReturn(newRegion);
+            when(regionRepository.findByRegionString("서울시 영등포구 문래동")).thenReturn(Optional.ofNullable(newRegion));
 
             // when
             Long teamId =  teamService.updateTeam(fakeTeamId, request);
@@ -243,7 +242,7 @@ public class TeamServiceTest {
 
             when(userRepository.findById(fakeUserId)).thenReturn(Optional.ofNullable(leader));
 
-            when(regionService.findRegion("서울시 영등포구 당산동")).thenReturn(region);
+            when(regionRepository.findByRegionString("서울시 영등포구 당산동")).thenReturn(Optional.ofNullable(region));
 
             // when, then
             assertThatThrownBy(() -> teamService.updateTeam(fakeTeamId, request))
@@ -285,6 +284,8 @@ public class TeamServiceTest {
             // given
             Region region1 = initRegion("당산동");
             Region region2 = initRegion("문래동");
+            ReflectionTestUtils.setField(region1, "id", 1L);
+            ReflectionTestUtils.setField(region2, "id", 2L);
 
             User leader1 = initUser("test1@test.com", "test1", region1);
             User leader2 = initUser("test2@test.com", "test2", region2);
@@ -299,6 +300,9 @@ public class TeamServiceTest {
             Page<Team> teamsPage = convertToPage(teams, pageable);
 
             // mocking
+            when(regionRepository.findRegionStringById(1L)).thenReturn(Optional.ofNullable("서울특별시 영등포구 당산동"));
+            when(regionRepository.findRegionStringById(2L)).thenReturn(Optional.ofNullable("서울특별시 영등포구 문래동"));
+
             when(teamRepository.findAll(pageable)).thenReturn(teamsPage);
 
             // when
@@ -327,7 +331,10 @@ public class TeamServiceTest {
             Region region2 = initRegion("당산동");
             Region region3 = initRegion("문래동");
             Region region4 = initRegion("합정동");
-            ReflectionTestUtils.setField(region4, "siGunGu", "마포구");
+            ReflectionTestUtils.setField(region1, "id", 1L);
+            ReflectionTestUtils.setField(region2, "id", 2L);
+            ReflectionTestUtils.setField(region3, "id", 3L);
+            ReflectionTestUtils.setField(region4, "id", 4L);
 
             User leader = initUser("test@test.com", "test", region1);
 
@@ -339,9 +346,12 @@ public class TeamServiceTest {
             Pageable pageable = PageRequest.of(0, 2);
 
             // mocking
-            when(regionService.findRegionIds("서울특별시 영등포구")).thenReturn(List.of(1L, 2L, 3L));
-            when(regionService.findRegionIds("서울특별시 영등포구 당산동")).thenReturn(List.of(2L));
-            when(regionService.findRegionIds("서울특별시 마포구 합정동")).thenReturn(List.of(4L));
+            when(regionRepository.findIdsByRegionString("서울특별시 영등포구")).thenReturn(List.of(1L, 2L, 3L));
+            when(regionRepository.findIdsByRegionString("서울특별시 영등포구 당산동")).thenReturn(List.of(2L));
+            when(regionRepository.findIdsByRegionString("서울특별시 마포구 합정동")).thenReturn(List.of(4L));
+            when(regionRepository.findRegionStringById(1L)).thenReturn(Optional.ofNullable(requestRegionString1));
+            when(regionRepository.findRegionStringById(2L)).thenReturn(Optional.ofNullable(requestRegionString2));
+            when(regionRepository.findRegionStringById(4L)).thenReturn(Optional.ofNullable(requestRegionString4));
 
             Page<Team> teamsPage1 = convertToPage(List.of(team1, team2, team3), pageable);
             Page<Team> teamsPage2 = convertToPage(List.of(team2), pageable);
@@ -395,7 +405,7 @@ public class TeamServiceTest {
 
             Long fakeRegionId = 1L;
             ReflectionTestUtils.setField(region, "id", fakeRegionId);
-            when(regionService.findRegionString(fakeRegionId)).thenReturn("서울특별시 영등포구 당산동");
+            when(regionRepository.findRegionStringById(fakeRegionId)).thenReturn(Optional.ofNullable("서울특별시 영등포구 당산동"));
 
             // when
             TeamResponseDto foundTeam = teamService.findTeam(fakeTeamId);
