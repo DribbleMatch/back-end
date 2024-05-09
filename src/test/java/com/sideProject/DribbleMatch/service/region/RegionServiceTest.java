@@ -51,7 +51,7 @@ public class RegionServiceTest {
             Region region = initRegion("당산동");
 
             // mocking
-            when(regionRepository.findByRegionString("서울특별시", "영등포구", "당산동", null, null)).thenReturn(Optional.of(region));
+            when(regionRepository.findByRegionString("서울특별시 영등포구 당산동")).thenReturn(Optional.ofNullable(region));
 
             // when
             Region foundRegion = regionService.findRegion("서울특별시 영등포구 당산동");
@@ -65,7 +65,7 @@ public class RegionServiceTest {
         public void findRegion2() {
 
             // mocking
-            when(regionRepository.findByRegionString("서울특별시", "영등포구", "당산동", null, null)).thenReturn(Optional.empty());
+            when(regionRepository.findByRegionString("서울특별시 영등포구 당산동")).thenReturn(Optional.empty());
 
             // when, then
             assertThatThrownBy(() -> regionService.findRegion("서울특별시 영등포구 당산동"))
