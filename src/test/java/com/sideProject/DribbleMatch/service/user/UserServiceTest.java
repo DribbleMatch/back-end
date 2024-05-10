@@ -14,8 +14,6 @@ import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.service.region.RegionService;
-import com.sideProject.DribbleMatch.service.user.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -41,7 +39,7 @@ public class UserServiceTest {
     private BCryptPasswordEncoder passwordEncoder;
 
     @Mock
-    private RegionService regionService;
+    private RegionRepository regionRepository;
 
     @Mock
     private JwtTokenProvider jwtTokenProvider;
@@ -109,7 +107,7 @@ public class UserServiceTest {
 
             // mocking
             when(userRepository.save(any(User.class))).thenReturn(user);
-            when(regionService.findRegion("서울특별시 영등포구 당산동")).thenReturn(region);
+            when(regionRepository.findByRegionString("서울특별시 영등포구 당산동")).thenReturn(Optional.ofNullable(region));
 
             // when
             Long userId = userService.signUp(request);
@@ -208,6 +206,7 @@ public class UserServiceTest {
                     .gender(Gender.MALE)
                     .birth(LocalDate.of(2001, 1, 1))
                     .position(Position.CENTER)
+                    .regionString("서울특별시 영등포구 당산동")
                     .build();
 
             // when, then
