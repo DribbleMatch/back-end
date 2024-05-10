@@ -89,12 +89,16 @@ public class TeamTest {
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
 
-            String newName = "newTeam";
+            TeamUpdateRequestDto requestDto = TeamUpdateRequestDto.builder()
+                    .name("newTeam")
+                    .regionString("서울특별시 영등포구 문래동")
+                    .leaderId(2L)
+                    .build();
             User newLeader = initUser("test2@test.com", "test2", region);
             Region newRegion = initRegion("문래동");
 
             // when
-            team.updateTeam(newName, newLeader, newRegion);
+            team.updateTeam(requestDto, newLeader, newRegion);
 
             // then
             assertThat(team.getName()).isEqualTo("newTeam");

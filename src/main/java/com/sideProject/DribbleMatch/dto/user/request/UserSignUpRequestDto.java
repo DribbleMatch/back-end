@@ -1,7 +1,9 @@
 package com.sideProject.DribbleMatch.dto.user.request;
 
+import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
+import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -40,5 +42,17 @@ public class UserSignUpRequestDto {
         this.birth = birth;
         this.position = position;
         this.regionString = regionString;
+    }
+
+    public static User toEntity(UserSignUpRequestDto request, String password, Region region) {
+        return User.builder()
+                .email(request.email)
+                .password(password)
+                .nickName(request.nickName)
+                .gender(request.gender)
+                .birth(request.birth)
+                .position(request.position)
+                .region(region)
+                .build();
     }
 }

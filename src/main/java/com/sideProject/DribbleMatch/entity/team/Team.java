@@ -45,8 +45,8 @@ public class Team {
         this.region = region;
     }
 
-    public void updateTeam(String name, User leader, Region region) {
-        this.name = name;
+    public void updateTeam(TeamUpdateRequestDto request, User leader, Region region) {
+        this.name = request.getName();
         this.leader = leader;
         this.region = region;
     }
