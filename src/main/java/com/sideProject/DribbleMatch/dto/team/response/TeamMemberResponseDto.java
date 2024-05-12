@@ -14,14 +14,12 @@ import java.time.LocalDateTime;
 public class TeamMemberResponseDto {
     Long memberId;
     String name;
-    Long roleId;
     LocalDateTime joinAt;
 
     @Builder
-    public TeamMemberResponseDto(Long memberId, String name, Long roleId, LocalDateTime joinAt) {
+    public TeamMemberResponseDto(Long memberId, String name, LocalDateTime joinAt) {
         this.memberId = memberId;
         this.name = name;
-        this.roleId = roleId;
         this.joinAt = joinAt;
     }
 
@@ -29,7 +27,6 @@ public class TeamMemberResponseDto {
         return TeamMemberResponseDto.builder()
                 .memberId(teamMember.getUser().getId())
                 .name(teamMember.getUser().getNickName())
-                .roleId(teamMember.getTeamRole().getId())
                 .joinAt(teamMember.getCreatedAt())
                 .build();
     }

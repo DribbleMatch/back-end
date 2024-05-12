@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -29,7 +31,7 @@ public class Recruitment {
 
     @NotNull
     @Column
-    private Position position;
+    private List<Position> positions;
 
     @Column
     private int winning;
@@ -40,10 +42,10 @@ public class Recruitment {
     private Team team;
 
     @Builder
-    public Recruitment(String title, String content, Position position, int winning, Team team) {
+    public Recruitment(String title, String content, List<Position> positions, int winning, Team team) {
         this.title = title;
         this.content = content;
-        this.position = position;
+        this.positions = positions;
         this.winning = winning;
         this.team = team;
     }

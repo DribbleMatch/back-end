@@ -1,7 +1,7 @@
 package com.sideProject.DribbleMatch.entity.team;
 
 import com.sideProject.DribbleMatch.entity.BaseEntity;
-import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -30,14 +30,18 @@ public class TeamMember extends BaseEntity {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_role_id")
+    @Column
+    @Enumerated(EnumType.STRING)
     private TeamRole teamRole;
 
     @Builder
-    public TeamMember(User user, Team team, TeamRole teamRole) {
+    public TeamMember(User user, Team team) {
         this.user = user;
         this.team = team;
-        this.teamRole = teamRole;
+        this.teamRole = TeamRole.MEMBER;
+    }
+
+    public void advancement() {
+        this.teamRole = TeamRole.ADMIN;
     }
 }
