@@ -19,11 +19,7 @@ public interface TeamService {
     public TeamResponseDto findTeam(Long teamId);
 
     //todo: 팀원 관리 (분리 한다면 여기?)
-    public Long join(TeamJoinRequestDto request, Long userId);
     public Long cancel(Long joinId, Long userId);
-    public Long approve(Long joinId, Long userId);
-    public Long refuse(Long joinId, Long userId);
-    public Long withdraw(Long memberId, Long teamId, Long userId);
     public List<TeamMemberResponseDto> findMember(Long teamId);
 
 

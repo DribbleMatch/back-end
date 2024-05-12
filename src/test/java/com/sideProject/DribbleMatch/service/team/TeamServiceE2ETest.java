@@ -45,7 +45,9 @@ public class TeamServiceE2ETest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private TeamServiceImpl teamService;
+    private TeamMemberService teamMemberService;
+    @Autowired
+    private TeamApplicationService teamApplicationService;
 
     @AfterEach
     void tearDown() {
@@ -132,7 +134,7 @@ public class TeamServiceE2ETest {
                     .build();
 
             // when
-            teamService.join(request, member.getId());
+            teamMemberService.join(request, member.getId());
 
             // then
             List<TeamApplication> teamApplications = teamApplicationRepository.findAll();
@@ -164,7 +166,7 @@ public class TeamServiceE2ETest {
                     .build();
 
             // when //then
-            assertThatThrownBy(() -> teamService.join(request, member.getId()))
+            assertThatThrownBy(() -> teamMemberService.join(request, member.getId()))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("이미 등록된 멤버입니다");
         }
@@ -190,7 +192,7 @@ public class TeamServiceE2ETest {
             TeamApplication teamApplication = initTeamApplication(member,team);
 
             // when
-            teamService.approve(teamApplication.getId(), leader.getId());
+            teamApplicationService.approve(teamApplication.getId(), leader.getId());
 
             // then
             List<TeamMember> teamApplications = teamMemberRepository.findAll();
@@ -216,7 +218,7 @@ public class TeamServiceE2ETest {
             TeamApplication teamApplication = initTeamApplication(member,team);
 
             // when
-            assertThatThrownBy(() -> teamService.approve(teamApplication.getId(), leader.getId()))
+            assertThatThrownBy(() -> teamApplicationService.approve(teamApplication.getId(), leader.getId()))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("이미 등록된 멤버입니다");
         }
@@ -244,7 +246,7 @@ public class TeamServiceE2ETest {
                     .build();
 
             // when //then
-            assertThatThrownBy(() -> teamService.join(request, member.getId()))
+            assertThatThrownBy(() -> teamMemberService.join(request, member.getId()))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("이미 등록된 멤버입니다");
         }
