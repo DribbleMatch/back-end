@@ -10,26 +10,19 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
-public class RecruitmentCreateRequestDto {
+public class RecruitmentUpdateRequestDto {
+    Long id;
     String title;
     String content;
     List<Position> positions;
     int winning;
 
     @Builder
-    public RecruitmentCreateRequestDto(String title, String content, List<Position> positions, int winning) {
+    public RecruitmentUpdateRequestDto(String title, String content, List<Position> positions, int winning) {
         this.title = title;
         this.content = content;
         this.positions = positions;
         this.winning = winning;
     }
 
-    public Recruitment toEntity() {
-        return Recruitment.builder()
-                .title(this.title)
-                .content(this.content)
-                .positions(this.positions)
-                .winning(this.winning)
-                .build();
-    }
 }

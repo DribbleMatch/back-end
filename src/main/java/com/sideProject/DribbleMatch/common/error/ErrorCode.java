@@ -50,6 +50,7 @@ public enum ErrorCode {
     ALREADY_MEMBER(400, "2000", "이미 등록된 멤버입니다"),
     NOT_FOUND_TEAM_APPLICATION(400, "2301", "해당 가입신청이 존재하지 않습니다."),
     NOT_FOUND_TEAM_MEMBER(404, "2302", "해당 팀원이 존재하지 않습니다."),
+    NOT_FOUND_RECRUITMENT(404, "2303", "해당 모집글이 존재하지 않습니다."),
 
     NOT_FOUND_PERSONAL_MATCHING_ID(404, "3300", "해당 개인 경기가 존재하지 않습니다."),
 
