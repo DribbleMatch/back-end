@@ -1,7 +1,7 @@
-package com.sideProject.DribbleMatch.entity.joinTeam;
+package com.sideProject.DribbleMatch.entity.teamApplication;
 
 import com.sideProject.DribbleMatch.entity.BaseEntity;
-import com.sideProject.DribbleMatch.entity.joinTeam.ENUM.JoinStatus;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
@@ -10,12 +10,11 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TeamJoin extends BaseEntity {
+public class TeamApplication extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -39,7 +38,7 @@ public class TeamJoin extends BaseEntity {
     private JoinStatus status;
 
     @Builder
-    public TeamJoin(User user, Team team, String introduce) {
+    public TeamApplication(User user, Team team, String introduce) {
         this.user = user;
         this.team = team;
         this.introduce = introduce;

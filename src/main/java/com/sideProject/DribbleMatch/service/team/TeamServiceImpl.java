@@ -7,14 +7,14 @@ import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
-import com.sideProject.DribbleMatch.entity.joinTeam.TeamJoin;
+import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.team.TeamMember;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.User;
-import com.sideProject.DribbleMatch.repository.teamJoin.TeamJoinRepository;
+import com.sideProject.DribbleMatch.repository.teamApplication.TeamApplicationRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class TeamServiceImpl implements TeamService{
     private final RegionRepository regionRepository;
 
     // todo: 분리할 만한 로직?
-    private final TeamJoinRepository teamJoinRepository;
+    private final TeamApplicationRepository teamApplicationRepository;
 
     @Override
     public Long createTeam(Long creatorId, TeamCreateRequestDto request) {
@@ -128,13 +128,13 @@ public class TeamServiceImpl implements TeamService{
             throw  new CustomException(ErrorCode.ALREADY_MEMBER);
         }
 
-        TeamJoin teamJoin = teamJoinRepository.save(TeamJoin.builder()
+        TeamApplication teamApplication = teamApplicationRepository.save(TeamApplication.builder()
                         .team(team)
                         .user(user)
                         .introduce(request.getIntroduce())
                         .build()
         );
-        return teamJoin.getId();
+        return teamApplication.getId();
     }
 
     @Override
@@ -144,6 +144,12 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public Long approve(Long joinId, Long userId) {
+        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+
 
 
         return null;
