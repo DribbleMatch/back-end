@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.entity.joinTeam;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.joinTeam.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.User;
@@ -13,7 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class JoinTeam {
+public class JoinTeam extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -29,11 +30,17 @@ public class JoinTeam {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Column
+    private String introduce;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @ColumnDefault(value = "WAIT")
     private JoinStatus status;
 
-    @Column
-    private String introduce;
+    public JoinTeam(User user, Team team, String introduce) {
+        this.user = user;
+        this.team = team;
+        this.introduce = introduce;
+    }
 }
