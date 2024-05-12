@@ -1,5 +1,7 @@
-package com.sideProject.DribbleMatch.entity.userTeam;
+package com.sideProject.DribbleMatch.entity.teamApplication;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
@@ -12,26 +14,42 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserTeam {
-
+public class TeamApplication extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
     @NotNull(message = "사용자가 입력되지 않았습니다.")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @NotNull(message = "팀이 입력되지 않았습니다.")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Column
+    private String introduce;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private JoinStatus status;
+
     @Builder
-    public UserTeam(User user, Team team) {
+    public TeamApplication(User user, Team team, String introduce) {
         this.user = user;
         this.team = team;
+        this.introduce = introduce;
+        this.status = JoinStatus.WAIT;
+    }
+
+    public void approve() {
+        this.status = JoinStatus.APPROVE;
+    }
+
+    public void refuse() {
+        this.status = JoinStatus.REFUSE;
     }
 }

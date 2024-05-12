@@ -75,6 +75,8 @@ public class TeamRepositoryTest {
                 .winning(10)
                 .leader(leader)
                 .region(region)
+                .info("test")
+                .maxNumber(10)
                 .build();
     }
 
@@ -162,12 +164,19 @@ public class TeamRepositoryTest {
         public void selectTeam2() {
 
             // given
-            Region region = initRegion("당산동");
-            User leader = initUser("test@test.com", "test", region);
-            Team savedTeam1 = teamRepository.save(initTeam("testTeam1", leader, region));
-            Team savedTeam2 = teamRepository.save(initTeam("testTeam2", leader, region));
-            Team savedTeam3 = teamRepository.save(initTeam("testTeam3", leader, region));
-            Team savedTeam4 = teamRepository.save(initTeam("testTeam4", leader, region));
+            Region region1 = initRegion("당산동1");
+            Region region2 = initRegion("당산동2");
+            Region region3 = initRegion("당산동3");
+            Region region4 = initRegion("당산동4");
+            User leader1 = initUser("test1@test.com", "test1", region1);
+            User leader2= initUser("test2@test.com", "test2", region2);
+            User leader3 = initUser("test3@test.com", "test3", region3);
+            User leader4 = initUser("test4@test.com", "test4", region4);
+
+            Team savedTeam1 = teamRepository.save(initTeam("testTeam1", leader1, region1));
+            Team savedTeam2 = teamRepository.save(initTeam("testTeam2", leader2, region2));
+            Team savedTeam3 = teamRepository.save(initTeam("testTeam3", leader3, region3));
+            Team savedTeam4 = teamRepository.save(initTeam("testTeam4", leader4, region4));
 
             Pageable pageable = PageRequest.of(1, 2);
 
@@ -282,12 +291,15 @@ public class TeamRepositoryTest {
             Region region1 = initRegion("당산동");
             Region region2 = initRegion("문래동");
 
-            User leader = initUser("test@test.com", "test", region1);
+            User leader1 = initUser("test1@test.com", "test1", region1);
+            User leader2 = initUser("test2@test.com", "test2", region1);
+            User leader3 = initUser("test3@test.com", "test3", region1);
+            User leader4 = initUser("test4@test.com", "test4", region1);
 
-            Team team1 = teamRepository.save(initTeam("testTeam1", leader, region1));
-            Team team2 = teamRepository.save(initTeam("testTeam2", leader, region1));
-            Team team3 = teamRepository.save(initTeam("testTeam3", leader, region2));
-            Team team4 = teamRepository.save(initTeam("testTeam4", leader, region2));
+            Team team1 = teamRepository.save(initTeam("testTeam1", leader1, region1));
+            Team team2 = teamRepository.save(initTeam("testTeam2", leader2, region1));
+            Team team3 = teamRepository.save(initTeam("testTeam3", leader3, region2));
+            Team team4 = teamRepository.save(initTeam("testTeam4", leader4, region2));
 
             Pageable pageable = PageRequest.of(0, 2);
 
