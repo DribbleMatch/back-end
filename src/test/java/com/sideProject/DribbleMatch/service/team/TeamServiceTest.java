@@ -2,10 +2,8 @@ package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
-import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
-import com.sideProject.DribbleMatch.entity.joinTeam.TeamJoin;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
@@ -13,7 +11,7 @@ import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
-import com.sideProject.DribbleMatch.repository.teamJoin.TeamJoinRepository;
+import com.sideProject.DribbleMatch.repository.teamApplication.TeamApplicationRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,7 +48,7 @@ public class TeamServiceTest {
     @Mock
     private TeamMemberRepository teamMemberRepository;
     @Mock
-    private TeamJoinRepository teamJoinRepository;
+    private TeamApplicationRepository teamApplicationRepository;
 
 
     @Mock

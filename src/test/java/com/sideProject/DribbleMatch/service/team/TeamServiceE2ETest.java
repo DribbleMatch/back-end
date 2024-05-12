@@ -2,7 +2,7 @@ package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
-import com.sideProject.DribbleMatch.entity.joinTeam.TeamJoin;
+import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.team.TeamMember;
@@ -12,7 +12,7 @@ import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
-import com.sideProject.DribbleMatch.repository.teamJoin.TeamJoinRepository;
+import com.sideProject.DribbleMatch.repository.teamApplication.TeamApplicationRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ public class TeamServiceE2ETest {
     @Autowired
     private TeamMemberRepository teamMemberRepository;
     @Autowired
-    private TeamJoinRepository teamJoinRepository;
+    private TeamApplicationRepository teamApplicationRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -48,7 +48,7 @@ public class TeamServiceE2ETest {
 
     @AfterEach
     void tearDown() {
-        teamJoinRepository.deleteAllInBatch();
+        teamApplicationRepository.deleteAllInBatch();
         teamMemberRepository.deleteAllInBatch();
         teamRepository.deleteAllInBatch();
         userRepository.deleteAllInBatch();
@@ -113,10 +113,10 @@ public class TeamServiceE2ETest {
             teamService.join(request, member.getId());
 
             // then
-            List<TeamJoin> teamJoins = teamJoinRepository.findAll();
-            assertThat(teamJoins.size()).isEqualTo(1);
-            assertThat(teamJoins.get(0).getTeam().getId()).isEqualTo(team.getId());
-            assertThat(teamJoins.get(0).getUser().getId()).isEqualTo(member.getId());
+            List<TeamApplication> teamApplications = teamApplicationRepository.findAll();
+            assertThat(teamApplications.size()).isEqualTo(1);
+            assertThat(teamApplications.get(0).getTeam().getId()).isEqualTo(team.getId());
+            assertThat(teamApplications.get(0).getUser().getId()).isEqualTo(member.getId());
         }
 
         @DisplayName("이미 가입된 팀원이 신청하면 예외가 발생한다")
