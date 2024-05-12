@@ -7,6 +7,7 @@ import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -14,7 +15,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class JoinTeam extends BaseEntity {
+public class TeamJoin extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -35,12 +36,21 @@ public class JoinTeam extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    @ColumnDefault(value = "WAIT")
     private JoinStatus status;
 
-    public JoinTeam(User user, Team team, String introduce) {
+    @Builder
+    public TeamJoin(User user, Team team, String introduce) {
         this.user = user;
         this.team = team;
         this.introduce = introduce;
+        this.status = JoinStatus.WAIT;
+    }
+
+    public void approve() {
+        this.status = JoinStatus.APPROVE;
+    }
+
+    public void refuse() {
+        this.status = JoinStatus.REFUSE;
     }
 }

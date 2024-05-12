@@ -46,6 +46,7 @@ public enum ErrorCode {
 
     NOT_UNIQUE_TEAM_NAME(400, "2100", "팀 이름이 이미 존재합니다."),
     NOT_FOUND_TEAM_ID(400, "2300", "해당 팀이 존재하지 않습니다."),
+    ALREADY_MEMBER(400, "2000", "이미 등록된 멤버입니다"),
 
     NOT_FOUND_PERSONAL_MATCHING_ID(404, "3300", "해당 개인 경기가 존재하지 않습니다."),
 

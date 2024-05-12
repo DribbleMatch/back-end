@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.entity.team;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,7 @@ public class TeamRole {
     @OneToMany
     private List<TeamRolePermission> permissions;
 
+    @Builder
     public TeamRole(String name, Team team) {
         this.name = name;
         this.team = team;
