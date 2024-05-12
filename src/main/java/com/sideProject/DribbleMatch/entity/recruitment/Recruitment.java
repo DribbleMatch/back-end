@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.entity.recruitment;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Recruitment {
+public class Recruitment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,5 +49,12 @@ public class Recruitment {
         this.positions = positions;
         this.winning = winning;
         this.team = team;
+    }
+
+    public void update(String title, String content, List<Position> positions, int winning) {
+        this.title = title;
+        this.content = content;
+        this.positions = positions;
+        this.winning = winning;
     }
 }
