@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.entity.team;
 
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Team {
+public class Team extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
