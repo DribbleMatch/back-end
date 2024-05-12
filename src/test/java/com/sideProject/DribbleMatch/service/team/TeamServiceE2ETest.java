@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
@@ -87,6 +88,25 @@ public class TeamServiceE2ETest {
                 .build());
     }
 
+    private TeamMember initTeamMember(User user, Team team, TeamRole role) {
+        TeamMember member = TeamMember.builder()
+                .user(user)
+                .team(team)
+                .build();
+        if(role.equals(TeamRole.ADMIN)){
+            member.advancement();
+        }
+
+        return teamMemberRepository.save(member);
+    }
+
+    private TeamApplication initTeamApplication(User user, Team team) {
+        return teamApplicationRepository.save(TeamApplication.builder()
+                .user(user)
+                .team(team)
+                .build());
+    }
+
 
     // 팀원 관리
     @Nested
@@ -117,6 +137,86 @@ public class TeamServiceE2ETest {
             assertThat(teamApplications.size()).isEqualTo(1);
             assertThat(teamApplications.get(0).getTeam().getId()).isEqualTo(team.getId());
             assertThat(teamApplications.get(0).getUser().getId()).isEqualTo(member.getId());
+        }
+
+        @DisplayName("이미 가입된 팀원이 신청하면 예외가 발생한다")
+        @Test
+        public void joinTeamAlreayUser() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+
+            teamMemberRepository.save(TeamMember.builder()
+                    .team(team)
+                    .user(member)
+                    .build());
+
+            TeamJoinRequestDto request = TeamJoinRequestDto.builder()
+                    .teamId(team.getId())
+                    .introduce("가난한 대학생")
+                    .build();
+
+            // when //then
+            assertThatThrownBy(() -> teamService.join(request, member.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("이미 등록된 멤버입니다");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("Join Test")
+    public class ApproveTest {
+
+        @DisplayName("팀원 가입 신청을 승인한다.")
+        @Test
+        public void Approve() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            teamService.approve(teamApplication.getId(), leader.getId());
+
+            // then
+            List<TeamMember> teamApplications = teamMemberRepository.findAll();
+            assertThat(teamApplications.size()).isEqualTo(2);
+            assertThat(teamApplications.get(1).getTeam().getId()).isEqualTo(team.getId());
+            assertThat(teamApplications.get(1).getUser().getId()).isEqualTo(member.getId());
+        }
+
+        @DisplayName("이미 가입된 팀원은 팀을 다시 가입할 수 없다")
+        @Test
+        public void ApproveAlreayUser() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            initTeamMember(member,team,TeamRole.ADMIN);
+
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            assertThatThrownBy(() -> teamService.approve(teamApplication.getId(), leader.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("이미 등록된 멤버입니다");
         }
 
         @DisplayName("이미 가입된 팀원이 신청하면 예외가 발생한다")
