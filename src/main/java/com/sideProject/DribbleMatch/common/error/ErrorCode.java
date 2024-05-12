@@ -34,7 +34,7 @@ public enum ErrorCode {
 
     INVALID_ACCESS_TOKEN(401, "0200", "ACCESS TOKEN 인증 오류"),
     INVALID_REFRESH_TOKEN(401, "0201", "REFRESH TOKEN 인증 오류"),
-    NO_AUTHORITY(401, "0201", "REFRESH TOKEN 인증 오류"),
+        NO_AUTHORITY(401, "0202", "권한이 없습니다"),
 
     NOT_UNIQUE_EMAIL(400, "1100", "이메일이 이미 존재합니다."),
     NOT_SAME_PASSWORD(400, "1101", "비밀번호가 다릅니다."),
