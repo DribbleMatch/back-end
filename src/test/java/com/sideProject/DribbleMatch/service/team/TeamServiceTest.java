@@ -11,8 +11,9 @@ import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
+import com.sideProject.DribbleMatch.repository.teamApplication.TeamApplicationRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.repository.userTeam.UserTeamRepository;
+import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +46,10 @@ public class TeamServiceTest {
     private TeamRepository teamRepository;
 
     @Mock
-    private UserTeamRepository userTeamRepository;
+    private TeamMemberRepository teamMemberRepository;
+    @Mock
+    private TeamApplicationRepository teamApplicationRepository;
+
 
     @Mock
     private UserRepository userRepository;
@@ -430,4 +434,5 @@ public class TeamServiceTest {
                     .hasMessage("해당 팀이 존재하지 않습니다.");
         }
     }
+
 }

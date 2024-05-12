@@ -83,7 +83,7 @@ public class RecruitmentRepositoryTest {
         return Recruitment.builder()
                 .title(title)
                 .content("testRecruitment content")
-                .position(Position.CENTER)
+                .positions(List.of(new Position[]{Position.CENTER}))
                 .winning(10)
                 .team(team)
                 .build();

@@ -6,11 +6,10 @@ import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
 import com.sideProject.DribbleMatch.entity.user.User;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,6 +47,9 @@ public class RecruitmentTest {
                 .build();
     }
 
+
+
+
     @Nested
     @DisplayName("BuilderTest")
     public class BuilderTest {
@@ -65,7 +67,7 @@ public class RecruitmentTest {
             Recruitment recruitment = Recruitment.builder()
                     .title("test")
                     .content("test recruitment")
-                    .position(Position.CENTER)
+                    .positions(List.of(new Position[]{Position.CENTER}))
                     .winning(10)
                     .team(team)
                     .build();
@@ -73,7 +75,7 @@ public class RecruitmentTest {
             // then
             assertThat(recruitment.getTitle()).isEqualTo("test");
             assertThat(recruitment.getContent()).isEqualTo("test recruitment");
-            assertThat(recruitment.getPosition()).isEqualTo(Position.CENTER);
+            assertThat(recruitment.getPositions().get(0)).isEqualTo(Position.CENTER);
             assertThat(recruitment.getWinning()).isEqualTo(10);
             assertThat(recruitment.getTeam()).isEqualTo(team);
         }
