@@ -41,7 +41,8 @@ public class RegionCustomRepositoryImpl implements RegionCustomRepository {
     }
     @Override
     public Optional<String> findRegionStringById(Long regionId) {
-
+        //todo: null 처리
+        
         return Optional.of(Objects.toString(jpaQueryFactory
                 .select(
                         Expressions.stringTemplate(

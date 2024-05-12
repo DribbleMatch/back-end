@@ -85,6 +85,7 @@ public class TeamServiceImpl implements TeamService{
 
         if (regionString.equals("ALL")) {
             Page<Team> teams = teamRepository.findAll(pageable);
+
             return teams
                     .map(team -> TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
                             new CustomException(ErrorCode.NOT_FOUND_REGION_ID))));
@@ -92,6 +93,7 @@ public class TeamServiceImpl implements TeamService{
 
         List<Long> regionIds = regionRepository.findIdsByRegionString(regionString);
         Page<Team> teams = teamRepository.findByRegionIds(pageable, regionIds);
+
         return teams
                 .map(team -> TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
                         new CustomException(ErrorCode.NOT_FOUND_REGION_ID))));
@@ -104,8 +106,10 @@ public class TeamServiceImpl implements TeamService{
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
 
-        return TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_REGION_ID)));
+        String regionString = regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_ID));
+
+        return TeamResponseDto.of(team, regionString);
     }
 
     private void checkUniqueName(String name) {
