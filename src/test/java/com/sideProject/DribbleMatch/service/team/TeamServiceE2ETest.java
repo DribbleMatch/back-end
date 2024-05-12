@@ -199,7 +199,7 @@ public class TeamServiceE2ETest {
 
         @DisplayName("이미 가입된 팀원은 팀을 다시 가입할 수 없다")
         @Test
-        public void ApproveAlreayUser() {
+        public void approveAlreayUser() {
 
             // given
             Region region = initRegion("당산동");
@@ -221,7 +221,7 @@ public class TeamServiceE2ETest {
 
         @DisplayName("이미 가입된 팀원이 신청하면 예외가 발생한다")
         @Test
-        public void joinTeamAlreayUser() {
+        public void approveNotAdmin() {
 
             // given
             Region region = initRegion("당산동");
@@ -230,22 +230,17 @@ public class TeamServiceE2ETest {
 
             User member = initUser("user1@test.com","user",region);
 
+            initTeamMember(leader,team,TeamRole.MEMBER);
 
-            teamMemberRepository.save(TeamMember.builder()
-                    .team(team)
-                    .user(member)
-                    .build());
+            TeamApplication teamApplication = initTeamApplication(member,team);
 
-            TeamJoinRequestDto request = TeamJoinRequestDto.builder()
-                    .teamId(team.getId())
-                    .introduce("가난한 대학생")
-                    .build();
-
-            // when //then
-            assertThatThrownBy(() -> teamService.join(request, member.getId()))
+            // when
+            assertThatThrownBy(() -> teamService.approve(teamApplication.getId(), leader.getId()))
                     .isInstanceOf(CustomException.class)
-                    .hasMessage("이미 등록된 멤버입니다");
+                    .hasMessage("권한이 없습니다");
         }
 
     }
+
+
 }
