@@ -47,12 +47,6 @@ public class Team extends BaseEntity {
     @NotNull
     private Region region;
 
-    @OneToMany
-    private List<TeamMember> teamMembers;
-
-    @OneToMany
-    private List<TeamRole> teamRoles;
-
     @Builder
     public Team(String name, int winning, User leader, Region region, String info, int maxNumber) {
         this.name = name;

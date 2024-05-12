@@ -6,34 +6,31 @@ import com.sideProject.DribbleMatch.entity.joinTeam.TeamJoin;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.team.TeamMember;
-import com.sideProject.DribbleMatch.entity.team.TeamRole;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
-import com.sideProject.DribbleMatch.repository.team.TeamRoleRepository;
 import com.sideProject.DribbleMatch.repository.teamJoin.TeamJoinRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.when;
 
 @Profile("test")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 public class TeamServiceE2ETest {
     @Autowired
@@ -45,11 +42,18 @@ public class TeamServiceE2ETest {
     @Autowired
     private TeamJoinRepository teamJoinRepository;
     @Autowired
-    private TeamRoleRepository teamRoleRepository;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private TeamServiceImpl teamService;
+
+    @AfterEach
+    void tearDown() {
+        teamJoinRepository.deleteAllInBatch();
+        teamMemberRepository.deleteAllInBatch();
+        teamRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
+        regionRepository.deleteAllInBatch();
+    }
 
     private Region initRegion(String dong) {
         return regionRepository.save(Region.builder()
@@ -126,15 +130,10 @@ public class TeamServiceE2ETest {
 
             User member = initUser("user1@test.com","user",region);
 
-            TeamRole teamRole = teamRoleRepository.save(TeamRole.builder()
-                            .name("일반회원")
-                            .team(team)
-                    .build());
 
             teamMemberRepository.save(TeamMember.builder()
                     .team(team)
                     .user(member)
-                    .teamRole(teamRole)
                     .build());
 
             TeamJoinRequestDto request = TeamJoinRequestDto.builder()

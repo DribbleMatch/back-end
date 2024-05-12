@@ -11,12 +11,9 @@ import com.sideProject.DribbleMatch.entity.joinTeam.TeamJoin;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.team.TeamMember;
-import com.sideProject.DribbleMatch.entity.team.TeamRole;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.User;
-import com.sideProject.DribbleMatch.repository.team.TeamRolePermissionRepository;
-import com.sideProject.DribbleMatch.repository.team.TeamRoleRepository;
 import com.sideProject.DribbleMatch.repository.teamJoin.TeamJoinRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
@@ -41,8 +38,6 @@ public class TeamServiceImpl implements TeamService{
 
     // todo: 분리할 만한 로직?
     private final TeamJoinRepository teamJoinRepository;
-    private final TeamRoleRepository teamRoleRepository;
-    private final TeamRolePermissionRepository teamRolePermissionRepository;
 
     @Override
     public Long createTeam(Long creatorId, TeamCreateRequestDto request) {
@@ -149,6 +144,8 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public Long approve(Long joinId, Long userId) {
+
+
         return null;
     }
 
