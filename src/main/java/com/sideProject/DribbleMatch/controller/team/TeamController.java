@@ -33,12 +33,12 @@ public class TeamController {
     }
 
     @PutMapping("/{teamId}")
-    public ApiResponse<Long> updateTeam(@PathVariable Long teamId, @RequestBody @Valid TeamUpdateRequestDto request) {
+    public ApiResponse<Long> updateTeam(@PathVariable("teamId") Long teamId, @RequestBody @Valid TeamUpdateRequestDto request) {
         return ApiResponse.ok(teamService.updateTeam(teamId, request));
     }
 
     @DeleteMapping("/{teamId}")
-    public ApiResponse<String> deleteTeam(@PathVariable Long teamId) {
+    public ApiResponse<String> deleteTeam(@PathVariable("teamId")  Long teamId) {
         return ApiResponse.ok(teamService.deleteTeam(teamId));
     }
 
@@ -48,7 +48,7 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}")
-    public ApiResponse<TeamResponseDto> findTeam(@PathVariable Long teamId) {
+    public ApiResponse<TeamResponseDto> findTeam(@PathVariable("teamId") Long teamId) {
         return ApiResponse.ok(teamService.findTeam(teamId));
     }
 }

@@ -37,14 +37,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	// dev
+	// lombok
 	annotationProcessor 'org.projectlombok:lombok'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
+
+	//spring boot
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'commons-io:commons-io:2.6'
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+	//common
+	implementation 'commons-io:commons-io:2.6'
 
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

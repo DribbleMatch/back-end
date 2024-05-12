@@ -129,6 +129,7 @@ public class TeamControllerTest {
             // given
             Long teamId = 1L;
             String request = "{\"name\": \"testTeam\", " +
+                    "\"maxNum\": \"10\", "+
                     "\"regionString\": \"서울시 영등포구\", " +
                     "\"leaderId\": 2}";
 
@@ -151,7 +152,8 @@ public class TeamControllerTest {
             // given
             Long teamId = 1L;
             String request = "{\"name\": \"testTeam\", " +
-                    "\"regionString\": \"서울시 영등포구\"}";
+                    "\"regionString\": \"서울시 영등포구\", " +
+                    "\"maxNum\": \"10\"}";
 //                    "\"leaderId\": 2}";
 
             // mocking

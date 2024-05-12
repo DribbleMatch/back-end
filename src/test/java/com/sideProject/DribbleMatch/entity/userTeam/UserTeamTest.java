@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.entity.userTeam;
 
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.team.TeamMember;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
@@ -62,7 +63,7 @@ public class UserTeamTest {
             Team team = initTeam("testTeam", leader, region);
 
             // when
-            UserTeam userTeam = UserTeam.builder()
+            TeamMember userTeam = TeamMember.builder()
                     .user(user)
                     .team(team)
                     .build();

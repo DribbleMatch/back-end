@@ -1,4 +1,4 @@
-package com.sideProject.DribbleMatch.entity.userTeam;
+package com.sideProject.DribbleMatch.entity.team;
 
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.User;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class UserTeam {
+public class TeamMember  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,18 +20,23 @@ public class UserTeam {
     private Long id;
 
     @NotNull(message = "사용자가 입력되지 않았습니다.")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
     @NotNull(message = "팀이 입력되지 않았습니다.")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_role_id")
+    private TeamRole teamRole;
+
     @Builder
-    public UserTeam(User user, Team team) {
+    public TeamMember(User user, Team team, TeamRole teamRole) {
         this.user = user;
         this.team = team;
+        this.teamRole = teamRole;
     }
 }
