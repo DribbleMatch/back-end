@@ -3,14 +3,21 @@ package com.sideProject.DribbleMatch.service.team;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
+import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
+import com.sideProject.DribbleMatch.entity.joinTeam.TeamJoin;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.team.TeamMember;
+import com.sideProject.DribbleMatch.entity.team.TeamRole;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.User;
+import com.sideProject.DribbleMatch.repository.team.TeamRolePermissionRepository;
+import com.sideProject.DribbleMatch.repository.team.TeamRoleRepository;
+import com.sideProject.DribbleMatch.repository.teamJoin.TeamJoinRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +38,11 @@ public class TeamServiceImpl implements TeamService{
     private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
+
+    // todo: 분리할 만한 로직?
+    private final TeamJoinRepository teamJoinRepository;
+    private final TeamRoleRepository teamRoleRepository;
+    private final TeamRolePermissionRepository teamRolePermissionRepository;
 
     @Override
     public Long createTeam(Long creatorId, TeamCreateRequestDto request) {
@@ -106,6 +119,52 @@ public class TeamServiceImpl implements TeamService{
 
         return TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_ID)));
+    }
+
+    @Override
+    public Long join(TeamJoinRequestDto request, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        Team team = teamRepository.findById(request.getTeamId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        Optional<TeamMember> teamMember = teamMemberRepository.findByUserAndTeam(user,team);
+        if(teamMember.isPresent()) {
+            throw  new CustomException(ErrorCode.ALREADY_MEMBER);
+        }
+
+        TeamJoin teamJoin = teamJoinRepository.save(TeamJoin.builder()
+                        .team(team)
+                        .user(user)
+                        .introduce(request.getIntroduce())
+                        .build()
+        );
+        return teamJoin.getId();
+    }
+
+    @Override
+    public Long cancel(Long joinId, Long userId) {
+        return null;
+    }
+
+    @Override
+    public Long approve(Long joinId, Long userId) {
+        return null;
+    }
+
+    @Override
+    public Long refuse(Long joinId, Long userId) {
+        return null;
+    }
+
+    @Override
+    public Long withdraw(Long memberId, Long teamId, Long userId) {
+        return null;
+    }
+
+    @Override
+    public List<TeamMemberResponseDto> findMember(Long teamId) {
+        return null;
     }
 
     private void checkUniqueName(String name) {
