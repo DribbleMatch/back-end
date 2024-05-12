@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MatchingResponstDto {
+public class MatchingResponseDto {
 
     private String name;
     private int playPeople;
@@ -20,10 +20,10 @@ public class MatchingResponstDto {
     private LocalDateTime endAt;
     private MatchingStatus status;
     private String regionString;
-    private String stadiumString;
+    private String stadiumName;
 
     @Builder
-    public MatchingResponstDto(
+    public MatchingResponseDto(
             String name,
             int playPeople,
             int maxPeople,
@@ -31,7 +31,7 @@ public class MatchingResponstDto {
             LocalDateTime endAt,
             MatchingStatus status,
             String regionString,
-            String stadiumString
+            String stadiumName
     ) {
         this.name = name;
         this.playPeople = playPeople;
@@ -40,11 +40,11 @@ public class MatchingResponstDto {
         this.endAt = endAt;
         this.status = status;
         this.regionString = regionString;
-        this.stadiumString = stadiumString;
+        this.stadiumName = stadiumName;
     }
 
-    public MatchingResponstDto of(Matching matching, String regionString, String stadiumString) {
-        return MatchingResponstDto.builder()
+    public static MatchingResponseDto of(Matching matching, String regionString) {
+        return MatchingResponseDto.builder()
                 .name(matching.getName())
                 .playPeople(matching.getPlayPeople())
                 .maxPeople(matching.getMaxPeople())
@@ -52,7 +52,7 @@ public class MatchingResponstDto {
                 .endAt(matching.getEndAt())
                 .status(matching.getStatus())
                 .regionString(regionString)
-                .stadiumString(stadiumString)
+                .stadiumName(matching.getStadium() == null ? null : matching.getStadium().getName())
                 .build();
     }
 }
