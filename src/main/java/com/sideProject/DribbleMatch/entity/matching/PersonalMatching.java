@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.entity.matching;
 
+import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.stadium.Stadium;

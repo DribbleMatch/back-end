@@ -130,6 +130,7 @@ public class TeamServiceTest {
         @DisplayName("name이 중복이면 에러가 발생한다")
         @Test
         public void createTeam2() {
+
             // given
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
@@ -147,7 +148,6 @@ public class TeamServiceTest {
             assertThatThrownBy(() -> teamService.createTeam(leader.getId(), request))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("팀 이름이 이미 존재합니다.");
-
         }
     }
 
@@ -157,6 +157,7 @@ public class TeamServiceTest {
         @DisplayName("Team 정보를 수정한다")
         @Test
         public void updateTeam() {
+
             // given
             Region region = initRegion("당산동");
             User leader = initUser("test1@test.com", "test1", region);
