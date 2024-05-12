@@ -9,6 +9,9 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Lazy;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,27 +30,45 @@ public class Team {
     @Column
     private int winning;
 
-    @ManyToOne
+    @Column
+    private int maxNumber;
+
+    @Column
+    private String info;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_id")
     @NotNull
     private User leader;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id")
     @NotNull
     private Region region;
 
+    @OneToMany
+    private List<TeamMember> teamMembers;
+
+    @OneToMany
+    private List<TeamRole> teamRoles;
+
     @Builder
-    public Team(String name, int winning, User leader, Region region) {
+    public Team(String name, int winning, User leader, Region region, String info, int maxNumber) {
         this.name = name;
         this.winning = winning;
         this.leader = leader;
         this.region = region;
+        this.info = info;
+        this.maxNumber = maxNumber;
     }
 
     public void updateTeam(TeamUpdateRequestDto request, User leader, Region region) {
         this.name = request.getName();
         this.leader = leader;
         this.region = region;
+    }
+
+    public void changeLeader(User leader) {
+        this.leader = leader;
     }
 }

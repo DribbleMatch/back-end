@@ -12,7 +12,7 @@ import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.repository.userTeam.UserTeamRepository;
+import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class TeamServiceTest {
     private TeamRepository teamRepository;
 
     @Mock
-    private UserTeamRepository userTeamRepository;
+    private TeamMemberRepository teamMemberRepository;
 
     @Mock
     private UserRepository userRepository;

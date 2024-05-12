@@ -85,6 +85,7 @@ public class TeamMatchJoinRepositoryTest {
                 .winning(10)
                 .leader(leader)
                 .region(region)
+                .info("test")
                 .build());
     }
 

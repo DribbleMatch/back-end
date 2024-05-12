@@ -5,15 +5,15 @@ import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.team.TeamMember;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
+import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.entity.userTeam.UserTeam;
 import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -45,7 +45,7 @@ public class UserTeamRepositoryTest {
     private TeamRepository teamRepository;
 
     @Autowired
-    private UserTeamRepository userTeamRepository;
+    private TeamMemberRepository teamMemberRepository;
 
     private Region initRegion(String dong) {
         return regionRepository.save(Region.builder()
@@ -79,8 +79,8 @@ public class UserTeamRepositoryTest {
                 .build());
     }
 
-    private UserTeam initUserTeam(User user, Team team) {
-        return UserTeam.builder()
+    private TeamMember initUserTeam(User user, Team team) {
+        return TeamMember.builder()
                 .user(user)
                 .team(team)
                 .build();
@@ -100,10 +100,10 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            UserTeam userTeam = initUserTeam(user, team);
+            TeamMember userTeam = initUserTeam(user, team);
 
             // when
-            UserTeam savedUserTeam = userTeamRepository.save(userTeam);
+            TeamMember savedUserTeam = teamMemberRepository.save(userTeam);
 
             // then
             assertThat(savedUserTeam).isNotNull();
@@ -121,13 +121,13 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            UserTeam userTeam = UserTeam.builder()
+            TeamMember userTeam = TeamMember.builder()
                     .user(user)
 //                    .team(team)
                     .build();
 
             // when, then
-            assertThatThrownBy(() -> userTeamRepository.save(userTeam))
+            assertThatThrownBy(() -> teamMemberRepository.save(userTeam))
                     .isInstanceOf(ConstraintViolationException.class);
         }
     }
@@ -146,10 +146,10 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(user, team));
+            TeamMember savedUserTeam = teamMemberRepository.save(initUserTeam(user, team));
 
             // when
-            UserTeam selectedUserTeam = userTeamRepository.findById(savedUserTeam.getId()).get();
+            TeamMember selectedUserTeam = teamMemberRepository.findById(savedUserTeam.getId()).get();
 
             // then
             assertThat(selectedUserTeam).isNotNull();
@@ -166,11 +166,11 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            UserTeam savedUserTeam1 = userTeamRepository.save(initUserTeam(user, team));
-            UserTeam savedUserTeam2 = userTeamRepository.save(initUserTeam(user, team));
+            TeamMember savedUserTeam1 = teamMemberRepository.save(initUserTeam(user, team));
+            TeamMember savedUserTeam2 = teamMemberRepository.save(initUserTeam(user, team));
 
             // when
-            List<UserTeam> userTeams = userTeamRepository.findAll();
+            List<TeamMember> userTeams = teamMemberRepository.findAll();
 
             // then
             assertThat(userTeams.size()).isEqualTo(2);
@@ -188,10 +188,10 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(user, team));
+            TeamMember savedUserTeam = teamMemberRepository.save(initUserTeam(user, team));
 
             // when, then
-            assertThatThrownBy(() -> userTeamRepository.findById(savedUserTeam.getId() + 1).orElseThrow(() ->
+            assertThatThrownBy(() -> teamMemberRepository.findById(savedUserTeam.getId() + 1).orElseThrow(() ->
                     new CustomException(ErrorCode.NOT_FOUND_USERTEAM_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 소속팀 정보가 존재하지 않습니다.");
@@ -212,7 +212,7 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            UserTeam savedUserTeam = userTeamRepository.save(initUserTeam(user, team));
+            TeamMember savedUserTeam = teamMemberRepository.save(initUserTeam(user, team));
 
             // when
             userRepository.deleteById(savedUserTeam.getId());

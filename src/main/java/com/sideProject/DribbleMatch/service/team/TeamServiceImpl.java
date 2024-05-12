@@ -7,12 +7,12 @@ import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.team.TeamMember;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.entity.userTeam.UserTeam;
-import com.sideProject.DribbleMatch.repository.userTeam.UserTeamRepository;
+import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,7 @@ import java.util.List;
 public class TeamServiceImpl implements TeamService{
 
     private final TeamRepository teamRepository;
-    private final UserTeamRepository userTeamRepository;
+    private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
 
@@ -45,7 +45,7 @@ public class TeamServiceImpl implements TeamService{
         Team team = teamRepository.save(TeamCreateRequestDto.toEntity(request, creator, region));
 
         // todo: userTeam을 만드는 로직을 이 메서드에서 담당하는게 맞을까?
-        userTeamRepository.save(UserTeam.builder()
+        teamMemberRepository.save(TeamMember.builder()
                 .team(team)
                 .user(creator)
                 .build());
