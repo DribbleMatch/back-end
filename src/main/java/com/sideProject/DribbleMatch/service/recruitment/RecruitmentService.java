@@ -12,5 +12,6 @@ public interface RecruitmentService {
     public Long create(RecruitmentCreateRequestDto request, Long teamId, Long userId);
     public Long update(RecruitmentUpdateRequestDto request, Long userId);
     public Page<RecruitmentResponseDto> find(Pageable pageable, RecruitmentSearchParamRequest param);
+    public RecruitmentResponseDto find(Long id);
     public Long delete(Long recruitmentId, Long userId);
 }
