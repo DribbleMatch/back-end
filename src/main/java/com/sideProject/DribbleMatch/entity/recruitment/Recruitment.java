@@ -37,6 +37,9 @@ public class Recruitment extends BaseEntity {
     @Column
     private int winning;
 
+    @Column
+    private int views;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "team_id")
@@ -49,6 +52,7 @@ public class Recruitment extends BaseEntity {
         this.positions = positions;
         this.winning = winning;
         this.team = team;
+        this.views = 0;
     }
 
     public void update(String title, String content, List<Position> positions, int winning) {
@@ -56,5 +60,9 @@ public class Recruitment extends BaseEntity {
         this.content = content;
         this.positions = positions;
         this.winning = winning;
+    }
+
+    public void read() {
+        this.views += 1;
     }
 }
