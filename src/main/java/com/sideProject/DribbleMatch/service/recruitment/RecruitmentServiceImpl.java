@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.service.recruitment;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentCreateRequestDto;
+import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentSearchParamRequest;
 import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentUpdateRequestDto;
 import com.sideProject.DribbleMatch.dto.recruitment.response.RecruitmentResponseDto;
 import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
@@ -18,8 +19,11 @@ import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -76,9 +80,14 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     }
 
     @Override
-    public Page<RecruitmentResponseDto> find() {
-        return null;
+    public Page<RecruitmentResponseDto> find(Pageable pageable, RecruitmentSearchParamRequest param) {
+        Page<Recruitment> page = recruitmentRepository.find(pageable,param);
+
+        return page.map(recruitment -> {
+            return RecruitmentResponseDto.of(recruitment,recruitment.getTeam());
+        });
     }
+
 
     @Override
     public Long delete(Long recruitmentId, Long adminId) {
