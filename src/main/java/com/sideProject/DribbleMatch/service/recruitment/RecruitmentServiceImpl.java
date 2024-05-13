@@ -88,6 +88,13 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         });
     }
 
+    @Override
+    public RecruitmentResponseDto find(Long id) {
+        Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_RECRUITMENT_ID)
+        );
+        return RecruitmentResponseDto.of(recruitment,recruitment.getTeam());
+    }
 
     @Override
     public Long delete(Long recruitmentId, Long adminId) {
