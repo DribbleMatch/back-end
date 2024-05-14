@@ -1,4 +1,4 @@
-package com.sideProject.DribbleMatch.repository.userTeam;
+package com.sideProject.DribbleMatch.repository.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 @Import(QuerydslConfig.class)
-public class UserTeamRepositoryTest {
+public class TeamMemberRepositoryTest {
 
     @Autowired
     private RegionRepository regionRepository;
@@ -81,7 +81,7 @@ public class UserTeamRepositoryTest {
                 .build());
     }
 
-    private TeamMember initUserTeam(User user, Team team) {
+    private TeamMember initTeamMember(User user, Team team) {
         return TeamMember.builder()
                 .user(user)
                 .team(team)
@@ -89,12 +89,12 @@ public class UserTeamRepositoryTest {
     }
 
     @Nested
-    @DisplayName("createUserTeamTest")
-    public class createUserTeamTest {
+    @DisplayName("CreateTeamMemberTest")
+    public class CreateTeamMemberTest {
 
-        @DisplayName("Team을 생성한다")
+        @DisplayName("TeamMember을 생성한다")
         @Test
-        public void createUserTeam() {
+        public void createTeamMember() {
 
             // given
             Region region = initRegion("당산동");
@@ -102,20 +102,20 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            TeamMember userTeam = initUserTeam(user, team);
+            TeamMember teamMember = initTeamMember(user, team);
 
             // when
-            TeamMember savedUserTeam = teamMemberRepository.save(userTeam);
+            TeamMember savedTeamMember = teamMemberRepository.save(teamMember);
 
             // then
-            assertThat(savedUserTeam).isNotNull();
-            assertThat(savedUserTeam.getUser()).isEqualTo(user);
-            assertThat(savedUserTeam.getTeam()).isEqualTo(team);
+            assertThat(savedTeamMember).isNotNull();
+            assertThat(savedTeamMember.getUser()).isEqualTo(user);
+            assertThat(savedTeamMember.getTeam()).isEqualTo(team);
         }
 
         @DisplayName("@NotNull로 지정된 컬럼에 데이터가 null이면 에러가 발생한다")
         @Test
-        public void createUserTeam2() {
+        public void createTeamMember2() {
 
             // given
             Region region = initRegion("당산동");
@@ -123,24 +123,24 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            TeamMember userTeam = TeamMember.builder()
+            TeamMember teamMember = TeamMember.builder()
                     .user(user)
 //                    .team(team)
                     .build();
 
             // when, then
-            assertThatThrownBy(() -> teamMemberRepository.save(userTeam))
+            assertThatThrownBy(() -> teamMemberRepository.save(teamMember))
                     .isInstanceOf(ConstraintViolationException.class);
         }
     }
 
     @Nested
-    @DisplayName("selectUserTeamTest")
-    public class selectUserTeamTest {
+    @DisplayName("SelectTeamMemberTest")
+    public class SelectTeamMemberTest {
 
-        @DisplayName("UserTeam을 조회한다")
+        @DisplayName("TeamMember을 조회한다")
         @Test
-        public void selectUserTeam() {
+        public void selectTeamMember() {
 
             // given
             Region region = initRegion("당산동");
@@ -148,19 +148,19 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            TeamMember savedUserTeam = teamMemberRepository.save(initUserTeam(user, team));
+            TeamMember savedTeamMember = teamMemberRepository.save(initTeamMember(user, team));
 
             // when
-            TeamMember selectedUserTeam = teamMemberRepository.findById(savedUserTeam.getId()).get();
+            TeamMember selectedTeamMember = teamMemberRepository.findById(savedTeamMember.getId()).get();
 
             // then
-            assertThat(selectedUserTeam).isNotNull();
-            assertThat(selectedUserTeam).isEqualTo(savedUserTeam);
+            assertThat(selectedTeamMember).isNotNull();
+            assertThat(selectedTeamMember).isEqualTo(savedTeamMember);
         }
 
-        @DisplayName("모든 UserTeam을 조회한다")
+        @DisplayName("모든 TeamMember을 조회한다")
         @Test
-        public void selectUserTeam2() {
+        public void selectTeamMember2() {
 
             // given
             Region region = initRegion("당산동");
@@ -168,21 +168,21 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            TeamMember savedUserTeam1 = teamMemberRepository.save(initUserTeam(user, team));
-            TeamMember savedUserTeam2 = teamMemberRepository.save(initUserTeam(user, team));
+            TeamMember savedTeamMember1 = teamMemberRepository.save(initTeamMember(user, team));
+            TeamMember savedTeamMember2 = teamMemberRepository.save(initTeamMember(user, team));
 
             // when
-            List<TeamMember> userTeams = teamMemberRepository.findAll();
+            List<TeamMember> teamMembers = teamMemberRepository.findAll();
 
             // then
-            assertThat(userTeams.size()).isEqualTo(2);
-            assertThat(userTeams.contains(savedUserTeam1)).isTrue();
-            assertThat(userTeams.contains(savedUserTeam2)).isTrue();
+            assertThat(teamMembers.size()).isEqualTo(2);
+            assertThat(teamMembers.contains(savedTeamMember1)).isTrue();
+            assertThat(teamMembers.contains(savedTeamMember2)).isTrue();
         }
 
-        @DisplayName("없는 UserTeam이면 에러가 발생한다")
+        @DisplayName("없는 TeamMember이면 에러가 발생한다")
         @Test
-        public void selectUserTeam3() {
+        public void selectTeamMember3() {
 
             // given
             Region region = initRegion("당산동");
@@ -190,23 +190,23 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            TeamMember savedUserTeam = teamMemberRepository.save(initUserTeam(user, team));
+            TeamMember savedTeamMember = teamMemberRepository.save(initTeamMember(user, team));
 
             // when, then
-            assertThatThrownBy(() -> teamMemberRepository.findById(savedUserTeam.getId() + 1).orElseThrow(() ->
-                    new CustomException(ErrorCode.NOT_FOUND_USERTEAM_ID)))
+            assertThatThrownBy(() -> teamMemberRepository.findById(savedTeamMember.getId() + 1).orElseThrow(() ->
+                    new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER_ID)))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 소속팀 정보가 존재하지 않습니다.");
         }
     }
 
     @Nested
-    @DisplayName("deleteUserTeamTest")
-    public class deleteUserTeamTest {
+    @DisplayName("DeleteTeamMemberTest")
+    public class DeleteTeamMemberTest {
 
-        @DisplayName("UserTeam을 삭제한다")
+        @DisplayName("TeamMember을 삭제한다")
         @Test
-        public void deleteUserTeam() {
+        public void deleteTeamMember() {
 
             // given
             Region region = initRegion("당산동");
@@ -214,13 +214,37 @@ public class UserTeamRepositoryTest {
             User leader = initUser("test2@test.com", "test2", region);
             Team team = initTeam("testTeam", leader, region);
 
-            TeamMember savedUserTeam = teamMemberRepository.save(initUserTeam(user, team));
+            TeamMember savedTeamMember = teamMemberRepository.save(initTeamMember(user, team));
 
             // when
-            userRepository.deleteById(savedUserTeam.getId());
+            teamMemberRepository.deleteById(savedTeamMember.getId());
 
             // then
-            assertThat(userRepository.findById(savedUserTeam.getId()).isPresent()).isFalse();
+            assertThat(teamMemberRepository.findById(savedTeamMember.getId()).isPresent()).isFalse();
+        }
+    }
+
+    @Nested
+    @DisplayName("FindByUserAndTeamTest")
+    public class FindByUserAndTeamTest {
+
+        @DisplayName("User, Team으로 TeamMember을 조회한다")
+        @Test
+        public void findByUserAndTeam() {
+
+            // given
+            Region region = initRegion("당산동");
+            User user = initUser("test1@test.com", "test1", region);
+            User leader = initUser("test2@test.com", "test2", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            TeamMember savedTeamMember = teamMemberRepository.save(initTeamMember(user, team));
+
+            // when
+            TeamMember selectedTeamMember = teamMemberRepository.findByUserAndTeam(user, team).get();
+
+            // then
+            assertThat(selectedTeamMember).isEqualTo(savedTeamMember);
         }
     }
 }
