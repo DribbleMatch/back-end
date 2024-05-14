@@ -13,8 +13,8 @@ import java.util.List;
 public interface TeamService {
     //팀 생성 및 관리
     public Long createTeam(Long createId, TeamCreateRequestDto request);
-    public Long updateTeam(Long teamId, TeamUpdateRequestDto request);
-    public String deleteTeam(Long teamId);
+    public Long updateTeam(Long userId, Long teamId, TeamUpdateRequestDto request);
+    public String deleteTeam(Long userId, Long teamId);
     public Page<TeamResponseDto> findAllTeams(Pageable pageable, String regionString);
     public TeamResponseDto findTeam(Long teamId);
 

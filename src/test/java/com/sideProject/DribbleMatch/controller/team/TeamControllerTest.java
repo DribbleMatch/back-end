@@ -134,7 +134,7 @@ public class TeamControllerTest {
                     "\"leaderId\": 2}";
 
             // mocking
-            when(teamService.updateTeam(any(Long.TYPE), any(TeamUpdateRequestDto.class))).thenReturn(teamId);
+            when(teamService.updateTeam(any(Long.TYPE), any(Long.TYPE), any(TeamUpdateRequestDto.class))).thenReturn(teamId);
 
             // when, then
             mockMvc.perform(MockMvcRequestBuilders.put("/api/team/1")
@@ -157,7 +157,7 @@ public class TeamControllerTest {
 //                    "\"leaderId\": 2}";
 
             // mocking
-            when(teamService.updateTeam(any(Long.TYPE), any(TeamUpdateRequestDto.class))).thenReturn(teamId);
+            when(teamService.updateTeam(any(Long.TYPE), any(Long.TYPE), any(TeamUpdateRequestDto.class))).thenReturn(teamId);
 
             // when, then
             mockMvc.perform(MockMvcRequestBuilders.put("/api/team/1")
@@ -181,7 +181,7 @@ public class TeamControllerTest {
             Long deleteTeamId = 1L;
 
             // mocking
-            when(teamService.deleteTeam(deleteTeamId)).thenReturn("팀이 삭제되었습니다.");
+            when(teamService.deleteTeam(any(Long.TYPE), any(Long.TYPE))).thenReturn("팀이 삭제되었습니다.");
 
             // when, then
             mockMvc.perform(MockMvcRequestBuilders.delete("/api/team/{teamId}", deleteTeamId))

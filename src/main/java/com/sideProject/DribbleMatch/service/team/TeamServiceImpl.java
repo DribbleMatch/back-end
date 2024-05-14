@@ -33,10 +33,14 @@ import java.util.Optional;
 @Transactional
 public class TeamServiceImpl implements TeamService{
 
+    //todo: checkRole 최소화
+
     private final TeamRepository teamRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
+
+    private final TeamMemberService teamMemberService;
 
     // todo: 분리할 만한 로직?
     private final TeamApplicationRepository teamApplicationRepository;
@@ -54,26 +58,30 @@ public class TeamServiceImpl implements TeamService{
 
         Team team = teamRepository.save(TeamCreateRequestDto.toEntity(request, creator, region));
 
-        // todo: userTeam을 만드는 로직을 이 메서드에서 담당하는게 맞을까?
         teamMemberRepository.save(TeamMember.builder()
                 .team(team)
                 .user(creator)
+                .teamRole(TeamRole.ADMIN)
                 .build());
 
         return team.getId();
     }
 
     @Override
-    public Long updateTeam(Long teamId, TeamUpdateRequestDto request) {
+    public Long updateTeam(Long userId, Long teamId, TeamUpdateRequestDto request) {
 
         checkUniqueName(request.getName());
 
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
         Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
         User leader = userRepository.findById(request.getLeaderId()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER_ID));
         Team teamToUpdate = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        teamMemberService.checkRole(user, teamToUpdate);
 
         teamToUpdate.updateTeam(request, leader, region);
 
@@ -82,8 +90,14 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public String deleteTeam(Long teamId) {
+    public String deleteTeam(Long userId, Long teamId) {
 
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        teamMemberService.checkRole(user, team);
         teamRepository.deleteById(teamId);
 
         return "팀이 삭제되었습니다.";
