@@ -35,10 +35,10 @@ public class TeamMember extends BaseEntity {
     private TeamRole teamRole;
 
     @Builder
-    public TeamMember(User user, Team team) {
+    public TeamMember(User user, Team team, TeamRole teamRole) {
         this.user = user;
         this.team = team;
-        this.teamRole = TeamRole.MEMBER;
+        this.teamRole = teamRole;
     }
 
     public void advancement() {

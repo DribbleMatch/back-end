@@ -35,13 +35,13 @@ public class TeamController {
     }
 
     @PutMapping("/{teamId}")
-    public ApiResponse<Long> updateTeam(@PathVariable("teamId") Long teamId, @RequestBody @Valid TeamUpdateRequestDto request) {
-        return ApiResponse.ok(teamService.updateTeam(teamId, request));
+    public ApiResponse<Long> updateTeam(Principal principal, @PathVariable("teamId") Long teamId, @RequestBody @Valid TeamUpdateRequestDto request) {
+        return ApiResponse.ok(teamService.updateTeam(Long.valueOf(principal.getName()), teamId, request));
     }
 
     @DeleteMapping("/{teamId}")
-    public ApiResponse<String> deleteTeam(@PathVariable("teamId")  Long teamId) {
-        return ApiResponse.ok(teamService.deleteTeam(teamId));
+    public ApiResponse<String> deleteTeam(Principal principal, @PathVariable("teamId")  Long teamId) {
+        return ApiResponse.ok(teamService.deleteTeam(Long.valueOf(principal.getName()), teamId));
     }
 
     @GetMapping("/teams")

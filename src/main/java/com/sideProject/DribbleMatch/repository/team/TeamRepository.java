@@ -11,7 +11,4 @@ import java.util.Optional;
 
 public interface TeamRepository extends JpaRepository<Team, Long>, TeamCustomRepository {
     public Optional<Team> findByName(String name);
-//    public Page<Team> findAll(Pageable pageable);
-//    @Query("SELECT t FROM Team t WHERE t.region.id IN :regionIds")
-//    public Page<Team> findByRegionIds(Pageable pageable, List<Long> regionIds);
 }

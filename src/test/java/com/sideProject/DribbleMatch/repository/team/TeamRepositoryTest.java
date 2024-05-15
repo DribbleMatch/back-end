@@ -229,7 +229,7 @@ public class TeamRepositoryTest {
     @DisplayName("UpdateTeamTest")
     public class UpdateTeamTest {
 
-        @DisplayName("팀 정보를 수정한다")
+        @DisplayName("Team을 수정한다")
         @Test
         public void updateTeam() {
 
@@ -262,7 +262,7 @@ public class TeamRepositoryTest {
     @DisplayName("DeleteTeamTest")
     public class DeleteTeamTest {
 
-        @DisplayName("팀을 삭제한다")
+        @DisplayName("Team을 삭제한다")
         @Test
         public void deleteTeam() {
 
