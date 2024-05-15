@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.service.team;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
@@ -322,8 +323,40 @@ public class TeamServiceIntegerTest {
                     .hasMessage("권한이 없습니다");
         }
 
-
     }
 
+    @Nested
+    @DisplayName("FindTeamMember Test")
+    public class FindTeamMember {
+
+        @DisplayName("팀원들을 조회할 수 있다.")
+        @Test
+        public void findTeamMember() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            initTeamMember(member,team,TeamRole.MEMBER);
+
+            // when
+            List<TeamMemberResponseDto> teamMembers = teamService.findMember(team.getId());
+
+            // then
+            assertThat(teamMembers.size()).isEqualTo(2);
+            assertThat(teamMembers.get(0).getMemberId()).isEqualTo(leader.getId());
+            assertThat(teamMembers.get(0).getNickname()).isEqualTo(leader.getNickName());
+            assertThat(teamMembers.get(0).getRole()).isEqualTo(TeamRole.ADMIN);
+            assertThat(teamMembers.get(1).getMemberId()).isEqualTo(member.getId());
+            assertThat(teamMembers.get(1).getNickname()).isEqualTo(member.getNickName());
+            assertThat(teamMembers.get(1).getRole()).isEqualTo(TeamRole.MEMBER);
+        }
+
+
+    }
 
 }
