@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.service.team;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamApplicationResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
@@ -26,6 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
@@ -38,7 +42,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
 @Import(QuerydslConfig.class)
-public class TeamServiceIntegerTest {
+public class TeamServiceIntegrationTest {
     @Autowired
     private RegionRepository regionRepository;
     @Autowired
@@ -130,12 +134,11 @@ public class TeamServiceIntegerTest {
             User member = initUser("user1@test.com","user",region);
 
             TeamJoinRequestDto request = TeamJoinRequestDto.builder()
-                    .teamId(team.getId())
                     .introduce("가난한 대학생")
                     .build();
 
             // when
-            teamService.join(request, member.getId());
+            teamService.join(request, team.getId(), member.getId());
 
             // then
             List<TeamApplication> teamApplications = teamApplicationRepository.findAll();
@@ -162,14 +165,41 @@ public class TeamServiceIntegerTest {
                     .build());
 
             TeamJoinRequestDto request = TeamJoinRequestDto.builder()
-                    .teamId(team.getId())
                     .introduce("가난한 대학생")
                     .build();
 
             // when //then
-            assertThatThrownBy(() -> teamService.join(request, member.getId()))
+            assertThatThrownBy(() -> teamService.join(request, team.getId(), member.getId()))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("이미 등록된 멤버입니다");
+        }
+
+    }
+
+    @Nested
+    @DisplayName("FindApplication Test")
+    public class FindApplicationTest {
+
+        @DisplayName("팀 가입 신청 내역 조회할 수 있다.")
+        @Test
+        public void findApplication() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            Pageable pageable = PageRequest.of(0, 2);
+            Page<TeamApplicationResponseDto> response =teamService.findApplication(pageable, team.getId());
+
+            // then
+            assertThat(response.getSize()).isEqualTo(2);
         }
 
     }
@@ -245,6 +275,57 @@ public class TeamServiceIntegerTest {
                     .hasMessage("권한이 없습니다");
         }
 
+
+    }
+
+    @Nested
+    @DisplayName("Refuse Test")
+    public class ApplicationCancelTest {
+
+        @DisplayName("팀원 가입 신청을 취소한.")
+        @Test
+        public void cancel() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            teamService.cancel(teamApplication.getId(), member.getId());
+
+            // then
+            List<TeamApplication> teamApplications = teamApplicationRepository.findAll();
+            assertThat(teamApplications.size()).isEqualTo(0);
+
+        }
+
+        @DisplayName("자신이 아니면 팀 가입 신청을 취소할 수 없다")
+        @Test
+        public void cantCancelNotMe() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            initTeamMember(member,team,TeamRole.ADMIN);
+
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            assertThatThrownBy(() -> teamService.cancel(teamApplication.getId(), leader.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("권한이 없습니다");
+        }
 
     }
 
