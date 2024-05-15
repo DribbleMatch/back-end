@@ -33,10 +33,14 @@ import java.util.Optional;
 @Transactional
 public class TeamServiceImpl implements TeamService{
 
+    //todo: checkRole 최소화
+
     private final TeamRepository teamRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
+
+    private final TeamMemberService teamMemberService;
 
     // todo: 분리할 만한 로직?
     private final TeamApplicationRepository teamApplicationRepository;
@@ -54,26 +58,30 @@ public class TeamServiceImpl implements TeamService{
 
         Team team = teamRepository.save(TeamCreateRequestDto.toEntity(request, creator, region));
 
-        // todo: userTeam을 만드는 로직을 이 메서드에서 담당하는게 맞을까?
         teamMemberRepository.save(TeamMember.builder()
                 .team(team)
                 .user(creator)
+                .teamRole(TeamRole.ADMIN)
                 .build());
 
         return team.getId();
     }
 
     @Override
-    public Long updateTeam(Long teamId, TeamUpdateRequestDto request) {
+    public Long updateTeam(Long userId, Long teamId, TeamUpdateRequestDto request) {
 
         checkUniqueName(request.getName());
 
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
         Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
         User leader = userRepository.findById(request.getLeaderId()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER_ID));
         Team teamToUpdate = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        teamMemberService.checkRole(user, teamToUpdate);
 
         teamToUpdate.updateTeam(request, leader, region);
 
@@ -82,8 +90,14 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public String deleteTeam(Long teamId) {
+    public String deleteTeam(Long userId, Long teamId) {
 
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        teamMemberService.checkRole(user, team);
         teamRepository.deleteById(teamId);
 
         return "팀이 삭제되었습니다.";
@@ -123,111 +137,8 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Long join(TeamJoinRequestDto request, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team team = teamRepository.findById(request.getTeamId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        Optional<TeamMember> teamMember = teamMemberRepository.findByUserAndTeam(user,team);
-        if(teamMember.isPresent()) {
-            throw  new CustomException(ErrorCode.ALREADY_MEMBER);
-        }
-
-        TeamApplication teamApplication = teamApplicationRepository.save(TeamApplication.builder()
-                        .team(team)
-                        .user(user)
-                        .introduce(request.getIntroduce())
-                        .build()
-        );
-        return teamApplication.getId();
-    }
-
-    @Override
     public Long cancel(Long joinId, Long userId) {
         return null;
-    }
-
-    @Override
-    public Long approve(Long joinId, Long userId) {
-
-        //todo: 유저와 팀의 조회 여부 생각
-        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-
-        if(teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_MEMBER);
-        }
-
-        TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
-        if(!adminTeamMember.getTeamRole().equals(TeamRole.ADMIN)) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        //승인
-        teamApplication.approve();
-        teamApplicationRepository.save(teamApplication);
-
-        TeamMember newMember = teamMemberRepository.save(TeamMember.builder()
-                        .user(teamApplication.getUser())
-                        .team(teamApplication.getTeam())
-                .build());
-
-        return newMember.getId();
-    }
-
-    @Override
-    public Long refuse(Long joinId, Long userId) {
-        //todo: 유저와 팀의 조회 여부 생각
-        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-
-        teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).orElseThrow(() ->
-                new CustomException(ErrorCode.ALREADY_MEMBER));
-
-        TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
-        if(!adminTeamMember.getTeamRole().equals(TeamRole.ADMIN)) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        //승인
-        teamApplication.refuse();
-        teamApplicationRepository.save(teamApplication);
-
-        return teamApplication.getId();
-    }
-
-    @Override
-    public Long withdraw(Long memberId, Long teamId, Long adminId) {
-
-        User adminUser = userRepository.findById(adminId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        User memberUser = userRepository.findById(memberId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        TeamMember adminMember = teamMemberRepository.findByUserAndTeam(adminUser,team).orElseThrow(() ->
-                new CustomException(ErrorCode.ALREADY_MEMBER));
-        if(!adminMember.getTeamRole().equals(TeamRole.ADMIN)) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        TeamMember member = teamMemberRepository.findByUserAndTeam(memberUser,team).orElseThrow(() ->
-                new CustomException(ErrorCode.ALREADY_MEMBER));
-
-        teamMemberRepository.delete(member);
-
-        return member.getId();
-
     }
 
     @Override
