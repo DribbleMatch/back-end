@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
+import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
@@ -22,7 +23,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,10 +32,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Profile("test")
+@ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @SpringBootTest
-public class TeamServiceE2ETest {
+@Import(QuerydslConfig.class)
+public class TeamServiceIntegerTest {
     @Autowired
     private RegionRepository regionRepository;
     @Autowired
@@ -141,7 +144,7 @@ public class TeamServiceE2ETest {
 
         @DisplayName("이미 가입된 팀원이 신청하면 예외가 발생한다")
         @Test
-        public void joinTeamAlreayUser() {
+        public void joinTeamAlreadyUser() {
 
             // given
             Region region = initRegion("당산동");
@@ -170,7 +173,7 @@ public class TeamServiceE2ETest {
     }
 
     @Nested
-    @DisplayName("Join Test")
+    @DisplayName("Approve Test")
     public class ApproveTest {
 
         @DisplayName("팀원 가입 신청을 승인한다.")
@@ -199,7 +202,7 @@ public class TeamServiceE2ETest {
 
         @DisplayName("이미 가입된 팀원은 팀을 다시 가입할 수 없다")
         @Test
-        public void approveAlreayUser() {
+        public void approveAlreadyUser() {
 
             // given
             Region region = initRegion("당산동");

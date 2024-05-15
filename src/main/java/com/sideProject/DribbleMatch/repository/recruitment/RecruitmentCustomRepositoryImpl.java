@@ -34,7 +34,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .leftJoin(team.region, region)
                 .where(
                         regionEq(param.getRegion()),
-                        recruitment.positions.any().in(param.getPositions())
+                        recruitmentPosition(param.getPositions())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -48,8 +48,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .leftJoin(team.region, region)
                 .where(
                         regionEq(param.getRegion()),
-                        recruitment.positions.any().in(param.getPositions())
-//                        recruitmentPosition(param.getPositions())
+                        recruitmentPosition(param.getPositions())
                 )
                 .fetchOne();
 

@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
+//todo: endPoint 생각해보n
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -36,8 +37,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     private final RegionRepository regionRepository;
     private final RecruitmentRepository recruitmentRepository;
     @Override
-    public Long create(RecruitmentCreateRequestDto request, Long teamId, Long adminId) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+    public Long create(RecruitmentCreateRequestDto request,Long adminId) {
+        Team team = teamRepository.findById(request.getTeamId()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
 
         User admin = userRepository.findById(adminId).orElseThrow(() ->
@@ -50,16 +51,17 @@ public class RecruitmentServiceImpl implements RecruitmentService{
         }
 
         //승인
-        return recruitmentRepository.save(request.toEntity()).getId();
+        return recruitmentRepository.save(request.toEntity(team)).getId();
     }
 
     @Override
-    public Long update(RecruitmentUpdateRequestDto request, Long adminId) {
+    public Long update(RecruitmentUpdateRequestDto request,Long id, Long adminId) {
+        Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_RECRUITMENT_ID));
+
         User admin = userRepository.findById(adminId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER_ID));
 
-        Recruitment recruitment = recruitmentRepository.findById(request.getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_RECRUITMENT_ID));
 
         TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(admin,recruitment.getTeam()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
@@ -75,8 +77,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
                 request.getWinning()
         );
 
-
-        return recruitmentRepository.save(recruitment).getId();
+        return recruitment.getId();
     }
 
     @Override
@@ -89,7 +90,7 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     }
 
     @Override
-    public RecruitmentResponseDto find(Long id) {
+    public RecruitmentResponseDto findById(Long id) {
         Recruitment recruitment = recruitmentRepository.findById(id).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_RECRUITMENT_ID)
         );
