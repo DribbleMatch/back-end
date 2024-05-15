@@ -4,6 +4,7 @@ import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
@@ -194,10 +195,10 @@ public class TeamServiceIntegerTest {
             teamService.approve(teamApplication.getId(), leader.getId());
 
             // then
-            List<TeamMember> teamApplications = teamMemberRepository.findAll();
-            assertThat(teamApplications.size()).isEqualTo(2);
-            assertThat(teamApplications.get(1).getTeam().getId()).isEqualTo(team.getId());
-            assertThat(teamApplications.get(1).getUser().getId()).isEqualTo(member.getId());
+            List<TeamMember> teamMembers = teamMemberRepository.findAll();
+            assertThat(teamMembers.size()).isEqualTo(2);
+            assertThat(teamMembers.get(1).getTeam().getId()).isEqualTo(team.getId());
+            assertThat(teamMembers.get(1).getUser().getId()).isEqualTo(member.getId());
         }
 
         @DisplayName("이미 가입된 팀원은 팀을 다시 가입할 수 없다")
@@ -222,7 +223,7 @@ public class TeamServiceIntegerTest {
                     .hasMessage("이미 등록된 멤버입니다");
         }
 
-        @DisplayName("이미 가입된 팀원이 신청하면 예외가 발생한다")
+        @DisplayName("ADMIN이 아니면 가입요청을 승인 못한다.")
         @Test
         public void approveNotAdmin() {
 
@@ -242,6 +243,85 @@ public class TeamServiceIntegerTest {
                     .isInstanceOf(CustomException.class)
                     .hasMessage("권한이 없습니다");
         }
+
+
+    }
+
+    @Nested
+    @DisplayName("Refuse Test")
+    public class RefuseTest {
+
+        @DisplayName("팀원 가입 신청을 거절한다.")
+        @Test
+        public void refuse() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            teamService.refuse(teamApplication.getId(), leader.getId());
+
+            // then
+            List<TeamApplication> teamApplications = teamApplicationRepository.findAll();
+            assertThat(teamApplications.size()).isEqualTo(1);
+            assertThat(teamApplications.get(0).getTeam().getId()).isEqualTo(team.getId());
+            assertThat(teamApplications.get(0).getUser().getId()).isEqualTo(member.getId());
+            assertThat(teamApplications.get(0).getStatus()).isEqualTo(JoinStatus.REFUSE);
+
+        }
+
+        @DisplayName("이미 존재하는 멤버를 거절 시 예외가 발생한다.")
+        @Test
+        public void refuseAlreadyMember() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            initTeamMember(member,team,TeamRole.ADMIN);
+
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            assertThatThrownBy(() -> teamService.approve(teamApplication.getId(), member.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("이미 등록된 멤버입니다");
+        }
+
+        @DisplayName("ADMIN권한이 없으면 거절 시 예외가 발생한다.")
+        @Test
+        public void refuseNoAdmin() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test@test.com","test", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            User member = initUser("user1@test.com","user",region);
+            User member2 = initUser("user2@test.com","user2",region);
+
+            initTeamMember(leader,team,TeamRole.ADMIN);
+            initTeamMember(member2,team,TeamRole.MEMBER);
+
+            TeamApplication teamApplication = initTeamApplication(member,team);
+
+            // when
+            assertThatThrownBy(() -> teamService.approve(teamApplication.getId(), member2.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("권한이 없습니다");
+        }
+
 
     }
 

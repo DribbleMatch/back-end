@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.stream.Collectors;
 
-//todo: endPoint 생각해보n
+//todo: endPoint 생각해보
 @Service
 @RequiredArgsConstructor
 @Transactional

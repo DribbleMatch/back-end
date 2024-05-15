@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -141,7 +142,22 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public Long cancel(Long joinId, Long userId) {
-        return null;
+        //todo: 유저와 팀의 조회 여부 생각
+        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
+
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+
+        if(teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_MEMBER);
+        }
+
+        //승인
+        teamApplication.refuse();
+        teamApplicationRepository.save(teamApplication);
+
+        return teamApplication.getId();
     }
 
     @Override
@@ -185,8 +201,10 @@ public class TeamServiceImpl implements TeamService{
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER_ID));
 
-        teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).orElseThrow(() ->
-                new CustomException(ErrorCode.ALREADY_MEMBER));
+        Optional<TeamMember> teamMemberOptional = teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam());
+        if (teamMemberOptional.isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_MEMBER);
+        }
 
         TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
@@ -228,7 +246,14 @@ public class TeamServiceImpl implements TeamService{
 
     @Override
     public List<TeamMemberResponseDto> findMember(Long teamId) {
-        return null;
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        List<TeamMember> teamMembers = teamMemberRepository.findByTeam(team);
+
+        return teamMembers.stream()
+                .map(TeamMemberResponseDto::toDto)
+                .collect(Collectors.toList());
     }
 
     private void checkUniqueName(String name) {
