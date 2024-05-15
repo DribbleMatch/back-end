@@ -23,7 +23,7 @@ public class TeamMemberResponseDto {
         this.joinAt = joinAt;
     }
 
-    public TeamMemberResponseDto toDto(TeamMember teamMember) {
+    public static TeamMemberResponseDto toDto(TeamMember teamMember) {
         return TeamMemberResponseDto.builder()
                 .memberId(teamMember.getUser().getId())
                 .name(teamMember.getUser().getNickName())
