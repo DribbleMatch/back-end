@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.entity.recruitment;
 
 import com.sideProject.DribbleMatch.entity.BaseEntity;
+import com.sideProject.DribbleMatch.entity.position.PositionListConverter;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import jakarta.persistence.*;
@@ -11,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -32,6 +34,8 @@ public class Recruitment extends BaseEntity {
 
     @NotNull
     @Column
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
     private List<Position> positions;
 
     @Column
