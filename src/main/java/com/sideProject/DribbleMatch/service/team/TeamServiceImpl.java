@@ -136,16 +136,6 @@ public class TeamServiceImpl implements TeamService{
         return TeamResponseDto.of(team, regionString);
     }
 
-    @Override
-    public Long cancel(Long joinId, Long userId) {
-        return null;
-    }
-
-    @Override
-    public List<TeamMemberResponseDto> findMember(Long teamId) {
-        return null;
-    }
-
     private void checkUniqueName(String name) {
         if(teamRepository.findByName(name).isPresent()) {
             throw new CustomException(ErrorCode.NOT_UNIQUE_TEAM_NAME);

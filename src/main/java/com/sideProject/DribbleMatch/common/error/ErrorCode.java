@@ -36,7 +36,6 @@ public enum ErrorCode {
 
     INVALID_ACCESS_TOKEN(401, "0200", "ACCESS TOKEN 인증 오류"),
     INVALID_REFRESH_TOKEN(401, "0201", "REFRESH TOKEN 인증 오류"),
-    NO_AUTHORITY(401, "0202", "권한이 없습니다."),
 
     NOT_UNIQUE_EMAIL(400, "1100", "이메일이 이미 존재합니다."),
     NOT_SAME_PASSWORD(400, "1101", "비밀번호가 다릅니다."),
@@ -61,6 +60,7 @@ public enum ErrorCode {
 
     ALREADY_MEMBER(400, "7000", "이미 등록된 멤버입니다."),
     ALREADY_NOT_MEMBER(400, "7000", "이미 탈퇴한 멤버입니다."),
+    NO_TEAM_AUTHORITY(401, "7200", "해당 팀에서 권한이 없습니다."),
     NOT_FOUND_TEAM_MEMBER_ID(404, "7300", "해당 소속팀 정보가 존재하지 않습니다."),
     NOT_FOUND_TEAM_MEMBER(404, "7300", "해당 소속팀 정보가 존재하지 않습니다."),
 

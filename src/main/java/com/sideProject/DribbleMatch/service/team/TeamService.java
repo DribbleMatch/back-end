@@ -17,10 +17,4 @@ public interface TeamService {
     public String deleteTeam(Long userId, Long teamId);
     public Page<TeamResponseDto> findAllTeams(Pageable pageable, String regionString);
     public TeamResponseDto findTeam(Long teamId);
-
-    //todo: 팀원 관리 (분리 한다면 여기?)
-    public Long cancel(Long joinId, Long userId);
-    public List<TeamMemberResponseDto> findMember(Long teamId);
-
-
 }
