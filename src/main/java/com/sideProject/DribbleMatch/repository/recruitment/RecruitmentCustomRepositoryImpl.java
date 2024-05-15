@@ -6,10 +6,13 @@ import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentSearchPa
 import com.sideProject.DribbleMatch.dto.recruitment.response.RecruitmentResponseDto;
 import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +22,7 @@ import static com.sideProject.DribbleMatch.entity.team.QTeam.team;
 import static com.sideProject.DribbleMatch.entity.region.QRegion.region;
 
 @RequiredArgsConstructor
+@Slf4j
 public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
@@ -29,7 +33,8 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .leftJoin(recruitment.team, team)
                 .leftJoin(team.region, region)
                 .where(
-                        regionEq(param.getRegion())
+                        regionEq(param.getRegion()),
+                        recruitment.positions.any().in(param.getPositions())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -42,7 +47,9 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .leftJoin(recruitment.team, team)
                 .leftJoin(team.region, region)
                 .where(
-                        regionEq(param.getRegion())
+                        regionEq(param.getRegion()),
+                        recruitment.positions.any().in(param.getPositions())
+//                        recruitmentPosition(param.getPositions())
                 )
                 .fetchOne();
 
@@ -57,5 +64,14 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
             return null;
         }
         return region.siDo.eq(sido);
+    }
+
+    private BooleanExpression recruitmentPosition(List<Position> positions) {
+        if(positions.isEmpty()) {
+            return null;
+        }
+
+        System.out.println(positions);
+        return recruitment.positions.any().in(positions);
     }
 }
