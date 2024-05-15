@@ -78,12 +78,12 @@ public class TeamMemberTest {
     }
 
     @Nested
-    @DisplayName("AdvancementTest")
-    public class AdvancementTest {
+    @DisplayName("ChangeTeamRoleTest")
+    public class ChangeTeamRoleTest {
 
         @DisplayName("TeamMember의 권한을 ADMIN으로 변경한다")
         @Test
-        public void advancement() {
+        public void changeTeamRole() {
 
             // given
             Region region = initRegion("당산동");
@@ -98,7 +98,30 @@ public class TeamMemberTest {
                     .build();
 
             // when
-            teamMember.advancement();
+            teamMember.changeTeamRole(TeamRole.ADMIN);
+
+            // then
+            assertThat(teamMember.getTeamRole()).isEqualTo(TeamRole.ADMIN);
+        }
+
+        @DisplayName("TeamMember의 권한을 MEMBER로 변경한다")
+        @Test
+        public void changeTeamRole2() {
+
+            // given
+            Region region = initRegion("당산동");
+            User leader = initUser("test1@test.com", "test1234!A", region);
+            User user = initUser("test2@test.com", "test1234!A", region);
+            Team team = initTeam("testTeam", leader, region);
+
+            TeamMember teamMember = TeamMember.builder()
+                    .user(user)
+                    .team(team)
+                    .teamRole(TeamRole.MEMBER)
+                    .build();
+
+            // when
+            teamMember.changeTeamRole(TeamRole.ADMIN);
 
             // then
             assertThat(teamMember.getTeamRole()).isEqualTo(TeamRole.ADMIN);
