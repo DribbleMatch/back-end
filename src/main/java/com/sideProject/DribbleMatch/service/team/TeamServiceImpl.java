@@ -4,10 +4,12 @@ import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamApplicationResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
@@ -24,7 +26,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -120,10 +121,10 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Long join(TeamJoinRequestDto request, Long userId) {
+    public Long join(TeamJoinRequestDto request, Long teamId, Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team team = teamRepository.findById(request.getTeamId()).orElseThrow(() ->
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
 
         Optional<TeamMember> teamMember = teamMemberRepository.findByUserAndTeam(user,team);
@@ -141,23 +142,35 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Long cancel(Long joinId, Long userId) {
-        //todo: 유저와 팀의 조회 여부 생각
-        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
+    public Long cancel(Long applicationId, Long userId) {
+        TeamApplication teamApplication = teamApplicationRepository.findById(applicationId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
 
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-
-        if(teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_MEMBER);
+        if(!user.getId().equals(teamApplication.getUser().getId())) {
+            throw new CustomException(ErrorCode.NO_AUTHORITY);
         }
 
         //승인
-        teamApplication.refuse();
-        teamApplicationRepository.save(teamApplication);
+        teamApplicationRepository.delete(teamApplication);
 
         return teamApplication.getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TeamApplicationResponseDto> findApplication(Pageable pageable, Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        Page<TeamApplication> teamApplications = teamApplicationRepository.findByTeamAndStatus(
+                pageable,
+                team,
+                JoinStatus.WAIT
+        );
+        return teamApplications
+                .map(TeamApplicationResponseDto::of);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamApplicationResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
@@ -19,8 +20,9 @@ public interface TeamService {
     public TeamResponseDto findTeam(Long teamId);
 
     //todo: 팀원 관리 (분리 한다면 여기?)
-    public Long join(TeamJoinRequestDto request, Long userId);
+    public Long join(TeamJoinRequestDto request, Long teamId, Long userId);
     public Long cancel(Long joinId, Long userId);
+    Page<TeamApplicationResponseDto> findApplication(Pageable pageable, Long teamId);
     public Long approve(Long joinId, Long userId);
     public Long refuse(Long joinId, Long userId);
     public Long withdraw(Long memberId, Long teamId, Long userId);
