@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.repository.recruitment;
 
+import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentSearchParamRequest;
 import com.sideProject.DribbleMatch.dto.recruitment.response.RecruitmentResponseDto;
 import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
@@ -14,11 +15,14 @@ import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -28,9 +32,10 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Profile("test")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@Transactional
+@SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
+//@Import(QuerydslConfig.class)
 public class RecruitmentIntegrationRepositoryTest {
 
     @Autowired
@@ -42,10 +47,6 @@ public class RecruitmentIntegrationRepositoryTest {
     @Autowired
     RegionRepository regionRepository;
 
-    @BeforeAll
-    static void setup() {
-        System.setProperty("spring.jpa.properties.hibernate.show_sql", "true");
-    }
     @AfterEach
     void tearDown() {
         recruitmentRepository.deleteAllInBatch();
