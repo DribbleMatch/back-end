@@ -48,13 +48,13 @@ public class Team extends BaseEntity {
     private Region region;
 
     @Builder
-    public Team(String name, int winning, User leader, Region region, String info, int maxNumber) {
+    public Team(String name, int winning, int maxNumber, String info, User leader, Region region) {
         this.name = name;
         this.winning = winning;
+        this.maxNumber = maxNumber;
+        this.info = info;
         this.leader = leader;
         this.region = region;
-        this.info = info;
-        this.maxNumber = maxNumber;
     }
 
     public void updateTeam(TeamUpdateRequestDto request, User leader, Region region) {

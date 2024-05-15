@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.entity.matching;
 
+import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.stadium.Stadium;
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 public class Matching {
 
     @NotNull
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column
@@ -64,5 +65,14 @@ public class Matching {
         this.status = status;
         this.region = region;
         this.stadium = stadium;
+    }
+
+    public void updateMatching(MatchingUpdateRequestDto request, Region region) {
+        this.name = name;
+        this.playPeople = request.getPlayPeople();
+        this.maxPeople = request.getMaxPeople();
+        this.startAt = request.getStartAt();
+        this.endAt = request.getEndAt();
+        this.region = region;
     }
 }

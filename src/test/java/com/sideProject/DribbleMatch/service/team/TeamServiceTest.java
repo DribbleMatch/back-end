@@ -5,7 +5,9 @@ import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
+import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.team.TeamMember;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
@@ -43,16 +45,19 @@ public class TeamServiceTest {
     private RegionRepository regionRepository;
 
     @Mock
+    private UserRepository userRepository;
+
+    @Mock
     private TeamRepository teamRepository;
 
     @Mock
     private TeamMemberRepository teamMemberRepository;
+
     @Mock
     private TeamApplicationRepository teamApplicationRepository;
 
-
     @Mock
-    private UserRepository userRepository;
+    private TeamMemberService teamMemberService;
 
     @InjectMocks
     private TeamServiceImpl teamService;
@@ -84,6 +89,8 @@ public class TeamServiceTest {
         return Team.builder()
                 .name(name)
                 .winning(10)
+                .maxNumber(10)
+                .info("testInfo")
                 .leader(leader)
                 .region(region)
                 .build();
@@ -134,6 +141,7 @@ public class TeamServiceTest {
         @DisplayName("name이 중복이면 에러가 발생한다")
         @Test
         public void createTeam2() {
+
             // given
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
@@ -151,7 +159,6 @@ public class TeamServiceTest {
             assertThatThrownBy(() -> teamService.createTeam(leader.getId(), request))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("팀 이름이 이미 존재합니다.");
-
         }
     }
 
@@ -161,6 +168,7 @@ public class TeamServiceTest {
         @DisplayName("Team 정보를 수정한다")
         @Test
         public void updateTeam() {
+
             // given
             Region region = initRegion("당산동");
             User leader = initUser("test1@test.com", "test1", region);
@@ -188,7 +196,7 @@ public class TeamServiceTest {
             when(regionRepository.findByRegionString("서울시 영등포구 문래동")).thenReturn(Optional.ofNullable(newRegion));
 
             // when
-            Long teamId =  teamService.updateTeam(fakeTeamId, request);
+            Long teamId =  teamService.updateTeam(fakeNewLeaderId, fakeTeamId, request);
 
             // then
             assertThat(teamId).isEqualTo(fakeTeamId);
@@ -214,7 +222,7 @@ public class TeamServiceTest {
             when(teamRepository.findByName("testTeam")).thenReturn(Optional.ofNullable(team));
 
             // when, then
-            assertThatThrownBy(() -> teamService.updateTeam(team.getId(), request))
+            assertThatThrownBy(() -> teamService.updateTeam(leader.getId(), team.getId(), request))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("팀 이름이 이미 존재합니다.");
         }
@@ -249,7 +257,7 @@ public class TeamServiceTest {
             when(regionRepository.findByRegionString("서울시 영등포구 당산동")).thenReturn(Optional.ofNullable(region));
 
             // when, then
-            assertThatThrownBy(() -> teamService.updateTeam(fakeTeamId, request))
+            assertThatThrownBy(() -> teamService.updateTeam(fakeUserId, fakeTeamId, request))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("해당 팀이 존재하지 않습니다.");
         }
@@ -264,13 +272,27 @@ public class TeamServiceTest {
         public void deleteTeam() {
 
             // given
-            Long teamId = 1L;
+            Region region = initRegion("서울특별시 영등포구 당산동");
+
+            Long fakeUserId = 1L;
+            User leader = initUser("test@test.com", "test", region);
+            ReflectionTestUtils.setField(leader, "id", 1L);
+
+            Long fakeTeamId = 1L;
+            Team team = initTeam("testTeam", leader, region);
+            ReflectionTestUtils.setField(team, "id", fakeTeamId);
+
 
             // mocking
-            doNothing().when(teamRepository).deleteById(teamId);
+            doNothing().when(teamRepository).deleteById(fakeTeamId);
+
+            doNothing().when(teamMemberService).checkRole(leader, team);
+
+            when(userRepository.findById(fakeUserId)).thenReturn(Optional.ofNullable(leader));
+            when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.ofNullable(team));
 
             // when
-            String result = teamService.deleteTeam(teamId);
+            String result = teamService.deleteTeam(fakeUserId, fakeTeamId);
 
             // then
             assertThat(result).isEqualTo("팀이 삭제되었습니다.");

@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeamApplicationRepository extends JpaRepository<TeamApplication, Long> {
     Page<TeamApplication> findByTeamAndStatus(Pageable pageable,Team team, JoinStatus status);
+    public Page<TeamApplication> findAll(Pageable pageable);
 }

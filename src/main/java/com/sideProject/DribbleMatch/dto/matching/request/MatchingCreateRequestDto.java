@@ -45,7 +45,7 @@ public class MatchingCreateRequestDto {
         this.regionString = regionString;
     }
 
-    public PersonalMatching toEntity(MatchingCreateRequestDto request, Region region) {
+    public static PersonalMatching toEntity(MatchingCreateRequestDto request, Region region) {
         return PersonalMatching.builder()
                 .name(request.name)
                 .playPeople(request.playPeople)

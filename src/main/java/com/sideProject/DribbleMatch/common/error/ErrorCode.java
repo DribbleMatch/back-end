@@ -16,10 +16,12 @@ public enum ErrorCode {
         4: Team Matching
         5: Personal Match Join
         6: Team Match Join
-        7: UserTeam
+        7: TeamMember
         8: Recruitment
         9: region
-        10: global
+        10: stadium
+        11: TeamApplication
+        12: global
 
     - 두번째 자리: 에러 종류
         0: 도메인 / Dto 객체 생성 오류 (MethodArgumentValidException, ConstraintViolationException 등)
@@ -56,19 +58,27 @@ public enum ErrorCode {
 
     NOT_FOUND_TEAM_MATCHING_ID(404, "4300", "해당 팀 경기가 존재하지 않습니다."),
 
+    NOT_UNIQUE_PERSONAL_MATCHING_NAME(400, "5100", "개인 경기 이름이 이미 존재합니다."),
     NOT_FOUND_PERSONAL_MATCH_JOIN_ID(404, "5300", "해당 개인 경기 참가 정보가 존재하지 않습니다."),
 
     NOT_FOUND_TEAM_MATCH_JOIN_ID(404, "6300", "해당 팀 경기 참가 정보가 존재하지 않습니다."),
 
-    NOT_FOUND_USERTEAM_ID(404, "7300", "해당 소속팀 정보가 존재하지 않습니다."),
+    ALREADY_MEMBER(400, "7000", "이미 등록된 멤버입니다."),
+    ALREADY_NOT_MEMBER(400, "7000", "이미 탈퇴한 멤버입니다."),
+    NOT_FOUND_TEAM_MEMBER_ID(404, "7300", "해당 소속팀 정보가 존재하지 않습니다."),
+    NOT_FOUND_TEAM_MEMBER(404, "7300", "해당 소속팀 정보가 존재하지 않습니다."),
 
     NOT_FOUND_RECRUITMENT_ID(404, "8300", "해당 모집글이 존재하지 않습니다."),
 
     NOT_FOUND_REGION_ID(404, "9300", "해당 지역이 존재하지 않습니다."),
     NOT_FOUND_REGION_STRING(404, "9301", "해당 지역 문자열에 해당하는 지역이 존재하지 않습니다."),
 
-    INVALID_DATA_PATTERN(400, "10000", "입력 값의 형식이 맞지 않습니다."),
-    MISSING_REQUEST_HEADER(400, "10001", "요청 헤더에 빈 값이 있습니다.");
+    NOT_FOUND_STADIUM_ID(404, "9300", "해당 경기장이 존재하지 않습니다."),
+
+    NOT_FOUND_TEAM_APPLICATION_ID(400, "11300", "해당 가입 신청이 존재하지 않습니다."),
+
+    INVALID_DATA_PATTERN(400, "12000", "입력 값의 형식이 맞지 않습니다."),
+    MISSING_REQUEST_HEADER(400, "12001", "요청 헤더에 빈 값이 있습니다.");
 
     private final int httpStatus;
     private final String code;

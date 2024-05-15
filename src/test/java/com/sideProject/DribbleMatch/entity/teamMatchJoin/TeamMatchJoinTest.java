@@ -47,6 +47,8 @@ public class TeamMatchJoinTest {
         return Team.builder()
                 .name(name)
                 .winning(10)
+                .maxNumber(10)
+                .info("testInfo")
                 .leader(leader)
                 .region(region)
                 .build();
