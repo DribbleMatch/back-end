@@ -4,11 +4,10 @@ import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
-import com.sideProject.DribbleMatch.entity.matching.TeamMatching;
+import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -28,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 @Import(QuerydslConfig.class)
-public class TeamMatchingRepositoryTest {
+public class teamMatchRepositoryTest {
 
     @Autowired
     private RegionRepository regionRepository;
@@ -46,8 +45,8 @@ public class TeamMatchingRepositoryTest {
                 .build());
     }
 
-    private TeamMatching initTeamMatching(String name, Region region) {
-        return TeamMatching.builder()
+    private TeamMatch initTeamMatching(String name, Region region) {
+        return TeamMatch.builder()
                 .name(name)
                 .playPeople(5)
                 .maxPeople(7)
@@ -59,7 +58,7 @@ public class TeamMatchingRepositoryTest {
     }
     @Nested
     @DisplayName("CreateTeamMatchingTest")
-    public class CreateTeamMatchingTest {
+    public class CreateTeamMatchTest {
 
         @DisplayName("TeamMatching을 생성한다")
         @Test
@@ -67,10 +66,10 @@ public class TeamMatchingRepositoryTest {
 
             // given
             Region region = initRegion("당산동");
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             // when
-            TeamMatching savedTeamMatching = teamMatchingRepository.save(teamMatching);
+            TeamMatch savedTeamMatching = teamMatchingRepository.save(teamMatching);
 
             // given
             assertThat(savedTeamMatching).isNotNull();
@@ -84,7 +83,7 @@ public class TeamMatchingRepositoryTest {
             // given
             Region region = initRegion("당산동");
 
-            TeamMatching teamMatching = TeamMatching.builder()
+            TeamMatch teamMatching = TeamMatch.builder()
 //                    .name("testTeamMatching")
                     .playPeople(5)
                     .maxPeople(7)
@@ -102,7 +101,7 @@ public class TeamMatchingRepositoryTest {
 
     @Nested
     @DisplayName("SelectTeamMatchingTest")
-    public class SelectTeamMatchingTest {
+    public class SelectTeamMatchTest {
 
         @DisplayName("TeamMatching을 조회한다")
         @Test
@@ -111,10 +110,10 @@ public class TeamMatchingRepositoryTest {
             // given
             Region region = initRegion("당산동");
 
-            TeamMatching savedTeamMatching = teamMatchingRepository.save(initTeamMatching("testTeamMatching", region));
+            TeamMatch savedTeamMatching = teamMatchingRepository.save(initTeamMatching("testTeamMatching", region));
 
             // when
-            TeamMatching selectedTeamMatching = teamMatchingRepository.findById(savedTeamMatching.getId()).get();
+            TeamMatch selectedTeamMatching = teamMatchingRepository.findById(savedTeamMatching.getId()).get();
 
             // then
             assertThat(selectedTeamMatching).isNotNull();
@@ -127,11 +126,11 @@ public class TeamMatchingRepositoryTest {
             // given
             Region region = initRegion("당산동");
 
-            TeamMatching savedTeamMatching1 = teamMatchingRepository.save(initTeamMatching("testTeamMatching1", region));
-            TeamMatching savedTeamMatching2 = teamMatchingRepository.save(initTeamMatching("testTeamMatching2", region));
+            TeamMatch savedTeamMatching1 = teamMatchingRepository.save(initTeamMatching("testTeamMatching1", region));
+            TeamMatch savedTeamMatching2 = teamMatchingRepository.save(initTeamMatching("testTeamMatching2", region));
 
             // when
-            List<TeamMatching> teamMatchings = teamMatchingRepository.findAll();
+            List<TeamMatch> teamMatchings = teamMatchingRepository.findAll();
 
             // then
             assertThat(teamMatchings.size()).isEqualTo(2);
@@ -145,7 +144,7 @@ public class TeamMatchingRepositoryTest {
             // given
             Region region = initRegion("당산동");
 
-            TeamMatching savedTeamMatching = teamMatchingRepository.save(initTeamMatching("testTeamMatching", region));
+            TeamMatch savedTeamMatching = teamMatchingRepository.save(initTeamMatching("testTeamMatching", region));
 
             // when, then
             assertThatThrownBy(() -> teamMatchingRepository.findById(savedTeamMatching.getId() + 1).orElseThrow(() ->
@@ -157,7 +156,7 @@ public class TeamMatchingRepositoryTest {
 
     @Nested
     @DisplayName("DeleteTeamMatchingTest")
-    public class DeleteTeamMatchingTest {
+    public class DeleteTeamMatchTest {
 
         @DisplayName("TeamMatching을 삭제한다")
         @Test
@@ -165,7 +164,7 @@ public class TeamMatchingRepositoryTest {
 
             // given
             Region region = initRegion("당산동");
-            TeamMatching savedTeamMatching = teamMatchingRepository.save(initTeamMatching("testTeamMatching", region));
+            TeamMatch savedTeamMatching = teamMatchingRepository.save(initTeamMatching("testTeamMatching", region));
 
             // when
             teamMatchingRepository.deleteById(savedTeamMatching.getId());

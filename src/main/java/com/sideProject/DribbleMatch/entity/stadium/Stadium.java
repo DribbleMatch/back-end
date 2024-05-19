@@ -2,8 +2,10 @@ package com.sideProject.DribbleMatch.entity.stadium;
 
 import com.sideProject.DribbleMatch.entity.region.Region;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Stadium {
 
     @Id

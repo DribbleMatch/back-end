@@ -4,8 +4,7 @@ import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
-import com.sideProject.DribbleMatch.entity.matching.Matching;
-import com.sideProject.DribbleMatch.entity.matching.TeamMatching;
+import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.repository.matching.TeamMatchingRepository;
 import com.sideProject.DribbleMatch.entity.team.Team;
@@ -16,9 +15,7 @@ import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.repository.teamMatchJoin.TeamMatchJoinRepository;
 import jakarta.validation.ConstraintViolationException;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -89,8 +86,8 @@ public class TeamMatchJoinRepositoryTest {
                 .build());
     }
 
-    private TeamMatching initTeamMatching(String name, Region region) {
-        return teamMatchingRepository.save(TeamMatching.builder()
+    private TeamMatch initTeamMatching(String name, Region region) {
+        return teamMatchingRepository.save(TeamMatch.builder()
                 .name(name)
                 .playPeople(5)
                 .maxPeople(7)
@@ -101,7 +98,7 @@ public class TeamMatchJoinRepositoryTest {
                 .build());
     }
 
-    private TeamMatchJoin initTeamMatchJoin(Team team, TeamMatching teamMatching) {
+    private TeamMatchJoin initTeamMatchJoin(Team team, TeamMatch teamMatching) {
         return TeamMatchJoin.builder()
                 .team(team)
                 .teamMatching(teamMatching)
@@ -120,7 +117,7 @@ public class TeamMatchJoinRepositoryTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             TeamMatchJoin teamMatchJoin = initTeamMatchJoin(team, teamMatching);
 
@@ -140,7 +137,7 @@ public class TeamMatchJoinRepositoryTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             TeamMatchJoin teamMatchJoin = TeamMatchJoin.builder()
                     .team(team)
@@ -165,7 +162,7 @@ public class TeamMatchJoinRepositoryTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             TeamMatchJoin savedTeamMatchJoin = teamMatchJoinRepository.save(initTeamMatchJoin(team, teamMatching));
 
@@ -185,7 +182,7 @@ public class TeamMatchJoinRepositoryTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             TeamMatchJoin savedTeamMatchJoin1 = teamMatchJoinRepository.save(initTeamMatchJoin(team, teamMatching));
             TeamMatchJoin savedTeamMatchJoin2 = teamMatchJoinRepository.save(initTeamMatchJoin(team, teamMatching));
@@ -207,7 +204,7 @@ public class TeamMatchJoinRepositoryTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             TeamMatchJoin savedTeamMatchJoin = teamMatchJoinRepository.save(initTeamMatchJoin(team, teamMatching));
 
@@ -231,7 +228,7 @@ public class TeamMatchJoinRepositoryTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching("testTeamMatching", region);
+            TeamMatch teamMatching = initTeamMatching("testTeamMatching", region);
 
             TeamMatchJoin savedTeamMatchJoin = teamMatchJoinRepository.save(initTeamMatchJoin(team, teamMatching));
 

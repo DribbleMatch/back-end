@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TeamMatchingTest {
+public class teamMatchTest {
 
     private Region initRegion(String dong) {
         return Region.builder()
@@ -32,7 +32,7 @@ public class TeamMatchingTest {
 
             // given, when
             Region region = initRegion("당산동");
-            TeamMatching teamMatching = TeamMatching.builder()
+            TeamMatch teamMatching = TeamMatch.builder()
                     .name("test")
                     .playPeople(5)
                     .maxPeople(7)

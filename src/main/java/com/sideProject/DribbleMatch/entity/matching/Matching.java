@@ -65,4 +65,13 @@ public class Matching {
         this.region = region;
         this.stadium = stadium;
     }
+
+    public void update(String name, int playPeople, int maxPeople, LocalDateTime startAt, LocalDateTime endAt, Region region) {
+        this.name = name;
+        this.playPeople = playPeople;
+        this.maxPeople = maxPeople;
+        this.startAt = startAt;
+        this.endAt = endAt;
+        this.region = region;
+    }
 }

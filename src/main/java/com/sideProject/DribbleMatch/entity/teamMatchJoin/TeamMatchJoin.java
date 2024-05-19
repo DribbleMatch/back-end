@@ -1,7 +1,6 @@
 package com.sideProject.DribbleMatch.entity.teamMatchJoin;
 
-import com.sideProject.DribbleMatch.entity.matching.Matching;
-import com.sideProject.DribbleMatch.entity.matching.TeamMatching;
+import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -28,10 +27,11 @@ public class TeamMatchJoin {
     @NotNull(message = "경기가 입력되지 않았습니다.")
     @ManyToOne
     @JoinColumn(name = "match_id")
-    private TeamMatching teamMatching;
+    private TeamMatch teamMatching;
+
 
     @Builder
-    public TeamMatchJoin(Team team, TeamMatching teamMatching) {
+    public TeamMatchJoin(Team team, TeamMatch teamMatching) {
         this.team = team;
         this.teamMatching = teamMatching;
     }

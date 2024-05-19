@@ -1,11 +1,9 @@
 package com.sideProject.DribbleMatch.entity.teamMatchJoin;
 
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
-import com.sideProject.DribbleMatch.entity.matching.Matching;
-import com.sideProject.DribbleMatch.entity.matching.TeamMatching;
+import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
-import com.sideProject.DribbleMatch.entity.teamMatchJoin.TeamMatchJoin;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import com.sideProject.DribbleMatch.entity.user.User;
@@ -52,8 +50,8 @@ public class TeamMatchJoinTest {
                 .build();
     }
 
-    public TeamMatching initTeamMatching(Region region) {
-        return TeamMatching.builder()
+    public TeamMatch initTeamMatching(Region region) {
+        return TeamMatch.builder()
                 .name("test")
                 .playPeople(5)
                 .maxPeople(7)
@@ -76,7 +74,7 @@ public class TeamMatchJoinTest {
             Region region = initRegion("당산동");
             User leader = initUser("test@test.com", "test", region);
             Team team = initTeam("testTeam", leader, region);
-            TeamMatching teamMatching = initTeamMatching(region);
+            TeamMatch teamMatching = initTeamMatching(region);
 
             // when
             TeamMatchJoin teamMatchJoin = TeamMatchJoin.builder()

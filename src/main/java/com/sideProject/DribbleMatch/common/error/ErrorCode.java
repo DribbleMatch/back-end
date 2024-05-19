@@ -59,6 +59,8 @@ public enum ErrorCode {
     NOT_FOUND_PERSONAL_MATCH_JOIN_ID(404, "5300", "해당 개인 경기 참가 정보가 존재하지 않습니다."),
 
     NOT_FOUND_TEAM_MATCH_JOIN_ID(404, "6300", "해당 팀 경기 참가 정보가 존재하지 않습니다."),
+    ALREADY_JOIN_TEAM(404, "6101", "이미 참가된 팀입니다."),
+    CANT_JOIN(404, "6102", "참가 가능한 상태가 아닙니다."),
 
     NOT_FOUND_USERTEAM_ID(404, "7300", "해당 소속팀 정보가 존재하지 않습니다."),
 
@@ -69,6 +71,7 @@ public enum ErrorCode {
 
     INVALID_DATA_PATTERN(400, "10000", "입력 값의 형식이 맞지 않습니다."),
     MISSING_REQUEST_HEADER(400, "10001", "요청 헤더에 빈 값이 있습니다.");
+
 
     private final int httpStatus;
     private final String code;

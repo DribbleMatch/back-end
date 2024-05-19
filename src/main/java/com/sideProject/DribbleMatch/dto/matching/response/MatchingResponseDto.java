@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class MatchingResponstDto {
+public class MatchingResponseDto {
 
     private String name;
     private int playPeople;
@@ -23,7 +23,7 @@ public class MatchingResponstDto {
     private String stadiumString;
 
     @Builder
-    public MatchingResponstDto(
+    public MatchingResponseDto(
             String name,
             int playPeople,
             int maxPeople,
@@ -43,8 +43,8 @@ public class MatchingResponstDto {
         this.stadiumString = stadiumString;
     }
 
-    public MatchingResponstDto of(Matching matching, String regionString, String stadiumString) {
-        return MatchingResponstDto.builder()
+    public MatchingResponseDto of(Matching matching, String regionString, String stadiumString) {
+        return MatchingResponseDto.builder()
                 .name(matching.getName())
                 .playPeople(matching.getPlayPeople())
                 .maxPeople(matching.getMaxPeople())
