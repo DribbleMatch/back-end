@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TeamMatchJoinRepository extends JpaRepository<TeamMatchJoin, Long> {
-
     List<TeamMatchJoin> findByTeamMatch(TeamMatch teamMatch);
 }

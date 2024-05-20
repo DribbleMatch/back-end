@@ -2,10 +2,7 @@ package com.sideProject.DribbleMatch.repository.matching;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sideProject.DribbleMatch.entity.matching.QTeamMatching;
 import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
-import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
-import com.sideProject.DribbleMatch.entity.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -17,7 +14,7 @@ import java.util.List;
 import static com.sideProject.DribbleMatch.entity.recruitment.QRecruitment.recruitment;
 import static com.sideProject.DribbleMatch.entity.region.QRegion.region;
 import static com.sideProject.DribbleMatch.entity.team.QTeam.team;
-import static com.sideProject.DribbleMatch.entity.matching.QTeamMatching.teamMatching;
+import static com.sideProject.DribbleMatch.entity.matching.QTeamMatch.teamMatch;
 
 @Repository
 @RequiredArgsConstructor
@@ -28,8 +25,8 @@ public class TeamMatchCustomRepositoryImpl implements TeamMatchCustomRepository 
     public Page<TeamMatch> find(Pageable pageable, String sido) {
 
         List<TeamMatch> content = jpaQueryFactory
-                .selectFrom(teamMatching)
-                .leftJoin(teamMatching.region, region)
+                .selectFrom(teamMatch)
+                .leftJoin(teamMatch.region, region)
                 .where(
                         regionEq(sido)
                 )

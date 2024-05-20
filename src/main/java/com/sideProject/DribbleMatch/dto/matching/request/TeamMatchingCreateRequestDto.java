@@ -2,7 +2,6 @@ package com.sideProject.DribbleMatch.dto.matching.request;
 
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
-import com.sideProject.DribbleMatch.entity.matching.teamMatch;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import jakarta.validation.constraints.NotNull;

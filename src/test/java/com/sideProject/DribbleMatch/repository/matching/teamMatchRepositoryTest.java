@@ -84,7 +84,7 @@ public class teamMatchRepositoryTest {
             Region region = initRegion("당산동");
 
             TeamMatch teamMatching = TeamMatch.builder()
-//                    .name("testTeamMatching")
+                    .name("testTeamMatching")
                     .playPeople(5)
                     .maxPeople(7)
                     .startAt(LocalDateTime.of(2001, 1, 1, 12, 0))

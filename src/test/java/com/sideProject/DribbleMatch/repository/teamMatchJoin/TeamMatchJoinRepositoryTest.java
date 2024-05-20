@@ -98,10 +98,10 @@ public class TeamMatchJoinRepositoryTest {
                 .build());
     }
 
-    private TeamMatchJoin initTeamMatchJoin(Team team, TeamMatch teamMatching) {
+    private TeamMatchJoin initTeamMatchJoin(Team team, TeamMatch teamMatch) {
         return TeamMatchJoin.builder()
                 .team(team)
-                .teamMatching(teamMatching)
+                .teamMatch(teamMatch)
                 .build();
     }
 

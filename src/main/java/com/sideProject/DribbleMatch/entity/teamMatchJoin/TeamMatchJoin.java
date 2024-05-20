@@ -26,13 +26,13 @@ public class TeamMatchJoin {
 
     @NotNull(message = "경기가 입력되지 않았습니다.")
     @ManyToOne
-    @JoinColumn(name = "match_id")
-    private TeamMatch teamMatching;
+    @JoinColumn(name = "team_match_id")
+    private TeamMatch teamMatch;
 
 
     @Builder
-    public TeamMatchJoin(Team team, TeamMatch teamMatching) {
+    public TeamMatchJoin(Team team, TeamMatch teamMatch) {
         this.team = team;
-        this.teamMatching = teamMatching;
+        this.teamMatch = teamMatch;
     }
 }

@@ -119,7 +119,7 @@ public class UserTeamRepositoryTest {
             Region region = initRegion("당산동");
             User user = initUser("test1@test.com", "test1", region);
             User leader = initUser("test2@test.com", "test2", region);
-            Team team = initTeam("testTeam", leader, region);
+            Team team = initTeam("testTeam12", leader, region);
 
             TeamMember userTeam = TeamMember.builder()
                     .user(user)

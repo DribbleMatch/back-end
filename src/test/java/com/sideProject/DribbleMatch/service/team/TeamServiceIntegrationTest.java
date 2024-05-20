@@ -416,8 +416,8 @@ public class TeamServiceIntegrationTest {
 
             // given
             Region region = initRegion("당산동");
-            User leader = initUser("test@test.com","test", region);
-            Team team = initTeam("testTeam", leader, region);
+            User leader = initUser("test12@test.com","test12", region);
+            Team team = initTeam("testTeam12", leader, region);
 
             User member = initUser("user1@test.com","user",region);
 

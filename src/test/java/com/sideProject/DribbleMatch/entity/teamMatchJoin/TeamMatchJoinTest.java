@@ -79,12 +79,12 @@ public class TeamMatchJoinTest {
             // when
             TeamMatchJoin teamMatchJoin = TeamMatchJoin.builder()
                     .team(team)
-                    .teamMatching(teamMatching)
+                    .teamMatch(teamMatching)
                     .build();
 
             // then
             assertThat(teamMatchJoin.getTeam()).isEqualTo(team);
-            assertThat(teamMatchJoin.getTeamMatching()).isEqualTo(teamMatching);
+            assertThat(teamMatchJoin.getTeamMatch()).isEqualTo(teamMatching);
         }
     }
 }
