@@ -128,7 +128,7 @@ class TeamMatchCustomRepositoryTest {
 
             // when
             Pageable pageable = PageRequest.of(0, 5);
-            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, null);
+            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, null, now);
 
             // then
             assertThat(teamMatches.getContent().size()).isEqualTo(3);
@@ -159,7 +159,7 @@ class TeamMatchCustomRepositoryTest {
 
             // when
             Pageable pageable = PageRequest.of(0, 5);
-            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, "서울시");
+            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, "서울시", now);
 
             // then
             assertThat(teamMatches.getContent().size()).isEqualTo(2);
@@ -188,12 +188,39 @@ class TeamMatchCustomRepositoryTest {
 
             // when
             Pageable pageable = PageRequest.of(0, 5);
-            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, "울산");
+            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, "울산", now);
 
             // then
             assertThat(teamMatches.getContent().size()).isEqualTo(1);
             assertThat(teamMatches.getContent().get(0).getName()).isEqualTo(teamMatch3.getName());
             assertThat(teamMatches.getContent().get(0).getHomeTeam().getId()).isEqualTo(teamMatch3.getHomeTeam().getId());
+        }
+
+        @DisplayName("TeamMatch를 조회할 때 현재 시간 이후의 Match들을 조회한다")
+        @Test
+        public void findTeamMatchByRegionNameAfterNow() {
+
+            // given
+            Region seoul = initRegion("서울시","당산동");
+            Region ulsan = initRegion("울산","당산동");
+            User leader = initUser("test12@test.com", "test1", seoul);
+            Team team = initTeam("testTeam1", leader, seoul);
+            User leader1 = initUser("test123@test.com", "test2", ulsan);
+            Team team1 = initTeam("testTeam2", leader1, ulsan);
+            LocalDateTime now = LocalDateTime.now();
+
+            TeamMatch teamMatch1 = initTeamMatch("1일 대전",team,now.minusMinutes(1),seoul);
+            TeamMatch teamMatch2 = initTeamMatch("2일 대전",team,now.plusDays(5),seoul);
+            TeamMatch teamMatch3 = initTeamMatch("3일 대전",team1,now.plusDays(5),ulsan);
+
+            // when
+            Pageable pageable = PageRequest.of(0, 5);
+            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, null, now);
+
+            // then
+            assertThat(teamMatches.getContent().size()).isEqualTo(2);
+            assertThat(teamMatches.getContent().get(0).getName()).isEqualTo(teamMatch2.getName());
+            assertThat(teamMatches.getContent().get(0).getHomeTeam().getId()).isEqualTo(teamMatch2.getHomeTeam().getId());
         }
 
 
@@ -216,7 +243,7 @@ class TeamMatchCustomRepositoryTest {
 
             // when
             Pageable pageable = PageRequest.of(0, 5);
-            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, "대전");
+            Page<TeamMatch> teamMatches = teamMatchingRepository.find(pageable, "대전", now);
 
             // then
             assertThat(teamMatches.getContent().size()).isEqualTo(0);

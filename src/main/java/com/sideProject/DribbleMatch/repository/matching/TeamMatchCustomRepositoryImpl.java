@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.sideProject.DribbleMatch.entity.recruitment.QRecruitment.recruitment;
@@ -22,13 +23,14 @@ public class TeamMatchCustomRepositoryImpl implements TeamMatchCustomRepository 
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<TeamMatch> find(Pageable pageable, String sido) {
+    public Page<TeamMatch> find(Pageable pageable, String sido, LocalDateTime now) {
 
         List<TeamMatch> content = jpaQueryFactory
                 .selectFrom(teamMatch)
                 .leftJoin(teamMatch.region, region)
                 .where(
-                        regionEq(sido)
+                        regionEq(sido),
+                        teamMatch.startAt.after(now)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

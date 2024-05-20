@@ -7,11 +7,13 @@ import com.sideProject.DribbleMatch.dto.matching.response.TeamMatchingResponseDt
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
+
 public interface TeamMatchingService {
     public Long createMatching(TeamMatchingCreateRequestDto request, Long teamId, Long userId);
     public Long updateMatching(TeamMatchingUpdateRequestDto request, Long matchingId, Long userId);
     public Long deleteMatching(Long matchingId, Long userId);
     public String joinMatching(Long matchingId, Long teamId, Long userId);
     public TeamMatchingResponseDto findMatching(Long id);
-    public Page<TeamMatchingResponseDto> findMatching(Pageable pageable, String sido);
+    public Page<TeamMatchingResponseDto> findMatching(Pageable pageable, String sido, LocalDateTime now);
 }

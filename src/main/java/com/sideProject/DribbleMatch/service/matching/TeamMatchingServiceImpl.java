@@ -27,6 +27,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -197,8 +198,8 @@ public class TeamMatchingServiceImpl implements TeamMatchingService {
     }
 
     @Override
-    public Page<TeamMatchingResponseDto> findMatching(Pageable pageable, String sido) {
-        Page<TeamMatch> teamMatches = teamMatchRepository.find(pageable, sido);
+    public Page<TeamMatchingResponseDto> findMatching(Pageable pageable, String sido, LocalDateTime now) {
+        Page<TeamMatch> teamMatches = teamMatchRepository.find(pageable, sido, now);
         return teamMatches.map((teamMatch) -> {
                     String region = teamMatch.getRegion().getSiDo() + teamMatch.getRegion().getSiGunGu();
                     return TeamMatchingResponseDto.of(
