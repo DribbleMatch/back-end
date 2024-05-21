@@ -96,7 +96,8 @@ public class TeamMatchingServiceImpl implements TeamMatchingService {
         }
 
         Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
+                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING)
+        );
 
         //
         teamMatch.update(request, region);
