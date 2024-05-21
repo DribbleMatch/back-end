@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.service.matching;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.config.QuerydslConfig;
 import com.sideProject.DribbleMatch.dto.matching.request.TeamMatchingCreateRequestDto;
+import com.sideProject.DribbleMatch.dto.matching.request.TeamMatchingUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.TeamMatch;
 import com.sideProject.DribbleMatch.entity.region.Region;
@@ -34,6 +35,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.sideProject.DribbleMatch.entity.matching.QTeamMatch.teamMatch;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -127,11 +129,21 @@ public class TeamMatchingServiceTest {
                 .build());
     }
 
+    private TeamMatchJoin initTeamMatchJoin(TeamMatch teamMatch, Team team) {
+        return teamMatchJoinRepository.save(
+                TeamMatchJoin.builder()
+                        .teamMatch(teamMatch)
+                        .team(team)
+                        .build()
+        );
+    }
+
+
     @Nested
     @DisplayName("createMatching Test")
     class CreateMatching {
 
-        @DisplayName("팀 리더는 매치를 생성할 수 있다.")
+        @DisplayName("팀 리더는 매치를 수정할 수 있다.")
         @Test
         void createMatching(){
             //given
@@ -188,33 +200,6 @@ public class TeamMatchingServiceTest {
                     .isInstanceOf(CustomException.class)
                     .hasMessage("권한이 없습니다");
         }
-
-        @DisplayName("팀이 아니면 매치를 생성할 수 없다.")
-        @Test
-        void createMatchingNotTeam(){
-            //given
-            Region seoul = initRegion("서울시","당산동");
-            User leader = initUser("test12@test.com", "test1", seoul);
-            Team team = initTeam("testTeam1", leader, seoul);
-            LocalDateTime now = LocalDateTime.now();
-
-            TeamMatchingCreateRequestDto request = new TeamMatchingCreateRequestDto(
-                    team.getId(),
-                    "서울 팀 매치",
-                    10,
-                    15,
-                    2,
-                    now.plusDays(2),
-                    now.plusDays(2).plusHours(2),
-                    "서울시 영등포구 당산동"
-            );
-
-            //when //then
-            assertThatThrownBy(() -> teamMatchingService.createMatching(request,2L, leader.getId()))
-                    .isInstanceOf(CustomException.class)
-                    .hasMessage("해당 팀이 존재하지 않습니다.");
-        }
-
         @DisplayName("팀 멤버가 아니면 매치를 생성할 수 없다.")
         @Test
         void createMatchingNotTeamMember(){
@@ -246,114 +231,212 @@ public class TeamMatchingServiceTest {
     @DisplayName("updateMatching Test")
     class UpdateMatching {
 
-        @DisplayName("팀 리더는 매치를 생성할 수 있다.")
+        @DisplayName("팀 리더면 매치를 수정할 수 있다.")
         @Test
-        void createMatching(){
+        void createMatchingNotTeamMember(){
             //given
             Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
             User leader = initUser("test12@test.com", "test1", seoul);
             Team team = initTeam("testTeam1", leader, seoul);
             initTeamMember(leader, team,TeamRole.ADMIN);
             LocalDateTime now = LocalDateTime.now();
 
-            TeamMatchingCreateRequestDto request = new TeamMatchingCreateRequestDto(
-                    team.getId(),
-                    "서울 팀 매치",
-                    10,
-                    15,
-                    2,
-                    now.plusDays(2),
-                    now.plusDays(2).plusHours(2),
-                    "서울시 영등포구 당산동"
+            TeamMatch match = initTeamMatch("서울 팀 매치", team,now.plusDays(2), seoul);
+
+            TeamMatchingUpdateRequestDto request = new TeamMatchingUpdateRequestDto(
+                    "서울 팀 매치 수정",
+                    11,
+                    16,
+                    now.plusDays(3),
+                    now.plusDays(3).plusHours(2),
+                    "서울시 영등포구 가야동"
             );
 
-            //when
-            teamMatchingService.createMatching(request,team.getId(), leader.getId());
+            teamMatchingService.updateMatching(request,match.getId(), leader.getId());
 
-            //then
-            List<TeamMatch> teamMatches = teamMatchingRepository.findAll();
-            List<TeamMatchJoin> teamMatchJoins = teamMatchJoinRepository.findAll();
-            assertThat(teamMatches.size()).isEqualTo(1);
-            assertThat(teamMatchJoins.size()).isEqualTo(1);
+            //when //then
+            TeamMatch teamMatches = teamMatchingRepository.findById(team.getId()).orElseThrow();
+            assertThat(teamMatches.getName()).isEqualTo(request.getName());
+            assertThat(teamMatches.getMaxTeam()).isEqualTo(request.getMaxTeam());
+            assertThat(teamMatches.getStartAt()).isEqualTo(request.getStartAt());
+            assertThat(teamMatches.getEndAt()).isEqualTo(request.getEndAt());
+
         }
 
-        @DisplayName("팀 리더가 아니면 매치를 생성할 수 없다.")
+        @DisplayName("팀 리더가 아니면 매치를 수정할 수 없다.")
         @Test
-        void createMatchingNotLeader(){
+        void updateMatchingNotTeamLeader(){
             //given
             Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
             User leader = initUser("test12@test.com", "test1", seoul);
             Team team = initTeam("testTeam1", leader, seoul);
             initTeamMember(leader, team,TeamRole.MEMBER);
             LocalDateTime now = LocalDateTime.now();
 
-            TeamMatchingCreateRequestDto request = new TeamMatchingCreateRequestDto(
-                    team.getId(),
-                    "서울 팀 매치",
-                    10,
-                    15,
-                    2,
-                    now.plusDays(2),
-                    now.plusDays(2).plusHours(2),
-                    "서울시 영등포구 당산동"
+            TeamMatch match = initTeamMatch("서울 팀 매치", team,now.plusDays(2), seoul);
+
+            TeamMatchingUpdateRequestDto request = new TeamMatchingUpdateRequestDto(
+                    "서울 팀 매치 수정",
+                    11,
+                    16,
+                    now.plusDays(3),
+                    now.plusDays(3).plusHours(2),
+                    "서울시 영등포구 가야동"
             );
 
             //when //then
-            assertThatThrownBy(() -> teamMatchingService.createMatching(request,team.getId(), leader.getId()))
+            assertThatThrownBy(() -> teamMatchingService.updateMatching(request,match.getId(), leader.getId()))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("권한이 없습니다");
         }
 
-        @DisplayName("팀이 아니면 매치를 생성할 수 없다.")
+        @DisplayName("팀이 멤버가 아니면 매치를 수정할 수 없다.")
         @Test
-        void createMatchingNotTeam(){
+        void updateMatchingNotTeam(){
             //given
             Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
             User leader = initUser("test12@test.com", "test1", seoul);
             Team team = initTeam("testTeam1", leader, seoul);
             LocalDateTime now = LocalDateTime.now();
 
-            TeamMatchingCreateRequestDto request = new TeamMatchingCreateRequestDto(
-                    team.getId(),
-                    "서울 팀 매치",
-                    10,
-                    15,
-                    2,
-                    now.plusDays(2),
-                    now.plusDays(2).plusHours(2),
-                    "서울시 영등포구 당산동"
+            TeamMatch match = initTeamMatch("서울 팀 매치", team,now.plusDays(2), seoul);
+
+            TeamMatchingUpdateRequestDto request = new TeamMatchingUpdateRequestDto(
+                    "서울 팀 매치 수정",
+                    11,
+                    16,
+                    now.plusDays(3),
+                    now.plusDays(3).plusHours(2),
+                    "서울시 영등포구 가야동"
             );
 
             //when //then
-            assertThatThrownBy(() -> teamMatchingService.createMatching(request,2L, leader.getId()))
+            assertThatThrownBy(() -> teamMatchingService.updateMatching(request,match.getId(), leader.getId()))
                     .isInstanceOf(CustomException.class)
-                    .hasMessage("해당 팀이 존재하지 않습니다.");
+                    .hasMessage("해당 팀원이 존재하지 않습니다.");
         }
 
-        @DisplayName("팀 멤버가 아니면 매치를 생성할 수 없다.")
+        @DisplayName("매치가 없으면 매치를 수정할 수 없다.")
         @Test
-        void createMatchingNotTeamMember(){
+        void updateMatchingNotMatch(){
             //given
             Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
             User leader = initUser("test12@test.com", "test1", seoul);
             Team team = initTeam("testTeam1", leader, seoul);
             LocalDateTime now = LocalDateTime.now();
 
-            TeamMatchingCreateRequestDto request = new TeamMatchingCreateRequestDto(
-                    team.getId(),
-                    "서울 팀 매치",
-                    10,
-                    15,
-                    2,
-                    now.plusDays(2),
-                    now.plusDays(2).plusHours(2),
-                    "서울시 영등포구 당산동"
+            TeamMatchingUpdateRequestDto request = new TeamMatchingUpdateRequestDto(
+                    "서울 팀 매치 수정",
+                    11,
+                    16,
+                    now.plusDays(3),
+                    now.plusDays(3).plusHours(2),
+                    "서울시 영등포구 가야동"
             );
 
             //when //then
-            assertThatThrownBy(() -> teamMatchingService.createMatching(request,2L, leader.getId()))
+            assertThatThrownBy(() -> teamMatchingService.updateMatching(request,1L, leader.getId()))
                     .isInstanceOf(CustomException.class)
-                    .hasMessage("해당 팀이 존재하지 않습니다.");
+                    .hasMessage("해당 팀 경기가 존재하지 않습니다.");
         }
     }
+
+    @Nested
+    @DisplayName("DeleteMatching Test")
+    class DeleteMatch {
+
+        @DisplayName("매치를 삭제할 수 있다.")
+        @Test
+        void deleteMatch(){
+            //given
+            Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
+            User leader = initUser("test12@test.com", "test1", seoul);
+            Team team = initTeam("testTeam1", leader, seoul);
+            initTeamMember(leader, team,TeamRole.ADMIN);
+            LocalDateTime now = LocalDateTime.now();
+
+            TeamMatch match = initTeamMatch("서울 팀 매치", team,now.plusDays(2), seoul);
+            TeamMatchJoin join = initTeamMatchJoin(match, team);
+
+            //when
+            Long id = teamMatchingService.deleteMatching(match.getId(),leader.getId());
+
+            //then
+            List<TeamMatch> teamMatches = teamMatchingRepository.findAll();
+            List<TeamMatchJoin> teamMatchJoins = teamMatchJoinRepository.findAll();
+            assertThat(teamMatches.size()).isEqualTo(0);
+            assertThat(teamMatchJoins.size()).isEqualTo(0);
+            assertThat(id).isEqualTo(match.getId());
+        }
+
+        @DisplayName("리더가 아니면 매치를 삭제할 수 없다")
+        @Test
+        void deleteMatchNotLeader(){
+            //given
+            Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
+            User leader = initUser("test12@test.com", "test1", seoul);
+            Team team = initTeam("testTeam1", leader, seoul);
+            initTeamMember(leader, team,TeamRole.MEMBER);
+            LocalDateTime now = LocalDateTime.now();
+
+            TeamMatch match = initTeamMatch("서울 팀 매치", team,now.plusDays(2), seoul);
+            TeamMatchJoin join = initTeamMatchJoin(match, team);
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> teamMatchingService.deleteMatching(match.getId(),leader.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("권한이 없습니다");
+        }
+
+        @DisplayName("팀원이 아니면 매치를 삭제할 수 없다")
+        @Test
+        void deleteMatchNotTeamMember(){
+            //given
+            Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
+            User leader = initUser("test12@test.com", "test1", seoul);
+            Team team = initTeam("testTeam1", leader, seoul);
+            LocalDateTime now = LocalDateTime.now();
+
+            TeamMatch match = initTeamMatch("서울 팀 매치", team,now.plusDays(2), seoul);
+            TeamMatchJoin join = initTeamMatchJoin(match, team);
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> teamMatchingService.deleteMatching(match.getId(),leader.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("해당 팀원이 존재하지 않습니다.");
+        }
+
+        @DisplayName("없는 매치는 삭제할 수 없다")
+        @Test
+        void deleteMatchNotMatch(){
+            //given
+            Region seoul = initRegion("서울시","당산동");
+            Region seoul2 = initRegion("서울시","가야동");
+            User leader = initUser("test12@test.com", "test1", seoul);
+            Team team = initTeam("testTeam1", leader, seoul);
+
+
+            //when
+
+            //then
+            assertThatThrownBy(() -> teamMatchingService.deleteMatching(1L,leader.getId()))
+                    .isInstanceOf(CustomException.class)
+                    .hasMessage("해당 팀 경기가 존재하지 않습니다.");
+        }
+
+
+    }
+
+
 }
