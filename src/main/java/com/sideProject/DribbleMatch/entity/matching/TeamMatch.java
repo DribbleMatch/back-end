@@ -62,4 +62,5 @@ public class TeamMatch extends Matching{
         );
         this.maxTeam = request.getMaxTeam();
     }
+
 }

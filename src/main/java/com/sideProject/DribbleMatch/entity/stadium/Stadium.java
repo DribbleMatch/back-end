@@ -22,4 +22,8 @@ public class Stadium {
 
     @Column
     private int rentalFee;
+
+    public Stadium(String detailAddress) {
+        this.detailAddress = detailAddress;
+    }
 }

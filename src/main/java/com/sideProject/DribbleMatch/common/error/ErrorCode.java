@@ -55,6 +55,7 @@ public enum ErrorCode {
     NOT_FOUND_PERSONAL_MATCHING_ID(404, "3300", "해당 개인 경기가 존재하지 않습니다."),
 
     NOT_FOUND_TEAM_MATCHING_ID(404, "4300", "해당 팀 경기가 존재하지 않습니다."),
+    CLOSED_MATCHING(401, "4301", "모집 마감된 경기입니다."),
 
     NOT_FOUND_PERSONAL_MATCH_JOIN_ID(404, "5300", "해당 개인 경기 참가 정보가 존재하지 않습니다."),
 

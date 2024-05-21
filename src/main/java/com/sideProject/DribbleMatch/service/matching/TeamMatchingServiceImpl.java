@@ -157,15 +157,20 @@ public class TeamMatchingServiceImpl implements TeamMatchingService {
 
         //팀 참여 여부 조회
         List<TeamMatchJoin> teamMatchJoins = teamMatchJoinRepository.findByTeamMatch(teamMatch);
-        if(!teamMatch.getStatus().equals(MatchingStatus.IN_PROGRESS) ||
+        if(!teamMatch.getStatus().equals(MatchingStatus.RECRUITING) ||
                 teamMatchJoins.size() >= teamMatch.getMaxTeam()
         ) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
+            throw new CustomException(ErrorCode.CLOSED_MATCHING);
         }
         for(TeamMatchJoin teamMatchJoin: teamMatchJoins) {
             if(Objects.equals(teamMatchJoin.getTeam().getId(), team.getId())) {
                 throw new CustomException(ErrorCode.ALREADY_JOIN_TEAM);
             }
+        }
+
+        if(teamMatchJoins.size() == teamMatch.getMaxTeam() -1) {
+            teamMatch.close();
+            teamMatchRepository.save(teamMatch);
         }
 
         teamMatchJoinRepository.save(
@@ -181,14 +186,14 @@ public class TeamMatchingServiceImpl implements TeamMatchingService {
     @Override
     public TeamMatchingResponseDto findMatching(Long id) {
         TeamMatch teamMatch = teamMatchRepository.findById(id).orElseThrow(() ->
-                new CustomException(ErrorCode.CANT_JOIN)
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_MATCHING_ID)
         );
         List<TeamMatchJoin> teamMatchJoins = teamMatchJoinRepository.findByTeamMatch(teamMatch);
 
         return TeamMatchingResponseDto.of(
                 teamMatch,
                 teamMatch.getRegion().getSiDo() + teamMatch.getRegion().getSiGunGu(),
-                teamMatch.getStadium().getDetailAddress(),
+                "",
                 //todo: 리팩토링 대상?
                 teamMatchJoins.stream().map((teamMatchJoin) -> {
                     Team team = teamMatchJoin.getTeam();
@@ -206,7 +211,7 @@ public class TeamMatchingServiceImpl implements TeamMatchingService {
                     return TeamMatchingResponseDto.of(
                             teamMatch,
                             region,
-                            teamMatch.getStadium().getDetailAddress(),
+                            "",
                             new ArrayList<>()
                     );
                 });

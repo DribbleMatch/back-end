@@ -74,4 +74,12 @@ public class Matching {
         this.endAt = endAt;
         this.region = region;
     }
+
+    public void close() {
+        this.status = MatchingStatus.CLOSED;
+    }
+
+    public void recruiting() {
+        this.status = MatchingStatus.RECRUITING;
+    }
 }
