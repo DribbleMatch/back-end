@@ -4,10 +4,12 @@ import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamApplicationResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
@@ -24,9 +26,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -130,20 +132,157 @@ public class TeamServiceImpl implements TeamService{
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
 
-        String regionString = regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_REGION_ID));
-
-        return TeamResponseDto.of(team, regionString);
+        return TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_ID)));
     }
 
     @Override
-    public Long cancel(Long joinId, Long userId) {
-        return null;
+    public Long join(TeamJoinRequestDto request, Long teamId, Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        Optional<TeamMember> teamMember = teamMemberRepository.findByUserAndTeam(user,team);
+        if(teamMember.isPresent()) {
+            throw  new CustomException(ErrorCode.ALREADY_MEMBER);
+        }
+
+        TeamApplication teamApplication = teamApplicationRepository.save(TeamApplication.builder()
+                        .team(team)
+                        .user(user)
+                        .introduce(request.getIntroduce())
+                        .build()
+        );
+        return teamApplication.getId();
+    }
+
+    @Override
+    public Long cancel(Long applicationId, Long userId) {
+        TeamApplication teamApplication = teamApplicationRepository.findById(applicationId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
+
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        if(!user.getId().equals(teamApplication.getUser().getId())) {
+            throw new CustomException(ErrorCode.NO_AUTHORITY);
+        }
+
+        //승인
+        teamApplicationRepository.delete(teamApplication);
+
+        return teamApplication.getId();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<TeamApplicationResponseDto> findApplication(Pageable pageable, Long teamId) {
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        Page<TeamApplication> teamApplications = teamApplicationRepository.findByTeamAndStatus(
+                pageable,
+                team,
+                JoinStatus.WAIT
+        );
+        return teamApplications
+                .map(TeamApplicationResponseDto::of);
+    }
+
+    @Override
+    public Long approve(Long joinId, Long userId) {
+
+        //todo: 유저와 팀의 조회 여부 생각
+        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
+
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+
+        if(teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_MEMBER);
+        }
+
+        TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
+        if(!adminTeamMember.getTeamRole().equals(TeamRole.ADMIN)) {
+            throw new CustomException(ErrorCode.NO_AUTHORITY);
+        }
+
+        //승인
+        teamApplication.approve();
+        teamApplicationRepository.save(teamApplication);
+
+        TeamMember newMember = teamMemberRepository.save(TeamMember.builder()
+                        .user(teamApplication.getUser())
+                        .team(teamApplication.getTeam())
+                .build());
+
+        return newMember.getId();
+    }
+
+    @Override
+    public Long refuse(Long joinId, Long userId) {
+        //todo: 유저와 팀의 조회 여부 생각
+        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
+
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+
+        Optional<TeamMember> teamMemberOptional = teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam());
+        if (teamMemberOptional.isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_MEMBER);
+        }
+
+        TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
+        if(!adminTeamMember.getTeamRole().equals(TeamRole.ADMIN)) {
+            throw new CustomException(ErrorCode.NO_AUTHORITY);
+        }
+
+        //승인
+        teamApplication.refuse();
+        teamApplicationRepository.save(teamApplication);
+
+        return teamApplication.getId();
+    }
+
+    @Override
+    public Long withdraw(Long memberId, Long teamId, Long adminId) {
+
+        User adminUser = userRepository.findById(adminId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        User memberUser = userRepository.findById(memberId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        TeamMember adminMember = teamMemberRepository.findByUserAndTeam(adminUser,team).orElseThrow(() ->
+                new CustomException(ErrorCode.ALREADY_MEMBER));
+        if(!adminMember.getTeamRole().equals(TeamRole.ADMIN)) {
+            throw new CustomException(ErrorCode.NO_AUTHORITY);
+        }
+
+        TeamMember member = teamMemberRepository.findByUserAndTeam(memberUser,team).orElseThrow(() ->
+                new CustomException(ErrorCode.ALREADY_MEMBER));
+
+        teamMemberRepository.delete(member);
+
+        return member.getId();
+
     }
 
     @Override
     public List<TeamMemberResponseDto> findMember(Long teamId) {
-        return null;
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
+
+        List<TeamMember> teamMembers = teamMemberRepository.findByTeam(team);
+
+        return teamMembers.stream()
+                .map(TeamMemberResponseDto::toDto)
+                .collect(Collectors.toList());
     }
 
     private void checkUniqueName(String name) {
