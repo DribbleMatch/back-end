@@ -1,5 +1,7 @@
 package com.sideProject.DribbleMatch.entity.recruitment;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
+import com.sideProject.DribbleMatch.entity.position.PositionListConverter;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import jakarta.persistence.*;
@@ -10,11 +12,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Recruitment {
+public class Recruitment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +34,15 @@ public class Recruitment {
 
     @NotNull
     @Column
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
     private List<Position> positions;
 
     @Column
     private int winning;
+
+    @Column
+    private int views;
 
     @NotNull
     @ManyToOne
@@ -48,5 +56,17 @@ public class Recruitment {
         this.positions = positions;
         this.winning = winning;
         this.team = team;
+        this.views = 0;
+    }
+
+    public void update(String title, String content, List<Position> positions, int winning) {
+        this.title = title;
+        this.content = content;
+        this.positions = positions;
+        this.winning = winning;
+    }
+
+    public void read() {
+        this.views += 1;
     }
 }
