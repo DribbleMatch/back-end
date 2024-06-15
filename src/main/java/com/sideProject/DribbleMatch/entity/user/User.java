@@ -55,7 +55,16 @@ public class User {
     private Region region;
 
     @Builder
-    public User(String email, String password, String nickName, Gender gender, LocalDate birth, Position position, int winning, Region region) {
+    public User(
+            String email,
+            String password,
+            String nickName,
+            Gender gender,
+            LocalDate birth,
+            Position position,
+            int winning,
+            Region region
+    ) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
