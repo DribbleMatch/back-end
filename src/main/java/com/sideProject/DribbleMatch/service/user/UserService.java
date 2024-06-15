@@ -6,6 +6,4 @@ import com.sideProject.DribbleMatch.dto.user.request.UserSignUpRequestDto;
 
 public interface UserService {
     public Long signUp(UserSignUpRequestDto request);
-    public JwtResonseDto signIn(UserSignInRequest request);
-    public JwtResonseDto refresh(String refreshToken);
 }

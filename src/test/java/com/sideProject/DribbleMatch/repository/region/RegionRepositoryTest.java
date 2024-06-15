@@ -41,6 +41,8 @@ public class RegionRepositoryTest {
                 .eupMyeonDongGu(dong)
                 .latitude(37.5347)
                 .longitude(126.9065)
+                .eupMyeonLeeDong("")
+                .lee("")
                 .build();
     }
 
@@ -99,13 +101,12 @@ public class RegionRepositoryTest {
 
             // given
 
-            Region region1 = regionRepository.save(initRegion(null));
+            Region region1 = regionRepository.save(initRegion(""));
             Region region2 = regionRepository.save(initRegion("당산동"));
             Region region3 = regionRepository.save(initRegion("문래동"));
-            Region region4 = regionRepository.save(Region.builder()
-                    .siDo("서울특별시")
-                    .siGunGu("마포구")
-                    .build());
+            Region region4 = regionRepository.save(initRegion(""));
+
+            ReflectionTestUtils.setField(region4, "siGunGu", "마포구");
 
             // when
             Region selectedRegion1 = regionRepository.findByRegionString("서울특별시 영등포구").get();
@@ -170,6 +171,20 @@ public class RegionRepositoryTest {
             // then
             assertThat(regionString1).isEqualTo("서울특별시 영등포구 당산동");
             assertThat(regionString2).isEqualTo("서울특별시 영등포구 문래동 두북리");
+        }
+
+        @DisplayName("Region Id가 없으면 에러가 발생한다")
+        @Test
+        public void findRegionStringById2() {
+
+            // given
+            Region region = regionRepository.save(initRegion("당산동"));
+
+            // when, then
+            assertThatThrownBy(() -> regionRepository.findRegionStringById(region.getId() + 1).orElseThrow(() ->
+                    new CustomException(ErrorCode.NOT_FOUND_REGION_ID)))
+                    .hasMessage("해당 지역이 존재하지 않습니다.")
+                    .isInstanceOf(CustomException.class);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
+import com.sideProject.DribbleMatch.dto.team.request.ChangeTeamRoleRequestDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
@@ -296,6 +297,125 @@ public class TeamMemberServiceTest {
     }
 
     @Nested
+    @DisplayName("ChangeTeamRoleTest")
+    public class ChangeTeamRoleTest {
+
+        @DisplayName("팀 역할을 변경한다")
+        @Test
+        public void changeTeamRole() {
+
+            // given
+            Region region = initRegion("당산동");
+
+            Long fakeAdminId = 1L;
+            User admin = initUser("test1@test.com", "test1", region);
+            ReflectionTestUtils.setField(admin, "id", fakeAdminId);
+
+            Long fakeUserId = 2L;
+            User user = initUser("test2@test.com", "test2", region);
+            ReflectionTestUtils.setField(user, "id", fakeUserId);
+
+            Team team = initTeam("testTeam", admin, region);
+
+            TeamMember teamMember1 = initTeamMember(admin, team, TeamRole.ADMIN);
+            Long fakeTeamMemberId1 = 3L;
+            ReflectionTestUtils.setField(teamMember1, "id", fakeTeamMemberId1);
+
+            TeamMember teamMember2 = initTeamMember(user, team, TeamRole.MEMBER);
+            Long fakeTeamMemberId2 = 4L;
+            ReflectionTestUtils.setField(teamMember2, "id", fakeTeamMemberId2);
+
+            ChangeTeamRoleRequestDto requestDto = ChangeTeamRoleRequestDto.builder()
+                    .teamMemberId(fakeTeamMemberId2)
+                    .teamRole(TeamRole.ADMIN)
+                    .build();
+
+            // mocking
+            when(userRepository.findById(fakeAdminId)).thenReturn(Optional.ofNullable(admin));
+            when(teamMemberRepository.findById(fakeTeamMemberId2)).thenReturn(Optional.ofNullable(teamMember2));
+            when(teamMemberRepository.findByUserAndTeam(admin, team)).thenReturn(Optional.ofNullable(teamMember1));
+
+            // when
+            Long teamMemberId = teamMemberService.changeTeamRole(admin.getId(), requestDto);
+
+            // then
+            assertThat(teamMemberId).isEqualTo(fakeTeamMemberId2);
+            assertThat(teamMember2.getTeamRole()).isEqualTo(TeamRole.ADMIN);
+        }
+
+        @DisplayName("admin이 없는 User이면 에러가 발생한다")
+        @Test
+        public void changeTeamRole2() {
+
+            // given
+            Region region = initRegion("당산동");
+
+            Long fakeAdminId = 1L;
+            User admin = initUser("test1@test.com", "test1", region);
+            ReflectionTestUtils.setField(admin, "id", fakeAdminId);
+
+            Long fakeUserId = 2L;
+            User user = initUser("test2@test.com", "test2", region);
+            ReflectionTestUtils.setField(user, "id", fakeUserId);
+
+            Team team = initTeam("testTeam", admin, region);
+
+            TeamMember teamMember = initTeamMember(user, team, TeamRole.MEMBER);
+            Long fakeTeamMemberId = 3L;
+            ReflectionTestUtils.setField(teamMember, "id", fakeTeamMemberId);
+
+            ChangeTeamRoleRequestDto requestDto = ChangeTeamRoleRequestDto.builder()
+                    .teamMemberId(fakeTeamMemberId)
+                    .teamRole(TeamRole.ADMIN)
+                    .build();
+
+            // mocking
+            when(userRepository.findById(fakeAdminId)).thenReturn(Optional.empty());
+
+            // when, then
+            assertThatThrownBy(() -> teamMemberService.changeTeamRole(admin.getId(), requestDto))
+                    .hasMessage("해당 사용자가 존재하지 않습니다.")
+                    .isInstanceOf(CustomException.class);
+        }
+
+        @DisplayName("requestDto의 TeamMember가 없으면 에러가 발생한다")
+        @Test
+        public void changeTeamRole3() {
+
+            // given
+            Region region = initRegion("당산동");
+
+            Long fakeAdminId = 1L;
+            User admin = initUser("test1@test.com", "test1", region);
+            ReflectionTestUtils.setField(admin, "id", fakeAdminId);
+
+            Long fakeUserId = 2L;
+            User user = initUser("test2@test.com", "test2", region);
+            ReflectionTestUtils.setField(user, "id", fakeUserId);
+
+            Team team = initTeam("testTeam", admin, region);
+
+            TeamMember teamMember = initTeamMember(user, team, TeamRole.MEMBER);
+            Long fakeTeamMemberId = 3L;
+            ReflectionTestUtils.setField(teamMember, "id", fakeTeamMemberId);
+
+            ChangeTeamRoleRequestDto requestDto = ChangeTeamRoleRequestDto.builder()
+                    .teamMemberId(fakeTeamMemberId)
+                    .teamRole(TeamRole.ADMIN)
+                    .build();
+
+            // mocking
+            when(userRepository.findById(fakeAdminId)).thenReturn(Optional.ofNullable(admin));
+            when(teamMemberRepository.findById(fakeTeamMemberId)).thenReturn(Optional.empty());
+
+            // when, then
+            assertThatThrownBy(() -> teamMemberService.changeTeamRole(admin.getId(), requestDto))
+                    .hasMessage("해당 소속팀 정보가 존재하지 않습니다.")
+                    .isInstanceOf(CustomException.class);
+        }
+    }
+
+    @Nested
     @DisplayName("CheckRoleTest")
     public class CheckRoleTest {
 
@@ -315,7 +435,7 @@ public class TeamMemberServiceTest {
 
             // when
             assertThatThrownBy(() -> teamMemberService.checkRole(user, team))
-                    .hasMessage("권한이 없습니다.")
+                    .hasMessage("해당 팀에서 권한이 없습니다.")
                     .isInstanceOf(CustomException.class);
         }
 

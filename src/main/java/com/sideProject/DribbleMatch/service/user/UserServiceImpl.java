@@ -19,12 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final JwtUtil jwtUtil;
-    private final RedisUtil redisUtil;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RegionRepository regionRepository;
 
@@ -43,33 +41,6 @@ public class UserServiceImpl implements UserService{
         User signUpUser = userRepository.save(UserSignUpRequestDto.toEntity(request, password, region));
 
         return signUpUser.getId();
-    }
-
-    @Override
-    public JwtResonseDto signIn(UserSignInRequest request) {
-        User user = validateUser(request);
-        return JwtResonseDto.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user))
-                .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                .build();
-    }
-
-    @Override
-    public JwtResonseDto refresh(String refreshToken) {
-        jwtUtil.validateRefreshToken(refreshToken);
-        String userId = redisUtil.getData(refreshToken);
-
-        // refresh token 유효 기간 지나면 validation에서 에러 발생하지만 double check
-        if(userId.isBlank()) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        return JwtResonseDto.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user))
-                .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                .build();
     }
 
     private void checkUniqueEmail(String email) {
@@ -98,12 +69,4 @@ public class UserServiceImpl implements UserService{
         return passwordEncoder.encode(password);
     }
 
-    private User validateUser(UserSignInRequest request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
-        }
-        return user;
-    }
 }

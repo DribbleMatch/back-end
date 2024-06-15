@@ -286,8 +286,6 @@ public class TeamServiceTest {
             // mocking
             doNothing().when(teamRepository).deleteById(fakeTeamId);
 
-            doNothing().when(teamMemberService).checkRole(leader, team);
-
             when(userRepository.findById(fakeUserId)).thenReturn(Optional.ofNullable(leader));
             when(teamRepository.findById(fakeTeamId)).thenReturn(Optional.ofNullable(team));
 

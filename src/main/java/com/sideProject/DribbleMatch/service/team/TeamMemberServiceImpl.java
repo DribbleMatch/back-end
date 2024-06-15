@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.dto.team.request.ChangeTeamRoleRequestDto;
 import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
 import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.team.Team;
@@ -61,6 +62,21 @@ public class TeamMemberServiceImpl implements TeamMemberService{
         return teamMember.getId();
     }
 
+    public Long changeTeamRole(Long adminId, ChangeTeamRoleRequestDto request) {
+
+        User admin = userRepository.findById(adminId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+
+        TeamMember teamMember = teamMemberRepository.findById(request.getTeamMemberId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER_ID));
+
+        checkRole(admin, teamMember.getTeam());
+
+        teamMember.changeTeamRole(request.getTeamRole());
+
+        return teamMember.getId();
+    }
+
     @Override
     public void checkRole(User user, Team team) {
 
@@ -68,7 +84,7 @@ public class TeamMemberServiceImpl implements TeamMemberService{
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
 
         if(teamMember.getTeamRole() != TeamRole.ADMIN) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
+            throw new CustomException(ErrorCode.NO_TEAM_AUTHORITY);
         }
     }
 

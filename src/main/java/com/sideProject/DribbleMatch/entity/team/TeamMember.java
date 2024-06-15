@@ -41,7 +41,7 @@ public class TeamMember extends BaseEntity {
         this.teamRole = teamRole;
     }
 
-    public void advancement() {
-        this.teamRole = TeamRole.ADMIN;
+    public void changeTeamRole(TeamRole teamRole) {
+        this.teamRole = teamRole;
     }
 }
