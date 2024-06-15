@@ -35,8 +35,9 @@ public class SecurityConfig {
                                 "/api/user/signUp",
                                 "/api/user/refresh",
                                 "/error",
-                                "/api/team/testt/{asdf}"
+                                "/api/user/test"
                         ).permitAll()
+                        .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)

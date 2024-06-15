@@ -56,13 +56,16 @@ public class UserServiceTest {
     @InjectMocks
     private UserServiceImpl userService;
 
-    private Region initRegion(String dong) {
+                   private Region initRegion(String dong) {
         return Region.builder()
                 .siDo("서울특별시")
                 .siGunGu("영등포구")
                 .eupMyeonDongGu(dong)
                 .latitude(37.5347)
                 .longitude(126.9065)
+                .eupMyeonDongGu("")
+                .eupMyeonLeeDong("")
+                .lee("")
                 .build();
     }
 
@@ -213,126 +216,6 @@ public class UserServiceTest {
             assertThatThrownBy(() -> userService.signUp(request))
                     .isInstanceOf(CustomException.class)
                     .hasMessage("비밀번호가 다릅니다.");
-        }
-    }
-
-    @Nested
-    @DisplayName("userSignInTest")
-    public class userSignInTest {
-
-        @DisplayName("로그인을 하고 토큰을 반환한다")
-        @Test
-        public void userSignIn() {
-
-            // given
-            Region region = initRegion("당산동");
-
-            UserSignInRequest request = UserSignInRequest.builder()
-                    .email("test@test.com")
-                    .password("test1234!A")
-                    .build();
-
-            User user = initUser("test@test.com", "test", region);
-
-            // mocking
-            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.ofNullable(user));
-            when(jwtTokenProvider.createAccessToken(user)).thenReturn("testAccessToken");
-            when(jwtTokenProvider.createRefreshToken(user)).thenReturn("testRefreshToken");
-
-            // when
-            JwtResonseDto response = userService.signIn(request);
-
-            // then
-            assertThat(response.getAccessToken()).isEqualTo("testAccessToken");
-            assertThat(response.getRefreshToken()).isEqualTo("testRefreshToken");
-        }
-
-        @DisplayName("없는 이메일이면 에러가 발생한다")
-        @Test
-        public void userSignIn2() {
-
-            // given
-            UserSignInRequest request = UserSignInRequest.builder()
-                    .email("test@test.com")
-                    .password("test1234!A")
-                    .build();
-
-            // mocking
-            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.empty());
-
-            // when, given
-            assertThatThrownBy(() -> userService.signIn(request))
-                    .isInstanceOf(CustomException.class)
-                    .hasMessage("해당 이메일이 존재하지 않습니다.");
-        }
-
-        @DisplayName("이메일이 있지만 비밀번호가 틀리면 에러가 발생한다")
-        @Test
-        public void userSignIn3() {
-
-            // given
-            Region region = initRegion("당산동");
-
-            UserSignInRequest request = UserSignInRequest.builder()
-                    .email("test@test.com")
-                    .password("test1234")
-                    .build();
-
-            User user = initUser("test@test.com", "test", region);
-
-            // mocking
-            when(userRepository.findByEmail(request.getEmail())).thenReturn(Optional.ofNullable(user));
-
-            // when, given
-            assertThatThrownBy(() -> userService.signIn(request))
-                    .isInstanceOf(CustomException.class)
-                    .hasMessage("비밀 번호가 틀렸습니다.");
-        }
-    }
-
-    @Nested
-    @DisplayName("refreshTest")
-    public class refreshTest {
-
-        @DisplayName("refreshToken을 받아 refreshToken과 accessToken을 재발급한다")
-        @Test
-        public void refresh() {
-            // given
-            Region region = initRegion("당산동");
-
-            User user = initUser("test@test.com", "test", region);
-
-            String pastRefreshToken = "pastRefreshToken";
-
-            // mocking
-            doNothing().when(jwtUtil).validateRefreshToken(any(String.class));
-            when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(user));
-            when(redisUtil.getData("pastRefreshToken")).thenReturn("1");
-            when(jwtTokenProvider.createAccessToken(user)).thenReturn("accessToken");
-            when(jwtTokenProvider.createRefreshToken(user)).thenReturn("refreshToken");
-
-            // when
-            JwtResonseDto result = userService.refresh(pastRefreshToken);
-
-            // then
-            assertThat(result.getAccessToken()).isEqualTo("accessToken");
-            assertThat(result.getRefreshToken()).isEqualTo("refreshToken");
-        }
-
-        @DisplayName("refreshToken의 유효성 검사가 실패하면 예외가 발생한다")
-        @Test
-        public void refresh2() {
-
-            // given
-            String refreshToken = "pastRefreshToken";
-
-            // mocking
-            doThrow(new CustomException(ErrorCode.INVALID_REFRESH_TOKEN)).when(jwtUtil).validateRefreshToken(refreshToken);
-
-            // given
-            assertThatThrownBy(() -> userService.refresh(refreshToken))
-                    .isInstanceOf(CustomException.class)
-                    .hasMessage("REFRESH TOKEN 인증 오류");
         }
     }
 }

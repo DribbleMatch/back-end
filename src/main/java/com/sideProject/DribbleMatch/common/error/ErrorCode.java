@@ -45,6 +45,7 @@ public enum ErrorCode {
     NOT_FOUND_EMAIL(404, "1300", "해당 이메일이 존재하지 않습니다."),
     NOT_FOUND_USER_ID(404, "1301", "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_NICKNAME(404, "1302", "해당 닉네임이 존재하지 않습니다."),
+    NOT_FOUND_ADMIN_ID(404, "1300", "해당 관리자가 존재하지 않습니다."),
 
     NOT_UNIQUE_TEAM_NAME(400, "2100", "팀 이름이 이미 존재합니다."),
     NOT_FOUND_TEAM_ID(400, "2300", "해당 팀이 존재하지 않습니다."),

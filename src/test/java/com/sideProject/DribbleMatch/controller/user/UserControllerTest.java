@@ -7,6 +7,8 @@ import com.sideProject.DribbleMatch.controller.user.UserController;
 import com.sideProject.DribbleMatch.dto.user.response.JwtResonseDto;
 import com.sideProject.DribbleMatch.dto.user.request.UserSignInRequest;
 import com.sideProject.DribbleMatch.dto.user.request.UserSignUpRequestDto;
+import com.sideProject.DribbleMatch.repository.region.RegionRepository;
+import com.sideProject.DribbleMatch.service.auth.AuthService;
 import com.sideProject.DribbleMatch.service.user.UserService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.*;
@@ -32,10 +34,16 @@ import static org.mockito.Mockito.when;
 public class UserControllerTest {
 
     @MockBean
+    private AuthService authService;
+
+    @MockBean
     private UserService userService;
 
     @MockBean
     private JwtUtil jwtUtil;
+
+    @MockBean
+    private RegionRepository regionRepository;
 
     @SpyBean
     JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -135,7 +143,7 @@ public class UserControllerTest {
                     .build();
 
             // mocking
-            when(userService.signIn(any(UserSignInRequest.class))).thenReturn(response);
+            when(authService.userSignIn(any(UserSignInRequest.class))).thenReturn(response);
 
             // when, then
             mockMvc.perform(MockMvcRequestBuilders.post("/api/user/signIn")
@@ -173,7 +181,7 @@ public class UserControllerTest {
             String refreshToken = "Bearer refreshToken";
 
             // mocking
-            when(userService.refresh("refreshToken")).thenReturn(JwtResonseDto.builder()
+            when(authService.refresh("refreshToken")).thenReturn(JwtResonseDto.builder()
                             .accessToken("newAccessToken")
                             .refreshToken("newRefreshToken")
                     .build());
@@ -192,7 +200,7 @@ public class UserControllerTest {
         public void refresh2() throws Exception {
 
             // mocking
-            when(userService.refresh("refreshToken")).thenReturn(JwtResonseDto.builder()
+            when(authService.refresh("refreshToken")).thenReturn(JwtResonseDto.builder()
                     .accessToken("newAccessToken")
                     .refreshToken("newRefreshToken")
                     .build());
