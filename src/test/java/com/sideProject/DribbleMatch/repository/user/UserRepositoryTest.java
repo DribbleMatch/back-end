@@ -139,7 +139,7 @@ public class UserRepositoryTest {
 
             // then
             assertThat(selectedUser).isNotNull();
-            assertThat(savedUser).isEqualTo(selectedUser);
+            assertThat(selectedUser).isEqualTo(savedUser);
         }
 
         @DisplayName("모든 User를 조회한다")

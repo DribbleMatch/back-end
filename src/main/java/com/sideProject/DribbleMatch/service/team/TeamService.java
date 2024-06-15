@@ -28,6 +28,4 @@ public interface TeamService {
     public Long withdraw(Long memberId, Long teamId, Long userId);
     public Long cancel(Long joinId, Long userId);
     public List<TeamMemberResponseDto> findMember(Long teamId);
-
-
 }
