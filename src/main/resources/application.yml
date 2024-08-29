@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: dev
 #  config:
 #    activate:
 #      on-profile: dev

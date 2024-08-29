@@ -1,0 +1,52 @@
+section {
+    max-width: 70rem; /* 헤더의 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    width: 100%;
+}
+
+section .login-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section .login-container h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+section .login-container label {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section .login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 60%;
+}
+
+section .login-container input {
+    width: 70%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 5px solid #ccc;
+    border-radius: 10px;
+}
+section .login-container button {
+    padding: 10px;
+    background-color: #f38c48;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+section .login-container button:hover {
+    background-color: #f8802d;
+}

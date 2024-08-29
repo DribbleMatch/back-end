@@ -1,0 +1,45 @@
+header .up_header {
+    display: flex;
+    align-items: center;
+}
+header .up_header .logo {
+    width: 24rem;
+    height: 8rem;
+}
+header .up_header .searchBox {
+    margin-left: auto;
+    width: 30rem;
+    height: 2rem;
+    background-color: #d0d0d0;
+    opacity: 50%;
+    border: none;
+    border-radius: 0.2rem;
+    padding-left: 0.5rem;
+}
+header .up_header .userInfo-icon {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    width: 3rem;
+}
+header .up_header .menu-icon {
+    width: 2.5rem;
+}
+header .down-header {
+    display: flex;
+    align-items: center;
+}
+header .down-header .menu-items{
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .down-header .menu-items:hover{
+    border-radius: 0.5rem;
+    background-color: #f38c48;
+}
+header .down-header .menu-icon{
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+}

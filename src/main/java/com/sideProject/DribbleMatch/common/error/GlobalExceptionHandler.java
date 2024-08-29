@@ -64,4 +64,11 @@ public class GlobalExceptionHandler {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(ApiResponse.error(ErrorCode.MISSING_REQUEST_HEADER, ex.getHeaderName() + "이/가 비어있습니다."));
     }
+
+    @ExceptionHandler(value = Exception.class)
+    protected ResponseEntity<ApiResponse<?>> handleException(Exception ex) {
+        return ResponseEntity.status(500)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(ApiResponse.error(ErrorCode.NO_HANDLED_EXCEPTION, ex.getMessage()));
+    }
 }
