@@ -12,12 +12,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamJoinRequestDto {
-    Long teamId;
     String introduce;
 
     @Builder
-    public TeamJoinRequestDto(Long teamId, String introduce) {
-        this.teamId = teamId;
+    public TeamJoinRequestDto(String introduce) {
         this.introduce = introduce;
     }
 
