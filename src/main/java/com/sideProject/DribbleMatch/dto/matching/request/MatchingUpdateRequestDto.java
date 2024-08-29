@@ -1,8 +1,6 @@
 package com.sideProject.DribbleMatch.dto.matching.request;
 
-import com.sideProject.DribbleMatch.entity.matching.PersonalMatching;
-import com.sideProject.DribbleMatch.entity.matching.TeamMatching;
-import com.sideProject.DribbleMatch.entity.region.Region;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,9 +23,11 @@ public class MatchingUpdateRequestDto {
     @NotNull(message = "시작 날짜/시간이 입력되지 않았습니다")
     private LocalDateTime startAt;
     @NotNull(message = "종료 날짜/시간이 입력되지 않았습니다")
-    private LocalDateTime endAt;
+    private int hour;
     @NotNull(message = "지역이 입력되지 않았습니다")
     private String regionString;
+    @NotNull(message = "경기 인원이 입력되지 않았습니다")
+    private GameKind gameKind;
 
     @Builder
     public MatchingUpdateRequestDto(
@@ -35,36 +35,16 @@ public class MatchingUpdateRequestDto {
             int playPeople,
             int maxPeople,
             LocalDateTime startAt,
-            LocalDateTime endAt,
-            String regionString
+            int hour,
+            String regionString,
+            GameKind gameKind
     ) {
         this.name = name;
         this.playPeople = playPeople;
         this.maxPeople = maxPeople;
         this.startAt = startAt;
-        this.endAt = endAt;
+        this.hour = hour;
         this.regionString = regionString;
-    }
-
-    public PersonalMatching toPersonalMatchingEntity(MatchingUpdateRequestDto request, Region region) {
-        return PersonalMatching.builder()
-                .name(request.name)
-                .playPeople(request.playPeople)
-                .maxPeople(request.maxPeople)
-                .startAt(request.startAt)
-                .endAt(request.endAt)
-                .region(region)
-                .build();
-    }
-
-    public TeamMatching toTemaMatchingEntity(MatchingUpdateRequestDto request, Region region) {
-        return TeamMatching.builder()
-                .name(request.name)
-                .playPeople(request.playPeople)
-                .maxPeople(request.maxPeople)
-                .startAt(request.startAt)
-                .endAt(request.endAt)
-                .region(region)
-                .build();
+        this.gameKind = gameKind;
     }
 }

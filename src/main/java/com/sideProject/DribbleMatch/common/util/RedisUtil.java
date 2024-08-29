@@ -25,6 +25,13 @@ public class RedisUtil {
         valueOperations.set(refreshToken, member_id, Duration.ofMillis(refreshExpire));
     }
 
+    public void setAuthCode(String phone, String authCode)
+    {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        deleteData(phone);
+        valueOperations.set(phone, authCode, Duration.ofMillis(5 * 60 * 1000));
+    }
+
     public String getData(String key) {
         return redisTemplate.opsForValue().get(key);
     }

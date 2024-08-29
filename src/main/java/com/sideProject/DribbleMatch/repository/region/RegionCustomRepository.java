@@ -10,4 +10,6 @@ public interface RegionCustomRepository {
     public Optional<Region> findByRegionString(String regionString);
     public Optional<String> findRegionStringById(Long regionId);
     public List<Long> findIdsByRegionString(String regionString);
+    public List<String> findAllSiDo();
+    public List<String> findAllSiGunGuBySiDo(String siDo);
 }

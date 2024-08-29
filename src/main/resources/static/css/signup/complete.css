@@ -1,0 +1,103 @@
+section {
+    max-width: 70rem; /* 헤더의 최대 너비 설정 */
+    margin: 0 auto; /* 가운데 정렬 */
+    width: 100%;
+}
+
+section h2{
+    text-align: center;
+    font-size: 2rem;
+}
+
+section .signup-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+section .signup-container h2 {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.checkmark-container {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #f38c48;
+    position: relative;
+    animation: expandCircle 0.6s ease-out forwards;
+}
+
+@keyframes expandCircle {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.checkmark::before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 6px;
+    border-style: solid;
+    border-color: white;
+    border-top: none;
+    border-left: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    animation: drawCheck 0.4s 0.7s ease forwards;
+}
+
+@keyframes drawCheck {
+    0% {
+        width: 0;
+        height: 0;
+    }
+    50% {
+        width: 0;
+        height: 32px;
+    }
+    100% {
+        width: 16px;
+        height: 32px;
+    }
+}
+
+.completion-message {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #000000;
+}
+
+.signup-container button {
+    padding: 10px;
+    background-color: #f38c48;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.signup-container button:hover {
+    background-color: #b7622e;
+}

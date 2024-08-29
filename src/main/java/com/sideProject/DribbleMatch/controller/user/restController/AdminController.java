@@ -1,4 +1,4 @@
-package com.sideProject.DribbleMatch.controller.user;
+package com.sideProject.DribbleMatch.controller.user.restController;
 
 import com.sideProject.DribbleMatch.common.response.ApiResponse;
 import com.sideProject.DribbleMatch.service.user.AdminService;

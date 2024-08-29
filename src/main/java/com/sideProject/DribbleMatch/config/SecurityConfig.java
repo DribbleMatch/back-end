@@ -30,15 +30,16 @@ public class SecurityConfig {
                     exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint);
                 })
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-                        .requestMatchers(
-                                "/api/user/signIn",
-                                "/api/user/signUp",
-                                "/api/user/refresh",
-                                "/error",
-                                "/api/user/test"
-                        ).permitAll()
-                        .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
-                        .anyRequest().authenticated()
+//                        .requestMatchers(
+//                                "/api/user/signIn",
+//                                "/api/user/signUp",
+//                                "/api/user/refresh",
+//                                "/error",
+//                                "/api/user/test"
+//                        ).permitAll()
+//                        .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
+//                        .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
