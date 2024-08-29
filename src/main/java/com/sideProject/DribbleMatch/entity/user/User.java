@@ -11,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -44,7 +46,7 @@ public class User {
 
     @Column
     @NotNull
-    private Position position;
+    private String positionString;
 
     @Column
     private int winning;
@@ -55,13 +57,13 @@ public class User {
     private Region region;
 
     @Builder
-    public User(String email, String password, String nickName, Gender gender, LocalDate birth, Position position, int winning, Region region) {
+    public User(String email, String password, String nickName, Gender gender, LocalDate birth, String positionString, int winning, Region region) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
         this.gender = gender;
         this.birth = birth;
-        this.position = position;
+        this.positionString = positionString;
         this.winning = winning;
         this.region = region;
     }

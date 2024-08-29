@@ -92,4 +92,21 @@ public class RegionCustomRepositoryImpl implements RegionCustomRepository {
                 .where(predicate)
                 .fetch();
     }
+
+    @Override
+    public List<String> findAllSiDo() {
+        return jpaQueryFactory.select(region.siDo)
+                .from(region)
+                .groupBy(region.siDo)
+                .fetch();
+    }
+
+    public List<String> findAllSiGunGuBySiDo(String siDo) {
+        return jpaQueryFactory.select(region.siGunGu)
+                .from(region)
+                .groupBy(region.siGunGu)
+                .where(region.siDo.eq(siDo)
+                        .and(region.siGunGu.isNotEmpty()))
+                .fetch();
+    }
 }

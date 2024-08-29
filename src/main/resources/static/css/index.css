@@ -1,0 +1,81 @@
+.notice {
+    margin-top: 2rem;
+    height: 20rem;
+}
+
+.content {
+    height: auto;
+}
+.content .date-select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: solid rgba(0, 0, 0, 0.5);
+}
+.content .date-select .calendar-img {
+    margin-left: 1rem;
+    width: 3rem;
+    height: 3rem;
+}
+.content .game-list {
+    height: 7rem;
+    display: flex;
+    border-bottom: solid rgba(0, 0, 0, 0.5);
+}
+.content .game-list .stadium-image-div{
+    height: 100%;
+    width: 20%;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    overflow-x: hidden;
+}
+.content .game-list .stadium-image{
+    height: 100%;
+}
+.content .game-list .place-div{
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.content .game-list .place-div .place-info{
+    color: #f38c48;
+}
+.content .game-list .member-num-div{
+    height: 100%;
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 60%;
+}
+.content .game-list .time-div{
+    height: 100%;
+    width: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.content .game-list .time{
+    font-size: 3rem;
+}
+.content .game-list .recruit-div{
+    height: 100%;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.content .game-list .recruit{
+    border: none;
+    background-color: #f38c48;
+    font-size: 1rem;
+    border-radius: 0.7rem;
+    padding: 0.5rem 1rem;
+}
+.hide {
+    display: none;
+}

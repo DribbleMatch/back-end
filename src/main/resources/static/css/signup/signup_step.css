@@ -1,0 +1,44 @@
+.title h2 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    text-align: center;
+    font-size: 2rem;
+}
+
+.step-progress {
+    display: flex;
+    margin-bottom: 3rem;
+}
+
+.step-progress .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.step-progress .step-circle {
+    width: 2rem;
+    height: 2rem;
+    background-color: #e0e0e0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.step-progress .step-active .step-circle {
+    background-color: #f8802d;
+}
+
+.step-progress .step-now .step-circle {
+    background-color: #f8802d;
+    border: 0.2rem solid black;
+}
+
+.step-progress .step-label {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 12px;
+}
