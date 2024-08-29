@@ -35,11 +35,15 @@ public class Stadium {
     @NotNull
     private int rentalFee;
 
+    @Column
+    private String imagePath;
+
     @Builder
-    public Stadium(String name, Region region, String detailAddress, int rentalFee) {
+    public Stadium(String name, Region region, String detailAddress, int rentalFee, String imagePath) {
         this.name = name;
         this.region = region;
         this.detailAddress = detailAddress;
         this.rentalFee = rentalFee;
+        this.imagePath = imagePath;
     }
 }

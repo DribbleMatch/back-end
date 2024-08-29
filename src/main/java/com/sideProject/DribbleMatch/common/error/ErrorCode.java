@@ -43,6 +43,7 @@ public enum ErrorCode {
     INVALID_PASSWORD_PATTERN(400, "1102", "비밀번호는 대문자, 소문자, 숫자, 특수 문자가 하나 이상 포함되어야 합니다."),
     INVALID_PASSWORD(400, "1103", "비밀 번호가 틀렸습니다."),
     NOT_UNIQUE_NICKNAME(400, "1104", "닉네임이 이미 존재합니다."),
+    NOT_CORRECT_AUTH_CODE(400, "1200", "인증번호가 틀립니다."),
     NOT_FOUND_EMAIL(404, "1300", "해당 이메일이 존재하지 않습니다."),
     NOT_FOUND_USER_ID(404, "1301", "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_NICKNAME(404, "1302", "해당 닉네임이 존재하지 않습니다."),
@@ -76,11 +77,13 @@ public enum ErrorCode {
     NOT_FOUND_REGION_STRING(404, "9301", "해당 지역 문자열에 해당하는 지역이 존재하지 않습니다."),
 
     NOT_FOUND_STADIUM_ID(404, "9300", "해당 경기장이 존재하지 않습니다."),
+    NOT_FOUND_STADIUM_NAME(404, "9301", "해당 이름의 경기장이 존재하지 않습니다."),
 
     NOT_FOUND_TEAM_APPLICATION_ID(400, "11300", "해당 가입 신청이 존재하지 않습니다."),
 
-    INVALID_DATA_PATTERN(400, "12000", "입력 값의 형식이 맞지 않습니다."),
-    MISSING_REQUEST_HEADER(400, "12001", "요청 헤더에 빈 값이 있습니다.");
+    NO_HANDLED_EXCEPTION(400, "12000", "에러 발생. 고객 센터에 문의하세요."),
+    INVALID_DATA_PATTERN(400, "12001", "입력 값의 형식이 맞지 않습니다."),
+    MISSING_REQUEST_HEADER(400, "12002", "요청 헤더에 빈 값이 있습니다.");
 
     private final int httpStatus;
     private final String code;
