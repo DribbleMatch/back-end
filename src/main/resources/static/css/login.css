@@ -1,52 +1,83 @@
-section {
-    max-width: 70rem; /* 헤더의 최대 너비 설정 */
-    margin: 0 auto; /* 가운데 정렬 */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
 }
-
-section .login-container {
-    padding: 20px;
+.login-container h2 {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+}
+.login-container form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 40%;
 }
-
-section .login-container h2 {
-    margin-bottom: 20px;
-    text-align: center;
+.login-container .input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
 }
+.login-container .input-div input {
+    width: 100%;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    font-size: 1rem;
+    padding: 1rem 0.5rem;
 
-section .login-container label {
+}
+.login-container .text-div {
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
 }
-
-section .login-container form {
+.login-container .forget-div {
+    width: 50%;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 0.3rem;
+}
+.login-container h3{
+    font-size: 0.7rem;
+    margin: unset;
+    color: #f38c48;
+    cursor: pointer;
+}
+.login-container .divider{
+    font-size: 0.7rem;
+    margin: unset;
+    color: black;
+}
+.login-container .join-div {
+    width: 50%;
+    margin-top: 0.3rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-    width: 60%;
+    align-items: end;
 }
 
-section .login-container input {
-    width: 70%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 5px solid #ccc;
-    border-radius: 10px;
+.login-container .btn-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
 }
-section .login-container button {
-    padding: 10px;
+
+.login-container .btn-div .login-btn{
+    width: 15rem;
     background-color: #f38c48;
     border: none;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 10px;
+    border-radius: 0.3rem;
+    padding: 1rem;
+    font-size: 1rem;
+    color: #e0e0e0;
 }
-section .login-container button:hover {
+
+.login-container .btn-div .login-btn:hover{
     background-color: #f8802d;
 }

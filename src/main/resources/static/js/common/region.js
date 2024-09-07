@@ -21,8 +21,10 @@ function getSiGunGuList() {
 
                 siGunGuSelect.prop('disabled', false);
             },
-            error: function (error) {
-                alert('시/군/구 불러오기 실패. 다시 시도하세요.')
+            error: function (xhr, status, error) {
+                siGunGuSelect.empty();
+                siGunGuSelect.append($('<option>').val("").text("시/군/구"));
+                commonErrorCallBack(xhr, status, error);
             }
         })
     }

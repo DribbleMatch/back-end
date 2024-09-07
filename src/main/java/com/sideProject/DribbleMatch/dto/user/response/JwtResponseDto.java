@@ -7,12 +7,12 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class JwtResonseDto {
+public class JwtResponseDto {
     private String accessToken;
     private String refreshToken;
 
     @Builder
-    public JwtResonseDto(String accessToken, String refreshToken) {
+    public JwtResponseDto(String accessToken, String refreshToken) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
     }
