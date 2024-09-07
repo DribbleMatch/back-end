@@ -9,8 +9,11 @@ function check_nickname_exist() {
     }
 
     $.ajax({
-        url: '/rest/signup/checkNickName',
+        url: '/signup/rest/checkNickName',
         type: 'POST',
+            // headers: {
+            //     'Authorization': 'Bearer ' + 'asdf'
+            // },
         data: { nickName: nickname},
         success: function (response) {
             if (response) {
@@ -24,7 +27,7 @@ function check_nickname_exist() {
             if (response.code === '1104') {
                 alert(response.message);
             } else {
-                alert('닉네임 중복 확인 오류. 잠시 후에 다시 시도하세요.');
+                commonErrorCallBack(xhr, status, error);
             }
         }
     })
@@ -39,7 +42,7 @@ function check_email_exist() {
     }
 
     $.ajax({
-        url: '/rest/signup/checkEmail',
+        url: '/signup/rest/checkEmail',
         type: 'POST',
         data: { email: email},
         success: function (response) {
@@ -54,7 +57,7 @@ function check_email_exist() {
             if (response.code === '1100') {
                 alert(response.message);
             } else {
-                alert('이메일 중복 확인 오류. 잠시 후에 다시 시도하세요.');
+                commonErrorCallBack(xhr, status, error);
             }
         }
     })
@@ -75,7 +78,11 @@ function validate_password() {
     var password = $('#password').val();
     var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (passwordPattern.test(password)) {
+    return passwordPattern.test(password);
+}
+
+function validate_password_text() {
+    if (validate_password()) {
         $('#fault_password').hide();  // 유효한 경우 오류 메시지를 숨김
     } else {
         $('#fault_password').show();  // 유효하지 않은 경우 오류 메시지를 표시
@@ -102,7 +109,7 @@ function send_verification_code() {
     }
 
     $.ajax({
-        url: '/rest/signup/sendAuthMessage',
+        url: '/signup/rest/sendAuthMessage',
         type: 'POST',
         data: { phone: phone},
         success: function (response) {
@@ -114,8 +121,10 @@ function send_verification_code() {
                 start_timer(300);
             }
         },
-        error: function(error) {
-                alert('인증번호 전송 실패. 잠시 후에 다시 시도하세요.');
+        // todo: 전송 실패 에러 처리
+        error: function(xhr, status, error) {
+            alert('인증번호 전송 실패. 잠시 후에 다시 시도하세요.');
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -130,7 +139,7 @@ function check_verification_code() {
     }
 
     $.ajax({
-        url: '/rest/signup/getAuth',
+        url: '/signup/rest/getAuth',
         type: 'POST',
         data: {
             phone: phone,
@@ -150,7 +159,7 @@ function check_verification_code() {
             if (response.code === '1200') {
                 alert(response.message);
             } else {
-                alert('인증코드 확인 오류. 잠시 후에 다시 시도하세요.');
+                commonErrorCallBack(xhr, status, error);
             }
         }
     })
@@ -222,7 +231,7 @@ function check_input() {
         return false;
     }
 
-    if ($('#fault_password').is(':visible')) {
+    if ($('#fault_password').is(':visible') || !validate_password()) {
         alert("비밀번호 형식이 올바르지 않습니다.");
         return false;
     }
