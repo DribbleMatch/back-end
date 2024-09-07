@@ -1,32 +1,31 @@
 package com.sideProject.DribbleMatch.controller.user.restController;
 
 import com.sideProject.DribbleMatch.common.response.ApiResponse;
-import com.sideProject.DribbleMatch.dto.user.request.SignupUserInfoRequestDto;
-import com.sideProject.DribbleMatch.dto.user.response.JwtResonseDto;
-import com.sideProject.DribbleMatch.dto.user.request.UserSignInRequest;
-import com.sideProject.DribbleMatch.service.auth.AuthService;
 import com.sideProject.DribbleMatch.service.user.UserService;
-import jakarta.validation.Valid;
+import jakarta.servlet.ServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest/signup")
+@RequestMapping("/signup/rest")
 public class SignUpRestController {
 
     private final UserService userService;
 
     // 닉네임 중복 확인
     @PostMapping("/checkNickName")
-    public ApiResponse<String> checkNickName(@RequestParam("nickName") String nickName) {
+    public ApiResponse<String> checkNickName(@RequestHeader Map<String, String> headers, @RequestParam("nickName") String nickName) {
         userService.checkNickName(nickName);
         return ApiResponse.ok("사용 가능한 닉네임입니다.");
     }
 
     // 이메일 중복 확인
     @PostMapping("/checkEmail")
-    public ApiResponse<String> checkEmail(@RequestParam("email") String email) {
+    public ApiResponse<String> checkEmail(@RequestHeader Map<String, String> headers, @RequestParam("email") String email) {
         userService.checkEmail(email);
         return ApiResponse.ok("사용 가능한 이메일입니다.");
     }
