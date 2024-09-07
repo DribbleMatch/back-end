@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.config;
 import com.sideProject.DribbleMatch.common.security.JwtAuthenticationEntryPoint;
 import com.sideProject.DribbleMatch.common.security.JwtTokenFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,16 +31,18 @@ public class SecurityConfig {
                     exceptionHandling.authenticationEntryPoint(jwtAuthenticationEntryPoint);
                 })
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
-//                        .requestMatchers(
-//                                "/api/user/signIn",
-//                                "/api/user/signUp",
-//                                "/api/user/refresh",
-//                                "/error",
-//                                "/api/user/test"
-//                        ).permitAll()
-//                        .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
-//                        .anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                        .requestMatchers(
+                                "/signup/**",
+                                "/login/**",
+                                "/refresh",
+
+                                "/css/**",
+                                "/js/**",
+                                "image/**"
+                        ).permitAll()
+                        .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
+                        .anyRequest().authenticated()
+//                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

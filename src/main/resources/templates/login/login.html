@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <title>Title</title>
   <link rel="stylesheet" href="/css/header.css">
-  <link rel="stylesheet" href="/css/signup/complete.css">
-  <link rel="stylesheet" href="/css/signup/signup_step.css">
+  <link rel="stylesheet" href="/css/login.css">
+  <link rel="stylesheet" href="/css/layout.css">
 </head>
 <body>
+
 <header>
   <div class="up_header">
     <img class="logo" src="/image/logo.png" alt="logo.png">
@@ -35,42 +36,32 @@
   </div>
 </header>
 
-<section>
-  <h2>회원 가입</h2>
-  <div class="step-progress">
-    <div class="step step-active">
-      <div class="step-circle">1</div>
-      <div class="step-label">약관 동의</div>
-    </div>
-    <div class="step step-active">
-      <div class="step-circle">2</div>
-      <div class="step-label">회원 정보 입력</div>
-    </div>
-    <div class="step step-active">
-      <div class="step-circle">3</div>
-      <div class="step-label">선수 정보 입력</div>
-    </div>
-    <div class="step step-now">
-      <div class="step-circle">4</div>
-      <div class="step-label">완료</div>
-    </div>
-  </div>
-
-  <div class="signup-container">
-    <h2>회원 가입 완료</h2>
-    <div class="checkmark-container">
-      <div class="checkmark">
-        <div class="checkmark-circle"></div>
-        <div class="checkmark-stem"></div>
-        <div class="checkmark-kick"></div>
+<section class="content">
+  <div class="login-container">
+    <h2>로그인</h2>
+    <form>
+      <div class="input-div">
+        <input type="email" id="email" name="email" placeholder="이메일">
+        <input type="password" id="password" name="password" placeholder="비밀번호">
       </div>
-    </div>
-    <p class="completion-message">회원 가입이 성공적으로 완료되었습니다!</p>
-    <button type="button" onclick="go_login()">로그인</button>
+      <div class="text-div">
+        <div class="forget-div">
+          <h3>이메일 찾기</h3>
+          <h3 class="divider">|</h3>
+          <h3>비밀번호 찾기</h3>
+        </div>
+        <div class="join-div">
+          <h3>회원 가입</h3>
+        </div>
+      </div>
+      <div class="btn-div">
+        <button type="button" class="login-btn" onclick="user_login()">로그인</button>
+      </div>
+    </form>
   </div>
 </section>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script src="/js/common/common.js"></script>
-<script src="/js/signup/complete.js"></script>
+<script src="/js/login/login.js"></script>
 </body>
 </html>

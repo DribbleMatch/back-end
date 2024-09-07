@@ -1,11 +1,14 @@
 package com.sideProject.DribbleMatch.service.auth;
 
-import com.sideProject.DribbleMatch.dto.user.request.UserSignInRequest;
-import com.sideProject.DribbleMatch.dto.user.response.JwtResonseDto;
+import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
+import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
+import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {
-    public JwtResonseDto userSignIn(UserSignInRequest request);
-    public JwtResonseDto adminSignIn(UserSignInRequest request);
-    public JwtResonseDto refresh(String refreshToken);
-    public JwtResonseDto adminRefresh(String refreshToken);
+    public JwtResponseDto userSignIn(UserLogInRequestDto request);
+    public JwtResponseDto adminSignIn(UserLogInRequestDto request);
+    public JwtResponseDto refresh(String refreshToken);
+    public JwtResponseDto adminRefresh(String refreshToken);
+    public void setCookie(JwtResponseDto tokens, HttpServletResponse response);
+    public void deleteCookie(HttpServletResponse response);
 }

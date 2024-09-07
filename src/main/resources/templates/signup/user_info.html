@@ -63,19 +63,19 @@
         <section class="content">
             <div class="signup-container">
                 <h2>회원 정보 입력</h2>
-                <form action="/signup/playerInfo" method="post" onerror="">
+                <form action="/signup/playerInfo" method="post" onsubmit="return check_input()">
                     <div class="label-container">
                         <label for="nickname">닉네임</label>
                     </div>
                     <div class="info-container">
-                        <input type="text" id="nickname" name="nickName" placeholder="사용하실 닉네임을 입력해주세요" required>
+                        <input type="text" id="nickname" name="nickName" placeholder="사용하실 닉네임을 입력해주세요">
                         <button type="button" class="inner-btn" id="check-nickname-btn" onclick="check_nickname_exist()">중복 확인</button>
                     </div>
                     <div class="label-container">
                         <label for="email">이메일</label>
                     </div>
                     <div class="info-container">
-                        <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요" required>
+                        <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요">
                         <button type="button" class="inner-btn" id="check-email-btn" onclick="check_email_exist()">중복 확인</button>
                     </div>
                     <div class="label-container">
@@ -83,40 +83,41 @@
                         <span class="fault-message" id="fault_birth">생년월일 형식이 올바르지 않습니다. (YYYYMMDD)</span>
                     </div>
                     <div class="info-container">
-                        <input type="text" id="birth" name="birth" placeholder="생년월일을 입력해주세요 (YYYYMMDD)" onfocusout="validate_birth()" required>
+                        <input type="text" id="birth" name="birth" placeholder="생년월일을 입력해주세요 (YYYYMMDD)" onfocusout="validate_birth()">
                     </div>
                     <div class="label-container">
                         <label for="password">비밀번호</label>
                         <span class="fault-message" id="fault_password">비밀번호 형식이 올바르지 않습니다.</span>
                     </div>
                     <div class="info-container">
-                        <input type="password" id="password" name="password" placeholder="비밀번호 입력해주세요" onfocusout="validate_password()" required>
+                        <input type="password" id="password" name="password" placeholder="비밀번호 입력해주세요" onfocusout="validate_password_text()">
                     </div>
                     <div class="label-container">
                         <label for="password_check">비밀번호 확인</label>
                         <span class="fault-message" id="fault_password_check">비밀번호가 다릅니다.</span>
                     </div>
                     <div class="info-container">
-                        <input type="password" id="password_check" name="password_check" placeholder="비밀번호를 다시 입력해주세요" onfocusout="validate_password_check()" required>
+                        <input type="password" id="password_check" name="password_check" placeholder="비밀번호를 다시 입력해주세요" onfocusout="validate_password_check()">
                     </div>
                     <div class="label-container">
                         <label for="nickname">휴대폰 인증</label>
                     </div>
                     <div class="info-container">
-                        <input type="text" id="phone" name="phone" placeholder="휴대폰 번호를 입력해주세요" required>
+                        <input type="text" id="phone" name="phone" placeholder="휴대폰 번호를 입력해주세요">
                         <button type="button" class="inner-btn" id="send_message_btn" onclick="send_verification_code()">인증 요청</button>
                     </div>
                     <div class="info-container-hide">
-                        <input type="text" id="pin_num" name="authCode" placeholder="인증번호 6자리를 입력해주세요" required>
+                        <input type="text" id="pin_num" name="authCode" placeholder="인증번호 6자리를 입력해주세요">
                         <button type="button" class="inner-btn" id="get_auth_btn" onclick="check_verification_code()">인증 확인</button>
                         <div class="timer" id="timer">05:00</div>
                     </div>
-                    <button type="submit" onclick="check_input()">다음</button>
+                    <button type="submit">다음</button>
                 </form>
             </div>
         </section>
 
         <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="/js/common/common.js"></script>
         <script src="/js/signup/user_info.js"></script>
     </body>
 </html>

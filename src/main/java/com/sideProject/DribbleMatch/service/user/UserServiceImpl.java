@@ -2,15 +2,18 @@ package com.sideProject.DribbleMatch.service.user;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.common.util.JwtTokenProvider;
+import com.sideProject.DribbleMatch.common.util.JwtUtil;
 import com.sideProject.DribbleMatch.common.util.RedisUtil;
 import com.sideProject.DribbleMatch.common.util.SmsUtil;
 import com.sideProject.DribbleMatch.dto.user.request.SignupPlayerInfoRequestDto;
+import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
+import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +32,8 @@ public class UserServiceImpl implements UserService{
     private final RegionRepository regionRepository;
     private final RedisUtil redisUtil;
     private final SmsUtil smsUtil;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtUtil jwtUtil;
 
     @Override
     public void checkNickName(String nickName) {
@@ -89,10 +94,19 @@ public class UserServiceImpl implements UserService{
         userRepository.save(signupUser);
     }
 
-    private void validatePassword(String password) {
-        if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") ||
-                !password.matches(".*\\d.*") || !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD_PATTERN);
+    @Override
+    public JwtResponseDto login(UserLogInRequestDto requestDto) {
+
+        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        } else {
+            return JwtResponseDto.builder()
+                    .accessToken(jwtTokenProvider.createAccessToken(user))
+                    .refreshToken(jwtTokenProvider.createRefreshToken(user))
+                    .build();
         }
     }
 

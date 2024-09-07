@@ -1,6 +1,8 @@
 package com.sideProject.DribbleMatch.service.user;
 
 import com.sideProject.DribbleMatch.dto.user.request.SignupPlayerInfoRequestDto;
+import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
+import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
 
 public interface UserService {
     public void checkNickName(String nickName);
@@ -8,4 +10,5 @@ public interface UserService {
     public void sendAuthMessage(String phone);
     public void getAuth(String phone, String authCode);
     public void signUp(SignupPlayerInfoRequestDto requestDto);
+    public JwtResponseDto login(UserLogInRequestDto requestDto);
 }

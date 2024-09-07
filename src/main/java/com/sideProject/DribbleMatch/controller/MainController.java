@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -17,7 +17,7 @@ public class MainController {
 
     private final MatchingService matchingService;
 
-    @GetMapping("/")
+    @GetMapping("/page")
     public String index(ModelMap model) {
 
         LocalDate nowDate = LocalDate.now();
@@ -27,5 +27,11 @@ public class MainController {
         model.addAttribute("matchingList", matchingList);
 
         return "/index";
+    }
+
+    @GetMapping("/login/page")
+    public String login(ModelMap model) {
+
+        return "/login/login";
     }
 }

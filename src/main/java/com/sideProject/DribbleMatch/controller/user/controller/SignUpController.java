@@ -18,7 +18,7 @@ public class SignUpController {
     private final RegionRepository regionRepository;
 
     @GetMapping("/agree")
-    public String signUpPage(Model model) {
+    public String agreePage(Model model) {
         return "signup/agree";
     }
 
