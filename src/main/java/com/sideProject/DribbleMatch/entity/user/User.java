@@ -56,8 +56,18 @@ public class User {
     @NotNull
     private Region region;
 
+    @Column
+    private int experience;
+
+    @Column
+    private String imagePath;
+//     경험치
+//    0 ~ 100: 1레벨
+//    100 ~ 300: 2레벨
+//    300 ~ 600: 3레벨
+
     @Builder
-    public User(String email, String password, String nickName, Gender gender, LocalDate birth, String positionString, int winning, Region region) {
+    public User(String email, String password, String nickName, Gender gender, LocalDate birth, String positionString, int winning, Region region, int experience, String imagePath) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
@@ -66,5 +76,7 @@ public class User {
         this.positionString = positionString;
         this.winning = winning;
         this.region = region;
+        this.experience = experience;
+        this.imagePath = imagePath;
     }
 }

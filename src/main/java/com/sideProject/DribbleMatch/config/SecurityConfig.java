@@ -35,6 +35,8 @@ public class SecurityConfig {
                                 "/signup/**",
                                 "/login/**",
                                 "/refresh",
+                                "/region/**",
+                                "/test",
 
                                 "/css/**",
                                 "/js/**",

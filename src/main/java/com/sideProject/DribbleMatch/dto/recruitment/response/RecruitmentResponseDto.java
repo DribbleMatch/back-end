@@ -1,6 +1,6 @@
 package com.sideProject.DribbleMatch.dto.recruitment.response;
 
-import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamDetailResponseDto;
 import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
@@ -18,7 +18,7 @@ public class RecruitmentResponseDto {
     List<Position> positions;
     int winning;
     int views;
-    TeamResponseDto team;
+    TeamDetailResponseDto team;
     LocalDateTime createAt;
 
     @Builder
@@ -28,7 +28,7 @@ public class RecruitmentResponseDto {
                                   List<Position> positions,
                                   int winning,
                                   int views,
-                                  TeamResponseDto team,
+                                  TeamDetailResponseDto team,
                                   LocalDateTime createAt) {
         this.id = id;
         this.title = title;
@@ -49,7 +49,7 @@ public class RecruitmentResponseDto {
                 .winning(recruitment.getWinning())
                 .views(recruitment.getViews())
                 .createAt(recruitment.getCreatedAt())
-                .team(TeamResponseDto.of(team, team.getRegion().getSiDo()))
+                .team(TeamDetailResponseDto.of(team, team.getRegion().getSiDo()))
                 .build();
     }
 }

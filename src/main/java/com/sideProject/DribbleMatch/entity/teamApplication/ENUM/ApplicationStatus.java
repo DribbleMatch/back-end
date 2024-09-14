@@ -1,6 +1,6 @@
 package com.sideProject.DribbleMatch.entity.teamApplication.ENUM;
 
-public enum JoinStatus {
+public enum ApplicationStatus {
     APPROVE,
     REFUSE,
     WAIT,

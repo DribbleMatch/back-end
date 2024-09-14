@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService{
         }
 
         User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+                new CustomException(ErrorCode.NOT_FOUND_USER));
         return JwtResponseDto.builder()
                 .accessToken(jwtTokenProvider.createAccessToken(user))
                 .refreshToken(jwtTokenProvider.createRefreshToken(user))
@@ -78,7 +78,7 @@ public class AuthServiceImpl implements AuthService{
         }
 
         Admin admin = adminRepository.findById(Long.valueOf(adminId.replace("A", ""))).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_ADMIN_ID));
+                new CustomException(ErrorCode.NOT_FOUND_ADMIN));
         return JwtResponseDto.builder()
                 .accessToken(jwtTokenProvider.createAdminAccessToken(admin))
                 .refreshToken(jwtTokenProvider.createAdminRefreshToken(admin))

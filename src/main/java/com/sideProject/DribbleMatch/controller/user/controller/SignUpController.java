@@ -36,7 +36,7 @@ public class SignUpController {
     }
 
     @PostMapping("/complete")
-    public String completePage(Model model, SignupPlayerInfoRequestDto requestDto) {
+    public String completePage(Model model, @ModelAttribute SignupPlayerInfoRequestDto requestDto) {
         userService.signUp(requestDto);
         return "signup/complete";
     }

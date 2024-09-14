@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/layout.css">
+        <link rel="stylesheet" href="/css/signup/signup_step.css">
+        <th:block layout:fragment="css"></th:block>
+        <th:block layout:fragment="script"></th:block>
+    </head>
+      <body>
+          <div th:replace="fragments/header::header"></div>
+          <div th:replace="fragments/flow-bar::flow-bar"></div>
+          <div layout:fragment="content"></div>
+
+          <script src="http://code.jquery.com/jquery-latest.js"></script>
+          <script src="/js/common/common.js"></script>
+      </body>
+</html>
