@@ -1,6 +1,6 @@
 package com.sideProject.DribbleMatch.dto.team.request;
 
-import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.teamMember.ENUM.TeamRole;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

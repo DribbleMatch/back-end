@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/signup/signup_step.css">
+  <th:block layout:fragment="css"></th:block>
+</head>
+<body>
+<section class="flow-bar" th:fragment="flow-bar">
+  <div class="title">
+    <h2>회원 가입</h2>
+  </div>
+  <div class="step-progress">
+    <div class="step step-active">
+      <div class="step-circle">1</div>
+      <div class="step-label">약관 동의</div>
+    </div>
+    <div class="step step-now">
+      <div class="step-circle">2</div>
+      <div class="step-label">회원 정보 입력</div>
+    </div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <div class="step-label">선수 정보 입력</div>
+    </div>
+    <div class="step">
+      <div class="step-circle">4</div>
+      <div class="step-label">완료</div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
+
+<!--todo: 페이지 별 플로우 반영하도록 수정-->

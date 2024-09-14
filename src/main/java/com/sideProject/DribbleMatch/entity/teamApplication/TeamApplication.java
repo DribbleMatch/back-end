@@ -1,7 +1,7 @@
 package com.sideProject.DribbleMatch.entity.teamApplication;
 
 import com.sideProject.DribbleMatch.entity.BaseEntity;
-import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.ApplicationStatus;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
@@ -35,21 +35,21 @@ public class TeamApplication extends BaseEntity {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private JoinStatus status;
+    private ApplicationStatus status;
 
     @Builder
     public TeamApplication(User user, Team team, String introduce) {
         this.user = user;
         this.team = team;
         this.introduce = introduce;
-        this.status = JoinStatus.WAIT;
+        this.status = ApplicationStatus.WAIT;
     }
 
     public void approve() {
-        this.status = JoinStatus.APPROVE;
+        this.status = ApplicationStatus.APPROVE;
     }
 
     public void refuse() {
-        this.status = JoinStatus.REFUSE;
+        this.status = ApplicationStatus.REFUSE;
     }
 }

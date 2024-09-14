@@ -1,65 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="/css/layout.css">
-        <link rel="stylesheet" href="/css/signup/user_info.css">
-        <link rel="stylesheet" href="/css/signup/signup_step.css">
-    </head>
-    <body>
-        <header>
-            <div class="up_header">
-                <img class="logo" src="/image/logo.png" alt="logo.png">
-                <input type="text" class="searchBox" placeholder="지역, 경기명으로 경기 검색"/>
-                <img class="userInfo-icon" src="/image/icon/userInfo_icon.png" alt="userInfo_icon.png">
-                <img class="menu-icon" src="/image/icon/menu_icon.png" alt="menu_icon.png">
-            </div>
-            <div class="down-header">
-                <div class="menu-items">
-                    <img class="menu-icon" src="/image/icon/ranking_icon.png">
-                    <h3>랭킹</h3>
-                </div>
-                <div class="menu-items">
-                    <img class="menu-icon" src="/image/icon/team_icon.png">
-                    <h3>팀</h3>
-                </div>
-                <div class="menu-items">
-                    <img class="menu-icon" src="/image/icon/competition_icon.png">
-                    <h3>대회</h3>
-                </div>
-                <div class="menu-items">
-                    <img class="menu-icon" src="/image/icon/board_icon.png">
-                    <h3>커뮤니티</h3>
-                </div>
-            </div>
-        </header>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/join_layout}">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/signup/user_info.css}">
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/signup/user_info.js}"></script>
+    </th:block>
 
-        <section class="flow-bar">
-            <div class="title">
-                <h2>회원 가입</h2>
-            </div>
-            <div class="step-progress">
-                <div class="step step-active">
-                    <div class="step-circle">1</div>
-                    <div class="step-label">약관 동의</div>
-                </div>
-                <div class="step step-now">
-                    <div class="step-circle">2</div>
-                    <div class="step-label">회원 정보 입력</div>
-                </div>
-                <div class="step">
-                    <div class="step-circle">3</div>
-                    <div class="step-label">선수 정보 입력</div>
-                </div>
-                <div class="step">
-                    <div class="step-circle">4</div>
-                    <div class="step-label">완료</div>
-                </div>
-            </div>
-        </section>
-
+    <div layout:fragment="content">
         <section class="content">
             <div class="signup-container">
                 <h2>회원 정보 입력</h2>
@@ -69,55 +19,61 @@
                     </div>
                     <div class="info-container">
                         <input type="text" id="nickname" name="nickName" placeholder="사용하실 닉네임을 입력해주세요">
-                        <button type="button" class="inner-btn" id="check-nickname-btn" onclick="check_nickname_exist()">중복 확인</button>
+                        <button type="button" class="inner-btn" id="check-nickname-btn" onclick="check_nickname_exist()">중복
+                            확인
+                        </button>
                     </div>
                     <div class="label-container">
                         <label for="email">이메일</label>
                     </div>
                     <div class="info-container">
                         <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요">
-                        <button type="button" class="inner-btn" id="check-email-btn" onclick="check_email_exist()">중복 확인</button>
+                        <button type="button" class="inner-btn" id="check-email-btn" onclick="check_email_exist()">중복 확인
+                        </button>
                     </div>
                     <div class="label-container">
                         <label for="birth">생년월일</label>
                         <span class="fault-message" id="fault_birth">생년월일 형식이 올바르지 않습니다. (YYYYMMDD)</span>
                     </div>
                     <div class="info-container">
-                        <input type="text" id="birth" name="birth" placeholder="생년월일을 입력해주세요 (YYYYMMDD)" onfocusout="validate_birth()">
+                        <input type="text" id="birth" name="birth" placeholder="생년월일을 입력해주세요 (YYYYMMDD)"
+                               onfocusout="validate_birth()">
                     </div>
                     <div class="label-container">
                         <label for="password">비밀번호</label>
                         <span class="fault-message" id="fault_password">비밀번호 형식이 올바르지 않습니다.</span>
                     </div>
                     <div class="info-container">
-                        <input type="password" id="password" name="password" placeholder="비밀번호 입력해주세요" onfocusout="validate_password_text()">
+                        <input type="password" id="password" name="password" placeholder="비밀번호 입력해주세요"
+                               onfocusout="validate_password_text()">
                     </div>
                     <div class="label-container">
                         <label for="password_check">비밀번호 확인</label>
                         <span class="fault-message" id="fault_password_check">비밀번호가 다릅니다.</span>
                     </div>
                     <div class="info-container">
-                        <input type="password" id="password_check" name="password_check" placeholder="비밀번호를 다시 입력해주세요" onfocusout="validate_password_check()">
+                        <input type="password" id="password_check" name="password_check" placeholder="비밀번호를 다시 입력해주세요"
+                               onfocusout="validate_password_check()">
                     </div>
                     <div class="label-container">
                         <label for="nickname">휴대폰 인증</label>
                     </div>
                     <div class="info-container">
                         <input type="text" id="phone" name="phone" placeholder="휴대폰 번호를 입력해주세요">
-                        <button type="button" class="inner-btn" id="send_message_btn" onclick="send_verification_code()">인증 요청</button>
+                        <button type="button" class="inner-btn" id="send_message_btn" onclick="send_verification_code()">인증
+                            요청
+                        </button>
                     </div>
                     <div class="info-container-hide">
                         <input type="text" id="pin_num" name="authCode" placeholder="인증번호 6자리를 입력해주세요">
-                        <button type="button" class="inner-btn" id="get_auth_btn" onclick="check_verification_code()">인증 확인</button>
+                        <button type="button" class="inner-btn" id="get_auth_btn" onclick="check_verification_code()">인증
+                            확인
+                        </button>
                         <div class="timer" id="timer">05:00</div>
                     </div>
                     <button type="submit">다음</button>
                 </form>
             </div>
         </section>
-
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="/js/common/common.js"></script>
-        <script src="/js/signup/user_info.js"></script>
-    </body>
+    </div>
 </html>

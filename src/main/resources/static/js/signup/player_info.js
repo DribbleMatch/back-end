@@ -1,3 +1,16 @@
+function showImage() {
+
+    const imageFile = $('#image')[0].files[0];
+
+    if (imageFile) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#preview").attr("src", e.target.result).show();
+        }
+        reader.readAsDataURL(imageFile)
+    }
+}
+
 function check_input() {
 
     var gender = $('#gender').val();

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:if="${teamApplicationList == null}">is null</div>
+<div th:if="${teamApplicationList != null}">is not null</div>
+<div class="popup-body">
+<!--  <ul id="request-list">-->
+<!--    <li th:each="teamApplication : ${teamApplicationList}" class="request-item">-->
+<!--      <span class="name" th:text="${teamApplicaton.nickName}"></span>-->
+<!--      <span class="positions" th:text="${teamApplicaton.positionString}">PG, SG, PF, SF, C</span>-->
+<!--      <span class="level" th:text="${teamApplicaton.level}">Lv.3</span>-->
+<!--      <button class="approve-btn">승인</button>-->
+<!--      <button class="deny-btn">거절</button>-->
+<!--    </li>-->
+<!--  </ul>-->
+</div>
+</body>
+</html>

@@ -65,7 +65,7 @@
 //                new CustomException(ErrorCode.NOT_FOUND_PERSONAL_MATCHING_ID));
 //
 //        String regionString = regionRepository.findRegionStringById(personalMatching.getRegion().getId()).orElseThrow(() ->
-//                new CustomException(ErrorCode.NOT_FOUND_REGION_ID));
+//                new CustomException(ErrorCode.NOT_FOUND_REGION));
 //
 //        return MatchingResponseDto.of(personalMatching, regionString);
 //    }
@@ -78,7 +78,7 @@
 //
 //            return personalMatchings
 //                    .map(personalMatching -> MatchingResponseDto.of(personalMatching, regionRepository.findRegionStringById(personalMatching.getRegion().getId()).orElseThrow(() ->
-//                            new CustomException(ErrorCode.NOT_FOUND_REGION_ID))));
+//                            new CustomException(ErrorCode.NOT_FOUND_REGION))));
 //        }
 //
 //        List<Long> regionIds = regionRepository.findIdsByRegionString(regionString);
@@ -93,7 +93,7 @@
 //
 //    private void checkUniqueName(String name) {
 //        if(personalMatchingRepository.findByName(name).isPresent()) {
-//            throw new CustomException(ErrorCode.NOT_UNIQUE_PERSONAL_MATCHING_NAME);
+//            throw new CustomException(ErrorCode.NOT_UNIQUE_MATCHING_NAME);
 //        }
 //    }
 //}

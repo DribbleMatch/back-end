@@ -44,3 +44,7 @@ function user_login() {
         }
     })
 }
+
+function goToJoinPage() {
+    location.href = "/signup/agree";
+}

@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -34,9 +35,10 @@ public class SignupPlayerInfoRequestDto {
     private String  siDoString;
     @NotNull(message = "시/군/구가 입력되지 않았습니다.")
     private String  siGunGuString;
+    private MultipartFile image;
 
     @Builder
-    public SignupPlayerInfoRequestDto(String nickName, String email, String birth, String password, String phone, int career, Gender gender, Skill skill, String positionString, String siDoString, String siGunGuString) {
+    public SignupPlayerInfoRequestDto(String nickName, String email, String birth, String password, String phone, int career, Gender gender, Skill skill, String positionString, String siDoString, String siGunGuString, MultipartFile image) {
         this.nickName = nickName;
         this.email = email;
         this.birth = birth;
@@ -48,5 +50,6 @@ public class SignupPlayerInfoRequestDto {
         this.positionString = positionString;
         this.siDoString = siDoString;
         this.siGunGuString = siGunGuString;
+        this.image = image;
     }
 }

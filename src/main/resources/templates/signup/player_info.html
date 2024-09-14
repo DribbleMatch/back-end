@@ -1,171 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" href="/css/header.css">
-  <link rel="stylesheet" href="/css/signup/player_info.css">
-  <link rel="stylesheet" href="/css/signup/signup_step.css">
-</head>
-<body>
-<header>
-  <div class="up_header">
-    <img class="logo" src="/image/logo.png" alt="logo.png">
-    <input type="text" class="searchBox" placeholder="지역, 경기명으로 경기 검색"/>
-    <img class="userInfo-icon" src="/image/icon/userInfo_icon.png" alt="userInfo_icon.png">
-    <img class="menu-icon" src="/image/icon/menu_icon.png" alt="menu_icon.png">
-  </div>
-  <div class="down-header">
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/ranking_icon.png">
-      <h3>랭킹</h3>
-    </div>
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/team_icon.png">
-      <h3>팀</h3>
-    </div>
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/competition_icon.png">
-      <h3>대회</h3>
-    </div>
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/board_icon.png">
-      <h3>커뮤니티</h3>
-    </div>
-  </div>
-</header>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/join_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/signup/player_info.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/signup/player_info.js}"></script>
+    <script th:src="@{/js/common/region.js}"></script>
+</th:block>
 
-<section>
-  <h2>회원 가입</h2>
-  <div class="step-progress">
-    <div class="step step-active">
-      <div class="step-circle">1</div>
-      <div class="step-label">약관 동의</div>
-    </div>
-    <div class="step step-active">
-      <div class="step-circle">2</div>
-      <div class="step-label">회원 정보 입력</div>
-    </div>
-    <div class="step step-now">
-      <div class="step-circle">3</div>
-      <div class="step-label">선수 정보 입력</div>
-    </div>
-    <div class="step">
-      <div class="step-circle">4</div>
-      <div class="step-label">완료</div>
-    </div>
-  </div>
+<div layout:fragment="content">
+    <section class="content">
+        <div class="signup-container">
+            <h2>선수 정보 입력</h2>
+            <form th:action="@{/signup/complete}" method="post" enctype="multipart/form-data" onsubmit="return check_input()">
+                <input type="hidden" th:name="nickName" th:value="${user.nickName}"/>
+                <input type="hidden" th:name="email" th:value="${user.email}"/>
+                <input type="hidden" th:name="birth" th:value="${user.birth}"/>
+                <input type="hidden" th:name="password" th:value="${user.password}"/>
+                <input type="hidden" th:name="phone" th:value="${user.phone}"/>
+                <div class="label-container">
+                    <label for="career">농구 경력</label>
+                    <div class="label-explain"> 본인의 농구 경력을 입력해주세요! 맞는 실력의 상대를 만나시게 됩니다!</div>
+                </div>
+                <div class="info-container">
+                    <select id="career" name="career">
+                        <option value="-1">선택해주세요</option>
+                        <option value="0">1년 미만</option>
+                        <option value="1">1년 ~ 2년</option>
+                        <option value="2">2년 ~ 3년</option>
+                        <option value="3">3년 ~ 4년</option>
+                        <option value="4">4년 이상</option>
+                    </select>
+                </div>
 
-  <div class="signup-container">
-    <h2>선수 정보 입력</h2>
-    <form th:action="@{/signup/complete}" method="post">
-      <input type="hidden" th:name="nickName" th:value="${user.nickName}" />
-      <input type="hidden" th:name="email" th:value="${user.email}" />
-      <input type="hidden" th:name="birth" th:value="${user.birth}" />
-      <input type="hidden" th:name="password" th:value="${user.password}" />
-      <input type="hidden" th:name="phone" th:value="${user.phone}" />
-      <div class="label-container">
-        <label for="career">농구 경력</label>
-        <div class="label-explain"> 본인의 농구 경력을 입력해주세요! 맞는 실력의 상대를 만나시게 됩니다!</div>
-      </div>
-      <div class="info-container">
-        <select id="career" name="career">
-          <option value="-1">선택해주세요</option>
-          <option value="0">1년 미만</option>
-          <option value="1">1년 ~ 2년</option>
-          <option value="2">2년 ~ 3년</option>
-          <option value="3">3년 ~ 4년</option>
-          <option value="4">4년 이상</option>
-        </select>
-      </div>
+                <div class="label-container">
+                    <label for="gender">성별</label>
+                    <div class="label-explain">남성/여성/혼성 경기에 참여하세요!</div>
+                </div>
+                <div class="info-container">
+                    <div class="red-point">*</div>
+                    <select id="gender" name="gender">
+                        <option value="">선택해주세요</option>
+                        <option value="MALE">남성</option>
+                        <option value="FEMALE">여성</option>
+                    </select>
+                </div>
 
-      <div class="label-container">
-        <label for="gender">성별</label>
-        <div class="label-explain">남성/여성/혼성 경기에 참여하세요!</div>
-      </div>
-      <div class="info-container">
-        <div class="red-point">*</div>
-        <select id="gender" name="gender" required>
-          <option value="">선택해주세요</option>
-          <option value="MALE">남성</option>
-          <option value="FEMALE">여성</option>
-        </select>
-      </div>
+                <div class="label-container">
+                    <label for="skill">농구 실력</label>
+                    <div class="label-explain"> 본인의 농구 실력을 평가해주세요! 맞는 실력의 상대를 만나시게 됩니다!</div>
+                </div>
+                <div class="info-container">
+                    <div class="red-point">*</div>
+                    <select id="skill" name="skill">
+                        <option value="">선택해주세요</option>
+                        <option value="BEGINNER">초급자</option>
+                        <option value="INTERMEDIATE">중급자</option>
+                        <option value="ADVANCED">고급자</option>
+                        <option value="FORMER_ATHLETE">프로 선수 출신</option>
+                        <option value="ATHLETE">프로 선수</option>
+                    </select>
+                </div>
 
-      <div class="label-container">
-        <label for="skill">농구 실력</label>
-        <div class="label-explain"> 본인의 농구 실력을 평가해주세요! 맞는 실력의 상대를 만나시게 됩니다!</div>
-      </div>
-      <div class="info-container">
-        <div class="red-point">*</div>
-        <select id="skill" name="skill" required>
-          <option value="">선택해주세요</option>
-          <option value="BEGINNER">초급자</option>
-          <option value="INTERMEDIATE">중급자</option>
-          <option value="ADVANCED">고급자</option>
-          <option value="FORMER_ATHLETE">프로 선수 출신</option>
-          <option value="ATHLETE">프로 선수</option>
-        </select>
-      </div>
+                <div class="label-container">
+                    <label>포지션</label>
+                    <div class="label-explain"> 주로 플레이하는 포지션을 선택해주세요! 여러 포지션도 선택 가능합니다!</div>
+                </div>
+                <div class="info-container">
+                    <div class="red-point">*</div>
+                    <div class="checkbox-container">
+                        <div class="checkbox-div">
+                            <label for="center">센터</label>
+                            <input type="checkbox" id="center" name="positionString" value="C">
+                        </div>
+                        <div class="checkbox-div">
+                            <label for="power-forward">파워 포워드</label>
+                            <input type="checkbox" id="power-forward" name="positionString" value="PW">
+                        </div>
+                        <div class="checkbox-div">
+                            <label for="small-forward">스몰 포워드</label>
+                            <input type="checkbox" id="small-forward" name="positionString" value="SF">
+                        </div>
+                        <div class="checkbox-div">
+                            <label for="shooting-guard">슈팅 가드</label>
+                            <input type="checkbox" id="shooting-guard" name="positionString" value="SG">
+                        </div>
+                        <div class="checkbox-div">
+                            <label for="point-guard">포인트 가드</label>
+                            <input type="checkbox" id="point-guard" name="positionString" value="PG">
+                        </div>
+                        <div class="checkbox-div">
+                            <label for="etc">기타</label>
+                            <input type="checkbox" id="etc" name="position" value="기타">
+                        </div>
+                    </div>
+                </div>
 
-      <div class="label-container">
-        <label>포지션</label>
-        <div class="label-explain"> 주로 플레이하는 포지션을 선택해주세요! 여러 포지션도 선택 가능합니다!</div>
-      </div>
-      <div class="info-container">
-        <div class="red-point">*</div>
-        <div class="checkbox-container">
-          <div class="checkbox-div">
-            <label for="center">센터</label>
-            <input type="checkbox" id="center" name="positionString" value="CENTER">
-          </div>
-          <div class="checkbox-div">
-            <label for="power-forward">파워 포워드</label>
-            <input type="checkbox" id="power-forward" name="positionString" value="POWER_FORWARD">
-          </div>
-          <div class="checkbox-div">
-            <label for="small-forward">스몰 포워드</label>
-            <input type="checkbox" id="small-forward" name="positionString" value="SMALL_FORWARD">
-          </div>
-          <div class="checkbox-div">
-            <label for="shooting-guard">슈팅 가드</label>
-            <input type="checkbox" id="shooting-guard" name="positionString" value="SHOOTING_GUARD">
-          </div>
-          <div class="checkbox-div">
-            <label for="point-guard">포인트 가드</label>
-            <input type="checkbox" id="point-guard" name="positionString" value="POINT_GUARD">
-          </div>
-          <div class="checkbox-div">
-            <label for="etc">기타</label>
-            <input type="checkbox" id="etc" name="position" value="기타">
-          </div>
+                <div class="label-container">
+                    <label for="region">활동 지역</label>
+                    <div class="label-explain"> 주로 활동하는 지역을 선택해주세요! 시/도만 선택해도 됩니다!</div>
+                </div>
+                <div class="info-container" id="region">
+                    <div class="red-point">*</div>
+                    <select id="siDo" name="siDoString" onchange="getSiGunGuList()">
+                        <option value="">시/도</option>
+                        <option th:each="siDo : ${siDoList}" th:value="${siDo}" th:text="${siDo}"></option>
+                    </select>
+
+                    <select id="siGunGu" name="siGunGuString" disabled>
+                        <option value="">시/군/구</option>
+                    </select>
+                </div>
+
+                <div class="label-container">
+                    <label for="image">프로필 이미지</label>
+                    <div class="label-explain">설정하지 않으면 기본 이미지로 대체됩니다!</div>
+                </div>
+                <div class="image-container">
+                    <input type=file id="image" name="image" onchange="showImage()">
+                    <div class="image-div">
+                        <img id="preview" src="" alt="이미지 미리보기" style="display: none;">
+                    </div>
+                </div>
+
+
+                <button type="submit">가입하기</button>
+            </form>
         </div>
-      </div>
-
-      <div class="label-container">
-        <label for="region">활동 지역</label>
-        <div class="label-explain"> 주로 활동하는 지역을 선택해주세요! 시/도만 선택해도 됩니다!</div>
-      </div>
-      <div class="info-container" id="region">
-        <div class="red-point">*</div>
-        <select id="siDo" name="siDoString" onchange="getSiGunGuList()" required>
-          <option value="">시/도</option>
-          <option th:each="siDo : ${siDoList}" th:value="${siDo}" th:text="${siDo}"></option>
-        </select>
-
-        <select id="siGunGu" name="siGunGuString" required disabled>
-          <option value="">시/군/구</option>
-        </select>
-      </div>
-
-
-      <button type="submit" onclick="check_input()">가입하기</button>
-    </form>
-  </div>
-</section>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script src="/js/common/common.js"></script>
-<script src="/js/common/region.js"></script>
-<script src="/js/signup/player_info.js"></script>
-</body>
+    </section>
+</div>
 </html>

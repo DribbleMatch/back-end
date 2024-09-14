@@ -1,7 +1,8 @@
-package com.sideProject.DribbleMatch.entity.team;
+package com.sideProject.DribbleMatch.entity.teamMember;
 
 import com.sideProject.DribbleMatch.entity.BaseEntity;
-import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.teamMember.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -21,12 +22,12 @@ public class TeamMember extends BaseEntity {
     private Long id;
 
     @NotNull(message = "사용자가 입력되지 않았습니다.")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
 
     @NotNull(message = "팀이 입력되지 않았습니다.")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "team_id")
     private Team team;
 
