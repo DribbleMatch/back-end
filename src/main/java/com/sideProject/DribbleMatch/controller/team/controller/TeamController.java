@@ -41,6 +41,12 @@ public class TeamController {
         return "/team/teamListView";
     }
 
+    @PostMapping("/teamListView")
+    public String teamListView(Model model, @RequestParam(name = "searchWord") String searchWord) {
+        model.addAttribute("teamList", teamService.selectAllTeamBySearchWord(searchWord));
+        return "/team/teamListView :: #team-list";
+    }
+
     @GetMapping("/myTeamListView")
     public String myTeamListView(Model model, Principal principal) {
         model.addAttribute("teamList", teamService.selectAllTeamByUserId(Long.valueOf(principal.getName())));

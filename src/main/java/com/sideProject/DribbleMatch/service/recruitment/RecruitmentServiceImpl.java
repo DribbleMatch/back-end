@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-//todo: endPoint 생각해보
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -38,6 +37,23 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     public List<RecruitmentResponseDto> findAllRecruitmentInTime() {
 
         return recruitmentRepository.findRecruitmentInTimeOrderByCreateAt().stream()
+                .map(recruitment -> RecruitmentResponseDto.builder()
+                        .title(recruitment.getTitle())
+                        .teamId(recruitment.getTeam().getId())
+                        .teamName(recruitment.getTeam().getName())
+                        .teamImagePath(recruitment.getTeam().getImagePath())
+                        .positionString(recruitment.getPositionString())
+                        .createdAt(recruitment.getCreatedAt().toLocalDate())
+                        .endAt(recruitment.getEndAt())
+                        .content(recruitment.getContent())
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public List<RecruitmentResponseDto> findAllRecruitmentInTimeBySearch(String searchWord) {
+
+        return recruitmentRepository.findRecruitmentInTimeOrderByCreateAtBySearch(searchWord).stream()
                 .map(recruitment -> RecruitmentResponseDto.builder()
                         .title(recruitment.getTitle())
                         .teamId(recruitment.getTeam().getId())

@@ -141,6 +141,20 @@ public class TeamServiceImpl implements TeamService{
                 .toList();
     }
 
+    @Override
+    public List<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord) {
+        return teamRepository.findBySearch(searchWord).stream()
+                .map(team -> TeamListResponseDto.builder()
+                        .id(team.getId())
+                        .imagePath(team.getImagePath())
+                        .name(team.getName())
+                        .regionString(team.getRegion().getSiDo() + " " + team.getRegion().getSiGunGu())
+                        .memberNumString(teamMemberRepository.findByTeamId(team.getId()).size() + "명 / " + team.getMaxNumber() +"명")
+                        .winningPercent(calculateWinPercent(team))
+                        .build())
+                .toList();
+    }
+
     private List<TeamTag> convertStringToTeamTagList(String tags) {
         return Arrays.stream(tags.split(","))
                 .map(String::trim)

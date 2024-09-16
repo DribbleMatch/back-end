@@ -26,4 +26,16 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
                 .orderBy(recruitment.createdAt.desc())
                 .fetch();
     }
+
+    @Override
+    public List<Recruitment> findRecruitmentInTimeOrderByCreateAtBySearch(String searchWord) {
+        return jpaQueryFactory
+                .selectFrom(recruitment)
+                .where(recruitment.endAt.goe(LocalDate.now()))
+                .where(recruitment.team.name.contains(searchWord)
+                        .or(recruitment.title.contains(searchWord))
+                        .or(recruitment.positionString.contains(searchWord)))
+                .orderBy(recruitment.createdAt.desc())
+                .fetch();
+    }
 }

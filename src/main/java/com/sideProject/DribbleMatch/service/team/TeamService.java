@@ -16,9 +16,9 @@ import java.util.List;
 public interface TeamService {
     //팀 생성 및 관리
     public Long createTeam(Long createId, TeamCreateRequestDto request);
-
     public void checkTeamName(String name);
     public TeamDetailResponseDto selectTeam(Long teamId);
     public List<TeamListResponseDto> selectAllTeam();
     public List<TeamListResponseDto> selectAllTeamByUserId(Long userId);
+    public List<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord);
 }

@@ -14,7 +14,7 @@
         <section class="content">
             <div class="team-list-div">
                 <div class="team-list-header">
-                    <input type="text" class="search-bar" placeholder="팀 이름 또는 지역 검색...">
+                    <input type="text" id="search-word" class="search-bar" placeholder="팀 이름 또는 지역 검색..." oninput="searchTeam()">
                     <button type="button" class="my-team-btn" onclick="showMyTeam()">내 팀 보기</button>
                     <button type="button" class="recruitment-btn">팀원 모집 보기</button>
                     <button type="button" class="create-team-btn" onclick="goCreateTeamPage()">팀 만들기</button>
@@ -41,7 +41,6 @@
                 </div>
             </div>
 
-            <!-- todo: 팀 리스트 페이지에서 요청 확인, 모집글 페이지 구현 -->
             <!-- 요청 하기 팝업-->
             <div id="request-popup" class="popup-overlay">
                 <div class="popup-content">
