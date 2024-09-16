@@ -1,6 +1,6 @@
 package com.sideProject.DribbleMatch.dto.team.response;
 
-import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
+import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.ApplicationStatus;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import lombok.Builder;
 
@@ -9,10 +9,10 @@ public class TeamApplicationResponseDto {
     Long userId;
     String nickName;
     String introduce;
-    JoinStatus status;
+    ApplicationStatus status;
 
     @Builder
-    public TeamApplicationResponseDto(Long id, Long userId, String nickName, String introduce, JoinStatus status) {
+    public TeamApplicationResponseDto(Long id, Long userId, String nickName, String introduce, ApplicationStatus status) {
         this.id = id;
         this.userId = userId;
         this.nickName = nickName;

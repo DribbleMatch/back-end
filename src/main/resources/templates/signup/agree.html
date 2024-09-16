@@ -1,92 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="/css/layout.css">
-        <link rel="stylesheet" href="/css/signup/agree.css">
-        <link rel="stylesheet" href="/css/signup/signup_step.css">
-    </head>
-    <body>
-    <header>
-        <div class="up_header">
-            <img class="logo" src="/image/logo.png" alt="logo.png">
-            <input type="text" class="searchBox" placeholder="지역, 경기명으로 경기 검색"/>
-            <img class="userInfo-icon" src="/image/icon/userInfo_icon.png" alt="userInfo_icon.png">
-            <img class="menu-icon" src="/image/icon/menu_icon.png" alt="menu_icon.png">
-        </div>
-        <div class="down-header">
-            <div class="menu-items">
-                <img class="menu-icon" src="/image/icon/ranking_icon.png">
-                <h3>랭킹</h3>
-            </div>
-            <div class="menu-items">
-                <img class="menu-icon" src="/image/icon/team_icon.png">
-                <h3>팀</h3>
-            </div>
-            <div class="menu-items">
-                <img class="menu-icon" src="/image/icon/competition_icon.png">
-                <h3>대회</h3>
-            </div>
-            <div class="menu-items">
-                <img class="menu-icon" src="/image/icon/board_icon.png">
-                <h3>커뮤니티</h3>
-            </div>
-        </div>
-    </header>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/join_layout}">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/signup/agree.css}">
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/signup/agree.js}"></script>
+    </th:block>
 
-    <section>
-        <div class="title">
-          <h2>회원 가입</h2>
-        </div>
-        <div class="step-progress">
-            <div class="step step-now">
-                <div class="step-circle">1</div>
-                <div class="step-label">약관 동의</div>
-            </div>
-            <div class="step">
-                <div class="step-circle">2</div>
-                <div class="step-label">회원 정보 입력</div>
-            </div>
-            <div class="step">
-                <div class="step-circle">3</div>
-                <div class="step-label">선수 정보 입력</div>
-            </div>
-            <div class="step">
-                <div class="step-circle">4</div>
-                <div class="step-label">완료</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="content">
-        <div class="agree-container">
-            <h2>약관 동의</h2>
-            <form id="terms-form">
-                <div class="text">
-                    <p>DribbleMatch 이용 약관</p>
+    <div layout:fragment="content">
+        <section>
+            <div class="agree-container">
+                <h2>약관 동의</h2>
+                <form id="terms-form">
+                    <div class="text">
+                        <p>DribbleMatch 이용 약관</p>
+                            방은비 바보 멍청이<br>
                         방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                    방은비 바보 멍청이<br>
-                </div>
-                <label>
-                    <input type="checkbox" id="agree" name="agree" required> 약관에 동의합니다
-                </label>
-                <button type="button" onclick="go_userInfo()">다음</button>
-            </form>
-        </div>
-    </section>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/js/common/common.js"></script>
-    <script src="/js/signup/agree.js"></script>
-    </body>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                        방은비 바보 멍청이<br>
+                    </div>
+                    <label>
+                        <input type="checkbox" id="agree" name="agree" required> 약관에 동의합니다
+                    </label>
+                    <button type="button" onclick="go_userInfo()">다음</button>
+                </form>
+            </div>
+        </section>
+    </div>
 </html>

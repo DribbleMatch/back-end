@@ -2,32 +2,29 @@ package com.sideProject.DribbleMatch.service.team;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.common.util.FileUtil;
 import com.sideProject.DribbleMatch.dto.team.request.TeamCreateRequestDto;
-import com.sideProject.DribbleMatch.dto.team.request.TeamJoinRequestDto;
-import com.sideProject.DribbleMatch.dto.team.response.TeamApplicationResponseDto;
-import com.sideProject.DribbleMatch.dto.team.response.TeamMemberResponseDto;
-import com.sideProject.DribbleMatch.dto.team.response.TeamResponseDto;
-import com.sideProject.DribbleMatch.dto.team.request.TeamUpdateRequestDto;
-import com.sideProject.DribbleMatch.entity.team.ENUM.TeamRole;
-import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
-import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
+import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
+import com.sideProject.DribbleMatch.dto.team.response.TeamDetailResponseDto;
+import com.sideProject.DribbleMatch.dto.user.response.UserTeamResponseDto;
+import com.sideProject.DribbleMatch.entity.teamMember.ENUM.TeamRole;
+import com.sideProject.DribbleMatch.entity.team.ENUM.TeamTag;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.team.Team;
-import com.sideProject.DribbleMatch.entity.team.TeamMember;
+import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.entity.user.User;
-import com.sideProject.DribbleMatch.repository.teamApplication.TeamApplicationRepository;
+import com.sideProject.DribbleMatch.repository.teamMatchJoin.TeamMatchJoinRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.repository.team.TeamMemberRepository;
+import com.sideProject.DribbleMatch.repository.teamMember.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,30 +32,38 @@ import java.util.stream.Collectors;
 @Transactional
 public class TeamServiceImpl implements TeamService{
 
-    //todo: checkRole 최소화
+    @Value("${spring.dir.teamImagePath}")
+    public String path;
 
+    private final FileUtil fileUtil;
+
+    private final TeamMatchJoinRepository teamMatchJoinRepository;
     private final TeamRepository teamRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
 
-    private final TeamMemberService teamMemberService;
-
-    // todo: 분리할 만한 로직?
-    private final TeamApplicationRepository teamApplicationRepository;
-
     @Override
     public Long createTeam(Long creatorId, TeamCreateRequestDto request) {
 
-        checkUniqueName(request.getName());
+        checkTeamName(request.getName());
 
         // 팀 생성 시에는 팀 생성한 회원이 팀장, 팀 정보 수정에서 변경 가능
         User creator = userRepository.findById(creatorId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+                new CustomException(ErrorCode.NOT_FOUND_USER));
         Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
 
-        Team team = teamRepository.save(TeamCreateRequestDto.toEntity(request, creator, region));
+        Team team = teamRepository.save(Team.builder()
+                        .name(request.getName())
+                        .winning(0)
+                        .maxNumber(request.getMaxNum())
+                        .info(request.getInfo())
+                        .tags(request.getTags())
+                        .imagePath(fileUtil.saveImage(request.getImage(), path, request.getName()))
+                        .leader(creator)
+                        .region(region)
+                .build());
 
         teamMemberRepository.save(TeamMember.builder()
                 .team(team)
@@ -70,224 +75,96 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Long updateTeam(Long userId, Long teamId, TeamUpdateRequestDto request) {
-
-        checkUniqueName(request.getName());
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
-        User leader = userRepository.findById(request.getLeaderId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team teamToUpdate = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        teamMemberService.checkRole(user, teamToUpdate);
-
-        teamToUpdate.updateTeam(request, leader, region);
-
-        //todo: 변경된 리더가 팀원이 아닐 경우 에러 발생 처리
-        return teamId;
-    }
-
-    @Override
-    public String deleteTeam(Long userId, Long teamId) {
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        teamMemberService.checkRole(user, team);
-        teamRepository.deleteById(teamId);
-
-        return "팀이 삭제되었습니다.";
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<TeamResponseDto> findAllTeams(Pageable pageable, String regionString) {
-
-        if (regionString.equals("ALL")) {
-            Page<Team> teams = teamRepository.findAll(pageable);
-
-            return teams
-                    .map(team -> TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
-                            new CustomException(ErrorCode.NOT_FOUND_REGION_ID))));
-        }
-
-        List<Long> regionIds = regionRepository.findIdsByRegionString(regionString);
-        Page<Team> teams = teamRepository.findByRegionIds(pageable, regionIds);
-
-        return teams
-                .map(team -> TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
-                        new CustomException(ErrorCode.NOT_FOUND_REGION_ID))));
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public TeamResponseDto findTeam(Long teamId) {
-
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        return TeamResponseDto.of(team, regionRepository.findRegionStringById(team.getRegion().getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_REGION_ID)));
-    }
-
-    @Override
-    public Long join(TeamJoinRequestDto request, Long teamId, Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        Optional<TeamMember> teamMember = teamMemberRepository.findByUserAndTeam(user,team);
-        if(teamMember.isPresent()) {
-            throw  new CustomException(ErrorCode.ALREADY_MEMBER);
-        }
-
-        TeamApplication teamApplication = teamApplicationRepository.save(TeamApplication.builder()
-                        .team(team)
-                        .user(user)
-                        .introduce(request.getIntroduce())
-                        .build()
-        );
-        return teamApplication.getId();
-    }
-
-    @Override
-    public Long cancel(Long applicationId, Long userId) {
-        TeamApplication teamApplication = teamApplicationRepository.findById(applicationId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        if(!user.getId().equals(teamApplication.getUser().getId())) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        //승인
-        teamApplicationRepository.delete(teamApplication);
-
-        return teamApplication.getId();
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<TeamApplicationResponseDto> findApplication(Pageable pageable, Long teamId) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        Page<TeamApplication> teamApplications = teamApplicationRepository.findByTeamAndStatus(
-                pageable,
-                team,
-                JoinStatus.WAIT
-        );
-        return teamApplications
-                .map(TeamApplicationResponseDto::of);
-    }
-
-    @Override
-    public Long approve(Long joinId, Long userId) {
-
-        //todo: 유저와 팀의 조회 여부 생각
-        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-
-        if(teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam()).isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_MEMBER);
-        }
-
-        TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
-        if(!adminTeamMember.getTeamRole().equals(TeamRole.ADMIN)) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        //승인
-        teamApplication.approve();
-        teamApplicationRepository.save(teamApplication);
-
-        TeamMember newMember = teamMemberRepository.save(TeamMember.builder()
-                        .user(teamApplication.getUser())
-                        .team(teamApplication.getTeam())
-                .build());
-
-        return newMember.getId();
-    }
-
-    @Override
-    public Long refuse(Long joinId, Long userId) {
-        //todo: 유저와 팀의 조회 여부 생각
-        TeamApplication teamApplication = teamApplicationRepository.findById(joinId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-
-        Optional<TeamMember> teamMemberOptional = teamMemberRepository.findByUserAndTeam(teamApplication.getUser(),teamApplication.getTeam());
-        if (teamMemberOptional.isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_MEMBER);
-        }
-
-        TeamMember adminTeamMember = teamMemberRepository.findByUserAndTeam(user,teamApplication.getTeam()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_MEMBER));
-        if(!adminTeamMember.getTeamRole().equals(TeamRole.ADMIN)) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        //승인
-        teamApplication.refuse();
-        teamApplicationRepository.save(teamApplication);
-
-        return teamApplication.getId();
-    }
-
-    @Override
-    public Long withdraw(Long memberId, Long teamId, Long adminId) {
-
-        User adminUser = userRepository.findById(adminId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        User memberUser = userRepository.findById(memberId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        TeamMember adminMember = teamMemberRepository.findByUserAndTeam(adminUser,team).orElseThrow(() ->
-                new CustomException(ErrorCode.ALREADY_MEMBER));
-        if(!adminMember.getTeamRole().equals(TeamRole.ADMIN)) {
-            throw new CustomException(ErrorCode.NO_AUTHORITY);
-        }
-
-        TeamMember member = teamMemberRepository.findByUserAndTeam(memberUser,team).orElseThrow(() ->
-                new CustomException(ErrorCode.ALREADY_MEMBER));
-
-        teamMemberRepository.delete(member);
-
-        return member.getId();
-
-    }
-
-    @Override
-    public List<TeamMemberResponseDto> findMember(Long teamId) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM_ID));
-
-        List<TeamMember> teamMembers = teamMemberRepository.findByTeam(team);
-
-        return teamMembers.stream()
-                .map(TeamMemberResponseDto::toDto)
-                .collect(Collectors.toList());
-    }
-
-    private void checkUniqueName(String name) {
+    public void checkTeamName(String name) {
         if(teamRepository.findByName(name).isPresent()) {
             throw new CustomException(ErrorCode.NOT_UNIQUE_TEAM_NAME);
         }
+    }
+
+    @Override
+    public TeamDetailResponseDto selectTeam(Long teamId) {
+
+        Team team = teamRepository.findById(teamId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM));
+
+        List<TeamMember> teamMemberList = teamMemberRepository.findByTeamId(teamId);
+        List<User> userList = teamMemberList.stream()
+                .map(TeamMember::getUser)  // TeamMember에서 User 추출
+                .toList();
+        List<UserTeamResponseDto> userTeamResponseList = userList.stream()
+                .map(UserTeamResponseDto::of)  // User 객체를 UserTeamResponseDto로 변환
+                .collect(Collectors.toList());
+
+        return TeamDetailResponseDto.builder()
+                .id(team.getId())
+                .imagePath(team.getImagePath())
+                .name(team.getName())
+                .maxNum(team.getMaxNumber())
+                .winningPercent(calculateWinPercent(team))
+                .leaderNickName(team.getLeader().getNickName())
+                .regionString(team.getRegion().getSiDo() + " " + team.getRegion().getSiGunGu())
+                .info(team.getInfo())
+                .tags(convertStringToTeamTagList(team.getTags()))
+                .userList(userTeamResponseList)
+                .build();
+    }
+
+    @Override
+    public List<TeamListResponseDto> selectAllTeam() {
+        List<Team> teamList =  teamRepository.findAll();
+
+        return teamList.stream()
+                .map(team -> TeamListResponseDto.builder()
+                        .id(team.getId())
+                        .imagePath(team.getImagePath())
+                        .name(team.getName())
+                        .regionString(team.getRegion().getSiDo() + " " + team.getRegion().getSiGunGu())
+                        .memberNumString(teamMemberRepository.findByTeamId(team.getId()).size() + "명 / " + team.getMaxNumber() +"명")
+                        .winningPercent(calculateWinPercent(team))
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public List<TeamListResponseDto> selectAllTeamByUserId(Long userId) {
+        List<TeamMember> teamMemberList = teamMemberRepository.findByUserId(userId);
+
+        return teamMemberList.stream()
+                .map(teamMember -> TeamListResponseDto.builder()
+                        .id(teamMember.getTeam().getId())
+                        .imagePath(teamMember.getTeam().getImagePath())
+                        .name(teamMember.getTeam().getName())
+                        .regionString(teamMember.getTeam().getRegion().getSiDo() + " " + teamMember.getTeam().getRegion().getSiGunGu())
+                        .memberNumString(teamMemberRepository.findByTeamId(teamMember.getTeam().getId()).size() + "명 / " + teamMember.getTeam().getMaxNumber() +"명")
+                        .winningPercent(calculateWinPercent(teamMember.getTeam()))
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public List<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord) {
+        return teamRepository.findBySearch(searchWord).stream()
+                .map(team -> TeamListResponseDto.builder()
+                        .id(team.getId())
+                        .imagePath(team.getImagePath())
+                        .name(team.getName())
+                        .regionString(team.getRegion().getSiDo() + " " + team.getRegion().getSiGunGu())
+                        .memberNumString(teamMemberRepository.findByTeamId(team.getId()).size() + "명 / " + team.getMaxNumber() +"명")
+                        .winningPercent(calculateWinPercent(team))
+                        .build())
+                .toList();
+    }
+
+    private List<TeamTag> convertStringToTeamTagList(String tags) {
+        return Arrays.stream(tags.split(","))
+                .map(String::trim)
+                .map(TeamTag::valueOf)
+                .collect(Collectors.toList());
+    }
+
+    private double calculateWinPercent(Team team) {
+        //todo: 승률 계산 시 종료된 경기만 포함하도록 수정
+        int entireGame = teamMatchJoinRepository.countTeamMatchJoinByTeam(team);
+        return entireGame == 0 ? 0 : Double.parseDouble(String.format("%.1f", (double) team.getWinning() / entireGame * 100));
     }
 }

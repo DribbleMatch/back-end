@@ -37,6 +37,12 @@ public class Team extends BaseEntity {
     @Column
     private String info;
 
+    @Column
+    private String tags;
+
+    @Column
+    private String imagePath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "leader_id")
     @NotNull
@@ -48,11 +54,13 @@ public class Team extends BaseEntity {
     private Region region;
 
     @Builder
-    public Team(String name, int winning, int maxNumber, String info, User leader, Region region) {
+    public Team(String name, int winning, int maxNumber, String info, String tags, String imagePath, User leader, Region region) {
         this.name = name;
         this.winning = winning;
         this.maxNumber = maxNumber;
         this.info = info;
+        this.tags = tags;
+        this.imagePath = imagePath;
         this.leader = leader;
         this.region = region;
     }

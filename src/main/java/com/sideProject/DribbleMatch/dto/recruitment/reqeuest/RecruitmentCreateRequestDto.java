@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @NoArgsConstructor
@@ -19,25 +20,27 @@ public class RecruitmentCreateRequestDto {
     String title;
     @NotNull(message = "내용이 입력되지 않았습니다.")
     String content;
-    List<Position> positions;
-    int winning;
+    @NotNull(message = "모집 포지션이 선택되지 않았습니다.")
+    String positionString;
+    @NotNull(message = "모집 종료 날짜가 선택되지 않았습니다.")
+    LocalDate expireDate;
 
     @Builder
-    public RecruitmentCreateRequestDto(Long teamId,String title, String content, List<Position> positions, int winning) {
+    public RecruitmentCreateRequestDto(Long teamId, String title, String content, String positionString, LocalDate expireDate) {
         this.teamId = teamId;
         this.title = title;
         this.content = content;
-        this.positions = positions;
-        this.winning = winning;
+        this.positionString = positionString;
+        this.expireDate = expireDate;
     }
 
-    public Recruitment toEntity(Team team) {
-        return Recruitment.builder()
-                .title(this.title)
-                .content(this.content)
-                .positions(this.positions)
-                .winning(this.winning)
-                .team(team)
-                .build();
-    }
+//    public Recruitment toEntity(Team team) {
+//        return Recruitment.builder()
+//                .title(this.title)
+//                .content(this.content)
+//                .positions(this.positions)
+//                .winning(this.winning)
+//                .team(team)
+//                .build();
+//    }
 }

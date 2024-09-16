@@ -35,7 +35,10 @@ public class SecurityConfig {
                                 "/signup/**",
                                 "/login/**",
                                 "/refresh",
-
+                                "/region/**",
+                                "/error",
+                                "/test",
+//todo: 에러 페이지 구현
                                 "/css/**",
                                 "/js/**",
                                 "image/**"

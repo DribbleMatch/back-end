@@ -1,7 +1,6 @@
 package com.sideProject.DribbleMatch.dto.team.request;
 
 import com.sideProject.DribbleMatch.entity.team.Team;
-import com.sideProject.DribbleMatch.entity.teamApplication.ENUM.JoinStatus;
 import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import com.sideProject.DribbleMatch.entity.user.User;
 import lombok.AccessLevel;
