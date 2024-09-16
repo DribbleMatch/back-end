@@ -1,0 +1,72 @@
+section .signup-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+section .signup-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+section .signup-container .label-container {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    display: flex;
+}
+
+section .signup-container .info-container {
+    width: 100%;
+    position: relative;
+}
+section .signup-container .info-container input[type="text"],
+section .signup-container .info-container input[type="number"] {
+    width: 100%;
+    height: 1.7rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    padding: 10px;
+}
+section .signup-container .info-container textarea {
+    width: 100%;
+    height: 10rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    padding: 10px;
+    display: flex;
+}
+
+section .signup-container button {
+    padding: 10px;
+    background-color: #f38c48;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+section .signup-container .info-container .checkbox-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+.info-container .datetime-div input[type="date"] {
+    width: 11rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    color: #676767;
+    font-size: 1rem;
+    padding: 0.5rem;
+    margin-bottom: 3rem;
+    margin-left: 2rem;
+}

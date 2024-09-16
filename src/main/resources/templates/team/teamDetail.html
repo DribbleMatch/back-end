@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/team/teamDetail.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/common/region.js}"></script>
+    <script th:src="@{/js/team/teamDetail.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="title">
+            <h2>팀 정보</h2>
+        </div>
+
+        <div class="team-details-container">
+            <div class="team-header">
+                <input type="hidden" id="team-id" th:value="${team.id}">
+                <div class="image-div">
+                    <img class="team-image" id="team-image" th:src="@{/rest/image(imagePath=${team.imagePath})}"
+                         alt="팀 이미지">
+                </div>
+                <div class="team-header-right">
+                    <div class="team-info">
+                        <h1 id="team-name" th:text="${team.name}">팀 이름</h1>
+                        <p id="team-leader" th:text="'리더: ' + ${team.leaderNickName}">리더: 리더 이름</p>
+                        <p id="team-region" th:text="'지역: ' + ${team.regionString}">지역: 지역 이름</p>
+                    </div>
+                    <button type="button" class="join-request-btn"
+                            th:if="${teamRole != null and teamRole.name() == 'ADMIN' }" onclick="openRequestListPop()">
+                        가입요청보기
+                    </button>
+                    <button type="button" class="join-request-btn"
+                            th:if="${teamRole != null and teamRole.name() == 'ADMIN' }" onclick="goCreateRecruitmentPage()">
+                        팀원 모집글 작성
+                    </button>
+                    <button type="button" class="join-request-btn" th:if="${teamRole == null}"
+                            onclick="openRequestPop()">가입요청하기
+                    </button>
+                </div>
+            </div>
+
+            <div class="team-stats">
+                <div class="team-stat">
+                    <h3>경기 승률</h3>
+                    <p th:text="${team.winningPercent} + '%'">50%</p>
+                </div>
+                <div class="team-stat">
+                    <h3>팀원 수</h3>
+                    <p th:text="${#lists.size(team.userList)} + '/' + ${team.maxNum}">20명</p>
+                </div>
+            </div>
+
+            <div class="team-info">
+                <div class="team-description">
+                    <h2>팀 설명</h2>
+                    <textarea th:text="${team.info}" disabled>팀 설명 내용</textarea>
+                </div>
+
+                <div class="team-tags">
+                    <h2>팀 스타일</h2>
+                    <div class="tags">
+                    <span th:each="tag : ${team.tags}"
+                          class="tag"
+                          th:text="${tag.explain}"
+                          th:style="'background-color: #' + ${tag.color}">태그</span>
+                    </div>
+                </div>
+            </div>
+            <div class="member-info">
+                <h2>팀원</h2>
+                <div class="member-list">
+                    <div th:each="user : ${team.userList}" class="member">
+                        <div class="member-image-div">
+                            <img class="member-image" th:src="@{/rest/image(imagePath=${user.imagePath})}" alt="팀원 이미지">
+                        </div>
+                        <div class="member-name" th:text="${user.nickName}">팀원 이름</div>
+                        <div class="member-gender" th:text="${user.gender == 'FEMALE' ? '여' : '남'}">성별</div>
+                        <div class="member-level" th:text="${'Lv. ' + user.level}">레벨</div>
+                        <div class="member-level-percent">
+                            <div class="percent-bar" th:style="'width: ' + ${user.experiencePercent} + '%'"></div>
+                            <span th:text="${user.experiencePercent} + '%'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 요청 리스트 팝업 -->
+        <div id="request-list-popup" class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>가입 요청 리스트</h2>
+                    <button class="close-popup" onclick="closeRequestListPop()">X</button>
+                </div>
+                <div class="popup-body">
+                    <ul id="request-list">
+                        <li th:each="teamApplication : ${teamApplicationList}" class="request-item">
+                            <div class="simple-info">
+                                <input type="hidden" id="team-application-id" th:value="${teamApplication.id}"/>
+                                <span class="name" th:text="${teamApplication.nickName}"></span>
+                                <span class="positions" th:text="${teamApplication.positionString}">PG, SG, PF, SF, C</span>
+                                <span class="level" th:text="${teamApplication.level}">Lv.3</span>
+                                <span class="down-arrow" onclick="toggleIntroduce(this)"></span>
+                                <span class="down-arrow-text">소개보기</span>
+                                <button class="approve-btn" onclick="approvalTeamApplication()">승인</button>
+                                <button class="deny-btn" onclick="refuseTeamApplication()">거절</button>
+                            </div>
+                            <textarea class="introduce" th:text="${teamApplication.introduce}" style="display: none;" disabled></textarea>
+                        </li>
+                    </ul>
+                </div>
+                <div class="popup-footer">
+                    <button class="close-btn" onclick="closeRequestListPop()">닫기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 요청 하기 팝업-->
+        <div id="request-popup" class="popup-overlay">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>가입 요청</h2>
+                    <button class="close-popup" onclick="closeRequestPop()">X</button>
+                </div>
+                <div class="popup-body">
+                    <textarea id="introduce" class="request-introduce" placeholder="간단한 자기 소개 혹은 홍보를 해주세요."></textarea>
+                </div>
+                <div class="popup-footer">
+                    <button class="request-btn" onclick="requestJoin()">요청하기</button>
+                    <button class="close-btn" onclick="closeRequestPop()">닫기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</html>

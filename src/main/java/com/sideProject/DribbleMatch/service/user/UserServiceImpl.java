@@ -2,10 +2,7 @@ package com.sideProject.DribbleMatch.service.user;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
-import com.sideProject.DribbleMatch.common.util.JwtTokenProvider;
-import com.sideProject.DribbleMatch.common.util.JwtUtil;
-import com.sideProject.DribbleMatch.common.util.RedisUtil;
-import com.sideProject.DribbleMatch.common.util.SmsUtil;
+import com.sideProject.DribbleMatch.common.util.*;
 import com.sideProject.DribbleMatch.dto.user.request.SignupPlayerInfoRequestDto;
 import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
 import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
@@ -14,6 +11,7 @@ import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +20,15 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+
+//todo: 페이지 랜더링 실패 시 에러페이지로 이동하게 구현
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService{
+
+    @Value("${spring.dir.userImagePath}")
+    public String path;
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService{
     private final RedisUtil redisUtil;
     private final SmsUtil smsUtil;
     private final JwtTokenProvider jwtTokenProvider;
-    private final JwtUtil jwtUtil;
+    private final FileUtil fileUtil;
 
     @Override
     public void checkNickName(String nickName) {
@@ -89,6 +92,7 @@ public class UserServiceImpl implements UserService{
                 .positionString(requestDto.getPositionString())
                 .winning(0)
                 .region(region)
+                .imagePath(fileUtil.saveImage(requestDto.getImage(), path, requestDto.getNickName()))
                 .build();
 
         userRepository.save(signupUser);
@@ -126,5 +130,4 @@ public class UserServiceImpl implements UserService{
         }
         return authCode.toString();
     }
-
 }

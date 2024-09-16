@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.repository.team;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -50,5 +51,18 @@ public class TeamCustomRepositoryImpl implements TeamCustomRepository{
                 .fetchOne();
 
         return new PageImpl<>(content, pageable, count);
+    }
+
+    @Override
+    public List<Team> findBySearch(String searchWord) {
+        return jpaQueryFactory
+                .selectFrom(team)
+                .where(team.name.contains(searchWord)
+                        .or(team.region.siDo.contains(searchWord))
+                        .or(team.region.siGunGu.contains(searchWord))
+                        .or(team.region.eupMyeonDongGu.contains(searchWord))
+                        .or(team.region.eupMyeonLeeDong.contains(searchWord))
+                        .or(team.region.lee.contains(searchWord)))
+                .fetch();
     }
 }

@@ -21,7 +21,6 @@ import static com.sideProject.DribbleMatch.entity.region.QRegion.region;
 @RequiredArgsConstructor
 public class RegionCustomRepositoryImpl implements RegionCustomRepository {
 
-    //todo: findRegionStringById
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override

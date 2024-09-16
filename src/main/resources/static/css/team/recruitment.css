@@ -1,0 +1,200 @@
+.recruitment-list-div {
+    margin-top: 5rem;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.recruitment-list-header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.recruitment-list-header .search-bar {
+    padding: 0.5rem;
+    width: 60%;
+    border-radius: 0.3rem;
+    border: 0.1rem solid #ddd;
+}
+
+.recruitment-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.recruitment-card {
+    width: 100%;
+    height: 5.5rem;
+    background-color: #fff;
+    border: 0.1rem solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s;
+    gap: 1rem;
+}
+.recruitment-card:hover {
+    transform: translateY(-5px);
+}
+.team-image-div {
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #f38c48;
+    border-radius: 0.3rem;
+    overflow: hidden;
+}
+.team-image {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.recruitment-info {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    gap: 1.5rem;
+}
+.recruitment-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    text-align: left;
+}
+.team-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    text-align: left;
+    color: #888888;
+}
+
+.btn-div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-left: auto;
+}
+.team-info-button {
+    padding: 0.4rem 1rem;
+    background-color: #cbcbcb;
+    color: #000000;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+.team-info-button:hover {
+    background-color: #888888;
+}
+.team-apply-button {
+    padding: 0.4rem 1rem;
+    background-color: #cbcbcb;
+    color: #000000;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+.team-apply-button:hover {
+    background-color: #888888;
+}
+.position-div {
+    font-size: 1.3rem;
+    font-weight: bold;
+    width: 20%;
+}
+.date-info {
+    width: 15%;
+    margin-left: 5%;
+}
+
+/* 상세 요강 팝업 */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+.popup-content {
+    background: #fff;
+    border-radius: 0.5rem;
+    width: 50rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.popup-header h2 {
+    margin: 0;
+}
+.close-popup {
+    background: transparent;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+.popup-body {
+    max-height: 15rem;
+    overflow-y: auto;
+}
+.popup-body textarea {
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    padding: 10px;
+    display: flex;
+    width: 95%;
+    height: 10rem;
+    resize: none;
+}
+
+.close-btn {
+    background-color: #555;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 요청 하기 팝업 */
+.request-introduce {
+    margin-top: 1rem;
+    width: 90%;
+    height: 5rem;
+    resize: none;
+    font-size: 1rem;
+    border: 0.15rem solid #ababab;
+    border-radius: 0.3rem;
+    padding: 0.5rem;
+}
+.request-btn {
+    background-color: #555;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

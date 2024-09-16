@@ -156,7 +156,7 @@ function check_verification_code() {
         },
         error: function(xhr, status, error) {
             var response = xhr.responseJSON;
-            if (response.code === '1200') {
+            if (response.code === '1105') {
                 alert(response.message);
             } else {
                 commonErrorCallBack(xhr, status, error);

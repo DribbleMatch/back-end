@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -32,41 +33,23 @@ public class Recruitment extends BaseEntity {
     @Column
     private String content;
 
-    @NotNull
     @Column
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    private List<Position> positions;
-
-    @Column
-    private int winning;
-
-    @Column
-    private int views;
+    private String positionString;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Column
+    private LocalDate endAt;
+
     @Builder
-    public Recruitment(String title, String content, List<Position> positions, int winning, Team team) {
+    public Recruitment(String title, String content, String positionString, Team team, LocalDate endAt) {
         this.title = title;
         this.content = content;
-        this.positions = positions;
-        this.winning = winning;
+        this.positionString = positionString;
         this.team = team;
-        this.views = 0;
-    }
-
-    public void update(String title, String content, List<Position> positions, int winning) {
-        this.title = title;
-        this.content = content;
-        this.positions = positions;
-        this.winning = winning;
-    }
-
-    public void read() {
-        this.views += 1;
+        this.endAt = endAt;
     }
 }

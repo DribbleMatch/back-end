@@ -20,7 +20,7 @@ public class AdminServiceImpl implements AdminService{
     public Long changeToAdmin(Long userId) {
 
         User userToChange = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
+                new CustomException(ErrorCode.NOT_FOUND_USER));
         userRepository.delete(userToChange);
 
         Admin admin = adminRepository.save(Admin.userToAdmin(userToChange));
