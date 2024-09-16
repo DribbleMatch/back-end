@@ -96,7 +96,7 @@
                     <ul id="request-list">
                         <li th:each="teamApplication : ${teamApplicationList}" class="request-item">
                             <div class="simple-info">
-                                <input type="hidden" id="team-application-id" th:value="${teamApplication.id}">
+                                <input type="hidden" id="team-application-id" th:value="${teamApplication.id}"/>
                                 <span class="name" th:text="${teamApplication.nickName}"></span>
                                 <span class="positions" th:text="${teamApplication.positionString}">PG, SG, PF, SF, C</span>
                                 <span class="level" th:text="${teamApplication.level}">Lv.3</span>

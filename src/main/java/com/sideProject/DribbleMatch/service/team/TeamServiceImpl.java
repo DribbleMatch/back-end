@@ -87,7 +87,7 @@ public class TeamServiceImpl implements TeamService{
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
-        List<TeamMember> teamMemberList = teamMemberRepository.findByTeam(team);
+        List<TeamMember> teamMemberList = teamMemberRepository.findByTeamId(teamId);
         List<User> userList = teamMemberList.stream()
                 .map(TeamMember::getUser)  // TeamMember에서 User 추출
                 .toList();
@@ -119,8 +119,24 @@ public class TeamServiceImpl implements TeamService{
                         .imagePath(team.getImagePath())
                         .name(team.getName())
                         .regionString(team.getRegion().getSiDo() + " " + team.getRegion().getSiGunGu())
-                        .memberNumString(teamMemberRepository.findByTeam(team).size() + "명 / " + team.getMaxNumber() +"명")
+                        .memberNumString(teamMemberRepository.findByTeamId(team.getId()).size() + "명 / " + team.getMaxNumber() +"명")
                         .winningPercent(calculateWinPercent(team))
+                        .build())
+                .toList();
+    }
+
+    @Override
+    public List<TeamListResponseDto> selectAllTeamByUserId(Long userId) {
+        List<TeamMember> teamMemberList = teamMemberRepository.findByUserId(userId);
+
+        return teamMemberList.stream()
+                .map(teamMember -> TeamListResponseDto.builder()
+                        .id(teamMember.getTeam().getId())
+                        .imagePath(teamMember.getTeam().getImagePath())
+                        .name(teamMember.getTeam().getName())
+                        .regionString(teamMember.getTeam().getRegion().getSiDo() + " " + teamMember.getTeam().getRegion().getSiGunGu())
+                        .memberNumString(teamMemberRepository.findByTeamId(teamMember.getTeam().getId()).size() + "명 / " + teamMember.getTeam().getMaxNumber() +"명")
+                        .winningPercent(calculateWinPercent(teamMember.getTeam()))
                         .build())
                 .toList();
     }

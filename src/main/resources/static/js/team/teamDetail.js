@@ -8,6 +8,9 @@ function openRequestListPop() {
         success: function (fragment) {
             $('#request-list-popup').replaceWith(fragment);
             document.getElementById("request-list-popup").style.display = "flex";
+        },
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

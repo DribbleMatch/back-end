@@ -1,16 +1,13 @@
 package com.sideProject.DribbleMatch.service.recruitment;
 
 import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentCreateRequestDto;
-import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentSearchParamRequest;
-import com.sideProject.DribbleMatch.dto.recruitment.reqeuest.RecruitmentUpdateRequestDto;
 import com.sideProject.DribbleMatch.dto.recruitment.response.RecruitmentResponseDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.sideProject.DribbleMatch.entity.recruitment.Recruitment;
+
+import java.util.List;
 
 public interface RecruitmentService {
-    public Long create(RecruitmentCreateRequestDto request, Long userId);
-    public Long update(RecruitmentUpdateRequestDto request, Long id, Long userId);
-    public Page<RecruitmentResponseDto> find(Pageable pageable, RecruitmentSearchParamRequest param);
-    public RecruitmentResponseDto findById(Long id);
-    public Long delete(Long recruitmentId, Long userId);
+
+    public List<RecruitmentResponseDto> findAllRecruitmentInTime();
+    public void createRecruitment(RecruitmentCreateRequestDto requestDto);
 }

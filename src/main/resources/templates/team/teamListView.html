@@ -15,10 +15,12 @@
             <div class="team-list-div">
                 <div class="team-list-header">
                     <input type="text" class="search-bar" placeholder="팀 이름 또는 지역 검색...">
-                    <button type="button" class="my-team-btn">내 팀 보기</button>
+                    <button type="button" class="my-team-btn" onclick="showMyTeam()">내 팀 보기</button>
+                    <button type="button" class="recruitment-btn">팀원 모집 보기</button>
+                    <button type="button" class="create-team-btn" onclick="goCreateTeamPage()">팀 만들기</button>
                 </div>
 
-                <div class="team-list">
+                <div class="team-list" id="team-list">
                     <div th:each="team : ${teamList}" class="team-card">
                         <div class="team-image-div">
                             <img class="team-image" th:src="@{/rest/image(imagePath=${team.imagePath})}" alt="팀 이미지">
@@ -33,8 +35,27 @@
                         </div>
                         <div class="btn-div">
                             <button class="team-info-button" th:onclick="'viewTeamDetail(' + ${team.id} + ')'">팀 정보</button>
-                            <button class="team-apply-button" th:onclick="'joinTeam(' + ${team.id} + ')'">팀 지원</button>
+                            <button class="team-apply-button" th:onclick="'openRequestPop(' + ${team.id} + ')'">팀 지원</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- todo: 팀 리스트 페이지에서 요청 확인, 모집글 페이지 구현 -->
+            <!-- 요청 하기 팝업-->
+            <div id="request-popup" class="popup-overlay">
+                <div class="popup-content">
+                    <div class="popup-header">
+                        <h2>가입 요청</h2>
+                        <button class="close-popup" onclick="closeRequestPop()">X</button>
+                    </div>
+                    <div class="popup-body">
+                        <input type="hidden" id="team-id"/>
+                        <textarea id="introduce" class="request-introduce" placeholder="간단한 자기 소개 혹은 홍보를 해주세요."></textarea>
+                    </div>
+                    <div class="popup-footer">
+                        <button class="request-btn" onclick="requestJoin()">요청하기</button>
+                        <button class="close-btn" onclick="closeRequestPop()">닫기</button>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-package com.sideProject.DribbleMatch.controller.teamMember.rest;
+package com.sideProject.DribbleMatch.controller.teamMember.restController;
 
 import com.sideProject.DribbleMatch.service.teamMember.TeamMemberService;
 import lombok.RequiredArgsConstructor;
