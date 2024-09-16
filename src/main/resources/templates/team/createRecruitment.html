@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/team/createRecruitment.css}">
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/common/region.js}"></script>
+        <script th:src="@{/js/team/createRecruitment.js}"></script>
+    </th:block>
+
+    <div layout:fragment="content">
+        <section class="content">
+            <div class="title">
+                <h2>팀원 모집글</h2>
+            </div>
+            <div class="signup-container">
+                <form>
+                    <input type="hidden" id="team-id" th:value="${teamId}" />
+                    <div class="label-container">
+                        <label for="title">모집글 제목</label>
+                    </div>
+                    <div class="info-container">
+                        <input type="text" id="title" placeholder="모집글의 제목을 입력해주세요"/>
+                    </div>
+                    <div class="label-container">
+                        <label for="content">상세 요강</label>
+                    </div>
+                    <div class="info-container">
+                        <textarea id="content" rows="4" cols="50" placeholder="자세한 자격 요건 혹은 원하는 조건을 작성해주세요"></textarea>
+                    </div>
+                    <div class="label-container">
+                        <label>모집 포지션</label>
+                    </div>
+                    <div class="info-container">
+                        <div class="checkbox-container">
+                            <div class="checkbox-div">
+                                <label for="center">센터</label>
+                                <input type="checkbox" id="center" name="positionString" value="C">
+                            </div>
+                            <div class="checkbox-div">
+                                <label for="power-forward">파워 포워드</label>
+                                <input type="checkbox" id="power-forward" name="positionString" value="PW">
+                            </div>
+                            <div class="checkbox-div">
+                                <label for="small-forward">스몰 포워드</label>
+                                <input type="checkbox" id="small-forward" name="positionString" value="SF">
+                            </div>
+                            <div class="checkbox-div">
+                                <label for="shooting-guard">슈팅 가드</label>
+                                <input type="checkbox" id="shooting-guard" name="positionString" value="SG">
+                            </div>
+                            <div class="checkbox-div">
+                                <label for="point-guard">포인트 가드</label>
+                                <input type="checkbox" id="point-guard" name="positionString" value="PG">
+                            </div>
+                            <div class="checkbox-div">
+                                <label for="etc">기타</label>
+                                <input type="checkbox" id="etc" name="position" value="기타">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="label-container">
+                        <label for="datetime">모집 종료 날짜</label>
+                    </div>
+                    <div class="info-container">
+                        <div class="datetime-div" id="datetime">
+                            <div class="date-select">
+                                <label for="date">날짜 선택</label>
+                                <input type="date" id="date" />
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="createRecruitment()">만들기</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</html>

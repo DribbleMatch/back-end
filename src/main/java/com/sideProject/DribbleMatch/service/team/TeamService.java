@@ -20,4 +20,5 @@ public interface TeamService {
     public void checkTeamName(String name);
     public TeamDetailResponseDto selectTeam(Long teamId);
     public List<TeamListResponseDto> selectAllTeam();
+    public List<TeamListResponseDto> selectAllTeamByUserId(Long userId);
 }

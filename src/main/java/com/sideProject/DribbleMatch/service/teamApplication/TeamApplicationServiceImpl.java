@@ -121,6 +121,11 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
 
     private void checkTeamApplication(Long userId, Long teamId) {
 
+        // 이미 팀원일 때
+        if (teamMemberRepository.findByUserIdAndTeamId(userId, teamId).isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_TEAM_MEMBER);
+        }
+
         // 요청이 대기중일 때
         if (teamApplicationRepository.findTeamApplicationByUserIdAndTeamIdAndStatus(userId, teamId, ApplicationStatus.WAIT).isPresent()) {
             throw new CustomException(ErrorCode.WAITING_TEAM_APPLICATION);

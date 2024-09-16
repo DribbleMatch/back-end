@@ -5,6 +5,7 @@ import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.service.teamMember.TeamMemberService;
 import com.sideProject.DribbleMatch.service.team.TeamService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,11 @@ public class TeamController {
     public String teamListView(Model model) {
         model.addAttribute("teamList", teamService.selectAllTeam());
         return "/team/teamListView";
+    }
+
+    @GetMapping("/myTeamListView")
+    public String myTeamListView(Model model, Principal principal) {
+        model.addAttribute("teamList", teamService.selectAllTeamByUserId(Long.valueOf(principal.getName())));
+        return "/team/teamListView :: #team-list";
     }
 }
