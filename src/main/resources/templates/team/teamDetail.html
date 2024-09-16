@@ -33,6 +33,10 @@
                             th:if="${teamRole != null and teamRole.name() == 'ADMIN' }" onclick="openRequestListPop()">
                         가입요청보기
                     </button>
+                    <button type="button" class="join-request-btn"
+                            th:if="${teamRole != null and teamRole.name() == 'ADMIN' }" onclick="goCreateRecruitmentPage()">
+                        팀원 모집글 작성
+                    </button>
                     <button type="button" class="join-request-btn" th:if="${teamRole == null}"
                             onclick="openRequestPop()">가입요청하기
                     </button>

@@ -9,5 +9,6 @@ import java.util.List;
 public interface RecruitmentService {
 
     public List<RecruitmentResponseDto> findAllRecruitmentInTime();
+    public List<RecruitmentResponseDto> findAllRecruitmentInTimeBySearch(String searchWord);
     public void createRecruitment(RecruitmentCreateRequestDto requestDto);
 }

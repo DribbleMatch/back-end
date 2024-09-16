@@ -85,20 +85,22 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
 
         if (status.equals(ApplicationStatus.APPROVE)) {
             teamApplication.approve();
+
+            User user = userRepository.findById(teamApplication.getUser().getId()).orElseThrow(() ->
+                    new CustomException(ErrorCode.NOT_FOUND_USER));
+            Team team = teamRepository.findById(teamApplication.getTeam().getId()).orElseThrow(() ->
+                    new CustomException(ErrorCode.NOT_FOUND_TEAM));
+
+            teamMemberRepository.save(TeamMember.builder()
+                    .user(user)
+                    .team(team)
+                    .teamRole(TeamRole.MEMBER)
+                    .build());
+
         } else if (status.equals(ApplicationStatus.REFUSE)) {
             teamApplication.refuse();
         }
 
-        User user = userRepository.findById(teamApplication.getUser().getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER));
-        Team team = teamRepository.findById(teamApplication.getTeam().getId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM));
-
-        teamMemberRepository.save(TeamMember.builder()
-                        .user(user)
-                        .team(team)
-                        .teamRole(TeamRole.MEMBER)
-                .build());
         teamApplicationRepository.save(teamApplication);
     }
 
@@ -133,7 +135,7 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
 
         // 요청이 거부된지 하루가 지나지 않았을 떄
         Optional<TeamApplication> teamApplication = teamApplicationRepository.findTeamApplicationByUserIdAndTeamIdAndStatus(userId, teamId, ApplicationStatus.REFUSE);
-        if (teamApplication.isPresent() && (Duration.between(teamApplication.get().getUpdatedAt(), LocalDateTime.now()).toHours() >= 24)) {
+        if (teamApplication.isPresent() && (Duration.between(teamApplication.get().getUpdatedAt(), LocalDateTime.now()).toHours() <= 24)) {
             throw new CustomException(ErrorCode.TEAM_APPLICATION_REFUSE_COLL_DOWN);
         }
     }

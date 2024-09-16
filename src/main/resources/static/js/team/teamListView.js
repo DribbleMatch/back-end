@@ -55,3 +55,19 @@ function openRequestPop(teamId) {
 function closeRequestPop() {
     document.getElementById("request-popup").style.display = "none";
 }
+
+function searchTeam() {
+    var searchWord = $('#search-word').val();
+
+    $.ajax({
+        url: '/team/page/teamListView',
+        type: 'POST',
+        data: { searchWord: searchWord },
+        success: function (fragment) {
+            $('#team-list').replaceWith(fragment);
+        },
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
+        }
+    })
+}

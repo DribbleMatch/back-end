@@ -50,7 +50,7 @@ function requestJoin() {
         error: function (xhr, status, error) {
             var response = xhr.responseJSON;
 
-            if (response && (response.code === '1301' || response.code === '2300')) {
+            if (response && (response.code === '1301' || response.code === '2300' || response.code === '3100' || response.code === '8100' || response.code === '8101')) {
                 alert(response.message);
             } else {
                 commonErrorCallBack(xhr, status, error);
@@ -58,3 +58,22 @@ function requestJoin() {
         }
     })
 }
+
+function searchRecruitment() {
+
+    var searchWord = $('#search-word').val();
+
+    $.ajax({
+        url: '/recruitment/page',
+        type: 'POST',
+        data: { searchWord: searchWord },
+        success: function (fragment) {
+            $('#recruitment-list').replaceWith(fragment);
+        },
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
+        }
+    })
+}
+
+//todo: 로그인 중 로그인 페이지 접근 시 메인 페이지로?? 설계 후 구현 필요
