@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    activeFlowStep(2);
+})
+
 var interval;
 
 function check_nickname_exist() {

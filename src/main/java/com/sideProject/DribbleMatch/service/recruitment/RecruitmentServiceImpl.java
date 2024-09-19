@@ -19,6 +19,7 @@ import com.sideProject.DribbleMatch.repository.team.TeamRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,9 +52,11 @@ public class RecruitmentServiceImpl implements RecruitmentService{
     }
 
     @Override
-    public List<RecruitmentResponseDto> findAllRecruitmentInTimeBySearch(String searchWord) {
+    public Page<RecruitmentResponseDto> findAllRecruitmentInTimeBySearch(String searchWord, Pageable pageable) {
 
-        return recruitmentRepository.findRecruitmentInTimeOrderByCreateAtBySearch(searchWord).stream()
+        Page<Recruitment> recruitmentPage =  recruitmentRepository.findRecruitmentInTimeOrderByCreateAtBySearch(searchWord, pageable);
+
+        List<RecruitmentResponseDto> responseList = recruitmentPage.stream()
                 .map(recruitment -> RecruitmentResponseDto.builder()
                         .title(recruitment.getTitle())
                         .teamId(recruitment.getTeam().getId())
@@ -65,6 +68,8 @@ public class RecruitmentServiceImpl implements RecruitmentService{
                         .content(recruitment.getContent())
                         .build())
                 .toList();
+
+        return new PageImpl<>(responseList, pageable, recruitmentPage.getTotalElements());
     }
 
     @Override

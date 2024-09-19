@@ -19,6 +19,6 @@ public interface TeamService {
     public void checkTeamName(String name);
     public TeamDetailResponseDto selectTeam(Long teamId);
     public List<TeamListResponseDto> selectAllTeam();
-    public List<TeamListResponseDto> selectAllTeamByUserId(Long userId);
-    public List<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord);
+    public Page<TeamListResponseDto> selectAllTeamByUserId(Long userId, Pageable pageable);
+    public Page<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord, Pageable pageable);
 }

@@ -39,6 +39,8 @@
                             <button class="team-apply-button" onclick="openRequestPop(this)">가입 요청</button>
                         </div>
                     </div>
+
+                    <div th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
                 </div>
             </div>
 
