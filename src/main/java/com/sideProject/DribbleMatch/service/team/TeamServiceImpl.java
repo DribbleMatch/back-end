@@ -20,6 +20,9 @@ import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import com.sideProject.DribbleMatch.repository.teamMember.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -126,10 +129,10 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public List<TeamListResponseDto> selectAllTeamByUserId(Long userId) {
-        List<TeamMember> teamMemberList = teamMemberRepository.findByUserId(userId);
+    public Page<TeamListResponseDto> selectAllTeamByUserId(Long userId, Pageable pageable) {
+        Page<TeamMember> teamMemberPage = teamMemberRepository.findByUserId(userId, pageable);
 
-        return teamMemberList.stream()
+        List<TeamListResponseDto> responseList = teamMemberPage.stream()
                 .map(teamMember -> TeamListResponseDto.builder()
                         .id(teamMember.getTeam().getId())
                         .imagePath(teamMember.getTeam().getImagePath())
@@ -139,11 +142,15 @@ public class TeamServiceImpl implements TeamService{
                         .winningPercent(calculateWinPercent(teamMember.getTeam()))
                         .build())
                 .toList();
+
+        return new PageImpl<>(responseList, pageable, teamMemberPage.getTotalElements());
     }
 
     @Override
-    public List<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord) {
-        return teamRepository.findBySearch(searchWord).stream()
+    public Page<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord, Pageable pageable) {
+        Page<Team> teamPage = teamRepository.findBySearch(searchWord, pageable);
+
+        List<TeamListResponseDto> responseList = teamPage.stream()
                 .map(team -> TeamListResponseDto.builder()
                         .id(team.getId())
                         .imagePath(team.getImagePath())
@@ -153,6 +160,8 @@ public class TeamServiceImpl implements TeamService{
                         .winningPercent(calculateWinPercent(team))
                         .build())
                 .toList();
+
+        return new PageImpl<>(responseList, pageable, teamPage.getTotalElements());
     }
 
     private List<TeamTag> convertStringToTeamTagList(String tags) {

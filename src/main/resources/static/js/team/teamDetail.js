@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    activeMenu('team-menu');
+})
+
 function openRequestListPop() {
 
     var id = $('#team-id').val();

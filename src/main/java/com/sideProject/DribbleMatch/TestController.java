@@ -18,9 +18,11 @@ public class TestController {
 
     private final TeamApplicationService teamApplicationService;
 
-    @GetMapping("/test")
-    public String getApplicationList(Model model) {
-        model.addAttribute("teamApplicationList", teamApplicationService.findTeamApplicationsByTeam(1L));
-        return "test";
+    @GetMapping("/page/{currentPage}/{totalPage}")
+    public String getApplicationList(Model model, @PathVariable int currentPage, @PathVariable int totalPage) {
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPage);
+        return "fragments/pagination";
     }
 }

@@ -27,3 +27,36 @@ function commonErrorCallBack(xhr, status, error) {
         alert("서버 오류. 고객센터에 문의하세요.");
     }
 }
+
+function activeMenu(menuId) {
+    $('.menu-items').removeClass('active');
+
+    $('#' + menuId).addClass('active');
+}
+
+function goToPage(url) {
+    location.href = url;
+}
+
+function activeFlowStep(step) {
+
+    var steps = $('.step');
+    steps.removeClass('step-active');
+    steps.removeClass('step-now');
+
+    if (step === 1) {
+        $('#step-agree').addClass('step-now');
+    } else if (step === 2) {
+        $('#step-agree').addClass('step-active');
+        $('#step-user-info').addClass('step-now');
+    } else if (step === 3) {
+        $('#step-agree').addClass('step-active');
+        $('#step-user-info').addClass('step-active');
+        $('#step-player-info').addClass('step-now');
+    } else {
+        $('#step-agree').addClass('step-active');
+        $('#step-user-info').addClass('step-active');
+        $('#step-player-info').addClass('step-active');
+        $('#step-complete').addClass('step-now');
+    }
+}

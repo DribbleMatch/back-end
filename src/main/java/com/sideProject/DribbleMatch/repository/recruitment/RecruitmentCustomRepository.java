@@ -11,5 +11,5 @@ import java.util.List;
 public interface RecruitmentCustomRepository {
 
     public List<Recruitment> findRecruitmentInTimeOrderByCreateAt();
-    public List<Recruitment> findRecruitmentInTimeOrderByCreateAtBySearch(String searchWord);
+    public Page<Recruitment> findRecruitmentInTimeOrderByCreateAtBySearch(String searchWord, Pageable pageable);
 }

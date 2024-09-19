@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    activeMenu('team-menu');
+})
+
 const selectedTags = [];
 
 function showImage() {
