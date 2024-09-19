@@ -1,3 +1,24 @@
+$(document).ready(function () {
+    activeMenu('team-menu');
+})
+
+function viewPage(pageNum) {
+
+    var searchWord = $('#search-word').val();
+
+    $.ajax({
+        url: '/recruitment/page?page=' + (pageNum-1),
+        type: 'POST',
+        data: { searchWord: searchWord },
+        success: function (fragment) {
+            $('#recruitment-list').replaceWith(fragment);
+        },
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
+        }
+    })
+}
+
 function openContentPopup(button) {
     const $card = $(button).closest('.recruitment-card');
 

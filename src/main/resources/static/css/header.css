@@ -43,3 +43,7 @@ header .down-header .menu-icon{
     height: 3rem;
     margin-right: 1rem;
 }
+.menu-items.active {
+    border-radius: 0.5rem;
+    background-color: #f38c48;
+}

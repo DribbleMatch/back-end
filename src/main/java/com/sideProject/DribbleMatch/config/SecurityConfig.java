@@ -38,6 +38,7 @@ public class SecurityConfig {
                                 "/region/**",
                                 "/error",
                                 "/test",
+                                "/page/{currentPage}/{totalPage}",
 //todo: 에러 페이지 구현
                                 "/css/**",
                                 "/js/**",

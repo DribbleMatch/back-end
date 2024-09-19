@@ -1,3 +1,24 @@
+$(document).ready(function () {
+    activeMenu('team-menu');
+})
+
+function viewPage(pageNum) {
+
+    var searchWord = $('#search-word').val();
+
+    $.ajax({
+        url: '/team/page/teamListView?page=' + (pageNum-1),
+        type: 'POST',
+        data: { searchWord: searchWord },
+        success: function (fragment) {
+            $('#team-list').replaceWith(fragment);
+        },
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
+        }
+    })
+}
+
 function showMyTeam() {
     $.ajax({
         url: '/team/page/myTeamListView',
@@ -9,6 +30,10 @@ function showMyTeam() {
             commonErrorCallBack(xhr, status, error);
         }
     })
+}
+
+function goToRecruitment() {
+    location.href = "/recruitment/page";
 }
 
 function goCreateTeamPage() {
@@ -71,3 +96,5 @@ function searchTeam() {
         }
     })
 }
+
+//todo: location.href에서 에러 발생 시 처리하기
