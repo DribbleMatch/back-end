@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    activeFlowStep(3);
+})
+
 function showImage() {
 
     const imageFile = $('#image')[0].files[0];

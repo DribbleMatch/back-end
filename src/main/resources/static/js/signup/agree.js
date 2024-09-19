@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    activeFlowStep(1);
+})
+
 function go_userInfo() {
     var isAgree = $('#agree').is(":checked");
 

@@ -54,8 +54,9 @@ public class TeamCustomRepositoryImpl implements TeamCustomRepository{
     }
 
     @Override
-    public List<Team> findBySearch(String searchWord) {
-        return jpaQueryFactory
+    public Page<Team> findBySearch(String searchWord, Pageable pageable) {
+
+        List<Team> teams = jpaQueryFactory
                 .selectFrom(team)
                 .where(team.name.contains(searchWord)
                         .or(team.region.siDo.contains(searchWord))
@@ -63,6 +64,24 @@ public class TeamCustomRepositoryImpl implements TeamCustomRepository{
                         .or(team.region.eupMyeonDongGu.contains(searchWord))
                         .or(team.region.eupMyeonLeeDong.contains(searchWord))
                         .or(team.region.lee.contains(searchWord)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+
+        Long total = jpaQueryFactory
+                .select(team.count())
+                .from(team)
+                .where(team.name.contains(searchWord)
+                        .or(team.region.siDo.contains(searchWord))
+                        .or(team.region.siGunGu.contains(searchWord))
+                        .or(team.region.eupMyeonDongGu.contains(searchWord))
+                        .or(team.region.eupMyeonLeeDong.contains(searchWord))
+                        .or(team.region.lee.contains(searchWord)))
+                .fetchOne();
+
+        total = (total == null) ? 0L : total;
+
+        return new PageImpl<>(teams, pageable, total);
     }
+
 }

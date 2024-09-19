@@ -1,3 +1,7 @@
+$(document).ready(function () {
+    activeMenu('team-menu');
+})
+
 function createRecruitment() {
     var teamId = $('#team-id').val();
     var title = $('#title').val();

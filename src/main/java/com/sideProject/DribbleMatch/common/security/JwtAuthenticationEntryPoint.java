@@ -71,8 +71,10 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         }
     }
 
+    //todo: replaceWith에는 로그인 페이지로 리다이렉트 안되고 replace되는 현상 해결
     private void authFailHandler(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getRequestURI().contains("page")) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.sendRedirect("/login/page");
         } else {
             String jsonResponse = objectMapper.writeValueAsString(ApiResponse.error(ErrorCode.INVALID_REFRESH_TOKEN));
