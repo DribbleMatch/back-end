@@ -19,7 +19,7 @@
     opacity: 50%;
 }
 
-.info-container input[type="text"] {
+.info-container .matching-name {
     width: 100%;
     height: 1.7rem;
     border-radius: 0.3rem;
@@ -64,9 +64,10 @@
     margin-bottom: 0.3rem;
     margin-right: 0.5rem;
 }
-.info-container .member-max-num-div .max-num{
-    margin-right: 34rem;
+.info-container .member-max-num-div .max-num {
+    margin-right: auto;
     margin-top: 0.7rem;
+    margin-left: 10%;
 }
 .info-container .member-max-num-div .max-num input[type="number"]::-webkit-inner-spin-button,
 .info-container .member-max-num-div .max-num input[type="number"]::-webkit-outer-spin-button {
@@ -136,32 +137,39 @@
 }
 .info-container .stadium-info {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     margin-top: 1rem;
     margin-bottom: 5rem;
     margin-left: 3rem;
+    gap: 1rem;
+}
+.info-container .stadium-info .select-address-div {
+    display: flex;
+    flex-direction: row;
 }
 .info-container .stadium-info label {
     margin-top: 0.5rem;
     font-weight: bold;
+    width: 15%;
 }
 .info-container .stadium-info input[type="text"] {
-    width: 20rem;
+    width: 50%;
     height: 2rem;
-    padding: 0;
-    margin-left: 3rem;
+    padding: 0 1rem;
+    margin-left: 1rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
 }
-.info-container .stadium-info .select-stadium {
+.info-container .stadium-info .select-address {
     width: 6rem;
     height: 2rem;
     margin-left: 2rem;
-    margin-top: 0.2rem;
     background-color: #e8e8e8;
     border: none;
     border-radius: 0.3em;
 }
-.info-container .stadium-info .select-stadium:hover {
-    background-color: #676767;
+.info-container .stadium-info .select-address:hover {
+    background-color: #a1a1a1;
 }
 .info-container .region-info {
     display: flex;
@@ -203,4 +211,61 @@
 }
 .submit-btn:hover {
     background-color: #ff8a38;
+}
+
+.info-container .matching-option-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+.info-container .is-only-women-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin-bottom: 5rem;
+}
+.info-container .matching-option-div .radio-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5%;
+}
+.info-container .matching-option-div .sub-title,
+.info-container .is-only-women-div .sub-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 3rem;
+    font-weight: bold;
+}
+.info-container .matching-option-div .radio-div input[type="radio"]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.info-container .matching-option-div .radio-div input[type="radio"]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.info-container .matching-option-div .team-name-list{
+    align-content: center;
+    margin-left: 10rem;
+}
+.info-container .matching-option-div .team-name-list select {
+    border: 0.2rem solid #e0e0e0;
+    margin-right: 10rem;
+    color: #676767;
+    border-radius: 0.3rem;
+    margin-left: 1rem;
+}
+.info-container .is-only-women-div .is-only-women-checkbox-div{
+    margin-left: 2%;
 }

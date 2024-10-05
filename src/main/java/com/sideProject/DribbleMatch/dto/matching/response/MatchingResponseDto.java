@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.dto.matching.response;
 
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.IsReservedStadium;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import lombok.AccessLevel;
@@ -15,55 +16,46 @@ import java.time.LocalTime;
 @Getter
 public class MatchingResponseDto {
 
+    private Long id;
+    private LocalTime startAt;
     private String name;
-    private String imgPath;
-    private String stadiumName;
-    private int playPeople;
-    private LocalDateTime startAt;
-    private int hour;
+    private GameKind isOnlyWomen;
     private GameKind gameKind;
-    private MatchingStatus status;
-
-    private int maxPeople;
+    private int playMemberNum;
+    private int maxMemberNum;
     private String regionString;
+    private IsReservedStadium isReservedStadium;
+    private int hour;
+    private int upTeamMemberNum;
+    private int downTeamMemberNum;
+
 
     @Builder
     public MatchingResponseDto(
-        String name,
-        String imgPath,
-        String stadiumName,
-        int playPeople,
-        LocalDateTime startAt,
-        int hour,
-        GameKind gameKind,
-        MatchingStatus status,
-        int maxPeople,
-        String regionString
+            Long id,
+            LocalTime startAt,
+            String name,
+            GameKind isOnlyWomen,
+            GameKind gameKind,
+            int playMemberNum,
+            int maxMemberNum,
+            String regionString,
+            IsReservedStadium isReservedStadium,
+            int hour,
+            int upTeamMemberNum,
+            int downTeamMemberNum
     ) {
-        this.name = name;
-        this.imgPath = imgPath;
-        this.stadiumName = stadiumName;
-        this.playPeople = playPeople;
+        this.id = id;
         this.startAt = startAt;
-        this.hour = hour;
+        this.name = name;
+        this.isOnlyWomen = isOnlyWomen;
         this.gameKind = gameKind;
-        this.status = status;
-        this.maxPeople = maxPeople;
+        this.playMemberNum = playMemberNum;
+        this.maxMemberNum = maxMemberNum;
         this.regionString = regionString;
-    }
-
-    public static MatchingResponseDto of(Matching matching, String regionString) {
-        return MatchingResponseDto.builder()
-                .name(matching.getName())
-                .imgPath(matching.getImgPath())
-                .stadiumName(matching.getStadium() == null ? null : matching.getStadium().getName())
-                .playPeople(matching.getPlayPeople())
-                .startAt(matching.getStartAt())
-                .hour(matching.getHour())
-                .gameKind(matching.getGameKind())
-                .status(matching.getStatus())
-                .maxPeople(matching.getMaxPeople())
-                .regionString(regionString)
-                .build();
+        this.isReservedStadium = isReservedStadium;
+        this.hour = hour;
+        this.upTeamMemberNum = upTeamMemberNum;
+        this.downTeamMemberNum = downTeamMemberNum;
     }
 }

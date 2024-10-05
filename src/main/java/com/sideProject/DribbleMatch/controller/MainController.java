@@ -23,8 +23,7 @@ public class MainController {
         LocalDate nowDate = LocalDate.now();
         model.addAttribute("nowDate", nowDate);
 
-        List<Matching> matchingList = matchingService.findAllMatchingOrderByTime(LocalDate.now());
-        model.addAttribute("matchingList", matchingList);
+        model.addAttribute("matchingList", null);
 
         return "/index";
     }

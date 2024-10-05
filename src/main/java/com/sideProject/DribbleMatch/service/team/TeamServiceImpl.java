@@ -173,7 +173,8 @@ public class TeamServiceImpl implements TeamService{
 
     private double calculateWinPercent(Team team) {
         //todo: 승률 계산 시 종료된 경기만 포함하도록 수정
-        int entireGame = teamMatchJoinRepository.countTeamMatchJoinByTeam(team);
+//        int entireGame = teamMatchJoinRepository.countTeamMatchJoinByTeam(team);
+        int entireGame = 0;
         return entireGame == 0 ? 0 : Double.parseDouble(String.format("%.1f", (double) team.getWinning() / entireGame * 100));
     }
 }

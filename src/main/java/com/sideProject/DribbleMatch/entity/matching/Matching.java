@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.entity.matching;
 
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.IsReservedStadium;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.stadium.Stadium;
@@ -46,18 +47,31 @@ public class Matching {
     @Column
     private MatchingStatus status;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id")
     @NotNull
-    private Region region;
-
-    @OneToOne
-    @JoinColumn(name = "stadium_id")
-    private Stadium stadium;
-
+    @Column
     private GameKind gameKind;
 
-    private String imgPath;
+    @NotNull
+    @Column
+    private GameKind isOnlyWomen;
+
+    @NotNull
+    @Column
+    private IsReservedStadium isReserved;
+
+    @ManyToOne
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+    @Column
+    private String jibun;
+
+    @Column
+    private String stadiumLoadAddress;
+
+    @Column
+    private String detailAddress;
+
 
     @Builder
     protected Matching(
@@ -66,29 +80,25 @@ public class Matching {
             int maxPeople,
             LocalDateTime startAt,
             int hour,
-            MatchingStatus status,
-            Region region,
-            Stadium stadium,
             GameKind gameKind,
-            String imgPath) {
+            GameKind isOnlyWomen,
+            IsReservedStadium isReserved,
+            Region region,
+            String jibun,
+            String stadiumLoadAddress,
+            String detailAddress) {
         this.name = name;
         this.playPeople = playPeople;
         this.maxPeople = maxPeople;
         this.startAt = startAt;
         this.hour = hour;
-        this.status = status;
-        this.region = region;
-        this.stadium = stadium;
+        this.status = MatchingStatus.RECRUITING;
         this.gameKind = gameKind;
-        this.imgPath = imgPath;
-    }
-
-    public void updateMatching(MatchingUpdateRequestDto request, Region region) {
-        this.name = name;
-        this.playPeople = request.getPlayPeople();
-        this.maxPeople = request.getMaxPeople();
-        this.startAt = request.getStartAt();
-        this.hour = request.getHour();
+        this.isOnlyWomen = isOnlyWomen;
+        this.isReserved = isReserved;
         this.region = region;
+        this.jibun = jibun;
+        this.stadiumLoadAddress = stadiumLoadAddress;
+        this.detailAddress = detailAddress;
     }
 }
