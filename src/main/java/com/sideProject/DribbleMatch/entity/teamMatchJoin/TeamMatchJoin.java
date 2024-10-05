@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.entity.teamMatchJoin;
 
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -19,19 +20,19 @@ public class TeamMatchJoin {
     @Column
     private Long id;
 
-    @NotNull(message = "팀이 입력되지 않았습니다.")
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @JoinColumn(name = "team_member_id")
+    private TeamMember teamMember;
 
-    @NotNull(message = "경기가 입력되지 않았습니다.")
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "match_id")
     private Matching matching;
 
     @Builder
-    public TeamMatchJoin(Team team, Matching matching) {
-        this.team = team;
+    public TeamMatchJoin(TeamMember teamMember, Matching matching) {
+        this.teamMember = teamMember;
         this.matching = matching;
     }
 }

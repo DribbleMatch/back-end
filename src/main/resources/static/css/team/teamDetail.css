@@ -234,21 +234,6 @@
     cursor: pointer;
 }
 
-.approve-btn {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    margin-left: auto;
-}
-
-.deny-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
 .popup-footer {
     margin-top: 20px;
 }

@@ -62,10 +62,14 @@ public enum ErrorCode {
     NOT_UNIQUE_MATCHING_NAME(400, "4100", "경기 이름이 이미 존재합니다."),
     NOT_PERSONAL_MATCHING(400, "4101", "해당 경기는 개인 참여가 불가능합니다."),
     NOT_TEAM_MATCHING(400, "4102", "해당 경기는 팀 참여가 불가능합니다."),
+    EMPTY_TEAM_NAME(400, "4103", "팀 경기의 팀 이름이 입력되지 않았습니다."),
+    TEAM_MAX_MEMBER_NUM(400, "4103", "팀 경기의 모집 인원이 팀의 인원보다 적습니다. 모집 인원을 늘려주세요."),
     NOT_FOUND_MATCHING(404, "4300", "해당 경기가 존재하지 않습니다."),
 
+    ALREADY_JOIN_PERSONAL_MATCH(404, "5100", "해당 선수가 이미 경기에 참가중입니다."),
     NOT_FOUND_PERSONAL_MATCH_JOIN(404, "5300", "해당 개인 경기 참가 정보가 존재하지 않습니다."),
 
+    ALREADY_JOIN_TEAM_MATCH(404, "6100", "해당 팀의 팀원 중 이미 경기에 참가중인 사용자가 있습니다."),
     NOT_FOUND_TEAM_MATCH_JOIN(404, "6300", "해당 팀 경기 참가 정보가 존재하지 않습니다."),
 
     NOT_FOUND_RECRUITMENT(404, "7300", "해당 모집글이 존재하지 않습니다."),
