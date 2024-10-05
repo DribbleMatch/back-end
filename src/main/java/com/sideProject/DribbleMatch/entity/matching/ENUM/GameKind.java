@@ -2,5 +2,7 @@ package com.sideProject.DribbleMatch.entity.matching.ENUM;
 
 public enum GameKind {
     TEAM,
-    PERSONAL
+    PERSONAL,
+    ONLY_WOMEN,
+    NOT_ONLY_WOMEN
 }

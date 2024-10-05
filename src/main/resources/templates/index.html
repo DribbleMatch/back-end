@@ -1,41 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DribbleMatch - 농구 메이트를 찾으시나요?</title>
-  <link rel="stylesheet" href="/css/header.css">
-  <link rel="stylesheet" href="/css/index.css">
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/index.css}">
+</th:block>
 
 <body>
-<header>
-  <div class="up_header">
-    <img class="logo" src="/image/logo.png" alt="logo.png">
-    <input type="text" class="searchBox" placeholder="지역, 경기명으로 경기 검색"/>
-    <img class="userInfo-icon" src="/image/icon/userInfo_icon.png" alt="userInfo_icon.png">
-    <img class="menu-icon" src="/image/icon/menu_icon.png" alt="menu_icon.png">
-  </div>
-  <div class="down-header">
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/ranking_icon.png">
-      <h3>랭킹</h3>
-    </div>
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/team_icon.png">
-      <h3>팀</h3>
-    </div>
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/competition_icon.png">
-      <h3>대회</h3>
-    </div>
-    <div class="menu-items">
-      <img class="menu-icon" src="/image/icon/board_icon.png">
-      <h3>커뮤니티</h3>
-    </div>
-  </div>
-</header>
-
 <section class="notice">
   <div>
     <h3 style="text-align: center;">배너</h3>

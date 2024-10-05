@@ -5,6 +5,7 @@ header .up_header {
 header .up_header .logo {
     width: 24rem;
     height: 8rem;
+    cursor: pointer;
 }
 header .up_header .searchBox {
     margin-left: auto;

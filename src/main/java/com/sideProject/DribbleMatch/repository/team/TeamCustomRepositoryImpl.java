@@ -83,5 +83,4 @@ public class TeamCustomRepositoryImpl implements TeamCustomRepository{
 
         return new PageImpl<>(teams, pageable, total);
     }
-
 }
