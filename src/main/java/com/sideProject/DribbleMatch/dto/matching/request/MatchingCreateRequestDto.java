@@ -18,7 +18,6 @@ public class MatchingCreateRequestDto {
 
     @NotNull(message = "이름이 입력되지 않았습니다")
     private String name;
-    //todo: int는 null이면 0으로 초기화됨. 솔루션 필요함
     @NotNull(message = "경기 인원수가 입력되지 않았습니다")
     private int playPeople;
     @NotNull(message = "경기 참여 최대 인원이 입력되지 않았습니다")
@@ -27,23 +26,13 @@ public class MatchingCreateRequestDto {
     private LocalDateTime startAt;
     @NotNull(message = "경기 진행 시간이 입력되지 않았습니다")
     private int hour;
-    @NotNull(message = "경기장이 입력되지 않았습니다")
-    private String stadiumString;
-    @NotNull(message = "지역이 입력되지 않았습니다")
+    @NotNull(message = "경기 종류가 입력되지 않았습니다")
+    private GameKind gameKind;
+    private String teamName;
+    @NotNull(message = "여성 전용 경기 여부가 입력되지 않았습니다.")
+    private GameKind isOnlyWomen;
+    private String stadiumLoadAddress;
+    private String stadiumJibunAddress;
+    private String detailAddress;
     private String regionString;
-
-    public static Matching of(MatchingCreateRequestDto requestDto, Stadium stadium, Region region) {
-        return Matching.builder()
-                .name(requestDto.getName())
-                .playPeople(requestDto.getPlayPeople())
-                .maxPeople(requestDto.getMaxPeople())
-                .startAt(requestDto.getStartAt())
-                .hour(requestDto.hour)
-                .status(MatchingStatus.RECRUITING)
-                .stadium(stadium)
-                .region(region)
-                .gameKind(GameKind.PERSONAL)
-                .imgPath(stadium == null ? "" : stadium.getImagePath())
-                .build();
-    }
 }

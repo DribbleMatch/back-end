@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -44,6 +46,11 @@ public class TeamMemberServiceImpl implements TeamMemberService{
                         .user(user)
                         .team(team)
                 .build());
+    }
+
+    @Override
+    public List<String> selectTeamNameByUserId(Long userId) {
+        return teamMemberRepository.findTeamNameByUserIdAndAdmin(userId);
     }
 
     private void checkMember(Long userId, Long teamId) {

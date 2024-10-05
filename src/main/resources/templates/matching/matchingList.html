@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/matching/matchingList.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/common/region.js}"></script>
+    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+    <script th:src="@{/js/matching/matchingList.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="title">
+            <h2>경기</h2>
+        </div>
+        <div class="date-select">
+            <div class="before-date" onclick="previousDate()"></div>
+            <input type="date" class="matching-date-select" id="matching-date-select" th:value="${today}"/>
+            <div class="next-date" onclick="nextDate()"></div>
+        </div>
+        <div class="matching-list-div">
+            <div class="matching-list-header">
+                <input type="text" id="search-word" class="search-bar" placeholder="경기 명 또는 지역 검색..." oninput="searchMatching()">
+                <button type="button" class="create-matching-btn" onclick="goToCreateMatching()">경기 생성</button>
+            </div>
+
+            <div class="matching-list" id="matching-list">
+                <div th:each="matching : ${matchingList}" class="matching-card">
+                    <div class="matching-time">
+                        <h1 th:text="${matching.startAt}">12:12</h1>
+                    </div>
+                    <div class="matching-info">
+                        <div class="matching-name-div">
+                            <div class="matching-name" th:text="${matching.name}" th:onclick="'goMatchingDetail('+ ${matching.id} +')'"></div>
+                            <div th:if="${matching.isOnlyWomen.toString() == 'ONLY_WOMEN'}" class="is-only-women">
+                                여성전용
+                            </div>
+                        </div>
+                        <div class="matching-kind" th:text="${matching.gameKind.toString() == 'TEAM' ? '팀 경기 ' : '개인 경기 '} + ${matching.playMemberNum} + ' VS ' + ${matching.playMemberNum} + ' (모집 인원: 팀 당 ' + ${matching.maxMemberNum} + '명)'">
+                            팀 경기 3 VS 3 (모집 인원: 팀 당 3명)
+                        </div>
+                        <div class="matching-region" th:text="${matching.regionString} + ' (' + ${matching.isReservedStadium.toString() == 'RESERVED' ? '경기장 확정' : '경기장 미정'} + ')'">
+                            서울시 영등포구 (경기장 미정)
+                        </div>
+                    </div>
+                    <div class="hour-div" th:text="${matching.hour} + '시간'">
+                        3시간
+                    </div>
+                    <div class="join-info-div">
+                        <div class="join-info">
+                            <div class="join-people-img-div">
+                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                <img th:src="${i <= matching.upTeamMemberNum ? '/image/matching/matching_join.png' : '/image/matching/matching_empty.png'}"
+                                     class="matching-join-img">
+                                </th:block>
+                            </div>
+                            <div class="more-people-div" th:if="${matching.upTeamMemberNum > 5}">
+                                <img src="/image/matching/more_people.png" class="more-people-img" onmouseover="showMemberNum('up')" onmouseout="hideMemberNum('up')">
+                                <div id="up-member-num-bubble" class="speech-bubble" th:text="${matching.upTeamMemberNum} + ' / ' + ${matching.maxMemberNum}" style="display:none;">
+                                    12 / 15
+                                </div>
+                            </div>
+                        </div>
+                        <div class="join-info">
+                            <div class="join-people-img-div">
+                                <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+                                    <img th:src="${i <= matching.downTeamMemberNum ? '/image/matching/matching_join.png' : '/image/matching/matching_empty.png'}"
+                                         class="matching-join-img">
+                                </th:block>
+                            </div>
+                            <div class="more-people-div" th:if="${matching.downTeamMemberNum > 5}">
+                                <img src="/image/matching/more_people.png" class="more-people-img" onmouseover="showMemberNum('down')" onmouseout="hideMemberNum('down')">
+                                <div id="down-member-num-bubble" class="speech-bubble" th:text="${matching.downTeamMemberNum} + ' / ' + ${matching.maxMemberNum}" style="display: none">
+                                    12 / 15
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
+            </div>
+        </div>
+    </section>
+</div>
+</html>
