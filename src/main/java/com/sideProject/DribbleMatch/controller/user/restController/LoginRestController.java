@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/login/rest")
+@RequestMapping("/api/login")
 public class LoginRestController {
 
     private final UserService userService;
@@ -26,11 +26,5 @@ public class LoginRestController {
         authService.setCookie(tokens, response);
 
         return ApiResponse.ok("로그인 성공");
-    }
-
-    @GetMapping("/refresh")
-    public ApiResponse<JwtResponseDto> refresh(@RequestHeader(value = "Authorization", required = true) String authorizationHeader) {
-        String refreshToken = authorizationHeader.substring(7);
-        return ApiResponse.ok(authService.refresh(refreshToken));
     }
 }

@@ -7,7 +7,7 @@ function viewPage(pageNum) {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/team/page/teamListView?page=' + (pageNum-1),
+        url: '/page/team/replace/teamList?page=' + (pageNum-1),
         type: 'POST',
         data: { searchWord: searchWord },
         success: function (fragment) {
@@ -21,7 +21,7 @@ function viewPage(pageNum) {
 
 function showMyTeam() {
     $.ajax({
-        url: '/team/page/myTeamListView',
+        url: '/page/team/replace/myTeamListView',
         type: 'GET',
         success: function (fragment) {
             $('#team-list').replaceWith(fragment);
@@ -33,15 +33,15 @@ function showMyTeam() {
 }
 
 function goToRecruitment() {
-    location.href = "/recruitment/page";
+    location.href = "/page/recruitment";
 }
 
 function goCreateTeamPage() {
-    location.href = "/team/page/createTeam";
+    location.href = "/page/team/createTeam";
 }
 
 function viewTeamDetail(id) {
-    location.href = "/team/page/teamDetail/" + id;
+    location.href = "/page/team/teamDetail/" + id;
 }
 
 function requestJoin() {
@@ -50,7 +50,7 @@ function requestJoin() {
     var introduce = $('#introduce').val();
 
     $.ajax({
-        url: '/teamApplication/rest/requestJoin',
+        url: '/api/teamApplication/requestJoin',
         type: 'POST',
         data: {
             id: id,
@@ -85,7 +85,7 @@ function searchTeam() {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/team/page/teamListView',
+        url: '/page/team/replace/teamList',
         type: 'POST',
         data: { searchWord: searchWord },
         success: function (fragment) {
@@ -96,5 +96,3 @@ function searchTeam() {
         }
     })
 }
-
-//todo: location.href에서 에러 발생 시 처리하기

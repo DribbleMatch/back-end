@@ -20,7 +20,7 @@
             <div class="team-header">
                 <input type="hidden" id="team-id" th:value="${team.id}">
                 <div class="image-div">
-                    <img class="team-image" id="team-image" th:src="@{/rest/image(imagePath=${team.imagePath})}"
+                    <img class="team-image" id="team-image" th:src="@{/api/image(imagePath=${team.imagePath})}"
                          alt="팀 이미지">
                 </div>
                 <div class="team-header-right">
@@ -75,7 +75,7 @@
                 <div class="member-list">
                     <div th:each="user : ${team.userList}" class="member">
                         <div class="member-image-div">
-                            <img class="member-image" th:src="@{/rest/image(imagePath=${user.imagePath})}" alt="팀원 이미지">
+                            <img class="member-image" th:src="@{/api/image(imagePath=${user.imagePath})}" alt="팀원 이미지">
                         </div>
                         <div class="member-name" th:text="${user.nickName}">팀원 이름</div>
                         <div class="member-gender" th:text="${user.gender == 'FEMALE' ? '여' : '남'}">성별</div>

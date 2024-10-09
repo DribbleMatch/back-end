@@ -7,7 +7,7 @@ function openRequestListPop() {
     var id = $('#team-id').val();
 
     $.ajax({
-        url: '/teamApplication/page/' + id,
+        url: '/page/teamApplication/replace/' + id,
         type: 'GET',
         success: function (fragment) {
             $('#request-list-popup').replaceWith(fragment);
@@ -52,7 +52,7 @@ function approvalTeamApplication() {
     }
 
     $.ajax({
-        url: '/teamApplication/rest/approval/' + id,
+        url: '/api/teamApplication/approval/' + id,
         type: 'GET',
         success: function (response) {
             alert("팀원이 등록되었습니다.");
@@ -79,7 +79,7 @@ function refuseTeamApplication() {
     }
 
     $.ajax({
-        url: '/teamApplication/rest/refuse/' + id,
+        url: '/api/teamApplication/refuse/' + id,
         type: 'GET',
         success: function (response) {
             alert("가입 요청이 거절되었습니다.");
@@ -111,7 +111,7 @@ function requestJoin() {
     var introduce = $('#introduce').val();
 
     $.ajax({
-        url: '/teamApplication/rest/requestJoin',
+        url: '/api/teamApplication/requestJoin',
         type: 'POST',
         data: {
             id: id,
@@ -135,5 +135,5 @@ function requestJoin() {
 
 function goCreateRecruitmentPage() {
     var teamId = $('#team-id').val();
-    location.href = "/recruitment/page/create/" + teamId;
+    location.href = "/page/recruitment/create/" + teamId;
 }

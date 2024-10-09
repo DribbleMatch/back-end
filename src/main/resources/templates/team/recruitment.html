@@ -22,7 +22,7 @@
                         <input type="hidden" id="team-id" th:value="${recruitment.teamId}"/>
                         <input type="hidden" id="recruitment-content" th:value="${recruitment.content}"/>
                         <div class="team-image-div">
-                            <img class="team-image" th:src="@{/rest/image(imagePath=${recruitment.teamImagePath})}" alt="팀 이미지">
+                            <img class="team-image" th:src="@{/api/image(imagePath=${recruitment.teamImagePath})}" alt="팀 이미지">
                         </div>
                         <div class="recruitment-info">
                             <div class="recruitment-title" id="recruitment-title" th:text="${recruitment.title}"></div>

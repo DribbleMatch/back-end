@@ -8,6 +8,6 @@ function go_userInfo() {
     if (!isAgree) {
         alert("약관에 동의해주세요.");
     } else {
-        location.href = "/signup/userInfo";
+        location.href = "/page/signup/userInfo";
     }
 }

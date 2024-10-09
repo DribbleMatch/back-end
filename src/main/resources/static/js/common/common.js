@@ -17,7 +17,7 @@ function commonErrorCallBack(xhr, status, error) {
     // 특정 필드(status)가 "success"일 때만 처리
     if (response && response.code === '0201') {
         alert("재로그인이 필요합니다.");
-        location.href = "/login/page"
+        location.href = "/page/login"
     } else if (response && response.code === '0202') {
         // 기존 요청 재시도
         if (originalRequestSettings) {

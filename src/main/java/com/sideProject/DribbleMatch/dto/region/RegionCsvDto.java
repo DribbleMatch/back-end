@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 public class RegionCsvDto {
-    //todo: setter를 사용하지 않는 방법 (fieldSetMapper 직접 구현?) 고안하기
+    //refactor: setter를 사용하지 않는 방법 (fieldSetMapper 직접 구현?) 고안하기
     private String siDo;
     private String siGunGu;
     private String eupMyeonDongGu;

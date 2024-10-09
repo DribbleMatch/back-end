@@ -3,5 +3,5 @@ $(document).ready(function () {
 })
 
 function go_login() {
-    location.href = "/login/page";
+    location.href = "/page/login";
 }

@@ -126,13 +126,13 @@ function createMatching() {
     }
 
     $.ajax({
-        url: '/matching/rest/createMatching',
+        url: '/api/matching/createMatching',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: function (data) {
             alert('경기 생성 완료');
-            location.href = "/matching/page/matchingList";
+            location.href = "/page/matching/replace/matchingList";
         },
         error: function () {
             alert('경기 생성에 실패하였습니다. 잠시 후에 다시 시도하세요.');

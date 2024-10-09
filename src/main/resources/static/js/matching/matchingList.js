@@ -8,7 +8,7 @@ function viewPage(pageNum) {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/matching/page/matchingList?page=' + (pageNum-1),
+        url: '/page/matching/replace/matchingList?page=' + (pageNum-1),
         type: 'POST',
         data: {
             date: date,
@@ -30,7 +30,7 @@ function searchMatching() {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/matching/page/matchingList',
+        url: '/page/matching/replace/matchingList',
         type: 'POST',
         data: {
             date: date,
@@ -79,7 +79,7 @@ function replaceListByDate(date) {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/matching/page/matchingList',
+        url: '/page/matching/replace/matchingList',
         type: 'POST',
         data: {
           date: date,
@@ -111,9 +111,9 @@ function hideMemberNum(upDown) {
 }
 
 function goToCreateMatching() {
-    location.href = "/matching/page/createMatching";
+    location.href = "/page/matching/createMatching";
 }
 
 function goMatchingDetail(matchingId) {
-    location.href = "/matching/page/matchingDetail/" + matchingId;
+    location.href = "/page/matching/matchingDetail/" + matchingId;
 }
