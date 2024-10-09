@@ -20,7 +20,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/matching/rest")
+@RequestMapping("/api/matching")
 @RequiredArgsConstructor
 public class MatchingRestController {
 
@@ -30,12 +30,21 @@ public class MatchingRestController {
 
     @PostMapping("/createMatching")
     public Long createMatching(Principal principal, @RequestBody MatchingCreateRequestDto requestDto) {
+
         Long matchingId = matchingService.createMatching(requestDto);
+
         if (requestDto.getGameKind() == GameKind.TEAM) {
             teamMatchJoinService.createTeamMatchJoin(matchingId, Long.valueOf(principal.getName()), requestDto.getTeamName());
         } else if (requestDto.getGameKind() == GameKind.PERSONAL) {
             personalMatchJoinService.createPersonalMatch(matchingId, Long.valueOf(principal.getName()), PersonalMatchingTeam.UP_TEAM);
         }
+
         return matchingId;
+    }
+
+    @GetMapping("/asdf")
+    public void testtesttest() {
+
+        throw new CustomException(ErrorCode.TEST_ERROR);
     }
 }

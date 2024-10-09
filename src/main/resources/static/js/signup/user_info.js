@@ -13,7 +13,7 @@ function check_nickname_exist() {
     }
 
     $.ajax({
-        url: '/signup/rest/checkNickName',
+        url: '/api/signup/checkNickName',
         type: 'POST',
             // headers: {
             //     'Authorization': 'Bearer ' + 'asdf'
@@ -46,7 +46,7 @@ function check_email_exist() {
     }
 
     $.ajax({
-        url: '/signup/rest/checkEmail',
+        url: '/api/signup/checkEmail',
         type: 'POST',
         data: { email: email},
         success: function (response) {
@@ -113,7 +113,7 @@ function send_verification_code() {
     }
 
     $.ajax({
-        url: '/signup/rest/sendAuthMessage',
+        url: '/api/signup/sendAuthMessage',
         type: 'POST',
         data: { phone: phone},
         success: function (response) {
@@ -143,7 +143,7 @@ function check_verification_code() {
     }
 
     $.ajax({
-        url: '/signup/rest/getAuth',
+        url: '/api/signup/getAuth',
         type: 'POST',
         data: {
             phone: phone,

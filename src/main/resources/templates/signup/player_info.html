@@ -14,7 +14,7 @@
     <section class="content">
         <div class="signup-container">
             <h2>선수 정보 입력</h2>
-            <form th:action="@{/signup/complete}" method="post" enctype="multipart/form-data" onsubmit="return check_input()">
+            <form th:action="@{/page/signup/complete}" method="post" enctype="multipart/form-data" onsubmit="return check_input()">
                 <input type="hidden" th:name="nickName" th:value="${user.nickName}"/>
                 <input type="hidden" th:name="email" th:value="${user.email}"/>
                 <input type="hidden" th:name="birth" th:value="${user.birth}"/>

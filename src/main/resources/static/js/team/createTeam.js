@@ -73,7 +73,7 @@ function checkTeamName() {
     }
 
     $.ajax({
-        url: '/team/rest/checkTeamName',
+        url: '/api/team/checkTeamName',
         type: 'POST',
         data: {
             name: name
@@ -128,7 +128,7 @@ function createTeam() {
     formData.append("tags", tags);
 
     $.ajax({
-        url: '/team/rest/createTeam',
+        url: '/api/team/createTeam',
         type: 'POST',
         data: formData,
         contentType: false,

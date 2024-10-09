@@ -27,7 +27,7 @@ function user_login() {
     }
 
     $.ajax({
-        url: '/login/rest',
+        url: '/api/login',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(formData),
@@ -46,5 +46,5 @@ function user_login() {
 }
 
 function goToJoinPage() {
-    location.href = "/signup/agree";
+    location.href = "/page/signup/agree";
 }

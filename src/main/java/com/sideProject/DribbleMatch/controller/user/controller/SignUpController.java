@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/signup")
+@RequestMapping("/page/signup")
 public class SignUpController {
 
     private final UserService userService;
@@ -27,7 +27,7 @@ public class SignUpController {
         return "signup/user_info";
     }
 
-    //todo: 유효성 더블 체크 구현
+    //refactor: 유효성 더블 체크 구현
     @PostMapping("/playerInfo")
     public String playerInfoPage(Model model, SignupUserInfoRequestDto requestDto) {
         model.addAttribute("user", requestDto);

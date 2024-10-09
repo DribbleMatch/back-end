@@ -20,8 +20,6 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
-//todo: 페이지 랜더링 실패 시 에러페이지로 이동하게 구현
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

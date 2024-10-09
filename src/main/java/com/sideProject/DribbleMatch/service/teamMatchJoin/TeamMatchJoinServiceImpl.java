@@ -24,7 +24,7 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
 
     @Override
     public void createTeamMatchJoin(Long matchingId, Long userId, String teamName) {
-        //todo: 현재는 경기 생성시 팀을 설정하면 팀의 전체 멤베거 참여하도록 구현. 추후 팀에서 멤버도 선택할 수 있도록 재설계
+        //refactor: 현재는 경기 생성시 팀을 설정하면 팀의 전체 멤베가 참여하도록 구현. 추후 팀에서 멤버도 선택할 수 있도록 재설계
 
         checkAlreadyJoin(matchingId, userId);
 

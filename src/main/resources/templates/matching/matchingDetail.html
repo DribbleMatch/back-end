@@ -77,7 +77,7 @@
                     <div class="team-container-div">
                         <div class="member-card" th:each="member : ${matchingDetail.aTeamMember}">
                             <div class="member-image">
-                                <img th:src="@{/rest/image(imagePath=${member.imagePath})}"/>
+                                <img th:src="@{/api/image(imagePath=${member.imagePath})}"/>
                             </div>
                             <div class="member-info">
                                 <div class="member-name" th:text="${member.nickName}">최강주현</div>
@@ -101,7 +101,7 @@
                     <div class="team-container-div">
                         <div class="member-card" th:each="member : ${matchingDetail.bTeamMember}">
                             <div class="member-image">
-                                <img th:src="@{/rest/image(imagePath=${member.imagePath})}"/>
+                                <img th:src="@{/api/image(imagePath=${member.imagePath})}"/>
                             </div>
                             <div class="member-info">
                                 <div class="member-name" th:text="${member.nickName}">최강주현</div>
