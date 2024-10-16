@@ -68,7 +68,6 @@ public class JwtTokenProvider {
         return refreshToken;
     }
 
-    // todo: admin, user 식별자가 같을 경우 처리
     public String createAdminRefreshToken(Admin admin) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + REFRESH_TOKEN_EXPIRE_LENGTH);

@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/recruitment/rest")
+@RequestMapping("/api/recruitment")
 public class RecruitmentRestController {
 
     private final RecruitmentService recruitmentService;
 
-    @PostMapping("/create")
+    @PostMapping("/createRecruitment")
     public void createRecruitment(@RequestBody RecruitmentCreateRequestDto requestDto) {
         recruitmentService.createRecruitment(requestDto);
     }

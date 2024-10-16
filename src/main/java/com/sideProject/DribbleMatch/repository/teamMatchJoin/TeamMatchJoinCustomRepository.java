@@ -16,5 +16,5 @@ import java.util.Optional;
 public interface TeamMatchJoinCustomRepository {
     public Long countTeamMatchJoinByMatching(Matching matching);
     public LinkedHashMap<String, List<TeamMember>> findTeamInfoByMatchingId(Long matchingId);
-    public Optional<TeamMatchJoin> findByMatchingAndUser(Long matchingId, Long userId);
+    public Optional<TeamMatchJoin> findByMatchingIdAndUserId(Long matchingId, Long userId);
 }

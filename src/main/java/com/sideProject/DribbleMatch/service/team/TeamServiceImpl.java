@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class TeamServiceImpl implements TeamService{
 
     @Value("${spring.dir.teamImagePath}")
@@ -40,13 +40,13 @@ public class TeamServiceImpl implements TeamService{
 
     private final FileUtil fileUtil;
 
-    private final TeamMatchJoinRepository teamMatchJoinRepository;
     private final TeamRepository teamRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final UserRepository userRepository;
     private final RegionRepository regionRepository;
 
     @Override
+    @Transactional
     public Long createTeam(Long creatorId, TeamCreateRequestDto request) {
 
         checkTeamName(request.getName());
@@ -78,14 +78,7 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public void checkTeamName(String name) {
-        if(teamRepository.findByName(name).isPresent()) {
-            throw new CustomException(ErrorCode.NOT_UNIQUE_TEAM_NAME);
-        }
-    }
-
-    @Override
-    public TeamDetailResponseDto selectTeam(Long teamId) {
+    public TeamDetailResponseDto getTeamDetail(Long teamId) {
 
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
@@ -113,23 +106,14 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public List<TeamListResponseDto> selectAllTeam() {
-        List<Team> teamList =  teamRepository.findAll();
-
-        return teamList.stream()
-                .map(team -> TeamListResponseDto.builder()
-                        .id(team.getId())
-                        .imagePath(team.getImagePath())
-                        .name(team.getName())
-                        .regionString(team.getRegion().getSiDo() + " " + team.getRegion().getSiGunGu())
-                        .memberNumString(teamMemberRepository.findByTeamId(team.getId()).size() + "명 / " + team.getMaxNumber() +"명")
-                        .winningPercent(calculateWinPercent(team))
-                        .build())
-                .toList();
+    public void checkTeamName(String name) {
+        if(teamRepository.findByName(name).isPresent()) {
+            throw new CustomException(ErrorCode.NOT_UNIQUE_TEAM_NAME);
+        }
     }
 
     @Override
-    public Page<TeamListResponseDto> selectAllTeamByUserId(Long userId, Pageable pageable) {
+    public Page<TeamListResponseDto> searchTeamsByUserId(Long userId, Pageable pageable) {
         Page<TeamMember> teamMemberPage = teamMemberRepository.findByUserId(userId, pageable);
 
         List<TeamListResponseDto> responseList = teamMemberPage.stream()
@@ -147,7 +131,7 @@ public class TeamServiceImpl implements TeamService{
     }
 
     @Override
-    public Page<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord, Pageable pageable) {
+    public Page<TeamListResponseDto> searchTeamsBySearchWord(String searchWord, Pageable pageable) {
         Page<Team> teamPage = teamRepository.findBySearch(searchWord, pageable);
 
         List<TeamListResponseDto> responseList = teamPage.stream()

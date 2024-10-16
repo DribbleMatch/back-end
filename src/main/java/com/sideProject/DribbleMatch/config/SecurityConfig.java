@@ -32,14 +32,13 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         .requestMatchers(
-                                "/signup/**",
-                                "/login/**",
-                                "/refresh",
-                                "/region/**",
+                                "/page/signup/**",
+                                "/api/signup/**",
+                                "/page/login/**",
+                                "/api/login/**",
+                                "/api/region/**",
                                 "/error",
                                 "/test",
-                                "/page/{currentPage}/{totalPage}",
-//todo: 에러 페이지 구현
                                 "/css/**",
                                 "/js/**",
                                 "image/**"

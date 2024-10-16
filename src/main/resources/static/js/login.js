@@ -27,7 +27,7 @@ function user_login() {
     }
 
     $.ajax({
-        url: '/login/rest',
+        url: '/api/login',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(formData),
@@ -35,16 +35,11 @@ function user_login() {
             location.href = "/page";
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1300' || response.code === '1103') {
-                alert("이메일 혹은 비밀번호를 다시 확인하세요.");
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
 
 function goToJoinPage() {
-    location.href = "/signup/agree";
+    location.href = "/page/signup/agree";
 }

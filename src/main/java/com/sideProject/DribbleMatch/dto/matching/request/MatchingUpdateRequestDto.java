@@ -15,7 +15,7 @@ public class MatchingUpdateRequestDto {
 
     @NotNull(message = "이름이 입력되지 않았습니다")
     private String name;
-    //todo: int는 null이면 0으로 초기화됨. 솔루션 필요함
+    //refactor: int는 null이면 0으로 초기화됨. 솔루션 필요함
     @NotNull(message = "경기 인원수가 입력되지 않았습니다")
     private int playPeople;
     @NotNull(message = "경기 참여 최대 인원이 입력되지 않았습니다")

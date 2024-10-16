@@ -73,7 +73,7 @@ function checkTeamName() {
     }
 
     $.ajax({
-        url: '/team/rest/checkTeamName',
+        url: '/api/team/checkTeamName',
         type: 'POST',
         data: {
             name: name
@@ -84,12 +84,7 @@ function checkTeamName() {
             $('#check-team-name-btn').prop('disabled', true).text('사용 가능');
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '2100') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -128,7 +123,7 @@ function createTeam() {
     formData.append("tags", tags);
 
     $.ajax({
-        url: '/team/rest/createTeam',
+        url: '/api/team/createTeam',
         type: 'POST',
         data: formData,
         contentType: false,
@@ -138,12 +133,7 @@ function createTeam() {
             location.href = "/";
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '2100') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

@@ -39,23 +39,17 @@ function createRecruitment() {
     }
 
     $.ajax({
-        url: '/recruitment/rest/create',
+        url: '/api/recruitment/createRecruitment',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: function (data) {
             alert('팀원 모집글 생성 완료');
 
-            location.href = "/recruitment/page";
+            location.href = "/page/recruitment";
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-
-            if (response && (response.code === '2300')) {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

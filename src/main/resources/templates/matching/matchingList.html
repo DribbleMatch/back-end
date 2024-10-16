@@ -80,7 +80,10 @@
                         </div>
                     </div>
                 </div>
-                <div th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
+                <div th:if="${matchingList.totalElements == 0}" class="no-data">
+                    해당 날에 경기가 아직 없습니다.
+                </div>
+                <div th:if="${matchingList.totalElements != 0}" th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
             </div>
         </div>
     </section>

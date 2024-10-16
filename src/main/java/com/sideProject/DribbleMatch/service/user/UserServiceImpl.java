@@ -20,8 +20,6 @@ import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-
-//todo: 페이지 랜더링 실패 시 에러페이지로 이동하게 구현
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -57,8 +55,12 @@ public class UserServiceImpl implements UserService{
 
         String authCode = generateAuthCode();
 
-        smsUtil.sendOne(phone, authCode);
-        redisUtil.setAuthCode(phone, authCode);
+        try {
+            smsUtil.sendOne(phone, authCode);
+            redisUtil.setAuthCode(phone, authCode);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.FAIL_SEND_AUTH_MESSAGE);
+        }
     }
 
     @Override
@@ -73,7 +75,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void signUp(SignupPlayerInfoRequestDto requestDto) {
+    public void createUser(SignupPlayerInfoRequestDto requestDto) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);

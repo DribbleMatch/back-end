@@ -10,14 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/teamApplication/page")
+@RequestMapping("/page/teamApplication")
 public class TeamApplicationController {
 
     private final TeamApplicationService teamApplicationService;
 
-    @GetMapping("/{teamId}")
+    @GetMapping("/replace/{teamId}")
     public String getApplicationList(Model model, @PathVariable Long teamId) {
-        model.addAttribute("teamApplicationList", teamApplicationService.findTeamApplicationsByTeam(teamId));
+
+        model.addAttribute("teamApplicationList", teamApplicationService.getTeamApplicationListByTeam(teamId));
+
         return "/team/teamDetail :: #request-list-popup";
     }
 }

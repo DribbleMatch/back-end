@@ -62,7 +62,7 @@ public class TeamMatchJoinCustomRepositoryImpl implements TeamMatchJoinCustomRep
     }
 
     @Override
-    public Optional<TeamMatchJoin> findByMatchingAndUser(Long matchingId, Long userId) {
+    public Optional<TeamMatchJoin> findByMatchingIdAndUserId(Long matchingId, Long userId) {
         return Optional.ofNullable(jpaQueryFactory
                 .selectFrom(teamMatchJoin)
                 .where(teamMatchJoin.matching.id.eq(matchingId)

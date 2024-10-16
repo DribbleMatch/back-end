@@ -28,33 +28,32 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class RecruitmentServiceImpl implements RecruitmentService{
 
     private final RecruitmentRepository recruitmentRepository;
     private final TeamRepository teamRepository;
 
     @Override
-    public List<RecruitmentResponseDto> findAllRecruitmentInTime() {
+    @Transactional
+    public void createRecruitment(RecruitmentCreateRequestDto requestDto) {
 
-        return recruitmentRepository.findRecruitmentInTimeOrderByCreateAt().stream()
-                .map(recruitment -> RecruitmentResponseDto.builder()
-                        .title(recruitment.getTitle())
-                        .teamId(recruitment.getTeam().getId())
-                        .teamName(recruitment.getTeam().getName())
-                        .teamImagePath(recruitment.getTeam().getImagePath())
-                        .positionString(recruitment.getPositionString())
-                        .createdAt(recruitment.getCreatedAt().toLocalDate())
-                        .endAt(recruitment.getEndAt())
-                        .content(recruitment.getContent())
-                        .build())
-                .toList();
+        Team team = teamRepository.findById(requestDto.getTeamId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_TEAM));
+
+        recruitmentRepository.save(Recruitment.builder()
+                .title(requestDto.getTitle())
+                .content(requestDto.getContent())
+                .positionString(requestDto.getPositionString())
+                .endAt(requestDto.getExpireDate())
+                .team(team)
+                .build());
     }
 
     @Override
-    public Page<RecruitmentResponseDto> findAllRecruitmentInTimeBySearch(String searchWord, Pageable pageable) {
+    public Page<RecruitmentResponseDto> searchRecruitments(String searchWord, Pageable pageable) {
 
-        Page<Recruitment> recruitmentPage =  recruitmentRepository.findRecruitmentInTimeOrderByCreateAtBySearch(searchWord, pageable);
+        Page<Recruitment> recruitmentPage =  recruitmentRepository.searchRecruitmentsInTimeOrderByCreatedAt(searchWord, pageable);
 
         List<RecruitmentResponseDto> responseList = recruitmentPage.stream()
                 .map(recruitment -> RecruitmentResponseDto.builder()
@@ -70,20 +69,5 @@ public class RecruitmentServiceImpl implements RecruitmentService{
                 .toList();
 
         return new PageImpl<>(responseList, pageable, recruitmentPage.getTotalElements());
-    }
-
-    @Override
-    public void createRecruitment(RecruitmentCreateRequestDto requestDto) {
-
-        Team team = teamRepository.findById(requestDto.getTeamId()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM));
-
-        recruitmentRepository.save(Recruitment.builder()
-                        .title(requestDto.getTitle())
-                        .content(requestDto.getContent())
-                        .positionString(requestDto.getPositionString())
-                        .endAt(requestDto.getExpireDate())
-                        .team(team)
-                .build());
     }
 }

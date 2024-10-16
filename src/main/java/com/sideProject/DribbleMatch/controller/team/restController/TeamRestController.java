@@ -11,19 +11,22 @@ import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/team/rest")
+@RequestMapping("/api/team")
 public class TeamRestController {
 
     private final TeamService teamService;
 
     @PostMapping("/checkTeamName")
     public ApiResponse<String> checkTeamName(@RequestParam String name) {
+
         teamService.checkTeamName(name);
+
         return ApiResponse.ok("팀 생성 성공");
     }
 
     @PostMapping("/createTeam")
     public ApiResponse<Long> createTeam(Principal principal, @ModelAttribute @Valid TeamCreateRequestDto request) {
+
         return ApiResponse.ok(teamService.createTeam(Long.valueOf(principal.getName()), request));
     }
 }

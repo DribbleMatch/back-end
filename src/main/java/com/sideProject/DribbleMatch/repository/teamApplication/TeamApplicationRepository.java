@@ -10,6 +10,5 @@ import java.util.Optional;
 
 public interface TeamApplicationRepository extends JpaRepository<TeamApplication, Long> {
     public List<TeamApplication> findTeamApplicationByTeamIdAndStatus(Long teamId, ApplicationStatus status);
-    public List<TeamApplication> findTeamApplicationByUserId(Long userId);
     public Optional<TeamApplication> findTeamApplicationByUserIdAndTeamIdAndStatus(Long userId, Long teamId, ApplicationStatus status);
 }
