@@ -1,6 +1,7 @@
 dribbleMatch-dev.env
 dribbleMatch-prod.env
 HELP.md
+myMemo.text
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar

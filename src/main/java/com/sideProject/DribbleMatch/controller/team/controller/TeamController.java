@@ -30,7 +30,7 @@ public class TeamController {
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
         model.addAttribute("tagList", TeamTag.values());
 
-        return "/team/createTeam";
+        return "team/createTeam";
     }
     @GetMapping("/teamList")
     public String teamList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
@@ -41,7 +41,7 @@ public class TeamController {
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
         model.addAttribute("totalPage", teamList.getTotalPages());
 
-        return "/team/teamList";
+        return "team/teamList";
     }
 
     @PostMapping("/replace/teamList")
@@ -55,7 +55,7 @@ public class TeamController {
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
         model.addAttribute("totalPage", teamList.getTotalPages());
 
-        return "/team/teamList :: #team-list";
+        return "team/teamList :: #team-list";
     }
 
     @GetMapping("/replace/myTeamListView")
@@ -67,7 +67,7 @@ public class TeamController {
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
         model.addAttribute("totalPage", teamList.getTotalPages());
 
-        return "/team/teamList :: #team-list";
+        return "team/teamList :: #team-list";
     }
 
     @GetMapping("/teamDetail/{teamId}")
@@ -76,6 +76,6 @@ public class TeamController {
         model.addAttribute("team", teamService.getTeamDetail(teamId));
         model.addAttribute("teamRole", teamMemberService.getTeamRoe(Long.valueOf(principal.getName()), teamId));
 
-        return "/team/teamDetail";
+        return "team/teamDetail";
     }
 }
