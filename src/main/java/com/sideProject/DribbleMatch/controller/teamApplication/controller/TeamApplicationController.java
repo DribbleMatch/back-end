@@ -18,7 +18,7 @@ public class TeamApplicationController {
     @GetMapping("/replace/{teamId}")
     public String getApplicationList(Model model, @PathVariable Long teamId) {
 
-        model.addAttribute("teamApplicationList", teamApplicationService.findTeamApplicationsByTeam(teamId));
+        model.addAttribute("teamApplicationList", teamApplicationService.getTeamApplicationListByTeam(teamId));
 
         return "/team/teamDetail :: #request-list-popup";
     }

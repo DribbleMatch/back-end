@@ -30,7 +30,12 @@ public class MainController {
     @GetMapping("/login")
     public String login(ModelMap model) {
 
-        return "/login/login";
+        return "login/login";
+    }
+
+    @GetMapping("/openLater")
+    public String openLater(ModelMap model) {
+
+        return "/openLater";
     }
 }
-//todo: 매핑 안된 URL에도 토큰 인증 실패 json이 가는 현상 처리

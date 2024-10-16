@@ -28,6 +28,7 @@ public class MatchingRestController {
     private final TeamMatchJoinService teamMatchJoinService;
     private final PersonalMatchJoinService personalMatchJoinService;
 
+    //todo: 트랜잭션 처리 정리하기
     @PostMapping("/createMatching")
     public Long createMatching(Principal principal, @RequestBody MatchingCreateRequestDto requestDto) {
 
@@ -36,7 +37,7 @@ public class MatchingRestController {
         if (requestDto.getGameKind() == GameKind.TEAM) {
             teamMatchJoinService.createTeamMatchJoin(matchingId, Long.valueOf(principal.getName()), requestDto.getTeamName());
         } else if (requestDto.getGameKind() == GameKind.PERSONAL) {
-            personalMatchJoinService.createPersonalMatch(matchingId, Long.valueOf(principal.getName()), PersonalMatchingTeam.UP_TEAM);
+            personalMatchJoinService.createPersonalMatchJoin(matchingId, Long.valueOf(principal.getName()), PersonalMatchingTeam.UP_TEAM);
         }
 
         return matchingId;

@@ -27,12 +27,7 @@ function check_nickname_exist() {
             }
         },
         error: function(xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1104') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -57,12 +52,7 @@ function check_email_exist() {
             }
         },
         error: function(xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1100') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -125,9 +115,7 @@ function send_verification_code() {
                 start_timer(300);
             }
         },
-        // todo: 전송 실패 에러 처리
         error: function(xhr, status, error) {
-            alert('인증번호 전송 실패. 잠시 후에 다시 시도하세요.');
             commonErrorCallBack(xhr, status, error);
         }
     })
@@ -159,12 +147,7 @@ function check_verification_code() {
             }
         },
         error: function(xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1105') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

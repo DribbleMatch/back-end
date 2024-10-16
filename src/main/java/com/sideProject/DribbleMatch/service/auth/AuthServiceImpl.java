@@ -5,11 +5,8 @@ import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.common.util.JwtTokenProvider;
 import com.sideProject.DribbleMatch.common.util.JwtUtil;
 import com.sideProject.DribbleMatch.common.util.RedisUtil;
-import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
 import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
-import com.sideProject.DribbleMatch.entity.user.Admin;
 import com.sideProject.DribbleMatch.entity.user.User;
-import com.sideProject.DribbleMatch.repository.user.AdminRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService{
 
-    private final AdminRepository adminRepository;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtUtil jwtUtil;
@@ -31,26 +27,8 @@ public class AuthServiceImpl implements AuthService{
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public JwtResponseDto userSignIn(UserLogInRequestDto request) {
-        User user = validateUser(request);
-        return JwtResponseDto.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user))
-                .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                .build();
-    }
-
-
-    @Override
-    public JwtResponseDto adminSignIn(UserLogInRequestDto request) {
-        Admin admin = validateAdmin(request);
-        return JwtResponseDto.builder()
-                .accessToken(jwtTokenProvider.createAdminAccessToken(admin))
-                .refreshToken(jwtTokenProvider.createAdminRefreshToken(admin))
-                .build();
-    }
-
-    @Override
     public JwtResponseDto refresh(String refreshToken) {
+
         jwtUtil.validateRefreshToken(refreshToken);
         String userId = redisUtil.getData(refreshToken);
 
@@ -64,24 +42,6 @@ public class AuthServiceImpl implements AuthService{
         return JwtResponseDto.builder()
                 .accessToken(jwtTokenProvider.createAccessToken(user))
                 .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                .build();
-    }
-
-    @Override
-    public JwtResponseDto adminRefresh(String refreshToken) {
-        jwtUtil.validateRefreshToken(refreshToken);
-        String adminId = redisUtil.getData(refreshToken);
-
-        // refresh token 유효 기간 지나면 validation에서 에러 발생하지만 double check
-        if(adminId.isBlank()) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
-        }
-
-        Admin admin = adminRepository.findById(Long.valueOf(adminId.replace("A", ""))).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_ADMIN));
-        return JwtResponseDto.builder()
-                .accessToken(jwtTokenProvider.createAdminAccessToken(admin))
-                .refreshToken(jwtTokenProvider.createAdminRefreshToken(admin))
                 .build();
     }
 
@@ -105,31 +65,13 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public void deleteCookie(HttpServletResponse response){
         Cookie accessToken = new Cookie("accessToken", null);
-        accessToken.setMaxAge(0);  // 쿠키 즉시 삭제
-        accessToken.setPath("/");  // 쿠키의 경로를 설정 (생성할 때 설정된 경로와 동일해야 삭제 가능)
+        accessToken.setMaxAge(0);
+        accessToken.setPath("/");
         response.addCookie(accessToken);
 
         Cookie refreshToken = new Cookie("refreshToken", null);
-        refreshToken.setMaxAge(0);  // 쿠키 즉시 삭제
-        refreshToken.setPath("/");  // 쿠키의 경로를 설정 (생성할 때 설정된 경로와 동일해야 삭제 가능)
+        refreshToken.setMaxAge(0);
+        refreshToken.setPath("/");
         response.addCookie(refreshToken);
-    }
-
-    private User validateUser(UserLogInRequestDto request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
-        }
-        return user;
-    }
-
-    private Admin validateAdmin(UserLogInRequestDto request) {
-        Admin admin = adminRepository.findByEmail(request.getEmail()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
-        if (!passwordEncoder.matches(request.getPassword(), admin.getPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
-        }
-        return admin;
     }
 }

@@ -49,13 +49,7 @@ function createRecruitment() {
             location.href = "/page/recruitment";
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-
-            if (response && (response.code === '2300')) {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

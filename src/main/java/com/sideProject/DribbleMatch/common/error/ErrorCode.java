@@ -46,6 +46,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(400, "1103", "비밀 번호가 틀렸습니다."),
     NOT_UNIQUE_NICKNAME(400, "1104", "닉네임이 이미 존재합니다."),
     NOT_CORRECT_AUTH_CODE(400, "1105", "인증번호가 틀립니다."),
+    FAIL_SEND_AUTH_MESSAGE(400, "1106", "사용자 인증 번호 전송에 실패하였습니다."),
     NOT_FOUND_EMAIL(404, "1300", "해당 이메일이 존재하지 않습니다."),
     NOT_FOUND_USER(404, "1301", "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_NICKNAME(404, "1302", "해당 닉네임이 존재하지 않습니다."),
@@ -63,7 +64,7 @@ public enum ErrorCode {
     NOT_PERSONAL_MATCHING(400, "4101", "해당 경기는 개인 참여가 불가능합니다."),
     NOT_TEAM_MATCHING(400, "4102", "해당 경기는 팀 참여가 불가능합니다."),
     EMPTY_TEAM_NAME(400, "4103", "팀 경기의 팀 이름이 입력되지 않았습니다."),
-    TEAM_MAX_MEMBER_NUM(400, "4103", "팀 경기의 모집 인원이 팀의 인원보다 적습니다. 모집 인원을 늘려주세요."),
+    TEAM_MAX_MEMBER_NUM(400, "4104", "팀 경기의 모집 인원이 팀의 인원보다 적습니다. 모집 인원을 늘려주세요."),
     NOT_FOUND_MATCHING(404, "4300", "해당 경기가 존재하지 않습니다."),
 
     ALREADY_JOIN_PERSONAL_MATCH(404, "5100", "해당 선수가 이미 경기에 참가중입니다."),

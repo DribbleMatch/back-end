@@ -27,7 +27,7 @@ public class RecruitmentController {
     @GetMapping
     public String recruitmentListPage(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<RecruitmentResponseDto> recruitmentList = recruitmentService.findAllRecruitmentInTimeBySearch("", pageable);
+        Page<RecruitmentResponseDto> recruitmentList = recruitmentService.searchRecruitments("", pageable);
 
         model.addAttribute("recruitmentList", recruitmentList);
         model.addAttribute("currentPage", recruitmentList.getPageable().getPageNumber());
@@ -41,7 +41,7 @@ public class RecruitmentController {
                                   @RequestParam(name = "searchWord") String searchWord,
                                   @PageableDefault(size = 10) Pageable pageable) {
 
-        Page<RecruitmentResponseDto> recruitmentList = recruitmentService.findAllRecruitmentInTimeBySearch(searchWord, pageable);
+        Page<RecruitmentResponseDto> recruitmentList = recruitmentService.searchRecruitments(searchWord, pageable);
 
         model.addAttribute("recruitmentList", recruitmentList);
         model.addAttribute("currentPage", recruitmentList.getPageable().getPageNumber());

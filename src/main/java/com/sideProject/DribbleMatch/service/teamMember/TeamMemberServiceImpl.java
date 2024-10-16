@@ -18,7 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class TeamMemberServiceImpl implements TeamMemberService{
 
     private final UserRepository userRepository;
@@ -26,14 +26,8 @@ public class TeamMemberServiceImpl implements TeamMemberService{
     private final TeamMemberRepository teamMemberRepository;
 
     @Override
-    public TeamRole getTeamRoe(Long userId, Long teamId) {
-        return teamMemberRepository.findByUserIdAndTeamId(userId, teamId)
-                .map(TeamMember::getTeamRole)  // UserTeam이 존재하면 getTeamRole() 호출
-                .orElse(null);  // 존재하지 않으면 null 반환
-    }
-
-    @Override
-    public void joinTeam(Long userId, Long teamId) {
+    @Transactional
+    public void createTeamMember(Long userId, Long teamId) {
 
         checkMember(userId, teamId);
 
@@ -43,14 +37,21 @@ public class TeamMemberServiceImpl implements TeamMemberService{
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
         teamMemberRepository.save(TeamMember.builder()
-                        .user(user)
-                        .team(team)
+                .user(user)
+                .team(team)
                 .build());
     }
 
     @Override
-    public List<String> selectTeamNameByUserId(Long userId) {
-        return teamMemberRepository.findTeamNameByUserIdAndAdmin(userId);
+    public List<String> getTeamNameListByUserId(Long userId) {
+        return teamMemberRepository.findTeamNameByUserId(userId);
+    }
+
+    @Override
+    public TeamRole getTeamRoe(Long userId, Long teamId) {
+        return teamMemberRepository.findByUserIdAndTeamId(userId, teamId)
+                .map(TeamMember::getTeamRole)  // UserTeam이 존재하면 getTeamRole() 호출
+                .orElse(null);  // 존재하지 않으면 null 반환
     }
 
     private void checkMember(Long userId, Long teamId) {

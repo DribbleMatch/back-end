@@ -134,8 +134,8 @@ function createMatching() {
             alert('경기 생성 완료');
             location.href = "/page/matching/replace/matchingList";
         },
-        error: function () {
-            alert('경기 생성에 실패하였습니다. 잠시 후에 다시 시도하세요.');
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

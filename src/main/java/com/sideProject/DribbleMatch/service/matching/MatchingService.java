@@ -16,7 +16,7 @@ import java.util.List;
 
 public interface MatchingService {
     public Long createMatching(MatchingCreateRequestDto request);
-    public Page<MatchingResponseDto> selectAllMatchingBySearchWordAndDateOrderByTimeInTime(String searchWord, Pageable pageable, LocalDate date);
-    public MatchingDetailResponseDto findMatching(Long matchingId);
+    public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
+    public MatchingDetailResponseDto getMatchingDetail(Long matchingId);
 
 }

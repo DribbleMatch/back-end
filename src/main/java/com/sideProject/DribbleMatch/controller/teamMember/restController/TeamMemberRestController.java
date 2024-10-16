@@ -19,6 +19,6 @@ public class TeamMemberRestController {
     @GetMapping("/{teamId}")
     public void joinTeam(Principal principal, @PathVariable Long teamId) {
 
-        teamMemberService.joinTeam(Long.valueOf(principal.getName()), teamId);
+        teamMemberService.createTeamMember(Long.valueOf(principal.getName()), teamId);
     }
 }

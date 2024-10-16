@@ -54,7 +54,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 JwtResponseDto tokens = authService.refresh(refreshToken);
                 authService.setCookie(tokens, response);
 
-                if (request.getRequestURI().contains("page")) {
+                if (request.getRequestURI().contains("page") && !request.getRequestURI().contains("replace")) {
                     response.sendRedirect(request.getRequestURI());
                 } else {
                     String jsonResponse = objectMapper.writeValueAsString(ApiResponse.error(ErrorCode.TOKEN_REGENERATE));

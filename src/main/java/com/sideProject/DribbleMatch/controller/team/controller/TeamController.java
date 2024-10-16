@@ -35,7 +35,7 @@ public class TeamController {
     @GetMapping("/teamList")
     public String teamList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<TeamListResponseDto> teamList = teamService.selectAllTeamBySearchWord("", pageable);
+        Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord("", pageable);
 
         model.addAttribute("teamList", teamList);
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
@@ -49,7 +49,7 @@ public class TeamController {
                                @RequestParam(name = "searchWord") String searchWord,
                                @PageableDefault(size = 10) Pageable pageable) {
 
-        Page<TeamListResponseDto> teamList = teamService.selectAllTeamBySearchWord(searchWord, pageable);
+        Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord(searchWord, pageable);
 
         model.addAttribute("teamList", teamList);
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
@@ -61,7 +61,7 @@ public class TeamController {
     @GetMapping("/replace/myTeamListView")
     public String replaceTeamListByMyTeam(Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<TeamListResponseDto> teamList = teamService.selectAllTeamByUserId(Long.valueOf(principal.getName()), pageable);
+        Page<TeamListResponseDto> teamList = teamService.searchTeamsByUserId(Long.valueOf(principal.getName()), pageable);
 
         model.addAttribute("teamList", teamList);
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
@@ -73,7 +73,7 @@ public class TeamController {
     @GetMapping("/teamDetail/{teamId}")
     public String teamDetailPage(Model model, Principal principal, @PathVariable Long teamId) {
 
-        model.addAttribute("team", teamService.selectTeam(teamId));
+        model.addAttribute("team", teamService.getTeamDetail(teamId));
         model.addAttribute("teamRole", teamMemberService.getTeamRoe(Long.valueOf(principal.getName()), teamId));
 
         return "/team/teamDetail";

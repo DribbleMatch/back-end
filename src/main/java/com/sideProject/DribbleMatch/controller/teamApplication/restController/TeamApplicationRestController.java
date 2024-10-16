@@ -20,7 +20,7 @@ public class TeamApplicationRestController {
                             @RequestParam(name = "id") Long teamId,
                             @RequestParam(name = "introduce") String introduce) {
 
-        teamApplicationService.requestJoin(Long.valueOf(principal.getName()), teamId, introduce);
+        teamApplicationService.createTeamApplication(Long.valueOf(principal.getName()), teamId, introduce);
     }
 
     @GetMapping("/approval/{teamApplicationId}")

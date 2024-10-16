@@ -22,6 +22,6 @@ public class PersonalMatchJoinRestController {
                                   @RequestParam(name = "matchingId") Long matchingId,
                                   @RequestParam(name = "team") PersonalMatchingTeam personalMatchingTeam) {
 
-        personalMatchJoinService.createPersonalMatch(matchingId, Long.valueOf(principal.getName()), personalMatchingTeam);
+        personalMatchJoinService.createPersonalMatchJoin(matchingId, Long.valueOf(principal.getName()), personalMatchingTeam);
     }
 }

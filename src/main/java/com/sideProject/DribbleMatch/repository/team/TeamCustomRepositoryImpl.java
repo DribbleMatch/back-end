@@ -20,40 +20,6 @@ public class TeamCustomRepositoryImpl implements TeamCustomRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Team> findAll(Pageable pageable) {
-        List<Team> content = jpaQueryFactory
-                .selectFrom(team)
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        Long count = jpaQueryFactory
-                .select(team.count())
-                .from(team)
-                .fetchOne();
-
-        return new PageImpl<>(content, pageable, count);
-    }
-
-    @Override
-    public Page<Team> findByRegionIds(Pageable pageable, List<Long> regionIds) {
-        List<Team> content = jpaQueryFactory
-                .selectFrom(team)
-                .where(team.region.id.in(regionIds))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        Long count = jpaQueryFactory
-                .select(team.count())
-                .from(team)
-                .where(team.region.id.in(regionIds))
-                .fetchOne();
-
-        return new PageImpl<>(content, pageable, count);
-    }
-
-    @Override
     public Page<Team> findBySearch(String searchWord, Pageable pageable) {
 
         List<Team> teams = jpaQueryFactory

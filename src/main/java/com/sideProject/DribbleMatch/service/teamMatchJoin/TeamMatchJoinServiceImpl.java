@@ -10,12 +10,14 @@ import com.sideProject.DribbleMatch.repository.teamMatchJoin.TeamMatchJoinReposi
 import com.sideProject.DribbleMatch.repository.teamMember.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
 
     private final TeamMemberRepository teamMemberRepository;
@@ -23,6 +25,7 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
     private final MatchingRepository matchingRepository;
 
     @Override
+    @Transactional
     public void createTeamMatchJoin(Long matchingId, Long userId, String teamName) {
         //refactor: 현재는 경기 생성시 팀을 설정하면 팀의 전체 멤베가 참여하도록 구현. 추후 팀에서 멤버도 선택할 수 있도록 재설계
 
@@ -48,7 +51,7 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
 
     @Override
     public void checkAlreadyJoin(Long matchingId, Long userId) {
-        if (teamMatchJoinRepository.findByMatchingAndUser(matchingId, userId).isPresent()) {
+        if (teamMatchJoinRepository.findByMatchingIdAndUserId(matchingId, userId).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_JOIN_TEAM_MATCH);
         }
     }

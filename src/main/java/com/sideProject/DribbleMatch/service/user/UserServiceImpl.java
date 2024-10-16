@@ -55,8 +55,12 @@ public class UserServiceImpl implements UserService{
 
         String authCode = generateAuthCode();
 
-        smsUtil.sendOne(phone, authCode);
-        redisUtil.setAuthCode(phone, authCode);
+        try {
+            smsUtil.sendOne(phone, authCode);
+            redisUtil.setAuthCode(phone, authCode);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.FAIL_SEND_AUTH_MESSAGE);
+        }
     }
 
     @Override
@@ -71,7 +75,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
-    public void signUp(SignupPlayerInfoRequestDto requestDto) {
+    public void createUser(SignupPlayerInfoRequestDto requestDto) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);

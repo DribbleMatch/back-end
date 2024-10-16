@@ -9,11 +9,14 @@ import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.matching.MatchingRepository;
 import com.sideProject.DribbleMatch.repository.personalMatchJoin.PersonalMatchJoinRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
+import groovy.transform.TypeChecked;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
 
     private final MatchingRepository matchingRepository;
@@ -21,7 +24,8 @@ public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
     private final PersonalMatchJoinRepository personalMatchJoinRepository;
 
     @Override
-    public void createPersonalMatch(Long matchingId, Long userId, PersonalMatchingTeam personalMatchingTeam) {
+    @Transactional
+    public void createPersonalMatchJoin(Long matchingId, Long userId, PersonalMatchingTeam personalMatchingTeam) {
 
         checkAlreadyJoin(matchingId, userId);
 
@@ -39,7 +43,7 @@ public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
 
     @Override
     public void checkAlreadyJoin(Long matchingId, Long userId) {
-        if (personalMatchJoinRepository.findByMatchingAndUser(matchingId, userId).isPresent()) {
+        if (personalMatchJoinRepository.findByMatchingIdAndUserId(matchingId, userId).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_JOIN_PERSONAL_MATCH);
         }
     }
