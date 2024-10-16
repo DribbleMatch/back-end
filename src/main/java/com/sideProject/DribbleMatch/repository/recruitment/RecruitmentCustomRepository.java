@@ -9,7 +9,5 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface RecruitmentCustomRepository {
-
-    public List<Recruitment> findRecruitmentInTimeOrderByCreateAt();
-    public Page<Recruitment> findRecruitmentInTimeOrderByCreateAtBySearch(String searchWord, Pageable pageable);
+    public Page<Recruitment> searchRecruitmentsInTimeOrderByCreatedAt(String searchWord, Pageable pageable);
 }

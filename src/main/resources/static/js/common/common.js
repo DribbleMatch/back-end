@@ -4,27 +4,40 @@ var originalRequestSettings = null;
 
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
-        // 각 요청의 설정 정보를 저장해둠
         originalRequestSettings = settings;
     }
 })
 
+function commonErrorMessageCallBack(response) {
+
+    if (!response) {
+        alert("서버 오류. 고객센터에 문의하세요.");
+    } else if (response.code === '9301') {
+        alert("지역을 찾기 못했습니다. 고객센터에 문의해주세요");
+    } else if (response.code === '1300' || response.code === '1103') {
+        alert("이메일 혹은 비밀번호를 다시 확인하세요.");
+    } else {
+        if (response.code) {
+            alert(response.message);
+        } else {
+            alert("서버 오류. 고객센터에 문의하세요."); // 서버에서 처리하지 못한 오류
+        }
+    }
+}
+
 function commonErrorCallBack(xhr, status, error) {
 
-    // JSON 응답을 파싱
     var response = xhr.responseJSON;
 
-    // 특정 필드(status)가 "success"일 때만 처리
     if (response && response.code === '0201') {
         alert("재로그인이 필요합니다.");
         location.href = "/page/login"
     } else if (response && response.code === '0202') {
-        // 기존 요청 재시도
         if (originalRequestSettings) {
             $.ajax(originalRequestSettings);
         }
     } else {
-        alert("서버 오류. 고객센터에 문의하세요.");
+        commonErrorMessageCallBack(response);
     }
 }
 

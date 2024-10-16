@@ -17,8 +17,7 @@ public interface TeamService {
     //팀 생성 및 관리
     public Long createTeam(Long createId, TeamCreateRequestDto request);
     public void checkTeamName(String name);
-    public TeamDetailResponseDto selectTeam(Long teamId);
-    public List<TeamListResponseDto> selectAllTeam();
-    public Page<TeamListResponseDto> selectAllTeamByUserId(Long userId, Pageable pageable);
-    public Page<TeamListResponseDto> selectAllTeamBySearchWord(String searchWord, Pageable pageable);
+    public TeamDetailResponseDto getTeamDetail(Long teamId);
+    public Page<TeamListResponseDto> searchTeamsByUserId(Long userId, Pageable pageable);
+    public Page<TeamListResponseDto> searchTeamsBySearchWord(String searchWord, Pageable pageable);
 }

@@ -61,13 +61,7 @@ function requestJoin() {
             closeRequestPop();
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-
-            if (response && (response.code === '8100' || response.code === '8101' || response.code === '3100' || response.code === '1301' || response.code === '2300')) {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface PersonalMatchJoinCustomRepository {
     public Long countPersonalMatchJoinByMatchingAndTeam(Matching matching, PersonalMatchingTeam matchingTeam);
     public List<User> findUserByMatchingAndTeam(Long matchingId, PersonalMatchingTeam personalMatchingTeam);
-    public Optional<PersonalMatchJoin> findByMatchingAndUser(Long matchingId, Long userId);
+    public Optional<PersonalMatchJoin> findByMatchingIdAndUserId(Long matchingId, Long userId);
 }

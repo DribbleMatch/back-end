@@ -23,16 +23,7 @@ public class RecruitmentCustomRepositoryImpl implements RecruitmentCustomReposit
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Recruitment> findRecruitmentInTimeOrderByCreateAt() {
-        return jpaQueryFactory
-                .selectFrom(recruitment)
-                .where(recruitment.endAt.goe(LocalDate.now()))
-                .orderBy(recruitment.createdAt.desc())
-                .fetch();
-    }
-
-    @Override
-    public Page<Recruitment> findRecruitmentInTimeOrderByCreateAtBySearch(String searchWord, Pageable pageable) {
+    public Page<Recruitment> searchRecruitmentsInTimeOrderByCreatedAt(String searchWord, Pageable pageable) {
 
         List<Recruitment> recruitments =  jpaQueryFactory
                 .selectFrom(recruitment)

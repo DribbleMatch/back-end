@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface TeamMemberCustomRepository {
 
-    public List<String> findTeamNameByUserIdAndAdmin(Long userId);
+    public List<String> findTeamNameByUserId(Long userId);
     public List<TeamMember> findAllByTeamName(String teamName);
 }

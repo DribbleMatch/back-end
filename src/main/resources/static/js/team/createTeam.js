@@ -84,12 +84,7 @@ function checkTeamName() {
             $('#check-team-name-btn').prop('disabled', true).text('사용 가능');
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '2100') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -138,12 +133,7 @@ function createTeam() {
             location.href = "/";
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '2100') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/common/error.css}">
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="error-div">
+            <div class="error-header">
+                <div class="warning-icon">
+                    <img src="/image/icon/warning_icon.png">
+                </div>
+                <div class="error-title">
+                    아직 오픈하지 않은 기능입니다!
+                </div>
+            </div>
+            <div class="error-body">
+                <div class="start-line"></div>
+                <div class="error-explain">
+                    서비스 이용에 불편을 드려 죄송합니다.<br>
+                    추후에 오픈이 될 기능입니다.
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</html>

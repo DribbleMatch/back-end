@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface RecruitmentService {
 
-    public List<RecruitmentResponseDto> findAllRecruitmentInTime();
-    public Page<RecruitmentResponseDto> findAllRecruitmentInTimeBySearch(String searchWord, Pageable pageable);
     public void createRecruitment(RecruitmentCreateRequestDto requestDto);
+    public Page<RecruitmentResponseDto> searchRecruitments(String searchWord, Pageable pageable);
 }
