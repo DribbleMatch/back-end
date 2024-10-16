@@ -13,7 +13,7 @@ function check_nickname_exist() {
     }
 
     $.ajax({
-        url: '/signup/rest/checkNickName',
+        url: '/api/signup/checkNickName',
         type: 'POST',
             // headers: {
             //     'Authorization': 'Bearer ' + 'asdf'
@@ -27,12 +27,7 @@ function check_nickname_exist() {
             }
         },
         error: function(xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1104') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -46,7 +41,7 @@ function check_email_exist() {
     }
 
     $.ajax({
-        url: '/signup/rest/checkEmail',
+        url: '/api/signup/checkEmail',
         type: 'POST',
         data: { email: email},
         success: function (response) {
@@ -57,12 +52,7 @@ function check_email_exist() {
             }
         },
         error: function(xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1100') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }
@@ -113,7 +103,7 @@ function send_verification_code() {
     }
 
     $.ajax({
-        url: '/signup/rest/sendAuthMessage',
+        url: '/api/signup/sendAuthMessage',
         type: 'POST',
         data: { phone: phone},
         success: function (response) {
@@ -125,9 +115,7 @@ function send_verification_code() {
                 start_timer(300);
             }
         },
-        // todo: 전송 실패 에러 처리
         error: function(xhr, status, error) {
-            alert('인증번호 전송 실패. 잠시 후에 다시 시도하세요.');
             commonErrorCallBack(xhr, status, error);
         }
     })
@@ -143,7 +131,7 @@ function check_verification_code() {
     }
 
     $.ajax({
-        url: '/signup/rest/getAuth',
+        url: '/api/signup/getAuth',
         type: 'POST',
         data: {
             phone: phone,
@@ -159,12 +147,7 @@ function check_verification_code() {
             }
         },
         error: function(xhr, status, error) {
-            var response = xhr.responseJSON;
-            if (response.code === '1105') {
-                alert(response.message);
-            } else {
-                commonErrorCallBack(xhr, status, error);
-            }
+            commonErrorCallBack(xhr, status, error);
         }
     })
 }

@@ -22,17 +22,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<Matching> findByStartDateOrderByStartTime(LocalDate localDate) {
-
-        return jpaQueryFactory
-                .selectFrom(matching)
-                .where(matching.startAt.between(localDate.atTime(0, 0, 0), localDate.atTime(23, 59, 59)))
-                .orderBy(matching.startAt.desc())
-                .fetch();
-    }
-
-    @Override
-    public Page<Matching> findByStartDateAndSearchWordOrderByStartTime(String searchWord, Pageable pageable, LocalDate date) {
+    public Page<Matching> searchMatchingsByStartDateOrderByStartTime(String searchWord, Pageable pageable, LocalDate date) {
         List<Matching> matchings = jpaQueryFactory
                 .selectFrom(matching)
                 .where(matching.startAt.between(date.atTime(0, 0, 0), date.atTime(23, 59, 59)))

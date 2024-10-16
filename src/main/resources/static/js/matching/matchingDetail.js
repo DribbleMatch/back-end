@@ -28,7 +28,7 @@ function joinPersonalMatch() {
     var matchingId = $('#matching-id').val();
 
     $.ajax({
-        url: '/personalMatchJoin/rest',
+        url: '/api/personalMatchJoin',
         type: 'POST',
         data: {
             team: team,
@@ -54,7 +54,7 @@ function joinTeamMatch() {
     var matchingId = $('#matching-id').val();
 
     $.ajax({
-        url: '/teamMatchJoin/rest',
+        url: '/api/teamMatchJoin',
         type: 'POST',
         data: {
             teamName: teamName,
@@ -85,7 +85,7 @@ function joinPersonalMatchTeam(team) {
     var matchingId = $('#matching-id').val();
 
     $.ajax({
-        url: '/personalMatchJoin/rest',
+        url: '/api/personalMatchJoin',
         type: 'POST',
         data: {
             team: team,

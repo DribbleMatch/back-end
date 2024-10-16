@@ -3,11 +3,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}">
     <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/team/teamListView.css}">
+        <link rel="stylesheet" th:href="@{/css/team/teamList.css}">
     </th:block>
     <th:block layout:fragment="script">
         <script th:src="@{/js/common/region.js}"></script>
-        <script th:src="@{/js/team/teamListView.js}"></script>
+        <script th:src="@{/js/team/teamList.js}"></script>
     </th:block>
 
     <div layout:fragment="content">
@@ -23,7 +23,7 @@
                 <div class="team-list" id="team-list">
                     <div th:each="team : ${teamList}" class="team-card">
                         <div class="team-image-div">
-                            <img class="team-image" th:src="@{/rest/image(imagePath=${team.imagePath})}" alt="팀 이미지">
+                            <img class="team-image" th:src="@{/api/image(imagePath=${team.imagePath})}" alt="팀 이미지">
                         </div>
                         <div class="team-info">
                             <h2 class="team-name" th:text="${team.name}">팀 이름</h2>
@@ -38,7 +38,10 @@
                             <button class="team-apply-button" th:onclick="'openRequestPop(' + ${team.id} + ')'">팀 지원</button>
                         </div>
                     </div>
-                    <div th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
+                    <div th:if="${teamList.totalElements == 0}" class="no-data">
+                        팀을 찾을 수 없습니다.
+                    </div>
+                    <div th:if="${teamList.totalElements != 0}" th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
                 </div>
             </div>
 

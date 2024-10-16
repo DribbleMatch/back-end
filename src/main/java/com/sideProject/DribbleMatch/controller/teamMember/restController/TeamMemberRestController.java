@@ -11,13 +11,14 @@ import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/teamMember/rest")
+@RequestMapping("/api/teamMember")
 public class TeamMemberRestController {
 
     private final TeamMemberService teamMemberService;
 
     @GetMapping("/{teamId}")
     public void joinTeam(Principal principal, @PathVariable Long teamId) {
-        teamMemberService.joinTeam(Long.valueOf(principal.getName()), teamId);
+
+        teamMemberService.createTeamMember(Long.valueOf(principal.getName()), teamId);
     }
 }

@@ -8,7 +8,7 @@ function getSiGunGuList() {
         siGunGuSelect.append($('<option>').val("").text("시/군/구"));
     } else {
         $.ajax({
-            url: '/region/getSiGunGuList',
+            url: '/api/region/getSiGunGuList',
             type: 'POST',
             data: { siDo: siDo},
             success: function (data) {

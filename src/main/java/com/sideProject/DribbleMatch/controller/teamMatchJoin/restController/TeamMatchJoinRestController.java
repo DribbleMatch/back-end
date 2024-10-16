@@ -1,4 +1,4 @@
-package com.sideProject.DribbleMatch.controller.teamMatchJoin;
+package com.sideProject.DribbleMatch.controller.teamMatchJoin.restController;
 
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.service.teamMatchJoin.TeamMatchJoinService;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("/teamMatchJoin/rest")
+@RequestMapping("/api/teamMatchJoin")
 @RequiredArgsConstructor
 public class TeamMatchJoinRestController {
 
@@ -21,6 +21,7 @@ public class TeamMatchJoinRestController {
     public void joinTeamMatch(Principal principal,
                               @RequestParam(name = "matchingId") Long matchingId,
                               @RequestParam(name = "teamName") String teamName) {
+
         teamMatchJoinService.createTeamMatchJoin(matchingId, Long.valueOf(principal.getName()), teamName);
     }
 }

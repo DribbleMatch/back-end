@@ -16,6 +16,7 @@ import com.sideProject.DribbleMatch.repository.teamMember.TeamMemberRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class TeamApplicationServiceImpl implements TeamApplicationService{
 
     private final TeamApplicationRepository teamApplicationRepository;
@@ -33,12 +35,10 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
     private final TeamRepository teamRepository;
 
     @Override
-    public void applyTeam(Long userId, Long teamId, String introduce) {
+    @Transactional
+    public void createTeamApplication(Long userId, Long teamId, String introduce) {
 
-        // 이미 멤버인지 확인
-        if (teamMemberRepository.findByUserIdAndTeamId(userId, teamId).isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_TEAM_MEMBER);
-        }
+        checkTeamApplication(userId, teamId);
 
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER));
@@ -46,19 +46,14 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
         teamApplicationRepository.save(TeamApplication.builder()
-                    .user(user)
-                    .team(team)
-                    .introduce(introduce)
+                .user(user)
+                .team(team)
+                .introduce(introduce)
                 .build());
     }
 
     @Override
-    public List<TeamApplication> findTeamApplicationsByUser(Long userId) {
-        return teamApplicationRepository.findTeamApplicationByUserId(userId);
-    }
-
-    @Override
-    public List<TeamApplicationListResponseDto> findTeamApplicationsByTeam(Long teamId) {
+    public List<TeamApplicationListResponseDto> getTeamApplicationListByTeam(Long teamId) {
 
         List<TeamApplication> teamApplicationList = teamApplicationRepository.findTeamApplicationByTeamIdAndStatus(teamId, ApplicationStatus.WAIT);
         return teamApplicationList.stream()
@@ -73,6 +68,7 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
     }
 
     @Override
+    @Transactional
     public void changeTeamApplicationStatus(Long teamApplicationId, ApplicationStatus status) {
 
         TeamApplication teamApplication = teamApplicationRepository.findById(teamApplicationId).orElseThrow(() ->
@@ -102,23 +98,6 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
         }
 
         teamApplicationRepository.save(teamApplication);
-    }
-
-    @Override
-    public void requestJoin(Long userId, Long teamId, String introduce) {
-
-        checkTeamApplication(userId, teamId);
-
-        User user = userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER));
-        Team team = teamRepository.findById(teamId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_TEAM));
-
-        teamApplicationRepository.save(TeamApplication.builder()
-                        .user(user)
-                        .team(team)
-                        .introduce(introduce)
-                .build());
     }
 
     private void checkTeamApplication(Long userId, Long teamId) {

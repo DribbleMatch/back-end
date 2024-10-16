@@ -10,18 +10,14 @@ import com.sideProject.DribbleMatch.dto.matching.response.MatchingUserResponseDt
 import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.IsReservedStadium;
-import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.entity.region.Region;
-import com.sideProject.DribbleMatch.entity.stadium.Stadium;
-import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.matching.MatchingRepository;
 import com.sideProject.DribbleMatch.repository.personalMatchJoin.PersonalMatchJoinRepository;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
-import com.sideProject.DribbleMatch.repository.stadium.StadiumRepository;
 import com.sideProject.DribbleMatch.repository.teamMatchJoin.TeamMatchJoinRepository;
 import com.sideProject.DribbleMatch.repository.teamMember.TeamMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +33,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class MatchingServiceImpl implements MatchingService{
 
     private final RegionRepository regionRepository;
@@ -47,6 +43,7 @@ public class MatchingServiceImpl implements MatchingService{
     private final PersonalMatchJoinRepository personalMatchJoinRepository;
 
     @Override
+    @Transactional
     public Long createMatching(MatchingCreateRequestDto requestDto) {
 
         IsReservedStadium isReservedStadium = IsReservedStadium.NOT_RESERVED;
@@ -61,7 +58,7 @@ public class MatchingServiceImpl implements MatchingService{
 
         if (requestDto.getRegionString().isEmpty()) {  // 경기장 확정
             isReservedStadium = IsReservedStadium.RESERVED;
-            Map<String, Object> jibunInfo = findRegionByAddress(requestDto.getStadiumJibunAddress());
+            Map<String, Object> jibunInfo = getRegionAndJibunFromAddress(requestDto.getStadiumJibunAddress());
             region = (Region) jibunInfo.get("region");
             jibun = (String) jibunInfo.get("jibun");
         } else {  // 경기장 미확정
@@ -86,8 +83,8 @@ public class MatchingServiceImpl implements MatchingService{
     }
 
     @Override
-    public Page<MatchingResponseDto> selectAllMatchingBySearchWordAndDateOrderByTimeInTime(String searchWord, Pageable pageable, LocalDate date) {
-        Page<Matching> matchingPage = matchingRepository.findByStartDateAndSearchWordOrderByStartTime(searchWord, pageable, date);
+    public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date) {
+        Page<Matching> matchingPage = matchingRepository.searchMatchingsByStartDateOrderByStartTime(searchWord, pageable, date);
 
         List<MatchingResponseDto> responseList = matchingPage.stream()
                 .map(matching -> MatchingResponseDto.builder()
@@ -119,7 +116,7 @@ public class MatchingServiceImpl implements MatchingService{
     }
 
     @Override
-    public MatchingDetailResponseDto findMatching(Long matchingId) {
+    public MatchingDetailResponseDto getMatchingDetail(Long matchingId) {
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_MATCHING));
 
@@ -128,7 +125,7 @@ public class MatchingServiceImpl implements MatchingService{
         return createMatchingUserResponseDto(matching, teamInfo);
     }
 
-    private Map<String, Object> findRegionByAddress(String stadiumAddress) {
+    private Map<String, Object> getRegionAndJibunFromAddress(String stadiumAddress) {
 
         String[] parts = stadiumAddress.split(" ");
 

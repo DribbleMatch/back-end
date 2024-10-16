@@ -1,23 +1,22 @@
 package com.sideProject.DribbleMatch.controller;
 
-import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/page")
 public class MainController {
 
     private final MatchingService matchingService;
 
-    @GetMapping("/page")
+    @GetMapping
     public String index(ModelMap model) {
 
         LocalDate nowDate = LocalDate.now();
@@ -28,10 +27,15 @@ public class MainController {
         return "/index";
     }
 
-    @GetMapping("/login/page")
+    @GetMapping("/login")
     public String login(ModelMap model) {
 
-        return "/login/login";
+        return "login/login";
+    }
+
+    @GetMapping("/openLater")
+    public String openLater(ModelMap model) {
+
+        return "/openLater";
     }
 }
-//todo: 매핑 안된 URL에도 토큰 인증 실패 json이 가는 현상 처리

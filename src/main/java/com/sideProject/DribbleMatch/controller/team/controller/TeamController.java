@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,7 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/team/page")
+@RequestMapping("/page/team")
 public class TeamController {
 
     private final RegionRepository regionRepository;
@@ -27,44 +26,56 @@ public class TeamController {
 
     @GetMapping("/createTeam")
     public String createTeamPage(Model model) {
+
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
         model.addAttribute("tagList", TeamTag.values());
+
         return "/team/createTeam";
+    }
+    @GetMapping("/teamList")
+    public String teamList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+
+        Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord("", pageable);
+
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", teamList.getTotalPages());
+
+        return "/team/teamList";
+    }
+
+    @PostMapping("/replace/teamList")
+    public String replaceTeamListBySearch(Model model,
+                               @RequestParam(name = "searchWord") String searchWord,
+                               @PageableDefault(size = 10) Pageable pageable) {
+
+        Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord(searchWord, pageable);
+
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", teamList.getTotalPages());
+
+        return "/team/teamList :: #team-list";
+    }
+
+    @GetMapping("/replace/myTeamListView")
+    public String replaceTeamListByMyTeam(Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+
+        Page<TeamListResponseDto> teamList = teamService.searchTeamsByUserId(Long.valueOf(principal.getName()), pageable);
+
+        model.addAttribute("teamList", teamList);
+        model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", teamList.getTotalPages());
+
+        return "/team/teamList :: #team-list";
     }
 
     @GetMapping("/teamDetail/{teamId}")
     public String teamDetailPage(Model model, Principal principal, @PathVariable Long teamId) {
-        model.addAttribute("team", teamService.selectTeam(teamId));
+
+        model.addAttribute("team", teamService.getTeamDetail(teamId));
         model.addAttribute("teamRole", teamMemberService.getTeamRoe(Long.valueOf(principal.getName()), teamId));
+
         return "/team/teamDetail";
-    }
-
-    @GetMapping("/teamListView")
-    public String teamListView(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<TeamListResponseDto> teamList = teamService.selectAllTeamBySearchWord("", pageable);
-        model.addAttribute("teamList", teamList);
-        model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
-        model.addAttribute("totalPage", teamList.getTotalPages());
-        return "/team/teamListView";
-    }
-
-    @PostMapping("/teamListView")
-    public String teamListView(Model model,
-                               @RequestParam(name = "searchWord") String searchWord,
-                               @PageableDefault(size = 10) Pageable pageable) {
-        Page<TeamListResponseDto> teamList = teamService.selectAllTeamBySearchWord(searchWord, pageable);
-        model.addAttribute("teamList", teamList);
-        model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
-        model.addAttribute("totalPage", teamList.getTotalPages());
-        return "/team/teamListView :: #team-list";
-    }
-
-    @GetMapping("/myTeamListView")
-    public String myTeamListView(Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<TeamListResponseDto> teamList = teamService.selectAllTeamByUserId(Long.valueOf(principal.getName()), pageable);
-        model.addAttribute("teamList", teamList);
-        model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
-        model.addAttribute("totalPage", teamList.getTotalPages());
-        return "/team/teamListView :: #team-list";
     }
 }

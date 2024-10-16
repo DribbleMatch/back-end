@@ -17,7 +17,7 @@ public class TeamMemberCustomRepositoryImpl implements TeamMemberCustomRepositor
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public List<String> findTeamNameByUserIdAndAdmin(Long userId) {
+    public List<String> findTeamNameByUserId(Long userId) {
         return jpaQueryFactory
                 .select(teamMember.team.name)
                 .from(teamMember)

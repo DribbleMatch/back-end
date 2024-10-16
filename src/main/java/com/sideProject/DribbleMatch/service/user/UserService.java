@@ -9,6 +9,6 @@ public interface UserService {
     public void checkEmail(String email);
     public void sendAuthMessage(String phone);
     public void getAuth(String phone, String authCode);
-    public void signUp(SignupPlayerInfoRequestDto requestDto);
+    public void createUser(SignupPlayerInfoRequestDto requestDto);
     public JwtResponseDto login(UserLogInRequestDto requestDto);
 }

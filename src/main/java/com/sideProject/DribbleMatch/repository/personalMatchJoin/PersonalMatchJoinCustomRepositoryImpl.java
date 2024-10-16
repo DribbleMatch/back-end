@@ -44,7 +44,7 @@ public class PersonalMatchJoinCustomRepositoryImpl implements PersonalMatchJoinC
     }
 
     @Override
-    public Optional<PersonalMatchJoin> findByMatchingAndUser(Long matchingId, Long userId) {
+    public Optional<PersonalMatchJoin> findByMatchingIdAndUserId(Long matchingId, Long userId) {
         return Optional.ofNullable(jpaQueryFactory
                 .selectFrom(personalMatchJoin)
                 .where(personalMatchJoin.matching.id.eq(matchingId)

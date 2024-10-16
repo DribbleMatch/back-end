@@ -7,7 +7,7 @@ function viewPage(pageNum) {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/recruitment/page?page=' + (pageNum-1),
+        url: '/page/recruitment/replace?page=' + (pageNum-1),
         type: 'POST',
         data: { searchWord: searchWord },
         success: function (fragment) {
@@ -36,7 +36,7 @@ function closeContentPopup() {
 }
 
 function viewTeamDetail(id) {
-    location.href = "/team/page/teamDetail/" + id;
+    location.href = "/page/team/teamDetail/" + id;
 }
 
 function openRequestPop(button) {
@@ -58,7 +58,7 @@ function requestJoin() {
     var introduce = $('#introduce').val();
 
     $.ajax({
-        url: '/teamApplication/rest/requestJoin',
+        url: '/api/teamApplication/requestJoin',
         type: 'POST',
         data: {
             id: id,
@@ -69,13 +69,7 @@ function requestJoin() {
             closeRequestPop();
         },
         error: function (xhr, status, error) {
-            var response = xhr.responseJSON;
-
-            if (response && (response.code === '1301' || response.code === '2300' || response.code === '3100' || response.code === '8100' || response.code === '8101')) {
-                alert(response.message);
-            } else {
                 commonErrorCallBack(xhr, status, error);
-            }
         }
     })
 }
@@ -85,7 +79,7 @@ function searchRecruitment() {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/recruitment/page',
+        url: '/page/recruitment/replace',
         type: 'POST',
         data: { searchWord: searchWord },
         success: function (fragment) {

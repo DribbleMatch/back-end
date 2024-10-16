@@ -29,3 +29,11 @@
 .page-btn:hover, .current-page-btn {
     background-color: #ffa86f;
 }
+
+.no-data {
+    width: 100%;
+    text-align: center;
+    margin: 3rem 0;
+    font-size: 1.2rem;
+    color: #acacac;
+}
