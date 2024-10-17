@@ -21,7 +21,7 @@ public class RecruitmentController {
     @GetMapping("/create/{teamId}")
     public String createRecruitmentPage(Model model, @PathVariable Long teamId) {
         model.addAttribute("teamId", teamId);
-        return "/team/createRecruitment";
+        return "team/createRecruitment";
     }
 
     @GetMapping
@@ -33,7 +33,7 @@ public class RecruitmentController {
         model.addAttribute("currentPage", recruitmentList.getPageable().getPageNumber());
         model.addAttribute("totalPage", recruitmentList.getTotalPages());
 
-        return "/team/recruitment";
+        return "team/recruitment";
     }
 
     @PostMapping("/replace")
@@ -47,6 +47,6 @@ public class RecruitmentController {
         model.addAttribute("currentPage", recruitmentList.getPageable().getPageNumber());
         model.addAttribute("totalPage", recruitmentList.getTotalPages());
 
-        return "/team/recruitment :: #recruitment-list";
+        return "team/recruitment :: #recruitment-list";
     }
 }
