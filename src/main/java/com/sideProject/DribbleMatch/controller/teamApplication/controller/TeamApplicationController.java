@@ -20,6 +20,6 @@ public class TeamApplicationController {
 
         model.addAttribute("teamApplicationList", teamApplicationService.getTeamApplicationListByTeam(teamId));
 
-        return "/team/teamDetail :: #request-list-popup";
+        return "team/teamDetail :: #request-list-popup";
     }
 }

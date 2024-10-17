@@ -24,7 +24,7 @@ public class MainController {
 
         model.addAttribute("matchingList", null);
 
-        return "/index";
+        return "index";
     }
 
     @GetMapping("/login")
@@ -36,6 +36,6 @@ public class MainController {
     @GetMapping("/openLater")
     public String openLater(ModelMap model) {
 
-        return "/openLater";
+        return "openLater";
     }
 }
