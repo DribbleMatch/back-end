@@ -17,4 +17,4 @@ services:
     env_file:
       - ./dribbleMatch-prod.env
     volumes:
-      - /Users/juyunpark/Desktop/dmimage:/app/images
+      - /home/ec2-user/images:/app/images
