@@ -18,7 +18,7 @@
         </div>
         <div class="date-select">
             <div class="before-date" onclick="previousDate()"></div>
-            <input type="date" class="matching-date-select" id="matching-date-select" th:value="${today}"/>
+            <input type="date" class="matching-date-select" id="matching-date-select" th:value="${today}" onchange="getMatchingList()"/>
             <div class="next-date" onclick="nextDate()"></div>
         </div>
         <div class="matching-list-div">

@@ -36,6 +36,8 @@ public class TeamMemberServiceImpl implements TeamMemberService{
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
+        //todo: 최대 팀원 넘으면 요청 못하게 하기
+
         teamMemberRepository.save(TeamMember.builder()
                 .user(user)
                 .team(team)

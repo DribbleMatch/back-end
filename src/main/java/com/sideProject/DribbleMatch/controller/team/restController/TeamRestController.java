@@ -25,7 +25,7 @@ public class TeamRestController {
     }
 
     @PostMapping("/createTeam")
-    public ApiResponse<Long> createTeam(Principal principal, @ModelAttribute @Valid TeamCreateRequestDto request) {
+    public ApiResponse<Long> createTeam(Principal principal, @ModelAttribute TeamCreateRequestDto request) {
 
         return ApiResponse.ok(teamService.createTeam(Long.valueOf(principal.getName()), request));
     }
