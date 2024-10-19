@@ -139,10 +139,12 @@ section .signup-container .image-div {
     height: 15rem;
     margin-right: 2rem;
     background-color: #eeeeee;
-    align-content: center;
-    text-align: center;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 section .signup-container .image-div img {
-    max-width: 100%;
-    max-height: 100%;
+    max-width: 105%;
+    max-height: 105%;
 }

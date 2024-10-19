@@ -26,6 +26,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,7 +64,7 @@ public class TeamServiceImpl implements TeamService{
                         .maxNumber(request.getMaxNum())
                         .info(request.getInfo())
                         .tags(request.getTags())
-                        .imagePath(fileUtil.saveImage(request.getImage(), path, request.getName()))
+                        .imagePath(request.getImage() == null ? path + File.separator + "team_default_image.png" : fileUtil.saveImage(request.getImage(), path, request.getName()))
                         .leader(creator)
                         .region(region)
                 .build());
