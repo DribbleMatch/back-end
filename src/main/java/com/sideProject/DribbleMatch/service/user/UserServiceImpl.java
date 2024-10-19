@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -94,7 +95,7 @@ public class UserServiceImpl implements UserService{
                 .positionString(requestDto.getPositionString())
                 .winning(0)
                 .region(region)
-                .imagePath(fileUtil.saveImage(requestDto.getImage(), path, requestDto.getNickName()))
+                .imagePath(requestDto.getImage().isEmpty() ? path + File.separator + "user_default_image.png" : fileUtil.saveImage(requestDto.getImage(), path, requestDto.getNickName()))
                 .build();
 
         userRepository.save(signupUser);

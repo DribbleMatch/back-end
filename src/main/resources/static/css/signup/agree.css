@@ -67,6 +67,7 @@ section .agree-checkbox-div {
 section .agree-checkbox-div .agree-text {
     color: #888888;
     padding-top: 0.2rem;
+    cursor: pointer;
 }
 section .agree-container input[type="text"],
 section .agree-container input[type="email"],
