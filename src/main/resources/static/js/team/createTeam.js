@@ -119,8 +119,12 @@ function createTeam() {
     formData.append("maxNum", max_num);
     formData.append("info", info);
     formData.append("regionString", siDo + " " + siGunGu);
-    formData.append("image", image);
     formData.append("tags", tags);
+
+    // 이미지가 있을 때만 formData에 추가
+    if (image) {
+        formData.append("image", image);
+    }
 
     $.ajax({
         url: '/api/team/createTeam',
@@ -135,5 +139,5 @@ function createTeam() {
         error: function (xhr, status, error) {
             commonErrorCallBack(xhr, status, error);
         }
-    })
+    });
 }

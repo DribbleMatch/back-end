@@ -75,6 +75,11 @@ function nextDate() {
     replaceListByDate(nextDate);
 }
 
+function getMatchingList() {
+    var dateInput = $('#matching-date-select').val();
+    replaceListByDate(dateInput);
+}
+
 function replaceListByDate(date) {
     var searchWord = $('#search-word').val();
 
