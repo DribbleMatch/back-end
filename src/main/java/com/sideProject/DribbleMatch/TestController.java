@@ -12,17 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class TestController {
 
     private final TeamApplicationService teamApplicationService;
 
-    @GetMapping("/page/{currentPage}/{totalPage}")
-    public String getApplicationList(Model model, @PathVariable int currentPage, @PathVariable int totalPage) {
-
-        model.addAttribute("currentPage", currentPage);
-        model.addAttribute("totalPages", totalPage);
-        return "fragments/pagination";
+    @GetMapping("/healthcheck")
+    public String healthcheck() {
+        return "OK";
     }
 }
