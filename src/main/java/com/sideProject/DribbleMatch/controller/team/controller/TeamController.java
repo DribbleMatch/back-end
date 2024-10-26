@@ -33,9 +33,16 @@ public class TeamController {
         return "team/createTeam";
     }
     @GetMapping("/teamList")
-    public String teamList(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public String teamList(Principal principal,
+                           Model model,
+                           @PageableDefault(page = 0, size = 10) Pageable pageable,
+                           @RequestParam(name = "myPage", required = false, defaultValue = "0") int myPage) {
 
         Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord("", pageable);
+
+        if (myPage == 1) {
+            teamList = teamService.searchTeamsByUserId(Long.valueOf(principal.getName()), pageable);
+        }
 
         model.addAttribute("teamList", teamList);
         model.addAttribute("currentPage", teamList.getPageable().getPageNumber());
@@ -46,8 +53,8 @@ public class TeamController {
 
     @PostMapping("/replace/teamList")
     public String replaceTeamListBySearch(Model model,
-                               @RequestParam(name = "searchWord") String searchWord,
-                               @PageableDefault(size = 10) Pageable pageable) {
+                                          @RequestParam(name = "searchWord") String searchWord,
+                                          @PageableDefault(size = 10) Pageable pageable) {
 
         Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord(searchWord, pageable);
 

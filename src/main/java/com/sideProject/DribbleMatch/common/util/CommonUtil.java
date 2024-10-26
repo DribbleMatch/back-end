@@ -2,6 +2,8 @@ package com.sideProject.DribbleMatch.common.util;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 public class CommonUtil {
 
@@ -28,5 +30,24 @@ public class CommonUtil {
         }
 
         return Double.parseDouble(String.format("%.1f", (double) experience / (level * 100) * 100));
+    }
+
+    public static String createPositionString(String positionString) {
+        return positionString.replace("C", "센터")
+                .replace("PW", "파워포워드")
+                .replace("SF", "스몰포워드")
+                .replace("SG", "슈팅가드")
+                .replace("PG", "포인트가드")
+                .replace(",", " ,");
+    }
+
+    public static int calculateAge(LocalDate birth) {
+
+        LocalDate currentDate = LocalDate.now();
+
+        int birthYear = birth.getYear();
+        int currentYear = currentDate.getYear();
+
+        return currentYear - birthYear + 1;
     }
 }

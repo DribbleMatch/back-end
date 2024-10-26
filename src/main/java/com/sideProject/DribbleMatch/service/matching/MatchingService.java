@@ -1,8 +1,12 @@
 package com.sideProject.DribbleMatch.service.matching;
 
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
+import com.sideProject.DribbleMatch.dto.matching.response.EndedMatchingResponseDto;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailResponseDto;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.ReservedMatchingResponseDto;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.stadium.Stadium;
@@ -18,5 +22,6 @@ public interface MatchingService {
     public Long createMatching(MatchingCreateRequestDto request);
     public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
     public MatchingDetailResponseDto getMatchingDetail(Long matchingId);
-
+    public Page<ReservedMatchingResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
+    public Page<EndedMatchingResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
 }
