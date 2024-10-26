@@ -27,4 +27,12 @@ public class LoginRestController {
 
         return ApiResponse.ok("로그인 성공");
     }
+
+    @GetMapping("/logout")
+    public ApiResponse<String> userLogout(HttpServletResponse response) {
+
+        authService.deleteCookie(response);
+
+        return ApiResponse.ok("로그아웃 성공");
+    }
 }

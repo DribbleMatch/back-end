@@ -1,15 +1,15 @@
 package com.sideProject.DribbleMatch.service.matching;
 
+import com.querydsl.core.Tuple;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingCreateRequestDto;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingUserResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.*;
 import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.IsReservedStadium;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.entity.region.Region;
@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,7 +85,7 @@ public class MatchingServiceImpl implements MatchingService{
 
     @Override
     public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date) {
-        Page<Matching> matchingPage = matchingRepository.searchMatchingsByStartDateOrderByStartTime(searchWord, pageable, date);
+        Page<Matching> matchingPage = matchingRepository.searchMatchingListByStartDateOrderByStartTime(searchWord, pageable, date);
 
         List<MatchingResponseDto> responseList = matchingPage.stream()
                 .map(matching -> MatchingResponseDto.builder()
@@ -101,12 +102,12 @@ public class MatchingServiceImpl implements MatchingService{
                         .hour(matching.getHour())
                         .upTeamMemberNum(
                                 matching.getGameKind() == GameKind.TEAM ?
-                                        teamMatchJoinRepository.countTeamMatchJoinByMatching(matching).intValue() :
+                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingAndGroupByTeam(matching, 0) :
                                         personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching, PersonalMatchingTeam.UP_TEAM).intValue()
                         )
                         .downTeamMemberNum(
                                 matching.getGameKind() == GameKind.TEAM ?
-                                        0 :
+                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingAndGroupByTeam(matching, 1) :
                                         personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching, PersonalMatchingTeam.DOWN_TEAM).intValue()
                         )
                         .build())
@@ -123,6 +124,61 @@ public class MatchingServiceImpl implements MatchingService{
         LinkedHashMap<String, List<TeamMember>> teamInfo = teamMatchJoinRepository.findTeamInfoByMatchingId(matching.getId());
 
         return createMatchingUserResponseDto(matching, teamInfo);
+    }
+
+    @Override
+    public Page<ReservedMatchingResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable) {
+
+        Page<Matching> matchingPage = Page.empty();
+
+        if (gameKind.equals(GameKind.TEAM)) {
+            matchingPage = matchingRepository.findTeamMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.RECRUITING);
+        } else if (gameKind.equals(GameKind.PERSONAL)) {
+            matchingPage = matchingRepository.findPersonalMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.RECRUITING);
+        }
+
+        List<ReservedMatchingResponseDto> responseList = matchingPage.stream()
+                .map(matching -> ReservedMatchingResponseDto.builder()
+                        .id(matching.getId())
+                        .teamInfo(matching.getGameKind() == GameKind.TEAM ?
+                                teamMatchJoinRepository.findTeamInfoByMatchingId(matching.getId()) : null)
+                        .userInfo(matching.getGameKind() == GameKind.PERSONAL ?
+                                personalMatchJoinRepository.findUserInfoByMatchingAndTeam(matching.getId()) : null)
+                        .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth())
+                        .time(matching.getStartAt().toLocalTime() + " ~ " + matching.getStartAt().toLocalTime().plusHours(matching.getHour()))
+                        .regionString(createMatchingRegionString(matching))
+                        .playMemberNum(matching.getPlayPeople() + " VS " + matching.getPlayPeople())
+                        .maxMemberNum(matching.getMaxPeople())
+                        .build()
+                ).collect(Collectors.toList());
+
+        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
+    }
+
+    @Override
+    public Page<EndedMatchingResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable) {
+
+        Page<Matching> matchingPage = Page.empty();
+
+        if (gameKind.equals(GameKind.TEAM)) {
+            matchingPage = matchingRepository.findTeamMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.FINISHED);
+        } else if (gameKind.equals(GameKind.PERSONAL)) {
+            matchingPage = matchingRepository.findPersonalMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.FINISHED);
+        }
+
+        List<EndedMatchingResponseDto> responseList = matchingPage.stream()
+                .map(matching -> EndedMatchingResponseDto.builder()
+                        .id(matching.getId())
+                        .scoreString("50 : 100") //todo: 점수 처리하기
+                        .teamNameList(teamMatchJoinRepository.findTeamNameListByMatching(matching))
+                        .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth())
+                        .time(matching.getStartAt().toLocalTime() + " ~ " + matching.getStartAt().toLocalTime().plusHours(matching.getHour()))
+                        .regionString(createMatchingRegionString(matching))
+                        .playMemberNum(matching.getPlayPeople() + " VS " + matching.getPlayPeople())
+                        .build()
+                ).collect(Collectors.toList());
+
+        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
     }
 
     private Map<String, Object> getRegionAndJibunFromAddress(String stadiumAddress) {

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/mypage/reservedMatchingList.css}">
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/myPage/reservedMatchingList.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+  <section class="content">
+    <div class="team-kind-select-div">
+      <div id="team-match"
+           onclick="toggleGameKind('TEAM')"
+           th:class="${gameKind.toString() == 'TEAM'} ? 'team-kind-select selected' : 'team-kind-select'">
+        예약된 팀 경기
+      </div>
+      <div id="personal-match"
+           onclick="toggleGameKind('PERSONAL')"
+           th:class="${gameKind.toString() == 'PERSONAL'} ? 'team-kind-select selected' : 'team-kind-select'">
+        예약된 개인 경기
+      </div>
+
+    </div>
+    <div class="matching-list-div" id="matching-list">
+      <input type="hidden" id="game-kind" th:value="${gameKind}">
+      <div class="matching-card" th:each="matching : ${matchingList}">
+        <div class="team-info">
+          <div class="team-name" th:text="${matching.upTeamName}">
+            A팀
+          </div>
+          VS
+          <div class="team-name" th:text="${matching.downTeamName}">
+            B팀
+          </div>
+        </div>
+        <div class="matching-join-div">
+          <div class="matching-join-member">
+            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+              <img th:src="${i <= matching.upTeamMemberNum ? '/image/matching/matching_join.png' : '/image/matching/matching_empty.png'}"
+                   class="matching-join-img">
+            </th:block>
+            <div class="more-people-div" th:if="${matching.upTeamMemberNum > 5}">
+              <img src="/image/matching/more_people.png" class="more-people-img" onmouseover="showMemberNum('up')" onmouseout="hideMemberNum('up')">
+              <div id="up-member-num-bubble" class="speech-bubble" th:text="${matching.upTeamMemberNum} + ' / ' + ${matching.maxMemberNum}" style="display:none;">
+                12 / 15
+              </div>
+            </div>
+          </div>
+          <div class="matching-join-member">
+            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
+              <img th:src="${i <= matching.downTeamMemberNum ? '/image/matching/matching_join.png' : '/image/matching/matching_empty.png'}"
+                   class="matching-join-img">
+            </th:block>
+            <div class="more-people-div" th:if="${matching.downTeamMemberNum > 5}">
+              <img src="/image/matching/more_people.png" class="more-people-img" onmouseover="showMemberNum('down')" onmouseout="hideMemberNum('down')">
+              <div id="down-member-num-bubble" class="speech-bubble" th:text="${matching.downTeamMemberNum} + ' / ' + ${matching.maxMemberNum}" style="display:none;">
+                12 / 15
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="matching-info-div">
+          <div class="matching-info" th:text="${matching.startAt}">2024 / 08 / 04</div>
+          <div class="matching-info" th:text="${matching.time}">13 : 00 ~ 15 : 00</div>
+          <div class="matching-info" th:text="${matching.regionString}">서울 영등포구 당산로</div>
+          <div class="matching-info" th:text="${matching.playMemberNum}">3 VS 3</div>
+        </div>
+      </div>
+      <div th:if="${matchingList.totalElements == 0}" class="no-data">
+        해당 날에 경기가 아직 없습니다.
+      </div>
+      <div th:if="${matchingList.totalElements != 0}" th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
+    </div>
+  </section>
+</div>
+</html>
