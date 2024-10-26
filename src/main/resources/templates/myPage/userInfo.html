@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/myPage/userInfo.css}">
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/myPage/userInfo.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+  <section class="content">
+    <div class="title">
+      <h2>선수 정보</h2>
+    </div>
+
+    <div class="user-details-container">
+      <div class="user-header">
+        <div class="image-div">
+          <img class="user-image" id="team-image"
+               th:src="@{/api/image(imagePath=${user.imagePath})}"
+               alt="팀 이미지">
+        </div>
+        <div class="user-header-right">
+          <h1 th:text="${user.nickName}">닉네임</h1>
+          <p th:text="${user.positionString}">포인트 가드, 슈팅 가드</p>
+          <p th:text="${user.ageAndGender}">19세 / 남성</p>
+          <p th:text="${user.skillString}">초급자</p>
+          <p th:text="${user.regionString}">서울 영등포구 </p>
+          <div class="level-div">
+            <div class="level" th:text="${'Lv.' + user.level}">Lv.1</div>
+            <div class="level-bar">
+              <div class="percent-bar" th:style="'width: ' + ${user.experience} + '%'"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-div">
+        <div class="menu-title">경기 기록</div>
+        <div class="menu-line">
+          <div class="menu-left-item" onclick="goToEndedMatchingList('TEAM')">종료된 팀 경기 ></div>
+          <div class="menu-right-item" onclick="goToReservedMatchingList('TEAM')">예약된 팀 경기 ></div>
+        </div>
+        <div class="div-line"></div>
+        <div class="menu-line">
+          <div class="menu-left-item" onclick="goToEndedMatchingList('PERSONAL')">종료된 개인 경기 ></div>
+          <div class="menu-right-item"  onclick="goToReservedMatchingList('PERSONAL')">예약된 개인 경기 ></div>
+        </div>
+        <div class="div-line"></div>
+        <div class="menu-line">
+          <div class="menu-left-item" onclick="goToPage('/page/matching/createMatching')">경기 생성 ></div>
+          <div class="menu-right-item" onclick="goToPage('/page/openLater')">내 주변 경기 보기 (오픈 예정) ></div>
+        </div>
+
+        <div class="menu-title">기타</div>
+        <div class="menu-line">
+          <div class="menu-left-item" onclick="goToPage('/page/openLater')">프로필 수정 (오픈 예정) ></div>
+          <div class="menu-right-item" onclick="goToPage('/page/team/teamList?myPage=1')">내 팀 보기 ></div>
+        </div>
+        <div class="div-line"></div>
+        <div class="menu-line">
+          <div class="menu-left-item" onclick="goToPage('/page/openLater')">칭호 (오픈 예정) ></div>
+          <div class="menu-right-item" onclick="goToPage('/page/openLater')">나의 커리어 (오픈 예정) ></div>
+        </div>
+        <div class="menu-line">
+          <div class="menu-left-item" onclick="goToPage('/page/openLater')">환경설정 (오픈 예정) ></div>
+          <div class="menu-right-item" onclick="logout()">로그아웃 ></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</html>

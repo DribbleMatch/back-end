@@ -1,7 +1,11 @@
 package com.sideProject.DribbleMatch.repository.teamMatchJoin;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.sideProject.DribbleMatch.common.error.CustomException;
+import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.teamMatchJoin.TeamMatchJoin;
@@ -29,11 +33,22 @@ public class TeamMatchJoinCustomRepositoryImpl implements TeamMatchJoinCustomRep
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Long countTeamMatchJoinByMatching(Matching matching) {
-        return jpaQueryFactory.select(teamMatchJoin.count())
+    public int countTeamMatchJoinByMatchingAndGroupByTeam(Matching matching, int teamNum) {
+        List<Tuple> resultList = jpaQueryFactory
+                .select(teamMatchJoin.teamMember.team.id, teamMatchJoin.count())
                 .from(teamMatchJoin)
                 .where(teamMatchJoin.matching.eq(matching))
-                .fetchOne();
+                .groupBy(teamMatchJoin.teamMember.team.id)
+                .fetch();
+
+        if (resultList.size() == 2) {
+            return Objects.requireNonNull(resultList.get(teamNum).get(teamMatchJoin.count())).intValue();
+        } else if (resultList.size() == 1) {
+            return teamNum == 0 ? Objects.requireNonNull(resultList.get(teamNum).get(teamMatchJoin.count())).intValue() : 0;
+        } else {
+            throw new CustomException(ErrorCode.INVALID_TEAM_MATCH_INFO);
+        }
+
     }
 
     @Override
@@ -68,5 +83,15 @@ public class TeamMatchJoinCustomRepositoryImpl implements TeamMatchJoinCustomRep
                 .where(teamMatchJoin.matching.id.eq(matchingId)
                         .and(teamMatchJoin.teamMember.user.id.eq(userId)))
                 .fetchOne());
+    }
+
+    @Override
+    public List<String> findTeamNameListByMatching(Matching matching) {
+        return jpaQueryFactory
+                .select(teamMatchJoin.teamMember.team.name)
+                .from(teamMatchJoin)
+                .where(teamMatchJoin.matching.eq(matching))
+                .groupBy(teamMatchJoin.teamMember.team.name)
+                .fetch();
     }
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+  <link rel="stylesheet" th:href="@{/css/mypage/endedMatchingList.css}">
+</th:block>
+<th:block layout:fragment="script">
+  <script th:src="@{/js/myPage/endedMatchingList.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+  <section class="content">
+    <div class="team-kind-select-div">
+      <div id="team-match"
+           onclick="toggleGameKind('TEAM')"
+           th:class="${gameKind.toString() == 'TEAM'} ? 'team-kind-select selected' : 'team-kind-select'">
+        종료된 팀 경기
+      </div>
+      <div id="personal-match"
+           onclick="toggleGameKind('PERSONAL')"
+           th:class="${gameKind.toString() == 'PERSONAL'} ? 'team-kind-select selected' : 'team-kind-select'">
+        종료된 개인 경기
+      </div>
+    </div>
+    <div class="matching-list-div" id="matching-list">
+
+      <div class="matching-card" th:each="matching : ${matchingList}">
+        <div class="score-info" th:text="${matching.scoreString}">
+          31 : 51
+        </div>
+        <div class="team-info">
+          <div class="team-name">
+            <span th:text="${matching.upTeamName}">A팀</span>
+            <div class="winning" th:if="${matching.winTeamName == matching.upTeamName}">승</div>
+            <div class="losing" th:if="${matching.winTeamName != matching.upTeamName}">패</div>
+          </div>
+          VS
+          <div class="team-name">
+            <span th:text="${matching.downTeamName}">B팀</span>
+            <div class="winning" th:if="${matching.winTeamName == matching.downTeamName}">승</div>
+            <div class="losing" th:if="${matching.winTeamName != matching.downTeamName}">패</div>
+          </div>
+        </div>
+        <div class="matching-info-div">
+          <div class="matching-info" th:text="${matching.startAt}">2024 / 08 / 04</div>
+          <div class="matching-info" th:text="${matching.time}">13 : 00 ~ 15 : 00</div>
+          <div class="matching-info" th:text="${matching.regionString}">서울 영등포구 당산로</div>
+          <div class="matching-info" th:text="${matching.playMemberNum}">3 VS 3</div>
+        </div>
+      </div>
+      <div th:if="${matchingList.totalElements == 0}" class="no-data">
+        해당 날에 경기가 아직 없습니다.
+      </div>
+      <div th:if="${matchingList.totalElements != 0}" th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
+    </div>
+  </section>
+</div>
+</html>

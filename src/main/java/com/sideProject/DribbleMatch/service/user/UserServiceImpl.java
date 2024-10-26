@@ -6,7 +6,9 @@ import com.sideProject.DribbleMatch.common.util.*;
 import com.sideProject.DribbleMatch.dto.user.request.SignupPlayerInfoRequestDto;
 import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
 import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
+import com.sideProject.DribbleMatch.dto.user.response.UserResponseDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
+import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
@@ -75,6 +77,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public JwtResponseDto login(UserLogInRequestDto requestDto) {
+
+        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        } else {
+            return JwtResponseDto.builder()
+                    .accessToken(jwtTokenProvider.createAccessToken(user))
+                    .refreshToken(jwtTokenProvider.createRefreshToken(user))
+                    .build();
+        }
+    }
+
+
+    @Override
     @Transactional
     public void createUser(SignupPlayerInfoRequestDto requestDto) {
 
@@ -102,19 +121,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public JwtResponseDto login(UserLogInRequestDto requestDto) {
+    public UserResponseDto getUserDetail(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER));
+        String regionString = regionRepository.findRegionStringById(user.getRegion().getId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
 
-        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
-
-        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
-        } else {
-            return JwtResponseDto.builder()
-                    .accessToken(jwtTokenProvider.createAccessToken(user))
-                    .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                    .build();
-        }
+        return UserResponseDto.builder()
+                .imagePath(user.getImagePath())
+                .nickName(user.getNickName())
+                .positionString(CommonUtil.createPositionString(user.getPositionString()))
+                .ageAndGender(CommonUtil.calculateAge(user.getBirth()) + "세 / " + (user.getGender() == Gender.MALE ? "남성" : "여성"))
+                .skillString("초급자") //todo: 수정
+                .regionString(regionString)
+                .level(CommonUtil.getLevel(user.getExperience()))
+                .experience(CommonUtil.getExperiencePercentToLevelUp(user.getExperience()))
+                .build();
     }
 
     private String encodePassword(String password) {
