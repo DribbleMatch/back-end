@@ -1,7 +1,11 @@
 package com.sideProject.DribbleMatch.controller.matching.controller;
 
+import com.sideProject.DribbleMatch.dto.matching.response.EndedMatchingResponseDto;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.ReservedMatchingResponseDto;
 import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import com.sideProject.DribbleMatch.service.team.TeamService;
@@ -71,5 +75,62 @@ public class MatchingController {
         model.addAttribute("teamList", teamMemberService.getTeamNameListByUserId(Long.valueOf(principal.getName())));
 
         return "matching/matchingDetail";
+    }
+
+    // 마이페이지
+    @GetMapping("/reservedMatchingList/{gameKind}")
+    public String reservedMatchingListPage(Model model,
+                                           Principal principal,
+                                           @PathVariable GameKind gameKind,
+                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Page<ReservedMatchingResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+
+        model.addAttribute("gameKind", gameKind);
+        model.addAttribute("matchingList", matchingList);
+        model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", matchingList.getTotalPages());
+        return "myPage/reservedMatchingList";
+    }
+
+    @GetMapping("/replace/reservedMatchingList/{gameKind}")
+    public String replaceReservedMatchingList(Model model,
+                                           Principal principal,
+                                           @PathVariable GameKind gameKind,
+                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Page<ReservedMatchingResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+
+        model.addAttribute("gameKind", gameKind);
+        model.addAttribute("matchingList", matchingList);
+        model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", matchingList.getTotalPages());
+        return "myPage/reservedMatchingList :: #matching-list";
+    }
+
+    @GetMapping("/endedMatchingList/{gameKind}")
+    public String endedMatchingListPage(Model model,
+                                           Principal principal,
+                                           @PathVariable GameKind gameKind,
+                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Page<EndedMatchingResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+
+        model.addAttribute("gameKind", gameKind);
+        model.addAttribute("matchingList", matchingList);
+        model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", matchingList.getTotalPages());
+        return "myPage/endedMatchingList";
+    }
+
+    @GetMapping("/replace/endedMatchingList/{gameKind}")
+    public String replaceEndedMatchingList(Model model,
+                                              Principal principal,
+                                              @PathVariable GameKind gameKind,
+                                              @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        Page<EndedMatchingResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+
+        model.addAttribute("gameKind", gameKind);
+        model.addAttribute("matchingList", matchingList);
+        model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
+        model.addAttribute("totalPage", matchingList.getTotalPages());
+        return "myPage/endedMatchingList :: #matching-list";
     }
 }
