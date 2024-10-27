@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.entity.personalMatchJoin;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.entity.user.User;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class PersonalMatchJoin {
+public class PersonalMatchJoin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

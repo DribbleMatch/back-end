@@ -4,5 +4,6 @@ public enum MatchingStatus {
     RECRUITING,
     WAITING_START,
     IN_PROGRESS,
-    FINISHED
+    FINISHED,
+    NOT_PLAY_FINISHED
 }

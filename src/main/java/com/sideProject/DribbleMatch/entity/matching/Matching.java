@@ -1,11 +1,11 @@
 package com.sideProject.DribbleMatch.entity.matching;
 
-import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.IsReservedStadium;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.region.Region;
-import com.sideProject.DribbleMatch.entity.stadium.Stadium;
+import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Matching {
+public class Matching extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +38,10 @@ public class Matching {
     @NotNull
     @Column
     private LocalDateTime startAt;
+
+    @NotNull
+    @Column
+    private LocalDateTime endAt;
 
     @NotNull
     @Column
@@ -72,6 +76,16 @@ public class Matching {
     @Column
     private String detailAddress;
 
+    @Column
+    private int upTeamScore;
+
+    @Column
+    private int downTeamScore;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
+
 
     @Builder
     protected Matching(
@@ -79,6 +93,7 @@ public class Matching {
             int playPeople,
             int maxPeople,
             LocalDateTime startAt,
+            LocalDateTime endAt,
             int hour,
             GameKind gameKind,
             GameKind isOnlyWomen,
@@ -86,11 +101,16 @@ public class Matching {
             Region region,
             String jibun,
             String stadiumLoadAddress,
-            String detailAddress) {
+            String detailAddress,
+            int upTeamScore,
+            int downTeamScore,
+            User creator
+            ) {
         this.name = name;
         this.playPeople = playPeople;
         this.maxPeople = maxPeople;
         this.startAt = startAt;
+        this.endAt = endAt;
         this.hour = hour;
         this.status = MatchingStatus.RECRUITING;
         this.gameKind = gameKind;
@@ -100,5 +120,18 @@ public class Matching {
         this.jibun = jibun;
         this.stadiumLoadAddress = stadiumLoadAddress;
         this.detailAddress = detailAddress;
+        this.upTeamScore = upTeamScore;
+        this.downTeamScore = downTeamScore;
+        this.creator = creator;
+    }
+
+    public void inputScore(int upTeamScore, int downTeamScore) {
+        this.upTeamScore = upTeamScore;
+        this.downTeamScore = downTeamScore;
+        this.status = MatchingStatus.FINISHED;
+    }
+
+    public void notPlayMatching() {
+        this.status = MatchingStatus.NOT_PLAY_FINISHED;
     }
 }

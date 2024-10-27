@@ -4,6 +4,7 @@ import com.querydsl.core.Tuple;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingCreateRequestDto;
+import com.sideProject.DribbleMatch.dto.matching.request.MatchingInputScoreRequestDto;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
 import com.sideProject.DribbleMatch.dto.matching.response.*;
 import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
@@ -20,6 +21,7 @@ import com.sideProject.DribbleMatch.repository.personalMatchJoin.PersonalMatchJo
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.teamMatchJoin.TeamMatchJoinRepository;
 import com.sideProject.DribbleMatch.repository.teamMember.TeamMemberRepository;
+import com.sideProject.DribbleMatch.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,6 +40,7 @@ import java.util.stream.Collectors;
 public class MatchingServiceImpl implements MatchingService{
 
     private final RegionRepository regionRepository;
+    private final UserRepository userRepository;
     private final MatchingRepository matchingRepository;
     private final TeamMemberRepository teamMemberRepository;
     private final TeamMatchJoinRepository teamMatchJoinRepository;
@@ -45,7 +48,7 @@ public class MatchingServiceImpl implements MatchingService{
 
     @Override
     @Transactional
-    public Long createMatching(MatchingCreateRequestDto requestDto) {
+    public Long createMatching(MatchingCreateRequestDto requestDto, Long creatorId) {
 
         IsReservedStadium isReservedStadium = IsReservedStadium.NOT_RESERVED;
         Region region;
@@ -67,19 +70,26 @@ public class MatchingServiceImpl implements MatchingService{
                     new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
         }
 
+        User creator = userRepository.findById(creatorId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER));
+
         return matchingRepository.save(Matching.builder()
-                    .name(requestDto.getName())
-                    .playPeople(requestDto.getPlayPeople())
-                    .maxPeople(requestDto.getMaxPeople())
-                    .startAt(requestDto.getStartAt())
-                    .hour(requestDto.getHour())
-                    .gameKind(requestDto.getGameKind())
-                    .isOnlyWomen(requestDto.getIsOnlyWomen())
-                    .isReserved(isReservedStadium)
-                    .region(region)
-                    .jibun(jibun)
-                    .stadiumLoadAddress(Objects.equals(requestDto.getStadiumLoadAddress(), "") ? null : requestDto.getStadiumLoadAddress())
-                    .detailAddress(Objects.equals(requestDto.getDetailAddress(), "") ? null : requestDto.getDetailAddress())
+                .name(requestDto.getName())
+                .playPeople(requestDto.getPlayPeople())
+                .maxPeople(requestDto.getMaxPeople())
+                .startAt(requestDto.getStartAt())
+                .endAt(requestDto.getStartAt().plusHours(requestDto.getHour()))
+                .hour(requestDto.getHour())
+                .gameKind(requestDto.getGameKind())
+                .isOnlyWomen(requestDto.getIsOnlyWomen())
+                .isReserved(isReservedStadium)
+                .region(region)
+                .jibun(jibun)
+                .stadiumLoadAddress(Objects.equals(requestDto.getStadiumLoadAddress(), "") ? null : requestDto.getStadiumLoadAddress())
+                .detailAddress(Objects.equals(requestDto.getDetailAddress(), "") ? null : requestDto.getDetailAddress())
+                .upTeamScore(0)
+                .downTeamScore(0)
+                .creator(creator)
                 .build()).getId();
     }
 
@@ -179,6 +189,53 @@ public class MatchingServiceImpl implements MatchingService{
                 ).collect(Collectors.toList());
 
         return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
+    }
+
+    @Override
+    public Boolean checkHasNotInputScore(Long userId) {
+
+        Long count = matchingRepository.countNoScorePersonalMatchingListByUserId(userId);
+
+        return count <= 0;
+    }
+
+    @Override
+    public List<NotInputScoreMatchingResponseDto> getNotInputScoreMatchingList(Long userId) {
+        List<Matching> matchingList = matchingRepository.findNotInputScoreMatchingList(userId);
+
+        return matchingList.stream()
+                .map(matching -> NotInputScoreMatchingResponseDto.builder()
+                        .id(matching.getId())
+                        .teamNameList(teamMatchJoinRepository.findTeamNameListByMatching(matching))
+                        .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth()
+                         + " (" + matching.getStartAt().getHour() + ":" + matching.getStartAt().getMinute() + ")")
+                        .regionString(createMatchingRegionString(matching))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void inputScore(MatchingInputScoreRequestDto requestDto) {
+
+        Matching matching = matchingRepository.findById(requestDto.getId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_MATCHING));
+
+        matching.inputScore(requestDto.getUpTeamScore(), requestDto.getDownTeamScore());
+
+        matchingRepository.save(matching);
+    }
+
+    @Override
+    @Transactional
+    public void notPlayMatching(Long matchingId) {
+
+        Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_MATCHING));
+
+        matching.notPlayMatching();
+
+        matchingRepository.save(matching);
     }
 
     private Map<String, Object> getRegionAndJibunFromAddress(String stadiumAddress) {
