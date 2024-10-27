@@ -14,4 +14,6 @@ public interface MatchingCustomRepository {
     public Page<Matching> searchMatchingListByStartDateOrderByStartTime(String searchWord, Pageable pageable, LocalDate date);
     public Page<Matching> findPersonalMatchingListByUserIdOrderByStartAt(Long userId, Pageable pageable, MatchingStatus status);
     public Page<Matching> findTeamMatchingListByUserIdOrderByStartAt(Long userId, Pageable pageable, MatchingStatus status);
+    public Long countNoScorePersonalMatchingListByUserId(Long userId);
+    public List<Matching> findNotInputScoreMatchingList(Long userId);
 }

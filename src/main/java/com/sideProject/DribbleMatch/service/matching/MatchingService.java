@@ -1,10 +1,8 @@
 package com.sideProject.DribbleMatch.service.matching;
 
+import com.sideProject.DribbleMatch.dto.matching.request.MatchingInputScoreRequestDto;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
-import com.sideProject.DribbleMatch.dto.matching.response.EndedMatchingResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.ReservedMatchingResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.*;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
@@ -19,9 +17,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface MatchingService {
-    public Long createMatching(MatchingCreateRequestDto request);
+    public Long createMatching(MatchingCreateRequestDto request, Long creatorId);
     public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
     public MatchingDetailResponseDto getMatchingDetail(Long matchingId);
     public Page<ReservedMatchingResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
     public Page<EndedMatchingResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
+    public Boolean checkHasNotInputScore(Long userId);
+    public List<NotInputScoreMatchingResponseDto> getNotInputScoreMatchingList(Long userId);
+    public void inputScore(MatchingInputScoreRequestDto requestDto);
+    public void notPlayMatching(Long matchingId);
 }
