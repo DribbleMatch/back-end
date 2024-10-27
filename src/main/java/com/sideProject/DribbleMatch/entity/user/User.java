@@ -4,6 +4,7 @@ import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.region.Region;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
+import com.sideProject.DribbleMatch.entity.user.ENUM.Skill;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -58,10 +59,22 @@ public class User extends BaseEntity {
     private Region region;
 
     @Column
-    private int experience;
+    @NotNull
+    private String imagePath;
 
     @Column
-    private String imagePath;
+    @NotNull
+    private String phone;
+
+    @Column
+    private int career;
+
+    @Column
+    @NotNull
+    private Skill skill;
+
+    @Column
+    private int experience;
 
     //todo: 숙련도 및 농구 경력 처리
 //     경험치
@@ -70,7 +83,19 @@ public class User extends BaseEntity {
 //    300 ~ 600: 3레벨
 
     @Builder
-    public User(String email, String password, String nickName, Gender gender, LocalDate birth, String positionString, int winning, Region region, int experience, String imagePath) {
+    public User(String email,
+                String password,
+                String nickName,
+                Gender gender,
+                LocalDate birth,
+                String positionString,
+                int winning,
+                Region region,
+                String imagePath,
+                String phone,
+                int career,
+                Skill skill,
+                int experience) {
         this.email = email;
         this.password = password;
         this.nickName = nickName;
@@ -79,7 +104,10 @@ public class User extends BaseEntity {
         this.positionString = positionString;
         this.winning = winning;
         this.region = region;
-        this.experience = experience;
         this.imagePath = imagePath;
+        this.phone = phone;
+        this.career = career;
+        this.skill = skill;
+        this.experience = experience;
     }
 }
