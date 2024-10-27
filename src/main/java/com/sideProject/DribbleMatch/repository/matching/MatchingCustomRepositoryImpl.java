@@ -1,9 +1,13 @@
 package com.sideProject.DribbleMatch.repository.matching;
 
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
+import com.sideProject.DribbleMatch.entity.personalMatchJoin.QPersonalMatchJoin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -11,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.sideProject.DribbleMatch.entity.matching.QMatching.matching;
@@ -108,5 +113,30 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
         total = (total == null) ? 0L : total;
 
         return new PageImpl<>(matchingList, pageable, total);
+    }
+
+    @Override
+    public Long countNoScorePersonalMatchingListByUserId(Long userId) {
+
+        return jpaQueryFactory
+                .select(matching.count())
+                .from(matching)
+                .where(matching.upTeamScore.eq(0).and(matching.downTeamScore.eq(0)
+                        .and(matching.endAt.before(LocalDateTime.now())))
+                        .and(matching.creator.id.eq(userId))
+                        .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.NOT_PLAY_FINISHED))))
+                .fetchOne();
+    }
+
+    @Override
+    public List<Matching> findNotInputScoreMatchingList(Long userId) {
+
+        return jpaQueryFactory
+                .selectFrom(matching)
+                .where(matching.upTeamScore.eq(0).and(matching.downTeamScore.eq(0)
+                        .and(matching.endAt.before(LocalDateTime.now())))
+                        .and(matching.creator.id.eq(userId))
+                        .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.NOT_PLAY_FINISHED))))
+                .fetch();
     }
 }

@@ -1,7 +1,6 @@
 package com.sideProject.DribbleMatch.entity.recruitment;
 
 import com.sideProject.DribbleMatch.entity.BaseEntity;
-import com.sideProject.DribbleMatch.entity.position.PositionListConverter;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import jakarta.persistence.*;

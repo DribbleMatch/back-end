@@ -132,7 +132,7 @@ function createMatching() {
         data: JSON.stringify(formData),
         success: function (data) {
             alert('경기 생성 완료');
-            location.href = "/page/matching/replace/matchingList";
+            location.href = "/page/matching/matchingList";
         },
         error: function (xhr, status, error) {
             commonErrorCallBack(xhr, status, error);

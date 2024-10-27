@@ -2,7 +2,9 @@ package com.sideProject.DribbleMatch.controller.matching.restController;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.common.response.ApiResponse;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingCreateRequestDto;
+import com.sideProject.DribbleMatch.dto.matching.request.MatchingInputScoreRequestDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.entity.region.Region;
@@ -32,7 +34,7 @@ public class MatchingRestController {
     @PostMapping("/createMatching")
     public Long createMatching(Principal principal, @RequestBody MatchingCreateRequestDto requestDto) {
 
-        Long matchingId = matchingService.createMatching(requestDto);
+        Long matchingId = matchingService.createMatching(requestDto, Long.valueOf(principal.getName()));
 
         if (requestDto.getGameKind() == GameKind.TEAM) {
             teamMatchJoinService.createTeamMatchJoin(matchingId, Long.valueOf(principal.getName()), requestDto.getTeamName());
@@ -43,9 +45,19 @@ public class MatchingRestController {
         return matchingId;
     }
 
-    @GetMapping("/asdf")
-    public void testtesttest() {
+    @PostMapping("/inputScore")
+    public ApiResponse<Boolean> inputScore(Principal principal, @RequestBody MatchingInputScoreRequestDto requestDto) {
 
-        throw new CustomException(ErrorCode.TEST_ERROR);
+        matchingService.inputScore(requestDto);
+
+        return ApiResponse.ok(matchingService.checkHasNotInputScore(Long.valueOf(principal.getName())));
+    }
+
+    @GetMapping("/notFinishMatching/{matchingId}")
+    public ApiResponse<Boolean> notFinishMatching(Principal principal, @PathVariable Long matchingId) {
+
+        matchingService.notPlayMatching(matchingId);
+
+        return ApiResponse.ok(matchingService.checkHasNotInputScore(Long.valueOf(principal.getName())));
     }
 }

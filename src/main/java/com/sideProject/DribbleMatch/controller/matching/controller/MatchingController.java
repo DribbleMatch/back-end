@@ -133,4 +133,11 @@ public class MatchingController {
         model.addAttribute("totalPage", matchingList.getTotalPages());
         return "myPage/endedMatchingList :: #matching-list";
     }
+
+    @GetMapping("/inputScore")
+    public String inputScorePage(Model model,
+                                 Principal principal) {
+        model.addAttribute("matchingList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        return "matching/inputScore";
+    }
 }
