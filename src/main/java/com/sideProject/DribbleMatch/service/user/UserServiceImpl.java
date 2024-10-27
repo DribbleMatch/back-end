@@ -115,6 +115,10 @@ public class UserServiceImpl implements UserService{
                 .winning(0)
                 .region(region)
                 .imagePath(requestDto.getImage().isEmpty() ? path + File.separator + "user_default_image.png" : fileUtil.saveImage(requestDto.getImage(), path, requestDto.getNickName()))
+                .phone(requestDto.getPhone())
+                .career(requestDto.getCareer())
+                .skill(requestDto.getSkill())
+                .experience(0)
                 .build();
 
         userRepository.save(signupUser);
@@ -132,7 +136,7 @@ public class UserServiceImpl implements UserService{
                 .nickName(user.getNickName())
                 .positionString(CommonUtil.createPositionString(user.getPositionString()))
                 .ageAndGender(CommonUtil.calculateAge(user.getBirth()) + "세 / " + (user.getGender() == Gender.MALE ? "남성" : "여성"))
-                .skillString("초급자") //todo: 수정
+                .skillString(CommonUtil.createSkillString(user.getSkill()))
                 .regionString(regionString)
                 .level(CommonUtil.getLevel(user.getExperience()))
                 .experience(CommonUtil.getExperiencePercentToLevelUp(user.getExperience()))
