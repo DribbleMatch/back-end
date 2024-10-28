@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.service.matching;
 import com.querydsl.core.Tuple;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingCreateRequestDto;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingInputScoreRequestDto;
 import com.sideProject.DribbleMatch.dto.matching.request.MatchingUpdateRequestDto;
@@ -31,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -236,6 +238,17 @@ public class MatchingServiceImpl implements MatchingService{
         matching.notPlayMatching();
 
         matchingRepository.save(matching);
+    }
+
+    @Override
+    public List<RecentMatchingResponseDto> getRecentMatchingList() {
+        return matchingRepository.findRecentMatchingOrderByRemainTime().stream()
+                .map(matching -> RecentMatchingResponseDto.builder()
+                        .id(matching.getId())
+                        .remainTime(CommonUtil.getRemainTimeString(LocalDateTime.now(), matching.getStartAt()))
+                        .matchingName(matching.getName())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     private Map<String, Object> getRegionAndJibunFromAddress(String stadiumAddress) {
