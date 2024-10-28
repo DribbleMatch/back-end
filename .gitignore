@@ -1,4 +1,7 @@
+dribbleMatch-dev.env
+dribbleMatch-prod.env
 HELP.md
+myMemo.text
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
@@ -23,6 +26,7 @@ bin/
 ### IntelliJ IDEA ###
 application-dev.yml
 application-test.yml
+application-prod.yml
 
 .idea
 *.iws

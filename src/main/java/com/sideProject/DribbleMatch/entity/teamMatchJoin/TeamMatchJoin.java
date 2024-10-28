@@ -1,8 +1,9 @@
 package com.sideProject.DribbleMatch.entity.teamMatchJoin;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
-import com.sideProject.DribbleMatch.entity.matching.TeamMatching;
 import com.sideProject.DribbleMatch.entity.team.Team;
+import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -13,26 +14,26 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class TeamMatchJoin {
+public class TeamMatchJoin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @NotNull(message = "팀이 입력되지 않았습니다.")
+    @NotNull
     @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
+    @JoinColumn(name = "team_member_id")
+    private TeamMember teamMember;
 
-    @NotNull(message = "경기가 입력되지 않았습니다.")
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "match_id")
-    private TeamMatching teamMatching;
+    private Matching matching;
 
     @Builder
-    public TeamMatchJoin(Team team, TeamMatching teamMatching) {
-        this.team = team;
-        this.teamMatching = teamMatching;
+    public TeamMatchJoin(TeamMember teamMember, Matching matching) {
+        this.teamMember = teamMember;
+        this.matching = matching;
     }
 }

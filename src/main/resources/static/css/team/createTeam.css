@@ -1,0 +1,190 @@
+section .signup-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+}
+section .signup-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+}
+
+section .signup-container .label-container {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    margin-left: 1rem;
+    display: flex;
+}
+section .signup-container .label-container .fault-message {
+    color: red;
+    font-weight: normal;
+    margin-left: 1rem;
+    display: none;
+}
+
+section .signup-container .info-container {
+    width: 100%;
+    position: relative;
+}
+section .signup-container .info-container input[type="text"],
+section .signup-container .info-container input[type="number"] {
+    width: 100%;
+    height: 1.7rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    padding: 10px;
+}
+section .signup-container .info-container .inner-btn,
+section .signup-container .info-container-hide .inner-btn {
+    position: absolute;
+    right: 0%;
+    top: 10%;
+    height: 40%;
+    border: none;
+    background-color: #f38c48;
+    cursor: pointer;
+}
+section .signup-container .info-container .inner-btn:hover {
+    background-color: #f8802d;
+}
+section .signup-container .info-container input[type="number"]::-webkit-inner-spin-button,
+section .signup-container .info-container input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: inner-spin-button;
+    opacity: 1;
+    margin-left: 0.5rem;
+}
+section .signup-container .info-container select {
+    width: 105%;
+    height: 3.2rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    padding: 10px;
+    display: flex;
+}
+section .signup-container .info-container textarea {
+    width: 100%;
+    height: 10rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+    padding: 10px;
+    display: flex;
+}
+section .signup-container .image-container input[type="file"]::file-selector-button {
+    width: 7rem;
+    border: none;
+    border-radius: 0.3rem;
+    font-size: 0.8rem;
+    padding: 0.5rem;
+    display: flex;
+    background-color: #d5d5d5;
+    margin-bottom: 1rem;
+}
+
+section .signup-container button {
+    padding: 10px;
+    background-color: #f38c48;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+section .signup-container button:hover {
+    background-color: #f8802d;
+}
+
+section .signup-container .image-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+section .signup-container .image-container input[type="file"]{
+    width: 15rem;
+    height: 5rem;
+}
+section .signup-container .image-div {
+    width: 15rem;
+    height: 15rem;
+    margin-right: 2rem;
+    background-color: #eeeeee;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+section .signup-container .image-div img {
+    max-width: 105%;
+    max-height: 105%;
+}
+
+section .signup-container .tag-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+section .signup-container .tag-container .select-tag-div{
+    width: 100%;
+    height: 2.5rem;
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f3f3f3;
+    border-radius: 0.3rem;
+    align-items: center;
+    padding-left: 2rem;
+}
+section .signup-container .select-tag-div .selected-tag {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #606060;
+    border-radius: 0.3rem;
+    border: 0.15rem solid #606060;
+    width: max-content;
+    height: max-content;
+    padding: 0.1rem 0.5rem;
+    margin-right: 1rem;
+}
+section .signup-container .tag-container .tag-list{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+section .signup-container .tag-container .tag{
+    font-size: 1rem;
+    font-weight: bold;
+    color: #606060;
+    border-radius: 0.3rem;
+    border: 0.15rem solid #606060;
+    width: max-content;
+    padding: 0.1rem 0.5rem;
+}
+section .signup-container .tag-container .tag:hover{
+    filter: brightness(85%);
+}
+section .signup-container .select-tag-div .remove-tag {
+    cursor: pointer;
+    margin-left: 0.5rem;
+    color: #000000;
+    font-weight: bold;
+}
+section .signup-container .tag-list .disabled-tag {
+    pointer-events: none;
+    opacity: 0.5;
+}

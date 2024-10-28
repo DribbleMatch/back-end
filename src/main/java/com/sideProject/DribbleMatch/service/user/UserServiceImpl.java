@@ -2,115 +2,167 @@ package com.sideProject.DribbleMatch.service.user;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
-import com.sideProject.DribbleMatch.common.util.JwtTokenProvider;
-import com.sideProject.DribbleMatch.common.util.JwtUtil;
-import com.sideProject.DribbleMatch.common.util.RedisUtil;
-import com.sideProject.DribbleMatch.dto.user.response.JwtResonseDto;
-import com.sideProject.DribbleMatch.dto.user.request.UserSignInRequest;
-import com.sideProject.DribbleMatch.dto.user.request.UserSignUpRequestDto;
+import com.sideProject.DribbleMatch.common.util.*;
+import com.sideProject.DribbleMatch.dto.user.request.SignupPlayerInfoRequestDto;
+import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
+import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
+import com.sideProject.DribbleMatch.dto.user.response.UserResponseDto;
 import com.sideProject.DribbleMatch.entity.region.Region;
+import com.sideProject.DribbleMatch.entity.user.ENUM.Gender;
 import com.sideProject.DribbleMatch.entity.user.User;
+import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.repository.user.UserRepository;
-import com.sideProject.DribbleMatch.service.region.RegionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
+import java.security.SecureRandom;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService{
 
+    @Value("${spring.dir.userImagePath}")
+    public String path;
+
     private final UserRepository userRepository;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final JwtUtil jwtUtil;
-    private final RedisUtil redisUtil;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final RegionService regionService;
+    private final RegionRepository regionRepository;
+    private final RedisUtil redisUtil;
+    private final SmsUtil smsUtil;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final FileUtil fileUtil;
 
     @Override
-    @Transactional
-    public Long signUp(UserSignUpRequestDto request) {
-
-        // validation
-        checkUniqueEmail(request.getEmail());
-        validatePassword(request.getPassword());
-        checkUniqueNickName(request.getNickName());
-
-        Region region = regionService.findRegion(request.getRegionString());
-        User signUpUser = userRepository.save(User.builder()
-                        .email(request.getEmail())
-                        .password(checkAndEncodePassword(request.getPassword(), request.getRePassword()))
-                        .nickName(request.getNickName())
-                        .gender(request.getGender())
-                        .birth(request.getBirth())
-                        .position(request.getPosition())
-                        .winning(0)
-                        .region(region)
-                .build());
-
-        return signUpUser.getId();
-    }
-
-    @Override
-    public JwtResonseDto signIn(UserSignInRequest request) {
-        User user = validateUser(request);
-        return JwtResonseDto.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user))
-                .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                .build();
-    }
-
-    @Override
-    public JwtResonseDto refresh(String refreshToken) {
-        jwtUtil.validateRefreshToken(refreshToken);
-        String userId = redisUtil.getData(refreshToken);
-
-        // refresh token 유효 기간 지나면 validation에서 에러 발생하지만 double check
-        if(userId.isBlank()) {
-            throw new CustomException(ErrorCode.INVALID_REFRESH_TOKEN);
+    public void checkNickName(String nickName) {
+        if(userRepository.findByNickName(nickName).isPresent()) {
+            throw new CustomException(ErrorCode.NOT_UNIQUE_NICKNAME);
         }
-
-        User user = userRepository.findById(Long.valueOf(userId)).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_USER_ID));
-        return JwtResonseDto.builder()
-                .accessToken(jwtTokenProvider.createAccessToken(user))
-                .refreshToken(jwtTokenProvider.createRefreshToken(user))
-                .build();
     }
 
-    private void checkUniqueEmail(String email) {
+    @Override
+    public void checkEmail(String email) {
         if (userRepository.findByEmail(email).isPresent()) {
             throw new CustomException(ErrorCode.NOT_UNIQUE_EMAIL);
         }
     }
 
-    private void checkUniqueNickName(String nickName) {
-        if (userRepository.findByNickName(nickName).isPresent()) {
-            throw new CustomException(ErrorCode.NOT_UNIQUE_NICKNAME);
+    @Override
+    public void sendAuthMessage(String phone) {
+
+        String authCode = generateAuthCode();
+
+        try {
+            smsUtil.sendOne(phone, authCode);
+            redisUtil.setAuthCode(phone, authCode);
+        } catch (Exception e) {
+            throw new CustomException(ErrorCode.FAIL_SEND_AUTH_MESSAGE);
         }
     }
 
-    private void validatePassword(String password) {
-        if (!password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") ||
-                !password.matches(".*\\d.*") || !password.matches(".*[!@#$%^&*()-_=+\\\\|\\[{\\]};:'\",<.>/?].*")) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD_PATTERN);
+    @Override
+    public void getAuth(String phone, String authCode) {
+
+        if(!redisUtil.getData(phone).equals(authCode)) {
+            throw new CustomException(ErrorCode.NOT_CORRECT_AUTH_CODE);
+        }
+        redisUtil.deleteData(phone);
+        redisUtil.setAuthCode(phone, "success");
+    }
+
+    @Override
+    public JwtResponseDto login(UserLogInRequestDto requestDto) {
+
+        User user = userRepository.findByEmail(requestDto.getEmail()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
+
+        if (!passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+        } else {
+            return JwtResponseDto.builder()
+                    .accessToken(jwtTokenProvider.createAccessToken(user))
+                    .refreshToken(jwtTokenProvider.createRefreshToken(user))
+                    .build();
         }
     }
 
-    private String checkAndEncodePassword(String password, String rePassword) {
-        if (!password.equals(rePassword)) {
-            throw new CustomException(ErrorCode.NOT_SAME_PASSWORD);
-        }
+
+    @Override
+    @Transactional
+    public void createUser(SignupPlayerInfoRequestDto requestDto) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);
+
+        String password = encodePassword(requestDto.getPassword());
+        String regionString = requestDto.getSiDoString() + " " + requestDto.getSiGunGuString();
+        Region region = regionRepository.findByRegionString(regionString).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
+
+        User signupUser = User.builder()
+                .email(requestDto.getEmail())
+                .password(password)
+                .nickName(requestDto.getNickName())
+                .gender(requestDto.getGender())
+                .birth(birth)
+                .positionString(requestDto.getPositionString())
+                .winning(0)
+                .region(region)
+                .imagePath(requestDto.getImage().isEmpty() ? path + File.separator + "user_default_image.png" : fileUtil.saveImage(requestDto.getImage(), path, requestDto.getNickName()))
+                .phone(requestDto.getPhone())
+                .career(requestDto.getCareer())
+                .skill(requestDto.getSkill())
+                .experience(0)
+                .build();
+
+        userRepository.save(signupUser);
+    }
+
+    @Override
+    public UserResponseDto getUserDetail(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER));
+        String regionString = regionRepository.findRegionStringById(user.getRegion().getId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
+
+        return UserResponseDto.builder()
+                .imagePath(user.getImagePath())
+                .nickName(user.getNickName())
+                .positionString(CommonUtil.createPositionString(user.getPositionString()))
+                .ageAndGender(CommonUtil.calculateAge(user.getBirth()) + "세 / " + (user.getGender() == Gender.MALE ? "남성" : "여성"))
+                .skillString(CommonUtil.createSkillString(user.getSkill()))
+                .regionString(regionString)
+                .level(CommonUtil.getLevel(user.getExperience()))
+                .experience(CommonUtil.getExperiencePercentToLevelUp(user.getExperience()))
+                .build();
+    }
+
+    @Override
+    public String getUserNickName(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER)).getNickName();
+    }
+
+    private String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }
 
-    private User validateUser(UserSignInRequest request) {
-        User user = userRepository.findByEmail(request.getEmail()).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_EMAIL));
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+    private String generateAuthCode() {
+
+        SecureRandom random = new SecureRandom();
+        String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        StringBuilder authCode = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            authCode.append(CHARACTERS.charAt(index));
         }
-        return user;
+        return authCode.toString();
     }
 }

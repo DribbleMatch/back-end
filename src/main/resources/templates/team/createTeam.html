@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/team/createTeam.css}">
+    </th:block>
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/common/region.js}"></script>
+        <script th:src="@{/js/team/createTeam.js}"></script>
+    </th:block>
+
+    <div layout:fragment="content">
+        <section class="content">
+            <div class="title">
+                <h2>팀 만들기</h2>
+            </div>
+            <div class="signup-container">
+                <form>
+                    <div class="label-container">
+                        <label for="name">팀 이름</label>
+                    </div>
+                    <div class="info-container">
+                        <input type="text" id="name" placeholder="개성있는 팀이름을 만들어보세요!">
+                        <button type="button" class="inner-btn" id="check-team-name-btn" onclick="checkTeamName()">중복
+                            확인
+                        </button>
+                    </div>
+                    <div class="label-container">
+                        <label for="max-num">최대 팀원</label>
+                    </div>
+                    <div class="info-container">
+                        <input type="number" id="max-num" placeholder="최대 팀 인원을 입력해주세요">
+                    </div>
+                    <div class="label-container">
+                        <label for="info">팀 설명</label>
+                    </div>
+                    <div class="info-container">
+                        <textarea id="info" rows="4" cols="50" placeholder="팀에 대한 간단한 설명을 해주세요"></textarea>
+                    </div>
+                    <div class="label-container">
+                        <label for="region">활동 지역</label>
+                    </div>
+                    <div class="info-container" id="region">
+                        <select id="siDo" onchange="getSiGunGuList()">
+                            <option value="">시/도</option>
+                            <option th:each="siDo : ${siDoList}" th:value="${siDo}" th:text="${siDo}"></option>
+                        </select>
+
+                        <select id="siGunGu" disabled>
+                            <option value="">시/군/구 (시/도만 선택 가능)</option>
+                        </select>
+                    </div>
+                    <div class="label-container">
+                        <label for="image">팀 대표 이미지 (선택 안 할 시 기본 이미지)</label>
+                    </div>
+                    <div class="image-container">
+                        <input type=file id="image" onchange="showImage()">
+                        <div class="image-div">
+                            <img id="preview" src="" alt="이미지 미리보기" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="label-container">
+                        <label for="tag">팀 스타일 (최대 3개)</label>
+                    </div>
+                    <div class="tag-container" id="tag">
+                        <div class="select-tag-div">
+
+                        </div>
+                        <div class="tag-list">
+                            <div th:each="tag : ${tagList}"
+                                 class="tag"
+                                 th:text="${tag.explain}"
+                                 th:data-color="${tag.color}"
+                                 th:data-name="${tag.name}"
+                                 th:style="'background-color: #' + ${tag.color}"
+                                 onclick="selectTag(this)">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="createTeam()">만들기</button>
+                </form>
+            </div>
+        </section>
+    </div>
+</html>

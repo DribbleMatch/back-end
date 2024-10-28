@@ -25,6 +25,11 @@ public class JwtUtil {
         return claims.get("type").toString();
     }
 
+    public String getMemberRoleFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(jwtConfig.SECRET_KEY).parseClaimsJws(token).getBody();
+        return claims.get("role").toString();
+    }
+
     public void validateAccessToken(String token) {
         try {
             Jwts.parser().setSigningKey(jwtConfig.SECRET_KEY).parseClaimsJws(token);

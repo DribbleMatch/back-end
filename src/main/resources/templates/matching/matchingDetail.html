@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/matching/matchingDetail.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/matching/matchingDetail.js}"></script>
+</th:block>
+<!--팝업 열기닫기 구현-->
+<div layout:fragment="content">
+    <section class="content">
+        <div class="matching-details-container">
+            <div class="matching-header">
+                <input type="hidden" id="matching-id" th:value="${matchingDetail.id}"/>
+                <div class="matching-name" th:text="${matchingDetail.name}">매칭 이름</div>
+                <button type="button" class="join-btn"
+                        th:onclick="${matchingDetail.gameKind.toString() == 'TEAM'} ? 'openTeamMatchJoinPop()' : 'openPersonalMatchJoinPop()'">
+                    경기 참여
+                </button>
+
+            </div>
+            <div class="matching-info-div">
+                <div class="matching-info-title">경기 정보</div>
+                <div class="info-container">
+                    <div class="sub-title">경기장</div>
+                    <div class="detail" th:text="${matchingDetail.isReservedStadium.toString() == 'RESERVED' ? '경기장 확정' : '경기장 미정'}"></div>
+                </div>
+                <div class="info-container">
+                    <div class="sub-title">장소</div>
+                    <div class="detail" th:text="${matchingDetail.regionString}">서울특별시 영등포구 당산동</div>
+                </div>
+                <div class="info-container">
+                    <div class="sub-title">경기 인원</div>
+                    <div class="detail" th:text="${matchingDetail.playMemberNum + ' VS ' + matchingDetail.playMemberNum}">3 VS 3</div>
+                </div>
+                <div class="info-container">
+                    <div class="sub-title">모집 인원</div>
+                    <div class="detail" th:text="${'팀 당 ' + matchingDetail.maxMemberNum + '명'}">팀 당 5명</div>
+                </div>
+                <div class="info-container">
+                    <div class="sub-title">여성 전용</div>
+                    <div class="detail" th:text="${matchingDetail.isOnlyWomen.toString() == 'ONLY_WOMEN' ? 'O' : 'X'}">X</div>
+                </div>
+                <div class="info-container">
+                    <div class="sub-title">경기 종류</div>
+                    <div class="detail" th:text="${matchingDetail.gameKind.toString() == 'TEAM' ? '팀 경기' : '개인 경기'}">팀 경기</div>
+                </div>
+                <div class="matching-time-div">
+                    <div class="start-time">
+                        시작일<br>
+                        <span th:text="${#temporals.format(matchingDetail.startAt, 'yyyy-MM-dd (EEE)')}" />
+                        <br>
+                        <span th:text="${#temporals.format(matchingDetail.startAt, 'HH : mm')}" />
+                    </div>
+                    <div class="hour" th:text="${matchingDetail.hour} + '시간'">
+                        3시간
+                    </div>
+                    <div class="end-time">
+                        종료일<br>
+                        <span th:text="${#temporals.format(matchingDetail.endAt, 'yyyy-MM-dd (EEE)')}" />
+                        <br>
+                        <span th:text="${#temporals.format(matchingDetail.endAt, 'HH : mm')}" />
+                    </div>
+                </div>
+            </div>
+            <div class="matching-join-div">
+                <div class="matching-join-title">인원 정보</div>
+                <div class="team-name-div">
+                    <div class="team-name" th:text="${matchingDetail.aTeamName}">A팀</div>
+                    <div class="team-name"
+                         th:text="${matchingDetail.bTeamName == '' ? '팀 미정' : matchingDetail.bTeamName}"
+                         th:style="${matchingDetail.bTeamName == '' ? 'opacity: 0.5;' : ''}">B팀</div>
+                </div>
+                <div class="team-container">
+                    <div class="team-container-div">
+                        <div class="member-card" th:each="member : ${matchingDetail.aTeamMember}">
+                            <div class="member-image">
+                                <img th:src="@{/api/image(imagePath=${member.imagePath})}"/>
+                            </div>
+                            <div class="member-info">
+                                <div class="member-name" th:text="${member.nickName}">최강주현</div>
+                                <div class="member-position" th:text="${member.positionString}">C, PW, SG, PG, SM</div>
+                                <div class="member-level" th:text="'Lv ' + ${member.level}">Lv.3</div>
+                            </div>
+                        </div>
+                        <div class="member-card" th:if="${matchingDetail.gameKind.toString() == 'PERSONAL'}" th:each="i : ${#numbers.sequence(matchingDetail.getATeamMember().size(), matchingDetail.maxMemberNum - 1)}">
+                            <div th:if="${i == matchingDetail.getATeamMember().size()}" class="join-matching-image-div" onclick="joinPersonalMatchTeam('UP_TEAM')">
+                                <img src="/image/matching/join_matching.png">
+                            </div>
+                            <div th:if="${i != matchingDetail.getATeamMember().size()}" class="recruiting-text">모집 중</div>
+                        </div>
+                        <div class="member-card" th:if="${matchingDetail.gameKind.toString() == 'TEAM'}" th:each="i : ${#numbers.sequence(matchingDetail.getATeamMember().size(), matchingDetail.maxMemberNum - 1)}">
+                            <div class="recruiting-text">모집 완료</div>
+                        </div>
+                    </div>
+                    <div class="team-container-between">
+                        VS
+                    </div>
+                    <div class="team-container-div">
+                        <div class="member-card" th:each="member : ${matchingDetail.bTeamMember}">
+                            <div class="member-image">
+                                <img th:src="@{/api/image(imagePath=${member.imagePath})}"/>
+                            </div>
+                            <div class="member-info">
+                                <div class="member-name" th:text="${member.nickName}">최강주현</div>
+                                <div class="member-position" th:text="${member.positionString}">C, PW, SG, PG, SM</div>
+                                <div class="member-level" th:text="${member.level}">Lv.3</div>
+                            </div>
+                        </div>
+                        <div class="member-card" th:if="${matchingDetail.gameKind.toString() == 'PERSONAL'}" th:each="i : ${#numbers.sequence(matchingDetail.getBTeamMember().size(), matchingDetail.maxMemberNum - 1)}">
+                            <div th:if="${i == matchingDetail.getBTeamMember().size()}" class="join-matching-image-div" onclick="joinPersonalMatchTeam('DOWN_TEAM')">
+                                <img src="/image/matching/join_matching.png">
+                            </div>
+                            <div th:if="${i != matchingDetail.getBTeamMember().size()}" class="recruiting-text">모집 중</div>
+                        </div>
+                        <div class="member-card" th:if="${matchingDetail.gameKind.toString() == 'TEAM' && matchingDetail.getBTeamMember().size() == 0}" th:each="i : ${#numbers.sequence(0, matchingDetail.maxMemberNum - 1)}">
+                            <div th:if="${i == 0}" class="join-matching-image-div" onclick="openTeamMatchJoinPop()">
+                                <img src="/image/matching/join_matching.png">
+                            </div>
+                            <div th:if="${i != 0}" class="recruiting-text">모집 중</div>
+                        </div>
+                        <div class="member-card" th:if="${matchingDetail.gameKind.toString() == 'TEAM' && matchingDetail.getBTeamMember().size() != 0}" th:each="i : ${#numbers.sequence(matchingDetail.getBTeamMember().size(), matchingDetail.maxMemberNum - 1)}">
+                            <div class="recruiting-text">모집 완료</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 개인 경기 참여 팝업 -->
+        <div class="popup-overlay" id="personal-match-join-pop">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>경기 참여</h2>
+                    <button class="close-popup" onclick="closePersonalMatchJoinPop()">X</button>
+                </div>
+                <div class="popup-body">
+                    <label class="sub-title">팀 선택</label>
+                    <div class="team-radio-div">
+                        <div class="radio-div">
+                            <input type="radio" id="A" name="team-select" value="UP_TEAM" checked onclick="toggleTeamSelect(this)">
+                            <label for="A">A팀</label>
+                        </div>
+                        <div class="radio-div">
+                            <input type="radio" id="B" name="team-select" value="DOWN_TEAM" onclick="toggleTeamSelect(this)">
+                            <label for="B">B팀</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button class="join-btn" onclick="joinPersonalMatch()">참가하기</button>
+                    <button class="close-btn" onclick="closePersonalMatchJoinPop()">닫기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 팀 경기 참여 팝업 -->
+        <div class="popup-overlay" style="display:none;" id="team-match-join-pop">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h2>경기 참여</h2>
+                    <button class="close-popup" onclick="closeTeamMatchJoinPop()">X</button>
+                </div>
+                <div class="popup-body">
+                    <label for="team-select" class="sub-title">팀 선택</label>
+                    <div class="team-select-div" id="team-list">
+                        <select class="team-select" id="team-select" name="team-select">
+                            <option value="">팀 선택</option>
+                            <option th:each="teamName : ${teamList}" th:value="${teamName}" th:text="${teamName}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button class="join-btn" onclick="joinTeamMatch()">참가하기</button>
+                    <button class="close-btn" onclick="closeTeamMatchJoinPop()">닫기</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</html>

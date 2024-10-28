@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/matching/createMatching.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/common/region.js}"></script>
+    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+    <script th:src="@{/js/matching/createMatching.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="title">
+            <h2>경기 생성</h2>
+        </div>
+        <form class="input-form">
+            <div class="label-container">
+                <label for="name">경기명</label>
+                <div class="label-explain">재미있는 경기명은 사람들을 끌어들입니다.</div>
+            </div>
+            <div class="info-container">
+                <input type="text" class="matching-name" id="name" name="name" />
+            </div>
+
+            <div class="label-container">
+                <label>경기 인원</label>
+                <div class="label-explain"> 경기 진행 인원을 선택해주세요. 한 팀 기준으로 선택해주세요.</div>
+            </div>
+            <div class="info-container">
+                <div class="member-num-div" id="member-num">
+                    <div class="sub-title">
+                        경기 참여 인원
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="1v1" name="member-num" value="1">
+                        <label for="1v1">1 VS 1</label>
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="2v2" name="member-num" value="2">
+                        <label for="2v2">2 VS 2</label>
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="3v3" name="member-num" value="3">
+                        <label for="3v3">3 VS 3</label>
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="4v4" name="member-num" value="4">
+                        <label for="4v4">4 VS 4</label>
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="5v5" name="member-num" value="5" checked>
+                        <label for="5v5">5 VS 5</label>
+                    </div>
+                </div>
+                <div class="member-max-num-div" id="member-max-num">
+                    <div class="sub-title">
+                        최대 인원
+                    </div>
+                    <div class="max-num">
+                        <input type="number" id="max-num" value="5" />
+                        <span>명</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="label-container">
+                <label for="datetime">경기 날짜 / 시간</label>
+                <div class="label-explain">경기를 진행할 날짜와 시간을 선택해주세요.</div>
+            </div>
+            <div class="info-container">
+                <div class="datetime-div" id="datetime">
+                    <div class="date-select">
+                        <label for="date">날짜 선택</label>
+                        <input type="date" id="date" th:value="${today}" th:min="${today}"/>
+                    </div>
+                    <div class="time-select">
+                        <label for="time">시작 시간 선택</label>
+                        <input type="time" id="time" step="900"/>
+                    </div>
+                    <div class="hour-select">
+                        <label for="hour">진행 시간 선택</label>
+                        <input type="number" id="hour" value="1" />
+                        <span>시간</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="label-container">
+                <label>경기 설정</label>
+                <div class="label-explain"> 경기의 간단한 설정을 해주세요.</div>
+            </div>
+            <div class="info-container">
+                <div class="matching-option-div" id="team-personal">
+                    <div class="sub-title">
+                        경기 종류
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="team" name="game-kind" value="TEAM" checked onclick="toggleTeamSelect(this)">
+                        <label for="team">팀 경기</label>
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="personal" name="game-kind" value="PERSONAL" onclick="toggleTeamSelect(this)">
+                        <label for="2v2">개인 경기</label>
+                    </div>
+                    <div class="team-name-list" id="team-list">
+                        <label for="team-select">경기 참여 팀 선택</label>
+                        <select class="region-select" id="team-select" name="team-select">
+                            <option value="">팀 선택</option>
+                            <option th:each="teamName : ${teamList}" th:value="${teamName}" th:text="${teamName}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="is-only-women-div">
+                    <div class="sub-title">
+                        여성 전용 경기
+                    </div>
+                    <div class="is-only-women-checkbox-div">
+                        <input type="checkbox" id="is-only-women" value="1" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="label-container">
+                <label for="place">경기 장소</label>
+                <div class="label-explain">경기장이 정해져 있다면 경기장 정보를, 없다면 경기를 원하는 지역을 입력해주세요.</div>
+            </div>
+            <div class="info-container" id="place">
+                <div class="select-two-div">
+                    <div class="radio-div">
+                        <input type="radio" id="stadium" name="stadium_region_select" value="stadium" onclick="click_stadium_address()" checked>
+                        <label for="stadium">경기장 주소 입력</label>
+                    </div>
+                    <div class="radio-div">
+                        <input type="radio" id="region" name="stadium_region_select" value="region" onclick="click_region()">
+                        <label for="region">지역 입력</label>
+                    </div>
+                </div>
+                <div class="stadium-info" id="stadium-info">
+                    <div class="select-address-div">
+                        <label for="stadium-load-address">경기장 주소</label>
+                        <input type="text" id="stadium-load-address" disabled>
+                        <input type="hidden" id="stadium-jibun-address" disabled>
+                        <button type="button" class="select-address" onclick="selectAddress()">주소 검색</button>
+                    </div>
+                    <div class="select-address-div">
+                        <label for="stadium-detail-address">경기장 상세 주소</label>
+                        <input type="text" id="stadium-detail-address">
+                    </div>
+                </div>
+                <div class="region-info" id="region-info" style="display: none">
+                    <label class="sub-title">지역</label>
+                    <div class="region-select-div">
+                        <label for="siDo">시/도</label>
+                        <select class="region-select" id="siDo" name="siDo" onchange="getSiGunGuList()" required>
+                            <option value="">시/도</option>
+                            <option th:each="siDo : ${siDoList}" th:value="${siDo}" th:text="${siDo}"></option>
+                        </select>
+
+                        <label for="siGunGu">시/군/구</label>
+                        <select class="region-select" id="siGunGu" name="siGunGu" required disabled>
+                            <option>시/군/구</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="submit-btn" onclick="createMatching()">경기 생성</button>
+        </form>
+    </section>
+</div>
+</html>

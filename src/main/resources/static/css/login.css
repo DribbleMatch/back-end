@@ -1,0 +1,83 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.login-container h2 {
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+}
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+.login-container .input-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+}
+.login-container .input-div input {
+    width: 100%;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    font-size: 1rem;
+    padding: 1rem 0.5rem;
+
+}
+.login-container .text-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+.login-container .forget-div {
+    width: 50%;
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: 0.3rem;
+}
+.login-container h3{
+    font-size: 0.7rem;
+    margin: unset;
+    color: #f38c48;
+    cursor: pointer;
+}
+.login-container .divider{
+    font-size: 0.7rem;
+    margin: unset;
+    color: black;
+}
+.login-container .join-div {
+    width: 50%;
+    margin-top: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.login-container .btn-div {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.login-container .btn-div .login-btn{
+    width: 15rem;
+    background-color: #f38c48;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 1rem;
+    font-size: 1rem;
+    color: #e0e0e0;
+}
+
+.login-container .btn-div .login-btn:hover{
+    background-color: #f8802d;
+}

@@ -29,7 +29,7 @@
 - 4: Team Matching
 - 5: Personal Match Join
 - 6: Team Match Join
-- 7: UserTeam
+- 7: TeamMember
 - 8: Recruitment
 - 9: region
 - 10: global

@@ -18,11 +18,18 @@ public class RedisUtil {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    public void setRefreshToken(String refreshToken, Long member_id)
+    public void setRefreshToken(String refreshToken, String member_id)
     {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-        deleteByValue(member_id.toString());
-        valueOperations.set(refreshToken, member_id.toString(), Duration.ofMillis(refreshExpire));
+        deleteByValue(member_id);
+        valueOperations.set(refreshToken, member_id, Duration.ofMillis(refreshExpire));
+    }
+
+    public void setAuthCode(String phone, String authCode)
+    {
+        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
+        deleteData(phone);
+        valueOperations.set(phone, authCode, Duration.ofMillis(5 * 60 * 1000));
     }
 
     public String getData(String key) {

@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.entity.recruitment;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Position;
 import jakarta.persistence.*;
@@ -9,10 +10,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class Recruitment {
+public class Recruitment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,24 +32,23 @@ public class Recruitment {
     @Column
     private String content;
 
-    @NotNull
     @Column
-    private Position position;
-
-    @Column
-    private int winning;
+    private String positionString;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Column
+    private LocalDate endAt;
+
     @Builder
-    public Recruitment(String title, String content, Position position, int winning, Team team) {
+    public Recruitment(String title, String content, String positionString, Team team, LocalDate endAt) {
         this.title = title;
         this.content = content;
-        this.position = position;
-        this.winning = winning;
+        this.positionString = positionString;
         this.team = team;
+        this.endAt = endAt;
     }
 }

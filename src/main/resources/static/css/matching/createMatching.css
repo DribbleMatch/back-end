@@ -1,0 +1,271 @@
+.input-form {
+    width: 80%;
+}
+.input-form .label-container label {
+    width: auto;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 3rem;
+}
+
+.label-container {
+    display: flex;
+    font-weight: bold;
+}
+.label-container .label-explain {
+    display: flex;
+    align-items: center;
+    opacity: 50%;
+}
+
+.info-container .matching-name {
+    width: 100%;
+    height: 1.7rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    margin-bottom: 5rem;
+    font-size: 1rem;
+    padding: 10px;
+}
+
+.info-container .member-num-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+.info-container .member-max-num-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 5rem;
+}
+.info-container .member-num-div .radio-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+}
+.info-container .member-num-div .sub-title,
+.info-container .member-max-num-div .sub-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.5rem;
+    margin-left: 3rem;
+    font-weight: bold;
+}
+.info-container .member-num-div .radio-div input[type="radio"]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.info-container .member-max-num-div .max-num {
+    margin-right: auto;
+    margin-top: 0.7rem;
+    margin-left: 10%;
+}
+.info-container .member-max-num-div .max-num input[type="number"]::-webkit-inner-spin-button,
+.info-container .member-max-num-div .max-num input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: inner-spin-button;
+    opacity: 1;
+    margin-left: 0.5rem;
+}
+.info-container .member-max-num-div .max-num input[type="number"] {
+    width: 8rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    color: #676767;
+    text-align: right;
+}
+
+.info-container .datetime-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+    margin-left: 3rem;
+}
+.info-container .datetime-div label {
+    margin-right: 1rem;
+}
+.info-container .datetime-div .date-select {
+    width: 30%;
+}
+.info-container .datetime-div .time-select {
+    width: 33%;
+}
+.info-container .datetime-div .hour-select {
+    width: 33%;
+}
+.info-container .datetime-div input[type="date"],
+.info-container .datetime-div input[type="time"] {
+    width: 8rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    color: #676767;
+}
+.info-container .datetime-div input[type="number"] {
+    width: 8rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+    color: #676767;
+    text-align: right;
+}
+.info-container .datetime-div input[type="number"]::-webkit-inner-spin-button,
+.info-container .datetime-div input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: inner-spin-button;
+    opacity: 1;
+    margin-left: 0.5rem;
+}
+.info-container .datetime-div span {
+    color: #676767;
+}
+
+.info-container .select-two-div {
+    display: flex;
+    flex-direction: row;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    justify-content: center;
+    gap: 20rem;
+}
+.info-container .stadium-info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+    margin-left: 3rem;
+    gap: 1rem;
+}
+.info-container .stadium-info .select-address-div {
+    display: flex;
+    flex-direction: row;
+}
+.info-container .stadium-info label {
+    margin-top: 0.5rem;
+    font-weight: bold;
+    width: 15%;
+}
+.info-container .stadium-info input[type="text"] {
+    width: 50%;
+    height: 2rem;
+    padding: 0 1rem;
+    margin-left: 1rem;
+    border-radius: 0.3rem;
+    border: 0.2rem solid #e0e0e0;
+}
+.info-container .stadium-info .select-address {
+    width: 6rem;
+    height: 2rem;
+    margin-left: 2rem;
+    background-color: #e8e8e8;
+    border: none;
+    border-radius: 0.3em;
+}
+.info-container .stadium-info .select-address:hover {
+    background-color: #a1a1a1;
+}
+.info-container .region-info {
+    display: flex;
+    flex-direction: row;
+    margin-top: 1rem;
+    margin-bottom: 5rem;
+    margin-left: 3rem;
+}
+.info-container .region-info .sub-title {
+    margin-top: 0.3rem;
+    font-weight: bold;
+    margin-right: 5rem;
+}
+.info-container .region-info .region-select-div {
+    display: flex;
+    justify-content: center;
+}
+.info-container .region-info .region-select-div label {
+    margin-right: 2rem;
+    margin-top: 0.3rem;
+    opacity: 70%;
+}
+.info-container .region-info .region-select-div select {
+    border: 0.2rem solid #e0e0e0;
+    margin-right: 10rem;
+    color: #676767;
+    border-radius: 0.3rem;
+}
+
+.submit-btn {
+    margin-left: 50%;
+    border: none;
+    border-radius: 0.4rem;
+    width: 10rem;
+    height: 3rem;
+    background-color: #ffb07a;
+    font-size: 1rem;
+    font-weight: bold;
+}
+.submit-btn:hover {
+    background-color: #ff8a38;
+}
+
+.info-container .matching-option-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+.info-container .is-only-women-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin-bottom: 5rem;
+}
+.info-container .matching-option-div .radio-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5%;
+}
+.info-container .matching-option-div .sub-title,
+.info-container .is-only-women-div .sub-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 3rem;
+    font-weight: bold;
+}
+.info-container .matching-option-div .radio-div input[type="radio"]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.info-container .matching-option-div .radio-div input[type="radio"]{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.info-container .matching-option-div .team-name-list{
+    align-content: center;
+    margin-left: 10rem;
+}
+.info-container .matching-option-div .team-name-list select {
+    border: 0.2rem solid #e0e0e0;
+    margin-right: 10rem;
+    color: #676767;
+    border-radius: 0.3rem;
+    margin-left: 1rem;
+}
+.info-container .is-only-women-div .is-only-women-checkbox-div{
+    margin-left: 2%;
+}

@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'GmarketSansMedium', sans-serif; /* 기본 폰트로 적용 */
+}
+
+header .up_header {
+    display: flex;
+    align-items: center;
+}
+header .up_header .logo {
+    width: 24rem;
+    height: 8rem;
+    cursor: pointer;
+}
+header .up_header .searchBox {
+    margin-left: auto;
+    width: 30rem;
+    height: 2rem;
+    background-color: #d0d0d0;
+    opacity: 50%;
+    border: none;
+    border-radius: 0.2rem;
+    padding-left: 0.5rem;
+}
+header .up_header .userInfo-icon {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: 3rem;
+    cursor: pointer;
+}
+header .up_header .menu-icon {
+    width: 2.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
+}
+header .down-header {
+    display: flex;
+    align-items: center;
+}
+header .down-header .menu-items{
+    width: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+header .down-header .menu-items:hover{
+    border-radius: 0.5rem;
+    background-color: #f38c48;
+}
+header .down-header .menu-icon{
+    width: 3rem;
+    height: 3rem;
+    margin-right: 1rem;
+}
+.menu-items.active {
+    border-radius: 0.5rem;
+    background-color: #f38c48;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>DribbleMatch - 농구 메이트를 찾으시나요?</title>
+</head>
+<body>
+<header th:fragment="header">
+  <div class="up_header">
+    <img class="logo" src="/image/logo.png" alt="logo.png" onclick="goToPage('/page')">
+    <input type="text" class="searchBox" placeholder="지역, 경기명으로 경기 검색"/>
+    <img class="userInfo-icon" src="/image/icon/etc/userInfo_icon.png" alt="userInfo_icon.png" onclick="goToPage('/page/user/myPage')">
+    <img class="menu-icon" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="openMenu()">
+  </div>
+  <div class="down-header">
+    <div class="menu-items" id="ranking-menu" onclick="goToPage('/page/openLater')">
+      <img class="menu-icon" src="/image/icon/header/ranking_icon.png">
+      <h3>랭킹</h3>
+    </div>
+    <div class="menu-items" id="team-menu" onclick="goToPage('/page/team/teamList')">
+      <img class="menu-icon" src="/image/icon/header/team_icon.png">
+      <h3>팀</h3>
+    </div>
+    <div class="menu-items" id="match-menu" onclick="goToPage('/page/matching/matchingList')">
+      <img class="menu-icon" src="/image/icon/header/basketball.png" style="margin-bottom: 0.5rem">
+      <h3>경기</h3>
+    </div>
+    <div class="menu-items" id="competition-menu" onclick="goToPage('/page/openLater')">
+      <img class="menu-icon" src="/image/icon/header/competition_icon.png">
+      <h3>대회</h3>
+    </div>
+    <div class="menu-items" id="board-menu" onclick="goToPage('/page/openLater')">
+      <img class="menu-icon" src="/image/icon/header/board_icon.png">
+      <h3>커뮤니티</h3>
+    </div>
+  </div>
+</header>
+</body>
+</html>

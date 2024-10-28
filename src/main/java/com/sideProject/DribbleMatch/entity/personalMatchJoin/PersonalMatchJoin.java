@@ -1,7 +1,8 @@
 package com.sideProject.DribbleMatch.entity.personalMatchJoin;
 
+import com.sideProject.DribbleMatch.entity.BaseEntity;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
-import com.sideProject.DribbleMatch.entity.matching.PersonalMatching;
+import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.entity.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -13,11 +14,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class PersonalMatchJoin {
+public class PersonalMatchJoin extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
+    private PersonalMatchingTeam matchingTeam;
 
     @NotNull
     @ManyToOne
@@ -26,12 +30,13 @@ public class PersonalMatchJoin {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "personal_match_id")
-    private PersonalMatching personalMatching;
+    @JoinColumn(name = "match_id")
+    private Matching matching;
 
     @Builder
-    public PersonalMatchJoin(User user, PersonalMatching personalMatching) {
+    public PersonalMatchJoin(PersonalMatchingTeam matchingTeam, User user, Matching matching) {
+        this.matchingTeam = matchingTeam;
         this.user = user;
-        this.personalMatching = personalMatching;
+        this.matching = matching;
     }
 }

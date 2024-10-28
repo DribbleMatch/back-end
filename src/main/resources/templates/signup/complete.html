@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/join_layout}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/signup/complete.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/signup/complete.js}"></script>
+</th:block>
+<div layout:fragment="content">
+    <section class="content">
+        <div class="signup-container">
+            <h2>회원 가입 완료</h2>
+            <div class="checkmark-container">
+                <div class="checkmark">
+                    <div class="checkmark-circle"></div>
+                    <div class="checkmark-stem"></div>
+                    <div class="checkmark-kick"></div>
+                </div>
+            </div>
+            <p class="completion-message">회원 가입이 성공적으로 완료되었습니다!</p>
+            <button type="button" onclick="go_login()">로그인</button>
+        </div>
+    </section>
+</div>
+</html>

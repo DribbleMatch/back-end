@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>DribbleMatch - 농구 메이트를 찾으시나요?</title>
+</head>
+<body>
+<section th:fragment="left-menu">
+  <div class="dark-area hide" id="dark-area" onclick="closeMenu()"></div>
+  <div class="left-menu-hide" id="left-menu">
+    <div class="left-menu-header" id="on-login">
+        <div class="user-info-icon">
+            <img src="/image/icon/etc/userInfo_icon.png" onclick="goToPage('/page/user/myPage')">
+        </div>
+        <div class="nickname" id="user-nickname" onclick="goToPage('/page/user/myPage')">
+            최강주현
+        </div>
+        <button type="button" class="logout-btn" onclick="logout()">
+            로그아웃
+        </button>
+        <img class="menu-icon" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="closeMenu()">
+    </div>
+    <div class="left-menu-header" id="not-login">
+      <button type="button" class="header-login-btn" onclick="goToPage('/page/login')">
+        로그인
+      </button>
+      <img class="menu-icon" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="closeMenu()">
+    </div>
+    <div class="left-menu-content">
+      <div class="one-left-menu">
+        <div class="menu-big-title">
+          랭킹 (RANKING)
+        </div>
+        <div class="small-menu-list">
+          <div class="small-menu" onclick="goToPage('/page/openLater')">
+            득점 랭킹 조회 (오픈 예정) >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/openLater')">
+            승리 랭킹 조회 (오픈 예정) >
+          </div>
+        </div>
+      </div>
+
+      <div class="one-left-menu">
+        <div class="menu-big-title">
+          팀 (TEAM)
+        </div>
+        <div class="small-menu-list">
+          <div class="small-menu" onclick="goToPage('/page/team/createTeam')">
+            팀 생성하기 >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/team/teamList')">
+            팀 전체 보기 >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/recruitment')">
+            팀 모집글 보기 >
+          </div>
+        </div>
+      </div>
+
+      <div class="one-left-menu">
+        <div class="menu-big-title">
+          경기 (MATCHING)
+        </div>
+        <div class="small-menu-list">
+          <div class="small-menu" onclick="goToPage('/page/matching/createMatching')">
+            경기 생성하기 >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/matching/matchingList')">
+            경기 전체 보기 >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/openLater')">
+            팀 경기 참여 (오픈 예정) >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/openLater')">
+            개인 경기 참여 (오픈 예정) >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/openLater')">
+            여성 전용 경기 참여 (오픈 예정) >
+          </div>
+          <div class="small-menu" onclick="goToPage('/page/matching/inputScore')">
+            경기 점수 입력 >
+          </div>
+        </div>
+      </div>
+
+      <div class="one-left-menu">
+        <div class="menu-big-title">
+          대회 (오픈 예정)
+        </div>
+      </div>
+
+      <div class="one-left-menu">
+        <div class="menu-big-title">
+          게시판 (오픈 예정)
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

@@ -15,11 +15,14 @@ public class TeamUpdateRequestDto {
     private String regionString;
     @NotNull(message = "팀장 아이디가 입력되지 않았습니다.")
     private Long leaderId;
+    @NotNull(message = "최대 인원 수가 입력되지 않았습니다.")
+    private Long maxNum;
 
     @Builder
-    public TeamUpdateRequestDto(String name, String regionString, Long leaderId) {
+    public TeamUpdateRequestDto(String name, String regionString, Long leaderId, Long maxNum) {
         this.name = name;
         this.regionString = regionString;
         this.leaderId = leaderId;
+        this.maxNum = maxNum;
     }
 }
