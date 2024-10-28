@@ -15,6 +15,7 @@ import com.sideProject.DribbleMatch.dto.matching.request.MatchingCreateRequestDt
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface MatchingService {
     public Long createMatching(MatchingCreateRequestDto request, Long creatorId);
@@ -26,4 +27,5 @@ public interface MatchingService {
     public List<NotInputScoreMatchingResponseDto> getNotInputScoreMatchingList(Long userId);
     public void inputScore(MatchingInputScoreRequestDto requestDto);
     public void notPlayMatching(Long matchingId);
+    public List<RecentMatchingResponseDto> getRecentMatchingList();
 }
