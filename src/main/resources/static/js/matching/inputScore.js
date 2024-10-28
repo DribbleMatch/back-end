@@ -1,6 +1,11 @@
 $(document).ready(function() {
 
-    alert("생성 후 진행이 완료된 경기의 점수를 입력하여야 경기 이용이 가능합니다.");
+    if ($('.matching').length > 0) {
+        alert("생성 후 진행이 완료된 경기의 점수를 입력하여야 경기 이용이 가능합니다.");
+    } else {
+        alert("점수를 입력할 경기가 없습니다.");
+        location.href = "/page";
+    }
 });
 
 function inputScore(button) {

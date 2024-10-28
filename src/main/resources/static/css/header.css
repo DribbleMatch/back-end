@@ -29,13 +29,15 @@ header .up_header .searchBox {
     padding-left: 0.5rem;
 }
 header .up_header .userInfo-icon {
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     width: 3rem;
     cursor: pointer;
 }
 header .up_header .menu-icon {
     width: 2.5rem;
+    margin-right: 1rem;
+    cursor: pointer;
 }
 header .down-header {
     display: flex;
