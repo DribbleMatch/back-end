@@ -139,4 +139,16 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
                         .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.NOT_PLAY_FINISHED))))
                 .fetch();
     }
+
+    @Override
+    public List<Matching> findRecentMatchingOrderByRemainTime() {
+
+        return jpaQueryFactory
+                .selectFrom(matching)
+                .where((matching.status.eq(MatchingStatus.RECRUITING).or(matching.status.eq(MatchingStatus.WAITING_START)))
+                        .and(matching.startAt.after(LocalDateTime.now())))
+                .orderBy(matching.startAt.asc())
+                .limit(5)
+                .fetch();
+    }
 }
