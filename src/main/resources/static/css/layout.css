@@ -21,3 +21,7 @@ body {
     text-align: center;
     margin-bottom: 5rem;
 }
+
+.hide {
+    display: none;
+}

@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 "/page/login/**",
                                 "/api/login/**",
                                 "/api/region/**",
+                                "/page",
                                 "/error",
                                 "/healthcheck",
                                 "/css/**",
