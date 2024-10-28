@@ -3,7 +3,9 @@ package com.sideProject.DribbleMatch.common.util;
 import com.sideProject.DribbleMatch.entity.user.ENUM.Skill;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Component
@@ -64,5 +66,25 @@ public class CommonUtil {
         int currentYear = currentDate.getYear();
 
         return currentYear - birthYear + 1;
+    }
+
+    public static String getRemainTimeString(LocalDateTime now, LocalDateTime startAt) {
+        Duration duration = Duration.between(now, startAt);
+        long days = duration.toDays();
+        long hours = duration.minusDays(days).toHours();
+        long minutes = duration.minusHours(hours).toMinutes();
+
+        StringBuilder result = new StringBuilder();
+        if (days > 0) {
+            result.append(days).append("일 ");
+        }
+        if (hours > 0) {
+            result.append(hours).append("시간");
+        }
+        if (minutes > 0 && days == 0 && hours == 0) {
+            result.append(minutes).append("분");
+        }
+
+        return result.toString().trim();
     }
 }
