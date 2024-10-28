@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/login")
@@ -34,5 +36,15 @@ public class LoginRestController {
         authService.deleteCookie(response);
 
         return ApiResponse.ok("로그아웃 성공");
+    }
+
+    @GetMapping("/checkLogIn")
+    public ApiResponse<String> checkLogIn(Principal principal) {
+
+        if (principal != null) {
+            return ApiResponse.ok(userService.getUserNickName(Long.valueOf(principal.getName())));
+        }
+
+        return ApiResponse.ok("");
     }
 }
