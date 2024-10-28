@@ -143,6 +143,12 @@ public class UserServiceImpl implements UserService{
                 .build();
     }
 
+    @Override
+    public String getUserNickName(Long userId) {
+        return userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER)).getNickName();
+    }
+
     private String encodePassword(String password) {
         return passwordEncoder.encode(password);
     }

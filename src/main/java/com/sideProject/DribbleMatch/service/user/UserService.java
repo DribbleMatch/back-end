@@ -13,4 +13,5 @@ public interface UserService {
     public JwtResponseDto login(UserLogInRequestDto requestDto);
     public void createUser(SignupPlayerInfoRequestDto requestDto);
     public UserResponseDto getUserDetail(Long userId);
+    public String getUserNickName(Long userId);
 }

@@ -73,3 +73,46 @@ function activeFlowStep(step) {
         $('#step-complete').addClass('step-now');
     }
 }
+
+function openMenu() {
+
+    $.ajax({
+        url: '/api/login/checkLogIn',
+        type: 'GET',
+        success: function (response) {
+            if (response.data) {
+                $('#user-nickname').text(response.data);
+                $('#on-login').removeClass("hide");
+                $('#not-login').addClass("hide");
+            } else {
+                $('#user-nickname').text("");
+                $('#on-login').addClass("hide");
+                $('#not-login').removeClass("hide");
+            }
+
+            $('#dark-area').removeClass("hide");
+            $('#left-menu').addClass("left-menu");
+        },
+        error: function (xhr, status, error) {
+            alert("서버 오류. 고객센터에 문의하세요.");
+        }
+    })
+}
+
+function closeMenu() {
+    $('#left-menu').removeClass("left-menu").addClass("left-menu-hide");
+    $('#dark-area').addClass("hide");
+}
+
+function logout() {
+    $.ajax({
+        url: '/api/login/logout',
+        type: 'GET',
+        success: function () {
+            location.reload();
+        },
+        error: function (xhr, status, error) {
+            commonErrorCallBack(xhr, status, error);
+        }
+    })
+}
