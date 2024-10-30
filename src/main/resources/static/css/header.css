@@ -62,3 +62,28 @@ header .down-header .menu-icon{
     border-radius: 0.5rem;
     background-color: #f38c48;
 }
+
+@media (max-width: 767px) {
+    header .up_header {
+        justify-content: space-between;
+    }
+    header .down-header {
+        display: none; !important;
+    }
+    header .up_header .logo {
+        width: 13rem;
+        height: 4rem;
+    }
+    header .up_header .searchBox {
+        display: none;
+    }
+    header .up_header .userInfo-icon {
+        margin-left: 2rem;
+        margin-right: 0;
+        width: 2.7rem;
+    }
+    header .up_header .menu-icon {
+        width: 2.5rem;
+        margin-right: 0;
+    }
+}
