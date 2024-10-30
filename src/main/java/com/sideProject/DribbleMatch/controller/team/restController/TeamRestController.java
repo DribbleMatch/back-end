@@ -17,7 +17,7 @@ public class TeamRestController {
     private final TeamService teamService;
 
     @PostMapping("/checkTeamName")
-    public ApiResponse<String> checkTeamName(@RequestParam String name) {
+    public ApiResponse<String> checkTeamName(@RequestParam(name = "name") String name) {
 
         teamService.checkTeamName(name);
 
