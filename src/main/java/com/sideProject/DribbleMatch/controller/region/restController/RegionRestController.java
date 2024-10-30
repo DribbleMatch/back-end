@@ -17,7 +17,7 @@ public class RegionRestController {
     private final RegionRepository regionRepository;
 
     @PostMapping("/getSiGunGuList")
-    public List<String> getSiGunGuList(@RequestParam("siDo") String siDo) {
+    public List<String> getSiGunGuList(@RequestParam(name = "siDo") String siDo) {
         return regionRepository.findAllSiGunGuBySiDo(siDo);
     }
 }
