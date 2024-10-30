@@ -56,8 +56,8 @@ public class MatchingController {
     @PostMapping("/replace/matchingList")
     public String replaceMatchingListByDateAndSearch(Model model,
                                             @PageableDefault(page = 0, size = 10) Pageable pageable,
-                                            @RequestParam LocalDate date,
-                                            @RequestParam String searchWord) {
+                                            @RequestParam(name = "date") LocalDate date,
+                                            @RequestParam(name = "searchWord") String searchWord) {
 
         Page<MatchingResponseDto> matchingList = matchingService.searchMatchings(searchWord, pageable, date);
 
