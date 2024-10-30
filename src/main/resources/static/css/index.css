@@ -261,3 +261,10 @@
     overflow: scroll;
     white-space: nowrap;
 }
+
+
+@media (max-width: 767px) {
+    .content-header {
+        height: 2rem;
+    }
+}
