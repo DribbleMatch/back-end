@@ -134,7 +134,7 @@ function createTeam() {
         processData: false,
         success: function (response) {
             alert("팀 생성에 성공하였습니다.\n팀원들을 모집해보세요!");
-            location.href = "/";
+            location.href = "/page/team/teamList";
         },
         error: function (xhr, status, error) {
             commonErrorCallBack(xhr, status, error);

@@ -101,3 +101,9 @@ section .signup-container h2 {
 .signup-container button:hover {
     background-color: #b7622e;
 }
+
+@media (max-width: 767px) {
+    section .signup-container {
+        padding: 0;
+    }
+}

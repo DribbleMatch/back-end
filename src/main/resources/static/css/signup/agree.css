@@ -91,3 +91,45 @@ section .agree-container button {
 section .agree-container button:hover {
     background-color: #f8802d;
 }
+
+@media (max-width: 767px) {
+    section .agree-container h2 {
+        font-weight: normal;
+    }
+    section .agree-container {
+        padding: 0;
+        margin-top: -3rem;
+    }
+
+    section .agree-container form {
+        width: 90%;
+    }
+    section .agree-container .term-title {
+        width: 95%;
+        font-size: 1rem;
+        font-weight: normal;
+    }
+    section .agree-container .terms {
+        width: 90%;
+    }
+    section .agree-checkbox-div {
+        width: 100%;
+    }
+    section .agree-container button {
+        margin-top: 0;
+    }
+    section .agree-container .terms .term-sub-title {
+        font-size: 1.2rem;
+        font-weight: normal;
+    }
+    section .agree-container .terms .sub-title {
+        font-weight: normal;
+        font-size: 1rem;
+    }
+    section .agree-container .terms .term-content {
+        font-size: 0.8rem;
+    }
+    section .agree-checkbox-div .agree-text {
+        font-size: 0.8rem;
+    }
+}

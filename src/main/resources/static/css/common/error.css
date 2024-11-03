@@ -44,3 +44,26 @@
     margin-left: 1rem;
     color: #7e7e7e;
 }
+
+@media (max-width: 767px) {
+    .error-div {
+        width: 100%;
+        height: 10rem;
+    }
+    .error-header {
+        justify-content: center;
+    }
+    .error-title {
+        width: 70%;
+        font-size: 1.4rem;
+        font-weight: normal;
+        margin-left: 1rem;
+        margin-bottom: 2rem;
+    }
+    .start-line {
+        width: 1rem;
+    }
+    .error-explain {
+        font-size: 0.8rem;
+    }
+}

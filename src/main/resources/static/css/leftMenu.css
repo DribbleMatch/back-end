@@ -31,6 +31,7 @@
     height: 100%;
     background-color: black;
     opacity: 50%;
+    z-index: 10;
 }
 
 .left-menu-header {
@@ -116,8 +117,10 @@
 
 @media (max-width: 767px) {
     .left-menu {
-        width: 17rem;
-        left: 22%;
+        width: 16rem;
+        right: 0;
+        overflow-x: hidden;
+        left: unset;
     }
 
     .left-menu-header {

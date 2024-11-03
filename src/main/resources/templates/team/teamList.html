@@ -13,6 +13,11 @@
     <div layout:fragment="content">
         <section class="content">
             <div class="team-list-div">
+                <div class="team-button-div-mobile">
+                    <button type="button" class="team-button-mobile" onclick="showMyTeam()">내 팀 보기</button>
+                    <button type="button" class="team-button-mobile" onclick="goToRecruitment()">팀원 모집 보기</button>
+                    <button type="button" class="team-button-mobile" onclick="goCreateTeamPage()">팀 만들기</button>
+                </div>
                 <div class="team-list-header">
                     <input type="text" id="search-word" class="search-bar" placeholder="팀 이름 또는 지역 검색..." oninput="searchTeam()">
                     <button type="button" class="my-team-btn" onclick="showMyTeam()">내 팀 보기</button>
@@ -23,10 +28,10 @@
                 <div class="team-list" id="team-list">
                     <div th:each="team : ${teamList}" class="team-card">
                         <div class="team-image-div">
-                            <img class="team-image" th:src="@{/api/image(imagePath=${team.imagePath})}" alt="팀 이미지">
+                            <img class="team-image" th:src="@{/api/image(imagePath=${team.imagePath})}" alt="팀 이미지" th:onclick="'viewTeamDetail(' + ${team.id} + ')'">
                         </div>
                         <div class="team-info">
-                            <h2 class="team-name" th:text="${team.name}">팀 이름</h2>
+                            <h2 class="team-name" th:text="${team.name}" th:onclick="'viewTeamDetail(' + ${team.id} + ')'">팀 이름</h2>
                             <p class="team-region" th:text="${team.regionString}">지역</p>
                             <div class="team-stats">
                                 <span class="team-members" th:text="${team.memberNumString}"></span>

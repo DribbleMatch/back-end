@@ -56,4 +56,7 @@
         width: 1.5rem;
         height: 1.5rem;
     }
+    .step-progress .step-label {
+        font-size: 0.6rem;
+    }
 }
