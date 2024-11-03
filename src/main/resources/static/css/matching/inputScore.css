@@ -29,6 +29,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    max-width: 100%;
 }
 .matching:hover {
     transform: translateY(-5px);
@@ -52,7 +53,7 @@
     width: 85%;
     font-size: 2rem;
     text-align: center;
-    overflow: scroll;
+    overflow-y: scroll;
     background-color: #3644ff;
     color: white;
     border-radius: 2rem;
@@ -79,6 +80,12 @@ input[type="number"]::-webkit-outer-spin-button {
     display: flex;
     flex-direction: column;
     text-align: center;
+}
+.btn-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
 }
 
 .submit-btn {
@@ -109,4 +116,42 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .not-matching-btn:hover {
     background-color: #813838;
+}
+
+@media (max-width: 767px) {
+    .title {
+        margin-top: 1rem;
+        font-size: 1.7rem;
+    }
+    .matching-list {
+        width: 100%;
+        text-align: center;
+    }
+    .team-name {
+        width: 80%;
+        font-size: 1rem;
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .team-score {
+        width: 70%;
+    }
+    .team-info {
+        height: 6rem;
+    }
+    .matching {
+        width: 85%;
+    }
+    .vs {
+        font-size: 1.5rem;
+        align-content: center;
+    }
+    .btn-div {
+        flex-direction: row;
+        justify-content: center;
+        gap: 1rem;
+    }
+    .submit-btn, .not-matching-btn {
+        width: 40%;
+    }
 }

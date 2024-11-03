@@ -280,3 +280,119 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+@media (max-width: 767px) {
+    .matching-details-container {
+        margin-top: 3rem;
+        background-color: white;
+        border-radius: 10px;
+        padding: 0;
+        width: 100%;
+    }
+    .matching-header {
+        padding-bottom: 0.1rem;
+    }
+    .matching-header .matching-name {
+        font-size: 1.3rem;
+        font-weight: normal;
+        align-content: end;
+    }
+    .matching-header .join-btn {
+        width: 4rem;
+        height: 1.4rem;
+        font-size: 0.8rem;
+        font-weight: normal;
+        padding: 0.1rem;
+    }
+    .matching-info-div {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .matching-info-div .matching-info-title {
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+        opacity: 70%;
+    }
+    .matching-info-div .info-container {
+        gap: 1rem;
+    }
+    .matching-info-div .info-container .sub-title {
+        width: 3rem;
+        font-size: 0.7rem;
+        font-weight: normal;
+    }
+    .matching-info-div .info-container .detail {
+        font-size: 0.7rem;
+        font-weight: normal;
+    }
+    .matching-info-div .matching-time-div {
+        width: 100%;
+        height: 12rem;
+        flex-direction: column;
+    }
+    .matching-info-div .matching-time-div .start-time, .matching-info-div .matching-time-div .end-time {
+        width: 60%;
+        height: 4rem;
+        padding: 0 0.5rem;
+        font-weight: normal;
+        font-size: 0.8rem;
+    }
+    .matching-info-div .matching-time-div .hour {
+        width: 30%;
+        height: 10%;
+        font-weight: normal;
+    }
+
+    .matching-join-div .matching-join-title {
+        font-size: 1.3rem;
+        font-weight: normal;
+    }
+    .matching-join-div .matching-join-title {
+        font-size: 1.2rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+        opacity: 70%;
+    }
+    .matching-join-div .team-container-between {
+        font-size: 1.5rem;
+        font-weight: normal;
+    }
+    .matching-join-div .team-name-div {
+        margin-top: 2rem;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .matching-join-div .team-container-div {
+        width: 40%;
+    }
+    .matching-join-div .team-name-div .team-name {
+        font-weight: normal;
+        width: 40%;
+        font-size: 1rem;
+    }
+    .matching-join-div .team-container-div .member-card {
+        height: 8rem;
+        flex-direction: column;
+        gap: 0;
+        align-items: center;
+    }
+    .matching-join-div .team-container-div .member-card .member-info .member-position {
+        display: none;
+    }
+    .matching-join-div .team-container-div .member-card .member-info .member-level {
+        display: none;
+    }
+    .matching-join-div .team-container-div .member-card .member-info .member-name {
+        font-size: 1rem;
+        font-weight: normal;
+        text-align: center;
+    }
+    .matching-join-div .team-container-div .member-card .member-image {
+        width: 90%;
+        height: unset;
+        aspect-ratio: 1 / 1;
+        margin-top: 4%;
+        margin-left: 0;
+    }
+}

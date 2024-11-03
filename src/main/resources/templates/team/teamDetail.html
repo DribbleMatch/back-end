@@ -77,12 +77,18 @@
                         <div class="member-image-div">
                             <img class="member-image" th:src="@{/api/image(imagePath=${user.imagePath})}" alt="팀원 이미지">
                         </div>
-                        <div class="member-name" th:text="${user.nickName}">팀원 이름</div>
-                        <div class="member-gender" th:text="${user.gender == 'FEMALE' ? '여' : '남'}">성별</div>
-                        <div class="member-level" th:text="${'Lv. ' + user.level}">레벨</div>
-                        <div class="member-level-percent">
-                            <div class="percent-bar" th:style="'width: ' + ${user.experiencePercent} + '%'"></div>
-                            <span th:text="${user.experiencePercent} + '%'"></span>
+                        <div class="member-detail">
+                            <div class="member-detail-info">
+                                <div class="member-name" th:text="${user.nickName}">팀원 이름</div>
+                                <div class="member-gender" th:text="${user.gender == 'FEMALE' ? '(여)' : '(남)'}">성별</div>
+                            </div>
+                            <div class="member-level-info">
+                                <div class="member-level" th:text="${'Lv. ' + user.level}">레벨</div>
+                                <div class="member-level-percent">
+                                    <div class="percent-bar" th:style="'width: ' + ${user.experiencePercent} + '%'"></div>
+                                    <span th:text="${user.experiencePercent} + '%'"></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,17 +103,21 @@
                     <button class="close-popup" onclick="closeRequestListPop()">X</button>
                 </div>
                 <div class="popup-body">
-                    <ul id="request-list">
+                    <ul id="request-list" class="request-list">
                         <li th:each="teamApplication : ${teamApplicationList}" class="request-item">
                             <div class="simple-info">
                                 <input type="hidden" id="team-application-id" th:value="${teamApplication.id}"/>
                                 <span class="name" th:text="${teamApplication.nickName}"></span>
-                                <span class="positions" th:text="${teamApplication.positionString}">PG, SG, PF, SF, C</span>
-                                <span class="level" th:text="${teamApplication.level}">Lv.3</span>
-                                <span class="down-arrow" onclick="toggleIntroduce(this)"></span>
-                                <span class="down-arrow-text">소개보기</span>
-                                <button class="approve-btn" onclick="approvalTeamApplication()">승인</button>
-                                <button class="deny-btn" onclick="refuseTeamApplication()">거절</button>
+                                <div class="info-div">
+                                    <span class="positions" th:text="${teamApplication.positionString}">PG, SG, PF, SF, C</span>
+                                    <span class="level" th:text="${teamApplication.level}">Lv.3</span>
+                                    <span class="down-arrow" onclick="toggleIntroduce(this)"></span>
+                                    <span class="down-arrow-text">소개보기</span>
+                                </div>
+                                <div class="approve-btn-div">
+                                    <button class="approve-btn" onclick="approvalTeamApplication()">승인</button>
+                                    <button class="deny-btn" onclick="refuseTeamApplication()">거절</button>
+                                </div>
                             </div>
                             <textarea class="introduce" th:text="${teamApplication.introduce}" style="display: none;" disabled></textarea>
                         </li>

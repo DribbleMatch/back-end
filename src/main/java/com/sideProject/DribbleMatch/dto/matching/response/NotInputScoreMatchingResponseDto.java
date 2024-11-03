@@ -31,6 +31,9 @@ public class NotInputScoreMatchingResponseDto {
         if (teamNameList.size() == 2) {
             this.upTeamName = teamNameList.get(0);
             this.downTeamName = teamNameList.get(1);
+        } else if (teamNameList.size() == 1) {
+            this.upTeamName = teamNameList.get(0);
+            this.downTeamName = "모집중";
         } else if (teamNameList.isEmpty()) {
             this.upTeamName = "A팀";
             this.downTeamName = "B팀";

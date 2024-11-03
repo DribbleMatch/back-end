@@ -14,7 +14,7 @@ public class ImageController {
     private final FileUtil fileUtil;
 
     @GetMapping
-    public ResponseEntity<Resource> getImage(@RequestParam String imagePath) {
+    public ResponseEntity<Resource> getImage(@RequestParam(name = "imagePath") String imagePath) {
         return fileUtil.getImage(imagePath);
     }
 }

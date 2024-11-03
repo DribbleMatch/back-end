@@ -112,3 +112,52 @@ section .signup-container .red-point {
     margin-left: 1rem;
     display: none;
 }
+
+@media (max-width: 767px) {
+    section .signup-container {
+        padding: 0;
+        margin-top: -3rem;
+        width: 100%;
+    }
+    section .signup-container form {
+        margin-top: 0;
+        width: 100%;
+    }
+
+    section .signup-container label {
+        width: 100%;
+    }
+
+    section .signup-container .label-container {
+        margin-top: 0;
+        margin-bottom: 0.3rem;
+        flex-direction: column;
+    }
+    section .signup-container input[type="text"], section .signup-container input[type="email"], section .signup-container input[type="password"] {
+        width: 90%;
+        height: 1rem;
+        font-size: 0.8rem;
+    }
+    section .signup-container .info-container {
+        text-align: center;
+    }
+    section .signup-container .info-container .inner-btn, section .signup-container .info-container-hide .inner-btn {
+        position: absolute;
+        right: 4%;
+        top: 13%;
+        font-size: 0.9rem;
+        padding: 0;
+        width: 4.5rem;
+        height: 1.5rem;
+        border-radius: 1rem;
+    }
+    section .signup-container .info-container-hide .timer {
+        right: 9%;
+        top: -32%;
+    }
+    .signup-container .label-container .fault-message {
+        margin-left: 0;
+        width: 100%;
+        font-size: 0.85rem;
+    }
+}

@@ -88,3 +88,43 @@
 .menu-left-item:hover, .menu-right-item:hover {
     background-color: #e3e3e3;
 }
+
+@media (max-width: 767px) {
+    .title h2 {
+        font-size: 1.7rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .user-details-container {
+        padding: 0;
+        width: 100%;
+    }
+    .image-div {
+        width: 10rem;
+        height: 10rem;
+    }
+    .user-header {
+        flex-direction: column;
+    }
+    .user-header-right {
+        text-align: left;
+        width: 100%;
+    }
+
+    .menu-title {
+        font-size: 1.2rem;
+        margin-bottom: 0;
+        margin-top: 1rem;
+    }
+
+    .menu-left-item, .menu-right-item {
+        width: 50%;
+        height: 3rem;
+        text-align: center;
+        align-content: center;
+        cursor: pointer;
+        font-size: 0.8rem;
+    }
+
+}
