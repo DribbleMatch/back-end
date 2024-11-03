@@ -181,7 +181,7 @@ public class MatchingServiceImpl implements MatchingService{
         List<EndedMatchingResponseDto> responseList = matchingPage.stream()
                 .map(matching -> EndedMatchingResponseDto.builder()
                         .id(matching.getId())
-                        .scoreString("50 : 100") //todo: 점수 처리하기
+                        .scoreString(matching.getUpTeamScore() + " : " + matching.getDownTeamScore()) //todo: 점수 처리하기
                         .teamNameList(teamMatchJoinRepository.findTeamNameListByMatching(matching))
                         .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth())
                         .time(matching.getStartAt().toLocalTime() + " ~ " + matching.getStartAt().toLocalTime().plusHours(matching.getHour()))

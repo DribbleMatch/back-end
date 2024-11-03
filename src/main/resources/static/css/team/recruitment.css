@@ -62,7 +62,7 @@
 .recruitment-info {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: 70%;
     gap: 1.5rem;
 }
 .recruitment-title {
@@ -111,13 +111,19 @@
 .team-apply-button:hover {
     background-color: #888888;
 }
+.down-info {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .position-div {
     font-size: 1.3rem;
     font-weight: bold;
-    width: 20%;
+    width: 40%;
 }
 .date-info {
-    width: 15%;
+    width: 35%;
     margin-left: 5%;
 }
 
@@ -200,4 +206,81 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.up-info {
+    height: 100%;
+    display: flex;
+    width: 35%;
+    gap: 1rem;
+}
+@media (max-width: 767px) {
+    .recruitment-list-div {
+        margin-top: 4rem;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .recruitment-list-header .search-bar {
+        width: 85%;
+        font-size: 0.65rem;
+    }
+    .recruitment-card {
+        width: 95%;
+        height: 10rem;
+        padding: 0.3rem;
+        flex-direction: column;
+        gap: 0.2rem;
+    }
+    .team-image-div {
+        height: 5rem;
+        width: 5rem;
+    }
+    .recruitment-info {
+        width: 70%;
+    }
+    .up-info {
+        width: 100%;
+        gap: 0.4rem;
+        height: 5rem;
+        padding-bottom: 0.2rem;
+        border-bottom: #e8e8e8 solid 0.1rem;
+    }
+    .recruitment-title {
+        font-size: 1rem;
+        font-weight: normal;
+    }
+    .team-name {
+        font-size: 1.1rem;
+        font-weight: normal;
+    }
+    .position-div {
+        font-size: 1rem;
+        font-weight: normal;
+        width: 35%;
+        overflow-wrap: break-word;
+    }
+    .down-info {
+        width: 100%;
+        height: 3rem;
+    }
+    .date-info {
+        width: 55%;
+        margin-left: 0;
+    }
+    .btn-div {
+        flex-direction: row;
+    }
+
+    .popup-header h2 {
+        font-size: 1.2rem;
+    }
+    .popup-content {
+        padding: 1rem;
+    }
+    .popup-body textarea {
+        padding: 0.6rem;
+        width: 90%;
+    }
 }

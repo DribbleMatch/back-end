@@ -34,25 +34,27 @@
                     <div class="sub-title">
                         경기 참여 인원
                     </div>
-                    <div class="radio-div">
-                        <input type="radio" id="1v1" name="member-num" value="1">
-                        <label for="1v1">1 VS 1</label>
-                    </div>
-                    <div class="radio-div">
-                        <input type="radio" id="2v2" name="member-num" value="2">
-                        <label for="2v2">2 VS 2</label>
-                    </div>
-                    <div class="radio-div">
-                        <input type="radio" id="3v3" name="member-num" value="3">
-                        <label for="3v3">3 VS 3</label>
-                    </div>
-                    <div class="radio-div">
-                        <input type="radio" id="4v4" name="member-num" value="4">
-                        <label for="4v4">4 VS 4</label>
-                    </div>
-                    <div class="radio-div">
-                        <input type="radio" id="5v5" name="member-num" value="5" checked>
-                        <label for="5v5">5 VS 5</label>
+                    <div class="radios-div">
+                        <div class="radio-div">
+                            <input type="radio" id="1v1" name="member-num" value="1">
+                            <label for="1v1">1 VS 1</label>
+                        </div>
+                        <div class="radio-div">
+                            <input type="radio" id="2v2" name="member-num" value="2">
+                            <label for="2v2">2 VS 2</label>
+                        </div>
+                        <div class="radio-div">
+                            <input type="radio" id="3v3" name="member-num" value="3">
+                            <label for="3v3">3 VS 3</label>
+                        </div>
+                        <div class="radio-div">
+                            <input type="radio" id="4v4" name="member-num" value="4">
+                            <label for="4v4">4 VS 4</label>
+                        </div>
+                        <div class="radio-div">
+                            <input type="radio" id="5v5" name="member-num" value="5" checked>
+                            <label for="5v5">5 VS 5</label>
+                        </div>
                     </div>
                 </div>
                 <div class="member-max-num-div" id="member-max-num">
@@ -97,13 +99,15 @@
                     <div class="sub-title">
                         경기 종류
                     </div>
-                    <div class="radio-div">
-                        <input type="radio" id="team" name="game-kind" value="TEAM" checked onclick="toggleTeamSelect(this)">
-                        <label for="team">팀 경기</label>
-                    </div>
-                    <div class="radio-div">
-                        <input type="radio" id="personal" name="game-kind" value="PERSONAL" onclick="toggleTeamSelect(this)">
-                        <label for="2v2">개인 경기</label>
+                    <div class="game-kind-radios-div">
+                        <div class="radio-div">
+                            <input type="radio" id="team" name="game-kind" value="TEAM" checked onclick="toggleTeamSelect(this)">
+                            <label for="team">팀 경기</label>
+                        </div>
+                        <div class="radio-div">
+                            <input type="radio" id="personal" name="game-kind" value="PERSONAL" onclick="toggleTeamSelect(this)">
+                            <label for="2v2">개인 경기</label>
+                        </div>
                     </div>
                     <div class="team-name-list" id="team-list">
                         <label for="team-select">경기 참여 팀 선택</label>
@@ -166,7 +170,9 @@
                     </div>
                 </div>
             </div>
-            <button type="button" class="submit-btn" onclick="createMatching()">경기 생성</button>
+            <div class="submit-btn-div">
+                <button type="button" class="submit-btn" onclick="createMatching()">경기 생성</button>
+            </div>
         </form>
     </section>
 </div>

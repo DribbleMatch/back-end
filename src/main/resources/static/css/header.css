@@ -66,19 +66,20 @@ header .down-header .menu-icon{
 @media (max-width: 767px) {
     header .up_header {
         justify-content: space-between;
+        width: 100%;
     }
     header .down-header {
         display: none; !important;
     }
     header .up_header .logo {
-        width: 13rem;
-        height: 4rem;
+        width: 11rem;
+        height: 3.5rem;
     }
     header .up_header .searchBox {
         display: none;
     }
     header .up_header .userInfo-icon {
-        margin-left: 2rem;
+        margin-left: auto;
         margin-right: 0;
         width: 2.7rem;
     }

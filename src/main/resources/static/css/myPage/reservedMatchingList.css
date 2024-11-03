@@ -118,3 +118,52 @@
     margin-top: -0.75rem;
     margin-left: -0.5rem;
 }
+
+@media (max-width: 767px) {
+    .team-kind-select-div {
+        width: 100%;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        height: 2rem;
+    }
+    .team-kind-select {
+        height: 1rem;
+    }
+
+    .matching-list-div {
+        width: 100%;
+    }
+    .matching-card {
+        width: 93%;
+        height: 13rem;
+        flex-direction: column;
+        padding: 0.5rem;
+    }
+    .score-info {
+        font-size: 2rem;
+    }
+    .team-info {
+        width: 100%;
+        font-size: 1rem;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .team-name {
+        font-size: 1.3rem;
+        width: 40%;
+        text-align: center;
+    }
+    .matching-info-div {
+        width: 100%;
+        gap: 0.2rem;
+    }
+    .matching-info {
+        font-size: 1.1rem;
+        text-align: left;
+    }
+    .matching-join-div {
+        display: none;
+    }
+
+}
