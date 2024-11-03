@@ -31,6 +31,7 @@
     height: 100%;
     background-color: black;
     opacity: 50%;
+    z-index: 10;
 }
 
 .left-menu-header {
@@ -114,3 +115,40 @@
     background-color: #888888;
 }
 
+@media (max-width: 767px) {
+    .left-menu {
+        width: 16rem;
+        right: 0;
+        overflow-x: hidden;
+        left: unset;
+    }
+
+    .left-menu-header {
+        height: 2rem;
+    }
+    .left-menu-header .header-login-btn {
+        margin-left: 1rem;
+        width: 4rem;
+    }
+    .left-menu-header .menu-icon {
+        width: 2rem;
+        margin-right: 1rem;
+        cursor: pointer;
+    }
+
+    .one-left-menu .menu-big-title {
+        margin-top: 1rem;
+        font-size: 1.2rem;
+        font-weight: normal;
+    }
+    .one-left-menu .small-menu {
+        height: 1.4rem;
+        font-size: 0.9rem;
+    }
+
+    .left-menu-header .nickname {
+        font-size: 1.2rem;
+        width: 35%;
+        padding: 0;
+    }
+}

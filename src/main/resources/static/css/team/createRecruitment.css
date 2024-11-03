@@ -70,3 +70,37 @@ section .signup-container .info-container .checkbox-container {
     margin-bottom: 3rem;
     margin-left: 2rem;
 }
+
+
+@media (max-width: 767px) {
+    .title h2 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    section .signup-container {
+        width: 100%;
+        padding: 0;
+    }
+    section .signup-container form {
+        width: 100%;
+    }
+    section .signup-container .info-container input[type="text"],
+    section .signup-container .info-container input[type="number"],
+    section .signup-container .info-container textarea {
+        width: 90%;
+    }
+
+    section .signup-container .info-container .checkbox-container {
+        flex-direction: column;
+        flex-wrap: wrap;
+        height: 5rem;
+    }
+    .info-container .datetime-div input[type="date"] {
+        width: 90%;
+        margin-left: 0;
+    }
+    .date-select label {
+        margin-left: 0.5rem;
+    }
+}
