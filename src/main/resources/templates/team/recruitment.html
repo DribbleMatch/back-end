@@ -21,17 +21,21 @@
                     <div th:each="recruitment : ${recruitmentList}" class="recruitment-card">
                         <input type="hidden" id="team-id" th:value="${recruitment.teamId}"/>
                         <input type="hidden" id="recruitment-content" th:value="${recruitment.content}"/>
-                        <div class="team-image-div">
-                            <img class="team-image" th:src="@{/api/image(imagePath=${recruitment.teamImagePath})}" alt="팀 이미지">
+                        <div class="up-info">
+                            <div class="team-image-div">
+                                <img class="team-image" th:src="@{/api/image(imagePath=${recruitment.teamImagePath})}" alt="팀 이미지">
+                            </div>
+                            <div class="recruitment-info">
+                                <div class="recruitment-title" id="recruitment-title" th:text="${recruitment.title}"></div>
+                                <div class="team-name" th:text="${recruitment.teamName}">팀 이름</div>
+                            </div>
                         </div>
-                        <div class="recruitment-info">
-                            <div class="recruitment-title" id="recruitment-title" th:text="${recruitment.title}"></div>
-                            <div class="team-name" th:text="${recruitment.teamName}">팀 이름</div>
-                        </div>
-                        <div class="position-div" th:text="${recruitment.positionString}"></div>
-                        <div class="date-info">
-                            <div class="start-date" th:text="${recruitment.createdAt}">2024 / 12/ 12</div>
-                            <div class="expire-date" th:text="'~ ' + ${recruitment.endAt}">~ 2024 / 12 / 13</div>
+                        <div class="down-info">
+                            <div class="position-div" th:text="${recruitment.positionString}"></div>
+                            <div class="date-info">
+                                <div class="start-date" th:text="${recruitment.createdAt}">2024 / 12/ 12</div>
+                                <div class="expire-date" th:text="'~ ' + ${recruitment.endAt}">~ 2024 / 12 / 13</div>
+                            </div>
                         </div>
                         <div class="btn-div">
                             <button class="team-info-button" onclick="openContentPopup(this)">상세 요강</button>

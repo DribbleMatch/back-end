@@ -183,3 +183,90 @@
     margin-top: -0.75rem;
     margin-left: -0.5rem;
 }
+
+@media (max-width: 767px) {
+    .title h2 {
+        font-size: 1.7rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    .date-select {
+        gap: 0.3rem;
+    }
+    .before-date {
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-top: 0.55rem;
+    }
+    .next-date {
+        width: 0.5rem;
+        height: 0.5rem;
+        margin-bottom: 0.6rem;
+    }
+    .matching-date-select {
+        border: none;
+        font-size: 1.2rem;
+        width: 12rem;
+    }
+
+    .matching-list-div {
+        margin-top: 2rem;
+        width: 100%;
+    }
+    .matching-list-header {
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .create-matching-btn {
+        width: 4rem;
+        height: 1.5rem;
+        font-weight: normal;
+        font-size: 0.7rem;
+    }
+    .matching-list-header .search-bar {
+        width: 60%;
+    }
+
+    .matching-card {
+        width: 97%;
+        padding: 0.2rem;
+        gap: 0;
+        flex-direction: column;
+        height: 8rem;
+    }
+    .matching-time {
+        width: 100%;
+        font-size: 1.5rem;
+        color: #646464;
+        text-align: center;
+    }
+    .matching-time h1{
+        margin: 0;
+    }
+    .matching-name {
+        font-size: 1.1rem;
+    }
+    .is-only-women {
+        height: 1rem;
+        font-size: 0.7rem;
+        font-weight: normal;
+        padding: 0.1rem 0.3rem 0;
+    }
+    .matching-info {
+        width: 100%;
+        flex-grow: 0;
+    }
+    .matching-kind {
+        font-size: 0.8rem;
+    }
+    .matching-region {
+        font-size: 0.8rem;
+    }
+    .hour-div {
+        font-size: 1.4rem;
+        width: 100%;
+    }
+    .join-info-div {
+        display: none;
+    }
+}

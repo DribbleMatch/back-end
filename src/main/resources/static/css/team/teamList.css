@@ -225,3 +225,74 @@
     border-radius: 5px;
     cursor: pointer;
 }
+.team-button-div-mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .team-list-header {
+        flex-wrap: wrap;
+        margin-left: 0;
+    }
+    .team-list-div {
+        width: 100%;
+        margin-top: 1rem;
+    }
+    .team-list-header .search-bar {
+        width: 100%;
+    }
+    .my-team-btn, .recruitment-btn, .create-team-btn {
+        width: 5rem;
+        height: 2rem;
+        font-weight: normal;
+        display: none;
+    }
+    .team-button-div-mobile {
+        display: flex;
+        margin-bottom: 1rem;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .team-button-mobile {
+        width: 5.2rem;
+        height: 1.4rem;
+        border: none;
+        border-radius: 1rem;
+        background-color: #f38c48;
+        color: #dddddd;
+        font-size: 0.7rem;
+        padding: 0.1rem;
+    }
+    .team-button-mobile:hover {
+        background-color: #d26218;
+    }
+
+    .team-card {
+        width: 96%;
+        padding: 0.2rem;
+        gap: 0.5rem;
+    }
+    .team-info {
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-right: 0;
+    }
+    .team-name {
+        font-weight: normal;
+        margin: 0;
+        text-align: left;
+    }
+    .team-region {
+        font-size: 0.7rem;
+        max-width: 100%;
+        margin: 0;
+        text-align: left;
+    }
+
+    .team-stats {
+        display: none;
+    }
+    .btn-div {
+        display: none;
+    }
+}
