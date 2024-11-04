@@ -128,7 +128,8 @@
     }
     .left-menu-header .header-login-btn {
         margin-left: 1rem;
-        width: 4rem;
+        width: 8rem;
+        color: black;
     }
     .left-menu-header .menu-icon {
         width: 2rem;
@@ -150,5 +151,10 @@
         font-size: 1.2rem;
         width: 35%;
         padding: 0;
+        margin-left: 0.3rem;
+    }
+    .left-menu-header .logout-btn {
+        width: 6.5rem;
+        color: black;
     }
 }
