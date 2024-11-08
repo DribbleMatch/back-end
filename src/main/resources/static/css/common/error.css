@@ -22,7 +22,6 @@
     align-content: center;
     width: 50%;
     font-size: 2rem;
-    font-weight: bold;
     margin-left: 2rem;
 }
 
@@ -56,7 +55,6 @@
     .error-title {
         width: 70%;
         font-size: 1.4rem;
-        font-weight: normal;
         margin-left: 1rem;
         margin-bottom: 2rem;
     }

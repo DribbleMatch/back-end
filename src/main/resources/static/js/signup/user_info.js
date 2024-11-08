@@ -15,9 +15,6 @@ function check_nickname_exist() {
     $.ajax({
         url: '/api/signup/checkNickName',
         type: 'POST',
-            // headers: {
-            //     'Authorization': 'Bearer ' + 'asdf'
-            // },
         data: { nickName: nickname},
         success: function (response) {
             if (response) {

@@ -26,7 +26,6 @@
     border-radius: 1rem;
     background-color: #f38c48;
     color: #dddddd;
-    font-weight: bold;
 }
 .my-team-btn:hover {
     background-color: #f8802d;
@@ -37,7 +36,6 @@
     border-radius: 1rem;
     background-color: #f38c48;
     color: #dddddd;
-    font-weight: bold;
 }
 .recruitment-btn:hover {
     background-color: #f8802d;
@@ -48,7 +46,6 @@
     border-radius: 1rem;
     background-color: #f38c48;
     color: #dddddd;
-    font-weight: bold;
 }
 .create-team-btn:hover {
     background-color: #f8802d;
@@ -105,9 +102,9 @@
 
 .team-name {
     font-size: 1.3rem;
-    font-weight: bold;
     max-width: 50%;
     overflow-wrap: break-word;
+    cursor: pointer;
 }
 .team-region {
     font-size: 1rem;
@@ -136,7 +133,6 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-weight: bold;
 }
 .team-info-button:hover {
     background-color: #888888;
@@ -149,7 +145,6 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-weight: bold;
 }
 .team-apply-button:hover {
     background-color: #888888;
@@ -244,7 +239,6 @@
     .my-team-btn, .recruitment-btn, .create-team-btn {
         width: 5rem;
         height: 2rem;
-        font-weight: normal;
         display: none;
     }
     .team-button-div-mobile {
@@ -278,7 +272,6 @@
         margin-right: 0;
     }
     .team-name {
-        font-weight: normal;
         margin: 0;
         text-align: left;
     }

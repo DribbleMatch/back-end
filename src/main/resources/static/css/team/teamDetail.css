@@ -64,7 +64,6 @@
 }
 .team-stat p {
     font-size: 1.5rem;
-    font-weight: bold;
     color: #f38c48;
     margin: 0;
 }
@@ -100,7 +99,6 @@
 }
 .tag {
     font-size: 1rem;
-    font-weight: bold;
     color: #606060;
     border-radius: 0.3rem;
     border: 0.15rem solid #606060;
@@ -219,19 +217,16 @@
     transition: height 0.3s ease;
 }
 .name {
-    font-weight: bold;
     margin-right: 10%;
     width: 15%;
     overflow-wrap: break-word;
 }
 .positions {
-    font-weight: bold;
     margin-right: 10%;
     width: 15%;
     align-content: center;
 }
 .level {
-    font-weight: bold;
     width: 5%;
     align-content: center;
 }
@@ -356,7 +351,6 @@
     .team-info h2 {
         font-size: 1.4rem;
         margin-bottom: 1rem;
-        font-weight: normal;
     }
     .team-description textarea {
         width: 90%;

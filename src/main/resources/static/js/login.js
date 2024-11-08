@@ -39,7 +39,3 @@ function user_login() {
         }
     })
 }
-
-function goToJoinPage() {
-    location.href = "/page/signup/agree";
-}

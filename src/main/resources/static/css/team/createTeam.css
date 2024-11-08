@@ -16,13 +16,11 @@ section .signup-container .label-container {
     width: 100%;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    font-weight: bold;
     margin-left: 1rem;
     display: flex;
 }
 section .signup-container .label-container .fault-message {
     color: red;
-    font-weight: normal;
     margin-left: 1rem;
     display: none;
 }
@@ -151,7 +149,6 @@ section .signup-container .tag-container .select-tag-div{
 }
 section .signup-container .select-tag-div .selected-tag {
     font-size: 1rem;
-    font-weight: bold;
     color: #606060;
     border-radius: 0.3rem;
     border: 0.15rem solid #606060;
@@ -168,7 +165,6 @@ section .signup-container .tag-container .tag-list{
 }
 section .signup-container .tag-container .tag{
     font-size: 1rem;
-    font-weight: bold;
     color: #606060;
     border-radius: 0.3rem;
     border: 0.15rem solid #606060;
@@ -182,7 +178,6 @@ section .signup-container .select-tag-div .remove-tag {
     cursor: pointer;
     margin-left: 0.5rem;
     color: #000000;
-    font-weight: bold;
 }
 section .signup-container .tag-list .disabled-tag {
     pointer-events: none;
@@ -228,7 +223,6 @@ section .signup-container .tag-list .disabled-tag {
     }
 
     section .signup-container .label-container {
-        font-weight: normal;
         font-size: 0.95rem;
     }
 

@@ -32,14 +32,6 @@ function showMyTeam() {
     })
 }
 
-function goToRecruitment() {
-    location.href = "/page/recruitment";
-}
-
-function goCreateTeamPage() {
-    location.href = "/page/team/createTeam";
-}
-
 function viewTeamDetail(id) {
     location.href = "/page/team/teamDetail/" + id;
 }
