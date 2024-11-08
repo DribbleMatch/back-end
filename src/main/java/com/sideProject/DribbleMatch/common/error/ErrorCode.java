@@ -47,6 +47,7 @@ public enum ErrorCode {
     NOT_UNIQUE_NICKNAME(400, "1104", "닉네임이 이미 존재합니다."),
     NOT_CORRECT_AUTH_CODE(400, "1105", "인증번호가 틀립니다."),
     FAIL_SEND_AUTH_MESSAGE(400, "1106", "사용자 인증 번호 전송에 실패하였습니다."),
+    SAME_PASSWORD_RESET(400, "1106", "이전 비밀번호와 동일합니다."),
     NOT_FOUND_EMAIL(404, "1300", "해당 이메일이 존재하지 않습니다."),
     NOT_FOUND_USER(404, "1301", "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_NICKNAME(404, "1302", "해당 닉네임이 존재하지 않습니다."),

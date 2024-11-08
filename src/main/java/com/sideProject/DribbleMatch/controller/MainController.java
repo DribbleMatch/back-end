@@ -36,12 +36,6 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(ModelMap model) {
-
-        return "login/login";
-    }
-
     @GetMapping("/openLater")
     public String openLater(ModelMap model) {
 

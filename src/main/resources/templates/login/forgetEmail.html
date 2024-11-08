@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/login/findInfo.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="login-container">
+            <h2>이메일 찾기</h2>
+            <form action="/page/login/findEmail" method="post" onsubmit="return checkFindEmailInput()">
+                <div class="input-div">
+                    <input type="text" id="birth" name="birth" placeholder="생년월일 (YYYYMMDD)">
+                    <input type="text" id="phone-num" name="phoneNum" placeholder="전화번호">
+                </div>
+                <div class="btn-div">
+                    <button type="submit" class="login-btn">이메일 찾기</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+</html>
