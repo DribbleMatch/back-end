@@ -54,7 +54,6 @@
     border-radius: 1rem;
     background-color: #f38c48;
     color: #dddddd;
-    font-weight: bold;
 }
 .create-matching-btn:hover {
     background-color: #f8802d;
@@ -114,7 +113,6 @@
     font-size: 0.8rem;
     border-radius: 1rem;
     background-color: #bb63cc;
-    font-weight: bold;
     color: #ffffff;
     padding: 0.1rem 0.5rem 0;
 }
@@ -220,7 +218,6 @@
     .create-matching-btn {
         width: 4rem;
         height: 1.5rem;
-        font-weight: normal;
         font-size: 0.7rem;
     }
     .matching-list-header .search-bar {
@@ -249,7 +246,6 @@
     .is-only-women {
         height: 1rem;
         font-size: 0.7rem;
-        font-weight: normal;
         padding: 0.1rem 0.3rem 0;
     }
     .matching-info {

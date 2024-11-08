@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.controller.user.restController;
 
 import com.sideProject.DribbleMatch.common.response.ApiResponse;
+import com.sideProject.DribbleMatch.dto.user.request.ChangePasswordRequestDto;
 import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
 import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
 import com.sideProject.DribbleMatch.service.auth.AuthService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,5 +48,11 @@ public class LoginRestController {
         }
 
         return ApiResponse.ok("");
+    }
+
+    @PostMapping("/changePassword")
+    public ApiResponse<String> changePassword(@RequestBody ChangePasswordRequestDto requestDto) {
+        userService.changePassword(requestDto);
+        return ApiResponse.ok("비밀번호 변경 완료");
     }
 }

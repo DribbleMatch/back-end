@@ -110,4 +110,8 @@ public class User extends BaseEntity {
         this.skill = skill;
         this.experience = experience;
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }
