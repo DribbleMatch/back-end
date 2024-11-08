@@ -11,7 +11,6 @@
 
 .label-container {
     display: flex;
-    font-weight: bold;
 }
 .label-container .label-explain {
     display: flex;
@@ -55,7 +54,6 @@
     justify-content: center;
     margin-top: 0.5rem;
     margin-left: 3rem;
-    font-weight: bold;
 }
 .info-container .member-num-div .radio-div input[type="radio"]{
     display: flex;
@@ -149,7 +147,6 @@
 }
 .info-container .stadium-info label {
     margin-top: 0.5rem;
-    font-weight: bold;
     width: 15%;
 }
 .info-container .stadium-info input[type="text"] {
@@ -180,7 +177,6 @@
 }
 .info-container .region-info .sub-title {
     margin-top: 0.3rem;
-    font-weight: bold;
     margin-right: 5rem;
 }
 .info-container .region-info .region-select-div {
@@ -206,7 +202,6 @@
     height: 3rem;
     background-color: #ffb07a;
     font-size: 1rem;
-    font-weight: bold;
 }
 .submit-btn:hover {
     background-color: #ff8a38;
@@ -238,7 +233,6 @@
     align-items: center;
     justify-content: center;
     margin-left: 3rem;
-    font-weight: bold;
 }
 .info-container .matching-option-div .radio-div input[type="radio"]{
     display: flex;
@@ -293,7 +287,6 @@
         width: 100%;
     }
     .label-container {
-        font-weight: normal;
         flex-direction: column;
     }
     .info-container .matching-name {
@@ -320,7 +313,6 @@
     .info-container .member-num-div .sub-title, .info-container .member-max-num-div .sub-title {
         margin-top: 1rem;
         margin-left: 0;
-        font-weight: normal;
         opacity: 70%;
     }
     .radios-div {
@@ -357,7 +349,6 @@
     }
     .info-container .matching-option-div .sub-title {
         margin-left: 0;
-        font-weight: normal;
     }
     .game-kind-radios-div {
         margin-bottom: 1rem;
@@ -406,7 +397,6 @@
         align-items: center;
     }
     .info-container .stadium-info label {
-        font-weight: normal;
         width: 100%;
         margin-bottom: 1rem;
     }
@@ -424,7 +414,6 @@
     }
     .info-container .region-info .sub-title {
         margin-top: 0;
-        font-weight: normal;
         margin-right: 0;
     }
     .info-container .region-info {

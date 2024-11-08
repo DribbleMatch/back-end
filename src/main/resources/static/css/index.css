@@ -48,7 +48,7 @@
     height: 5rem;
     border: 0.1rem solid #ddd;
     border-radius: 8px;
-    padding: 15px;
+    padding: 0.7rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -89,7 +89,6 @@
     font-size: 0.8rem;
     border-radius: 1rem;
     background-color: #bb63cc;
-    font-weight: bold;
     color: #ffffff;
     padding: 0.1rem 0.5rem 0;
 }
@@ -187,7 +186,6 @@
 }
 .content-title {
     font-size: 1.3rem;
-    font-weight: bold;
     text-align: center;
     align-content: center;
     margin: 0;
@@ -253,7 +251,6 @@
 .time-string {
     width: 30%;
     font-size: 1.2rem;
-    font-weight: bold;
 }
 .time-matching-name {
     width: 60%;
@@ -282,13 +279,11 @@
     }
     .content-title {
         font-size: 1rem;
-        font-weight: normal;
         height: 100%;
     }
     .time-string {
         width: 30%;
         font-size: 0.7rem;
-        font-weight: bold;
     }
     .more-info {
         font-size: 1.5rem;
@@ -329,7 +324,6 @@
     .create-matching-btn {
         width: 4rem;
         height: 1.5rem;
-        font-weight: normal;
         font-size: 0.7rem;
     }
     .matching-list-header .search-bar {
@@ -358,7 +352,6 @@
     .is-only-women {
         height: 1rem;
         font-size: 0.7rem;
-        font-weight: normal;
         padding: 0.1rem 0.3rem 0;
     }
     .matching-info {

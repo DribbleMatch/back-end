@@ -115,10 +115,6 @@ function hideMemberNum(upDown) {
     }
 }
 
-function goToCreateMatching() {
-    location.href = "/page/matching/createMatching";
-}
-
 function goMatchingDetail(matchingId) {
     location.href = "/page/matching/matchingDetail/" + matchingId;
 }
