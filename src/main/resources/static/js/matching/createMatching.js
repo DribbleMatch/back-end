@@ -126,7 +126,7 @@ function createMatching() {
     }
 
     $.ajax({
-        url: '/api/matching/createMatching',
+        url: '/api/matching/create',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(formData),

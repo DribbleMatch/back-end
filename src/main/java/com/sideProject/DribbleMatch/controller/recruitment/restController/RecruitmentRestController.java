@@ -16,7 +16,7 @@ public class RecruitmentRestController {
 
     private final RecruitmentService recruitmentService;
 
-    @PostMapping("/createRecruitment")
+    @PostMapping("/create")
     public ApiResponse<Long> createRecruitment(@RequestBody RecruitmentCreateRequestDto requestDto) {
         return ApiResponse.ok(recruitmentService.createRecruitment(requestDto));
     }

@@ -116,5 +116,5 @@ function hideMemberNum(upDown) {
 }
 
 function goMatchingDetail(matchingId) {
-    location.href = "/page/matching/matchingDetail/" + matchingId;
+    location.href = "/page/matching/detail/" + matchingId;
 }

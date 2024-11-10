@@ -22,8 +22,8 @@ public class TeamMatchJoinRestController {
 
     @PostMapping
     public ApiResponse<Long> joinTeamMatch(Principal principal,
-                              @RequestParam(name = "matchingId") Long matchingId,
-                              @RequestParam(name = "teamName") String teamName) {
+                                           @RequestParam(name = "matchingId") Long matchingId,
+                                           @RequestParam(name = "teamName") String teamName) {
 
         return ApiResponse.ok(matchingJoinService.joinTeamMatching(matchingId, Long.valueOf(principal.getName()), teamName));
     }

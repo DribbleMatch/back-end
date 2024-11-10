@@ -20,7 +20,7 @@ public class LogInController {
     private final RegionRepository regionRepository;
 
     @GetMapping
-    public String login(ModelMap model) {
+    public String login(Model model) {
 
         return "login/login";
     }
@@ -31,7 +31,8 @@ public class LogInController {
     }
 
     @PostMapping("/findEmail")
-    public String findEmailPage(Model model, FindInfoRequestDto requestDto) {
+    public String findEmailPage(Model model,
+                                FindInfoRequestDto requestDto) {
         model.addAttribute("emailList", userService.getEmailList(requestDto));
         return "login/findEmail";
     }
@@ -42,7 +43,8 @@ public class LogInController {
     }
 
     @PostMapping("/resetPassword")
-    public String resetPasswordPage(Model model, FindInfoRequestDto requestDto) {
+    public String resetPasswordPage(Model model,
+                                    FindInfoRequestDto requestDto) {
         model.addAttribute("userId", userService.getUserId(requestDto.getEmail()));
         return "login/resetPassword";
     }

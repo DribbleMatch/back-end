@@ -20,8 +20,8 @@ public class PersonalMatchJoinRestController {
 
     @PostMapping
     public ApiResponse<Long> joinPersonalMatch(Principal principal,
-                                         @RequestParam(name = "matchingId") Long matchingId,
-                                         @RequestParam(name = "team") PersonalMatchingTeam personalMatchingTeam) {
+                                               @RequestParam(name = "matchingId") Long matchingId,
+                                               @RequestParam(name = "team") PersonalMatchingTeam personalMatchingTeam) {
 
         return ApiResponse.ok(personalMatchJoinService.createPersonalMatchJoin(matchingId, Long.valueOf(principal.getName()), personalMatchingTeam));
     }
