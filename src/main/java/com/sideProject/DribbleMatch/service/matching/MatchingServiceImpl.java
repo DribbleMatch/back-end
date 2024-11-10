@@ -92,128 +92,16 @@ public class MatchingServiceImpl implements MatchingService{
                 .upTeamScore(0)
                 .downTeamScore(0)
                 .creator(creator)
+                .upTeamName(requestDto.getGameKind() == GameKind.PERSONAL ? "A팀" : requestDto.getTeamName())
+                .downTeamName(requestDto.getGameKind() == GameKind.PERSONAL ? "B팀" : "(모집중)")
                 .build()).getId();
     }
 
     @Override
-    public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date) {
-        Page<Matching> matchingPage = matchingRepository.searchMatchingListByStartDateOrderByStartTime(searchWord, pageable, date);
-
-        List<MatchingResponseDto> responseList = matchingPage.stream()
-                .map(matching -> MatchingResponseDto.builder()
-                        .id(matching.getId())
-                        .startAt(matching.getStartAt().toLocalTime())
-                        .name(matching.getName())
-                        .isOnlyWomen(matching.getIsOnlyWomen())
-                        .gameKind(matching.getGameKind())
-                        .playMemberNum(matching.getPlayPeople())
-                        .maxMemberNum(matching.getMaxPeople())
-                        .regionString(regionRepository.findRegionStringById(matching.getRegion().getId()).orElseThrow(() ->
-                                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING)))
-                        .isReservedStadium(matching.getIsReserved())
-                        .hour(matching.getHour())
-                        .upTeamMemberNum(
-                                matching.getGameKind() == GameKind.TEAM ?
-                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingAndGroupByTeam(matching, 0) :
-                                        personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching, PersonalMatchingTeam.UP_TEAM).intValue()
-                        )
-                        .downTeamMemberNum(
-                                matching.getGameKind() == GameKind.TEAM ?
-                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingAndGroupByTeam(matching, 1) :
-                                        personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching, PersonalMatchingTeam.DOWN_TEAM).intValue()
-                        )
-                        .build())
-                .toList();
-
-        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
-    }
-
-    @Override
-    public MatchingDetailResponseDto getMatchingDetail(Long matchingId) {
-        Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
-                new CustomException(ErrorCode.NOT_FOUND_MATCHING));
-
-        LinkedHashMap<String, List<TeamMember>> teamInfo = teamMatchJoinRepository.findTeamInfoByMatchingId(matching.getId());
-
-        return createMatchingUserResponseDto(matching, teamInfo);
-    }
-
-    @Override
-    public Page<ReservedMatchingResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable) {
-
-        Page<Matching> matchingPage = Page.empty();
-
-        if (gameKind.equals(GameKind.TEAM)) {
-            matchingPage = matchingRepository.findTeamMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.RECRUITING);
-        } else if (gameKind.equals(GameKind.PERSONAL)) {
-            matchingPage = matchingRepository.findPersonalMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.RECRUITING);
-        }
-
-        List<ReservedMatchingResponseDto> responseList = matchingPage.stream()
-                .map(matching -> ReservedMatchingResponseDto.builder()
-                        .id(matching.getId())
-                        .teamInfo(matching.getGameKind() == GameKind.TEAM ?
-                                teamMatchJoinRepository.findTeamInfoByMatchingId(matching.getId()) : null)
-                        .userInfo(matching.getGameKind() == GameKind.PERSONAL ?
-                                personalMatchJoinRepository.findUserInfoByMatchingAndTeam(matching.getId()) : null)
-                        .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth())
-                        .time(matching.getStartAt().toLocalTime() + " ~ " + matching.getStartAt().toLocalTime().plusHours(matching.getHour()))
-                        .regionString(createMatchingRegionString(matching))
-                        .playMemberNum(matching.getPlayPeople() + " VS " + matching.getPlayPeople())
-                        .maxMemberNum(matching.getMaxPeople())
-                        .build()
-                ).collect(Collectors.toList());
-
-        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
-    }
-
-    @Override
-    public Page<EndedMatchingResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable) {
-
-        Page<Matching> matchingPage = Page.empty();
-
-        if (gameKind.equals(GameKind.TEAM)) {
-            matchingPage = matchingRepository.findTeamMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.FINISHED);
-        } else if (gameKind.equals(GameKind.PERSONAL)) {
-            matchingPage = matchingRepository.findPersonalMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.FINISHED);
-        }
-
-        List<EndedMatchingResponseDto> responseList = matchingPage.stream()
-                .map(matching -> EndedMatchingResponseDto.builder()
-                        .id(matching.getId())
-                        .scoreString(matching.getUpTeamScore() + " : " + matching.getDownTeamScore()) //todo: 점수 처리하기
-                        .teamNameList(teamMatchJoinRepository.findTeamNameListByMatching(matching))
-                        .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth())
-                        .time(matching.getStartAt().toLocalTime() + " ~ " + matching.getStartAt().toLocalTime().plusHours(matching.getHour()))
-                        .regionString(createMatchingRegionString(matching))
-                        .playMemberNum(matching.getPlayPeople() + " VS " + matching.getPlayPeople())
-                        .build()
-                ).collect(Collectors.toList());
-
-        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
-    }
-
-    @Override
-    public Boolean checkHasNotInputScore(Long userId) {
-
-        Long count = matchingRepository.countNoScorePersonalMatchingListByUserId(userId);
-
-        return count <= 0;
-    }
-
-    @Override
-    public List<NotInputScoreMatchingResponseDto> getNotInputScoreMatchingList(Long userId) {
-        List<Matching> matchingList = matchingRepository.findNotInputScoreMatchingList(userId);
-
-        return matchingList.stream()
-                .map(matching -> NotInputScoreMatchingResponseDto.builder()
-                        .id(matching.getId())
-                        .teamNameList(teamMatchJoinRepository.findTeamNameListByMatching(matching))
-                        .startAt(matching.getStartAt().getYear() + " / " + matching.getStartAt().getMonthValue() + " / " + matching.getStartAt().getDayOfMonth()
-                         + " (" + matching.getStartAt().getHour() + ":" + matching.getStartAt().getMinute() + ")")
-                        .regionString(createMatchingRegionString(matching))
-                        .build())
-                .collect(Collectors.toList());
+    @Transactional
+    public Long changeDownTeamName(Matching matching, String teamName) {
+        matching.joinTeamMatching(teamName);
+        return matchingRepository.save(matching).getId();
     }
 
     @Override
@@ -241,6 +129,29 @@ public class MatchingServiceImpl implements MatchingService{
     }
 
     @Override
+    public Boolean checkHasNotInputScore(Long userId) {
+
+        Long count = matchingRepository.countNoScorePersonalMatchingListByUserId(userId);
+
+        return count <= 0;
+    }
+
+    @Override
+    public List<MatchingSimpleResponseDto> getNotInputScoreMatchingList(Long userId) {
+        List<Matching> matchingList = matchingRepository.findNotInputScoreMatchingList(userId);
+
+        return matchingList.stream()
+                .map(matching -> MatchingSimpleResponseDto.builder()
+                        .id(matching.getId())
+                        .upTeamName(matching.getUpTeamName())
+                        .downTeamName(matching.getDownTeamName())
+                        .startAt(matching.getStartAt())
+                        .regionString(createMatchingRegionString(matching))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<RecentMatchingResponseDto> getRecentMatchingList() {
         return matchingRepository.findRecentMatchingOrderByRemainTime().stream()
                 .map(matching -> RecentMatchingResponseDto.builder()
@@ -250,6 +161,133 @@ public class MatchingServiceImpl implements MatchingService{
                         .build())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Page<MatchingDetailTestResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date) {
+        Page<Matching> matchingPage = matchingRepository.searchMatchingListByStartDateOrderByStartTime(searchWord, pageable, date);
+
+        List<MatchingDetailTestResponseDto> responseList = matchingPage.stream()
+                .map(matching -> MatchingDetailTestResponseDto.builder()
+                        .id(matching.getId())
+                        .startAt(matching.getStartAt())
+                        .name(matching.getName())
+                        .isOnlyWomen(matching.getIsOnlyWomen())
+                        .gameKind(matching.getGameKind())
+                        .playMemberNum(matching.getPlayPeople())
+                        .maxMemberNum(matching.getMaxPeople())
+                        .regionString(regionRepository.findRegionStringById(matching.getRegion().getId()).orElseThrow(() ->
+                                new CustomException(ErrorCode.NOT_FOUND_REGION_STRING)))
+                        .isReservedStadium(matching.getIsReserved())
+                        .hour(matching.getHour())
+                        .upTeamMemberNum(
+                                matching.getGameKind() == GameKind.TEAM ?
+                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingIdAndTeamName(matching.getId(), matching.getUpTeamName()).intValue() :
+                                        personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.UP_TEAM).intValue()
+                        )
+                        .downTeamMemberNum(
+                                matching.getGameKind() == GameKind.TEAM ?
+                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingIdAndTeamName(matching.getId(), matching.getDownTeamName()).intValue() :
+                                        personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.DOWN_TEAM).intValue()
+                        )
+                        .build())
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
+    }
+
+    @Override
+    public MatchingUserDetailResponseDto getMatchingDetail(Long matchingId) {
+
+        Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_MATCHING));
+
+        return MatchingUserDetailResponseDto.builder()
+                .id(matching.getId())
+                .name(matching.getName())
+                .isReservedStadium(matching.getIsReserved())
+                .regionString(createMatchingRegionString(matching))
+                .playMemberNum(matching.getPlayPeople())
+                .maxMemberNum(matching.getMaxPeople())
+                .isOnlyWomen(matching.getIsOnlyWomen())
+                .gameKind(matching.getGameKind())
+                .startAt(matching.getStartAt())
+                .endAt(matching.getStartAt().plusHours(matching.getHour()))
+                .hour(matching.getHour())
+                .upTeamName(matching.getUpTeamName())
+                .downTeamName(matching.getDownTeamName())
+                .upTeamMember(convertUserListToMatchingDto(matching.getGameKind() == GameKind.PERSONAL ?
+                        personalMatchJoinRepository.findUserByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.UP_TEAM) :
+                        teamMatchJoinRepository.findAllUsersByMatchingIdAndTeamName(matching.getId(), matching.getUpTeamName())))
+                .downTeamMember(convertUserListToMatchingDto(matching.getGameKind() == GameKind.PERSONAL ?
+                        personalMatchJoinRepository.findUserByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.DOWN_TEAM) :
+                        teamMatchJoinRepository.findAllUsersByMatchingIdAndTeamName(matching.getId(), matching.getDownTeamName())))
+                .build();
+    }
+
+    @Override
+    public Page<MatchingDetailTestResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable) {
+
+        Page<Matching> matchingPage = Page.empty();
+
+        if (gameKind.equals(GameKind.TEAM)) {
+            matchingPage = matchingRepository.findTeamMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.RECRUITING);
+        } else if (gameKind.equals(GameKind.PERSONAL)) {
+            matchingPage = matchingRepository.findPersonalMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.RECRUITING);
+        }
+
+        List<MatchingDetailTestResponseDto> responseList = matchingPage.stream()
+                .map(matching -> MatchingDetailTestResponseDto.builder()
+                        .id(matching.getId())
+                        .upTeamName(matching.getUpTeamName())
+                        .downTeamName(matching.getDownTeamName())
+                        .upTeamMemberNum(matching.getGameKind() == GameKind.TEAM ?
+                                teamMatchJoinRepository.countTeamMatchJoinByMatchingIdAndTeamName(matching.getId(), matching.getUpTeamName()).intValue() :
+                                personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.UP_TEAM).intValue()
+                        )
+                        .downTeamMemberNum(matching.getGameKind() == GameKind.TEAM ?
+                                teamMatchJoinRepository.countTeamMatchJoinByMatchingIdAndTeamName(matching.getId(), matching.getDownTeamName()).intValue() :
+                                personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.DOWN_TEAM).intValue()
+                        )
+                        .startAt(matching.getStartAt())
+                        .endAt(matching.getEndAt())
+                        .regionString(createMatchingRegionString(matching))
+                        .playMemberNum(matching.getPlayPeople())
+                        .maxMemberNum(matching.getMaxPeople())
+                        .build()
+                ).collect(Collectors.toList());
+
+        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
+    }
+
+    @Override
+    public Page<MatchingDetailTestResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable) {
+
+        Page<Matching> matchingPage = Page.empty();
+
+        if (gameKind.equals(GameKind.TEAM)) {
+            matchingPage = matchingRepository.findTeamMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.FINISHED);
+        } else if (gameKind.equals(GameKind.PERSONAL)) {
+            matchingPage = matchingRepository.findPersonalMatchingListByUserIdOrderByStartAt(userId, pageable, MatchingStatus.FINISHED);
+        }
+
+        List<MatchingDetailTestResponseDto> responseList = matchingPage.stream()
+                .map(matching -> MatchingDetailTestResponseDto.builder()
+                        .id(matching.getId())
+                        .upTeamScore(matching.getUpTeamScore())
+                        .downTeamScore(matching.getDownTeamScore())
+                        .upTeamName(matching.getUpTeamName())
+                        .downTeamName(matching.getDownTeamName())
+                        .startAt(matching.getStartAt())
+                        .endAt(matching.getEndAt())
+                        .regionString(createMatchingRegionString(matching))
+                        .playMemberNum(matching.getPlayPeople())
+                        .build()
+                ).collect(Collectors.toList());
+
+        return new PageImpl<>(responseList, pageable, matchingPage.getTotalElements());
+    }
+
+
 
     private Map<String, Object> getRegionAndJibunFromAddress(String stadiumAddress) {
 
@@ -288,68 +326,6 @@ public class MatchingServiceImpl implements MatchingService{
                 return matching.getStadiumLoadAddress() + " " + matching.getDetailAddress();
             }
         }
-    }
-
-    private MatchingDetailResponseDto createMatchingUserResponseDto(Matching matching, LinkedHashMap<String, List<TeamMember>> teamInfo) {
-
-        List<String> teamNameList = new ArrayList<>(teamInfo.keySet());
-
-        // 팀 이름 처리
-        String aTeamName = "A팀";
-        String bTeamName = "B팀";
-
-        if (teamNameList.size() == 2) {
-            aTeamName = teamNameList.get(0);
-            bTeamName = teamNameList.get(1);
-        } else if (teamNameList.size() == 1) {
-            aTeamName = teamNameList.get(0);
-            bTeamName = "";
-        }
-
-        // 팀 인원 처리
-        List<MatchingUserResponseDto> aTeamMember = new ArrayList<>();
-        List<MatchingUserResponseDto> bTeamMember = new ArrayList<>();
-
-        if (teamInfo.size() == 2) {
-            aTeamMember = teamInfo.get(teamNameList.get(0)).stream()
-                    .map(teamMember -> MatchingUserResponseDto
-                            .builder()
-                            .user(teamMember.getUser())
-                            .build()).collect(Collectors.toList());
-
-            bTeamMember = teamInfo.get(teamNameList.get(1)).stream()
-                    .map(teamMember -> MatchingUserResponseDto
-                            .builder()
-                            .user(teamMember.getUser())
-                            .build()).collect(Collectors.toList());
-        } else if (teamInfo.size() == 1) {
-            aTeamMember = teamInfo.get(teamNameList.get(0)).stream()
-                    .map(teamMember -> MatchingUserResponseDto
-                            .builder()
-                            .user(teamMember.getUser())
-                            .build()).collect(Collectors.toList());
-        } else {
-            aTeamMember = convertUserListToMatchingDto(personalMatchJoinRepository.findUserByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.UP_TEAM));
-            bTeamMember = convertUserListToMatchingDto(personalMatchJoinRepository.findUserByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.DOWN_TEAM));
-        }
-
-        return MatchingDetailResponseDto.builder()
-                .id(matching.getId())
-                .name(matching.getName())
-                .isReservedStadium(matching.getIsReserved())
-                .regionString(createMatchingRegionString(matching))
-                .playMemberNum(matching.getPlayPeople())
-                .maxMemberNum(matching.getMaxPeople())
-                .isOnlyWomen(matching.getIsOnlyWomen())
-                .gameKind(matching.getGameKind())
-                .startAt(matching.getStartAt())
-                .endAt(matching.getStartAt().plusHours(matching.getHour()))
-                .hour(matching.getHour())
-                .aTeamName(aTeamName)
-                .bTeamName(bTeamName)
-                .aTeamMember(aTeamMember)
-                .bTeamMember(bTeamMember)
-                .build();
     }
 
     private List<MatchingUserResponseDto> convertUserListToMatchingDto(List<User> userList) {

@@ -27,21 +27,26 @@ public class TeamMemberServiceImpl implements TeamMemberService{
 
     @Override
     @Transactional
-    public void createTeamMember(Long userId, Long teamId) {
+    public Long createTeamMember(Long userId, Long teamId, TeamRole teamRole) {
 
-        checkMember(userId, teamId);
+        if (teamMemberRepository.findByUserIdAndTeamId(userId, teamId).isPresent()) {
+            throw new CustomException(ErrorCode.ALREADY_TEAM_MEMBER);
+        }
 
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER));
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
-        //todo: 최대 팀원 넘으면 요청 못하게 하기
+        if (team.getMaxNumber() == teamMemberRepository.findByTeamId(teamId).size()) {
+            throw new CustomException(ErrorCode.MAXIMUM_MEMBER);
+        }
 
-        teamMemberRepository.save(TeamMember.builder()
+        return teamMemberRepository.save(TeamMember.builder()
                 .user(user)
                 .team(team)
-                .build());
+                .teamRole(teamRole)
+                .build()).getId();
     }
 
     @Override
@@ -50,15 +55,9 @@ public class TeamMemberServiceImpl implements TeamMemberService{
     }
 
     @Override
-    public TeamRole getTeamRoe(Long userId, Long teamId) {
+    public TeamRole getTeamRole(Long userId, Long teamId) {
         return teamMemberRepository.findByUserIdAndTeamId(userId, teamId)
                 .map(TeamMember::getTeamRole)  // UserTeam이 존재하면 getTeamRole() 호출
                 .orElse(null);  // 존재하지 않으면 null 반환
-    }
-
-    private void checkMember(Long userId, Long teamId) {
-        if (teamMemberRepository.findByUserIdAndTeamId(userId, teamId).isPresent()) {
-            throw new CustomException(ErrorCode.ALREADY_TEAM_MEMBER);
-        }
     }
 }

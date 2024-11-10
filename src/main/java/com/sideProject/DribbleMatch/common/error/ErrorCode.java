@@ -12,7 +12,7 @@ public enum ErrorCode {
         0: Auth / Token
         1: User
         2: Team
-        3: UserTeam
+        3: TeamMember
         4: Matching
         5: Personal Match Join
         6: Team Match Join
@@ -47,7 +47,7 @@ public enum ErrorCode {
     NOT_UNIQUE_NICKNAME(400, "1104", "닉네임이 이미 존재합니다."),
     NOT_CORRECT_AUTH_CODE(400, "1105", "인증번호가 틀립니다."),
     FAIL_SEND_AUTH_MESSAGE(400, "1106", "사용자 인증 번호 전송에 실패하였습니다."),
-    SAME_PASSWORD_RESET(400, "1106", "이전 비밀번호와 동일합니다."),
+    SAME_PASSWORD_RESET(400, "1107", "이전 비밀번호와 동일합니다."),
     NOT_FOUND_EMAIL(404, "1300", "해당 이메일이 존재하지 않습니다."),
     NOT_FOUND_USER(404, "1301", "해당 사용자가 존재하지 않습니다."),
     NOT_FOUND_NICKNAME(404, "1302", "해당 닉네임이 존재하지 않습니다."),
@@ -58,6 +58,7 @@ public enum ErrorCode {
     
     ALREADY_TEAM_MEMBER(400, "3100", "이미 등록된 멤버입니다."),
     ALREADY_NOT_MEMBER(400, "3101", "이미 탈퇴한 멤버입니다."),
+    MAXIMUM_MEMBER(400, "3102", "이미 탈퇴한 멤버입니다."),
     NO_TEAM_AUTHORITY(401, "3200", "해당 팀에서 권한이 없습니다."),
     NOT_FOUND_TEAM_MEMBER(404, "3300", "해당 소속팀 정보가 존재하지 않습니다."),
 
