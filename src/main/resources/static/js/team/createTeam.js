@@ -127,7 +127,7 @@ function createTeam() {
     }
 
     $.ajax({
-        url: '/api/team/createTeam',
+        url: '/api/team/create',
         type: 'POST',
         data: formData,
         contentType: false,

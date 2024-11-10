@@ -17,13 +17,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/myPage")
-    public String myPage(Model model, Principal principal) {
+    public String myPage(Model model,
+                         Principal principal) {
         model.addAttribute("user", userService.getUserDetail(Long.valueOf(principal.getName())));
         return "myPage/userInfo";
-    }
-
-    @GetMapping("/endedMatchingList")
-    public String endedMatchingListPage(Model model, Principal principal) {
-        return "myPage/endedMatchingList";
     }
 }

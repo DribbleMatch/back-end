@@ -25,8 +25,9 @@ public class MatchingController {
     private final MatchingService matchingService;
     private final TeamMemberService teamMemberService;
 
-    @GetMapping("/createMatching")
-    public String createMatchingPage(Principal principal, Model model) {
+    @GetMapping("/create")
+    public String createMatchingPage(Model model,
+                                     Principal principal) {
 
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
         model.addAttribute("today", LocalDate.now());
@@ -36,7 +37,8 @@ public class MatchingController {
     }
 
     @GetMapping("/matchingList")
-    public String matchingListPage(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public String matchingListPage(Model model,
+                                   @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
@@ -50,9 +52,9 @@ public class MatchingController {
 
     @PostMapping("/replace/matchingList")
     public String replaceMatchingListByDateAndSearch(Model model,
-                                            @PageableDefault(page = 0, size = 10) Pageable pageable,
-                                            @RequestParam(name = "date") LocalDate date,
-                                            @RequestParam(name = "searchWord") String searchWord) {
+                                                     @PageableDefault(page = 0, size = 10) Pageable pageable,
+                                                     @RequestParam(name = "date") LocalDate date,
+                                                     @RequestParam(name = "searchWord") String searchWord) {
 
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings(searchWord, pageable, date);
 
@@ -63,8 +65,10 @@ public class MatchingController {
         return "matching/matchingList :: #matching-list";
     }
 
-    @GetMapping("/matchingDetail/{matchingId}")
-    public String matchingDetailPage(Principal principal, Model model, @PathVariable Long matchingId) {
+    @GetMapping("/detail/{matchingId}")
+    public String matchingDetailPage(Model model,
+                                     Principal principal,
+                                     @PathVariable Long matchingId) {
 
         model.addAttribute("matchingDetail", matchingService.getMatchingDetail(matchingId));
         model.addAttribute("teamList", teamMemberService.getTeamNameListByUserId(Long.valueOf(principal.getName())));
@@ -76,8 +80,8 @@ public class MatchingController {
     @GetMapping("/reservedMatchingList/{gameKind}")
     public String reservedMatchingListPage(Model model,
                                            Principal principal,
-                                           @PathVariable GameKind gameKind,
-                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                           @PageableDefault(page = 0, size = 10) Pageable pageable,
+                                           @PathVariable GameKind gameKind) {
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
@@ -89,9 +93,9 @@ public class MatchingController {
 
     @GetMapping("/replace/reservedMatchingList/{gameKind}")
     public String replaceReservedMatchingList(Model model,
-                                           Principal principal,
-                                           @PathVariable GameKind gameKind,
-                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                              Principal principal,
+                                              @PageableDefault(page = 0, size = 10) Pageable pageable,
+                                              @PathVariable GameKind gameKind) {
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
@@ -103,9 +107,9 @@ public class MatchingController {
 
     @GetMapping("/endedMatchingList/{gameKind}")
     public String endedMatchingListPage(Model model,
-                                           Principal principal,
-                                           @PathVariable GameKind gameKind,
-                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                        Principal principal,
+                                        @PageableDefault(page = 0, size = 10) Pageable pageable,
+                                        @PathVariable GameKind gameKind) {
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
@@ -117,9 +121,9 @@ public class MatchingController {
 
     @GetMapping("/replace/endedMatchingList/{gameKind}")
     public String replaceEndedMatchingList(Model model,
-                                              Principal principal,
-                                              @PathVariable GameKind gameKind,
-                                              @PageableDefault(page = 0, size = 10) Pageable pageable) {
+                                           Principal principal,
+                                           @PageableDefault(page = 0, size = 10) Pageable pageable,
+                                           @PathVariable GameKind gameKind) {
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);

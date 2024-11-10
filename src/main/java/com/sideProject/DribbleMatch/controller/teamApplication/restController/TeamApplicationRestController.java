@@ -18,8 +18,8 @@ public class TeamApplicationRestController {
 
     @PostMapping("/requestJoin")
     public ApiResponse<Long> requestJoin(Principal principal,
-                                   @RequestParam(name = "id") Long teamId,
-                                   @RequestParam(name = "introduce") String introduce) {
+                                         @RequestParam(name = "id") Long teamId,
+                                         @RequestParam(name = "introduce") String introduce) {
 
         return ApiResponse.ok(teamApplicationService.createTeamApplication(Long.valueOf(principal.getName()), teamId, introduce));
     }

@@ -26,8 +26,9 @@ public class TeamRestController {
         return ApiResponse.ok("팀 이름 사용 가능");
     }
 
-    @PostMapping("/createTeam")
-    public ApiResponse<Long> createTeam(Principal principal, @ModelAttribute TeamCreateRequestDto request) {
+    @PostMapping("/create")
+    public ApiResponse<Long> createTeam(Principal principal,
+                                        @ModelAttribute TeamCreateRequestDto request) {
 
         return ApiResponse.ok(teamMemberTeamService.createTeam(Long.valueOf(principal.getName()), request));
     }
