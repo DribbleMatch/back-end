@@ -33,7 +33,7 @@ function showMyTeam() {
 }
 
 function viewTeamDetail(id) {
-    location.href = "/page/team/teamDetail/" + id;
+    location.href = "/page/team/detail/" + id;
 }
 
 function requestJoin() {

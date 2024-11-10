@@ -7,7 +7,7 @@ function viewPage(pageNum) {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/page/recruitment/replace?page=' + (pageNum-1),
+        url: '/page/recruitment/replace/recruitmentList?page=' + (pageNum-1),
         type: 'POST',
         data: { searchWord: searchWord },
         success: function (fragment) {
@@ -36,7 +36,7 @@ function closeContentPopup() {
 }
 
 function viewTeamDetail(id) {
-    location.href = "/page/team/teamDetail/" + id;
+    location.href = "/page/team/detail/" + id;
 }
 
 function openRequestPop(button) {
@@ -79,7 +79,7 @@ function searchRecruitment() {
     var searchWord = $('#search-word').val();
 
     $.ajax({
-        url: '/page/recruitment/replace',
+        url: '/page/recruitment/replace/recruitmentList',
         type: 'POST',
         data: { searchWord: searchWord },
         success: function (fragment) {

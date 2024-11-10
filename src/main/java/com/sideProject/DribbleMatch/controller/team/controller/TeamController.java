@@ -24,7 +24,7 @@ public class TeamController {
     private final TeamService teamService;
     private final TeamMemberService teamMemberService;
 
-    @GetMapping("/createTeam")
+    @GetMapping("/create")
     public String createTeamPage(Model model) {
 
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
@@ -33,8 +33,8 @@ public class TeamController {
         return "team/createTeam";
     }
     @GetMapping("/teamList")
-    public String teamList(Principal principal,
-                           Model model,
+    public String teamList(Model model,
+                           Principal principal,
                            @PageableDefault(page = 0, size = 10) Pageable pageable,
                            @RequestParam(name = "myPage", required = false, defaultValue = "0") int myPage) {
 
@@ -53,8 +53,8 @@ public class TeamController {
 
     @PostMapping("/replace/teamList")
     public String replaceTeamListBySearch(Model model,
-                                          @RequestParam(name = "searchWord") String searchWord,
-                                          @PageableDefault(size = 10) Pageable pageable) {
+                                          @PageableDefault(size = 10) Pageable pageable,
+                                          @RequestParam(name = "searchWord") String searchWord) {
 
         Page<TeamListResponseDto> teamList = teamService.searchTeamsBySearchWord(searchWord, pageable);
 
@@ -66,7 +66,9 @@ public class TeamController {
     }
 
     @GetMapping("/replace/myTeamListView")
-    public String replaceTeamListByMyTeam(Model model, Principal principal, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public String replaceTeamListByMyTeam(Model model,
+                                          Principal principal,
+                                          @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
         Page<TeamListResponseDto> teamList = teamService.searchTeamsByUserId(Long.valueOf(principal.getName()), pageable);
 
@@ -77,8 +79,10 @@ public class TeamController {
         return "team/teamList :: #team-list";
     }
 
-    @GetMapping("/teamDetail/{teamId}")
-    public String teamDetailPage(Model model, Principal principal, @PathVariable Long teamId) {
+    @GetMapping("/detail/{teamId}")
+    public String teamDetailPage(Model model,
+                                 Principal principal,
+                                 @PathVariable Long teamId) {
 
         model.addAttribute("team", teamService.getTeamDetail(teamId));
         model.addAttribute("teamRole", teamMemberService.getTeamRole(Long.valueOf(principal.getName()), teamId));

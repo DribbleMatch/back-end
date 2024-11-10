@@ -18,7 +18,7 @@ public class SignUpRestController {
 
     // 닉네임 중복 확인
     @PostMapping("/checkNickName")
-    public ApiResponse<String> checkNickName(@RequestHeader Map<String, String> headers, @RequestParam(name = "nickName") String nickName) {
+    public ApiResponse<String> checkNickName(@RequestParam(name = "nickName") String nickName) {
 
         userService.checkNickName(nickName);
 
@@ -27,7 +27,7 @@ public class SignUpRestController {
 
     // 이메일 중복 확인
     @PostMapping("/checkEmail")
-    public ApiResponse<String> checkEmail(@RequestHeader Map<String, String> headers, @RequestParam(name = "email") String email) {
+    public ApiResponse<String> checkEmail(@RequestParam(name = "email") String email) {
 
         userService.checkEmail(email);
 
@@ -45,7 +45,8 @@ public class SignUpRestController {
 
     // 휴대폰 번호 인증 번호 확인
     @PostMapping("/getAuth")
-    public ApiResponse<String> getAuth(@RequestParam(name = "phone") String phone, @RequestParam(name = "authCode") String authCode) {
+    public ApiResponse<String> getAuth(@RequestParam(name = "phone") String phone,
+                                       @RequestParam(name = "authCode") String authCode) {
 
         userService.getAuth(phone, authCode);
 

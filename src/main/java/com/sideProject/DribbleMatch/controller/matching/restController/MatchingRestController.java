@@ -18,14 +18,16 @@ public class MatchingRestController {
     private final MatchingService matchingService;
     private final MatchingJoinService matchingJoinService;
 
-    @PostMapping("/createMatching")
-    public ApiResponse<Long> createMatching(Principal principal, @RequestBody MatchingCreateRequestDto requestDto) {
+    @PostMapping("/create")
+    public ApiResponse<Long> createMatching(Principal principal,
+                                            @RequestBody MatchingCreateRequestDto requestDto) {
 
         return ApiResponse.ok(matchingJoinService.createMatching(Long.valueOf(principal.getName()), requestDto));
     }
 
     @PostMapping("/inputScore")
-    public ApiResponse<Boolean> inputScore(Principal principal, @RequestBody MatchingInputScoreRequestDto requestDto) {
+    public ApiResponse<Boolean> inputScore(Principal principal,
+                                           @RequestBody MatchingInputScoreRequestDto requestDto) {
 
         matchingService.inputScore(requestDto);
 
@@ -33,7 +35,8 @@ public class MatchingRestController {
     }
 
     @GetMapping("/notFinishMatching/{matchingId}")
-    public ApiResponse<Boolean> notFinishMatching(Principal principal, @PathVariable Long matchingId) {
+    public ApiResponse<Boolean> notFinishMatching(Principal principal,
+                                                  @PathVariable Long matchingId) {
 
         matchingService.notPlayMatching(matchingId);
 

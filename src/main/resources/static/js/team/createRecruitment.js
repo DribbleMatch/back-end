@@ -39,14 +39,14 @@ function createRecruitment() {
     }
 
     $.ajax({
-        url: '/api/recruitment/createRecruitment',
+        url: '/api/recruitment/create',
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(formData),
         success: function (data) {
             alert('팀원 모집글 생성 완료');
 
-            location.href = "/page/recruitment";
+            location.href = "/page/recruitment/recruitmentList";
         },
         error: function (xhr, status, error) {
             commonErrorCallBack(xhr, status, error);

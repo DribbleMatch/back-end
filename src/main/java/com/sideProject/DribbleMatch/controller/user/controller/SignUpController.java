@@ -29,14 +29,16 @@ public class SignUpController {
 
     //refactor: 유효성 더블 체크 구현
     @PostMapping("/playerInfo")
-    public String playerInfoPage(Model model, SignupUserInfoRequestDto requestDto) {
+    public String playerInfoPage(Model model,
+                                 SignupUserInfoRequestDto requestDto) {
         model.addAttribute("user", requestDto);
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
         return "signup/player_info";
     }
 
     @PostMapping("/complete")
-    public String completePage(Model model, @ModelAttribute SignupPlayerInfoRequestDto requestDto) {
+    public String completePage(Model model,
+                               @ModelAttribute SignupPlayerInfoRequestDto requestDto) {
         userService.createUser(requestDto);
         return "signup/complete";
     }

@@ -19,7 +19,8 @@ public class TeamMemberRestController {
     private final TeamMemberService teamMemberService;
 
     @GetMapping("/{teamId}")
-    public ApiResponse<Long> joinTeam(Principal principal, @PathVariable Long teamId) {
+    public ApiResponse<Long> joinTeam(Principal principal,
+                                      @PathVariable Long teamId) {
 
         return ApiResponse.ok(teamMemberService.createTeamMember(Long.valueOf(principal.getName()), teamId, TeamRole.MEMBER));
     }

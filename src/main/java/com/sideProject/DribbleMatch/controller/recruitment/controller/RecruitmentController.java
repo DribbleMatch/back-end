@@ -19,13 +19,15 @@ public class RecruitmentController {
     private final RecruitmentService recruitmentService;
 
     @GetMapping("/create/{teamId}")
-    public String createRecruitmentPage(Model model, @PathVariable Long teamId) {
+    public String createRecruitmentPage(Model model,
+                                        @PathVariable Long teamId) {
         model.addAttribute("teamId", teamId);
         return "team/createRecruitment";
     }
 
-    @GetMapping
-    public String recruitmentListPage(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    @GetMapping("/recruitmentList")
+    public String recruitmentListPage(Model model,
+                                      @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
         Page<RecruitmentResponseDto> recruitmentList = recruitmentService.searchRecruitments("", pageable);
 
@@ -36,10 +38,10 @@ public class RecruitmentController {
         return "team/recruitment";
     }
 
-    @PostMapping("/replace")
+    @PostMapping("/replace/recruitmentList")
     public String replaceRecruitmentListBySearch(Model model,
-                                  @RequestParam(name = "searchWord") String searchWord,
-                                  @PageableDefault(size = 10) Pageable pageable) {
+                                                 @PageableDefault(size = 10) Pageable pageable,
+                                                 @RequestParam(name = "searchWord") String searchWord) {
 
         Page<RecruitmentResponseDto> recruitmentList = recruitmentService.searchRecruitments(searchWord, pageable);
 
