@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);
 
-        String password = encodePassword(requestDto.getPassword());
+        String password = passwordEncoder.encode(requestDto.getPassword());
         String regionString = requestDto.getSiDoString() + " " + requestDto.getSiGunGuString();
         Region region = regionRepository.findByRegionString(regionString).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
@@ -177,12 +177,8 @@ public class UserServiceImpl implements UserService{
             throw new CustomException(ErrorCode.SAME_PASSWORD_RESET);
         }
 
-        user.changePassword(encodePassword(requestDto.getPassword()));
+        user.changePassword(passwordEncoder.encode(requestDto.getPassword()));
         userRepository.save(user);
-    }
-
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
     }
 
     private String generateAuthCode() {

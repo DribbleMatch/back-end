@@ -1,6 +1,6 @@
 package com.sideProject.DribbleMatch.controller;
 
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,7 +24,7 @@ public class MainController {
     @GetMapping
     public String index(ModelMap model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<MatchingResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
         model.addAttribute("boardList", new ArrayList<>());
         model.addAttribute("recentMatchingList", matchingService.getRecentMatchingList());

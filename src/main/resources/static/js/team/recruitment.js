@@ -90,5 +90,3 @@ function searchRecruitment() {
         }
     })
 }
-
-//todo: 로그인 중 로그인 페이지 접근 시 메인 페이지로?? 설계 후 구현 필요

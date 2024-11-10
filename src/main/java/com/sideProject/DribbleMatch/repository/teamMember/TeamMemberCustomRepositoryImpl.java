@@ -3,6 +3,7 @@ package com.sideProject.DribbleMatch.repository.teamMember;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sideProject.DribbleMatch.entity.teamMember.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
+import com.sideProject.DribbleMatch.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

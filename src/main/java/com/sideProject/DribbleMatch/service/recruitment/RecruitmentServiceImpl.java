@@ -36,18 +36,18 @@ public class RecruitmentServiceImpl implements RecruitmentService{
 
     @Override
     @Transactional
-    public void createRecruitment(RecruitmentCreateRequestDto requestDto) {
+    public Long createRecruitment(RecruitmentCreateRequestDto requestDto) {
 
         Team team = teamRepository.findById(requestDto.getTeamId()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
-        recruitmentRepository.save(Recruitment.builder()
+        return recruitmentRepository.save(Recruitment.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .positionString(requestDto.getPositionString())
                 .endAt(requestDto.getExpireDate())
                 .team(team)
-                .build());
+                .build()).getId();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
 
     @Override
     @Transactional
-    public void createTeamMatchJoin(Long matchingId, Long userId, String teamName) {
+    public Matching createTeamMatchJoin(Long matchingId, Long userId, String teamName) {
         //refactor: 현재는 경기 생성시 팀을 설정하면 팀의 전체 멤베가 참여하도록 구현. 추후 팀에서 멤버도 선택할 수 있도록 재설계
 
         checkAlreadyJoin(matchingId, userId);
@@ -47,6 +47,8 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
                 .toList();
 
         teamMatchJoinRepository.saveAll(teamMatchJoinList);
+
+        return matching;
     }
 
     @Override
