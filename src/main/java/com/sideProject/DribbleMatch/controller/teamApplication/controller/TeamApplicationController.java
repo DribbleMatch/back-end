@@ -16,7 +16,8 @@ public class TeamApplicationController {
     private final TeamApplicationService teamApplicationService;
 
     @GetMapping("/replace/{teamId}")
-    public String getApplicationList(Model model, @PathVariable Long teamId) {
+    public String getApplicationList(Model model,
+                                     @PathVariable Long teamId) {
 
         model.addAttribute("teamApplicationList", teamApplicationService.getTeamApplicationListByTeam(teamId));
 

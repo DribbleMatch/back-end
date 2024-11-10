@@ -23,7 +23,8 @@ public class LoginRestController {
     private final AuthService authService;
 
     @PostMapping
-    public ApiResponse<String> userLogin(@RequestBody UserLogInRequestDto requestDto, HttpServletResponse response) {
+    public ApiResponse<String> userLogin(@RequestBody UserLogInRequestDto requestDto,
+                                         HttpServletResponse response) {
 
         JwtResponseDto tokens = userService.login(requestDto);
 
