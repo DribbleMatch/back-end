@@ -9,7 +9,7 @@ import com.sideProject.DribbleMatch.entity.user.User;
 import java.util.List;
 
 public interface TeamMemberService {
-    public void createTeamMember(Long userId, Long teamId);
+    public Long createTeamMember(Long userId, Long teamId, TeamRole teamRole);
     public List<String> getTeamNameListByUserId(Long userId);
-    public TeamRole getTeamRoe(Long userId, Long teamId);
+    public TeamRole getTeamRole(Long userId, Long teamId);
 }

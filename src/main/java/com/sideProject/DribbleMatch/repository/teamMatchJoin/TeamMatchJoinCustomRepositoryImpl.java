@@ -10,6 +10,7 @@ import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.team.Team;
 import com.sideProject.DribbleMatch.entity.teamMatchJoin.TeamMatchJoin;
 import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
+import com.sideProject.DribbleMatch.entity.user.User;
 import com.sideProject.DribbleMatch.repository.matching.MatchingCustomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -33,47 +34,13 @@ public class TeamMatchJoinCustomRepositoryImpl implements TeamMatchJoinCustomRep
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public int countTeamMatchJoinByMatchingAndGroupByTeam(Matching matching, int teamNum) {
-        List<Tuple> resultList = jpaQueryFactory
-                .select(teamMatchJoin.teamMember.team.id, teamMatchJoin.count())
+    public Long countTeamMatchJoinByMatchingIdAndTeamName(Long matchingId, String teamName) {
+        return jpaQueryFactory
+                .select(teamMatchJoin.count())
                 .from(teamMatchJoin)
-                .where(teamMatchJoin.matching.eq(matching))
-                .groupBy(teamMatchJoin.teamMember.team.id)
-                .fetch();
-
-        if (resultList.size() == 2) {
-            return Objects.requireNonNull(resultList.get(teamNum).get(teamMatchJoin.count())).intValue();
-        } else if (resultList.size() == 1) {
-            return teamNum == 0 ? Objects.requireNonNull(resultList.get(teamNum).get(teamMatchJoin.count())).intValue() : 0;
-        } else {
-            throw new CustomException(ErrorCode.INVALID_TEAM_MATCH_INFO);
-        }
-
-    }
-
-    @Override
-    public LinkedHashMap<String, List<TeamMember>> findTeamInfoByMatchingId(Long matchingId) {
-
-        List<Tuple> result = jpaQueryFactory
-                .select(team.name, teamMatchJoin.teamMember)
-                .from(teamMatchJoin)
-                .join(teamMatchJoin.teamMember, teamMember)
-                .join(teamMember.team, team)
-                .where(teamMatchJoin.matching.id.eq(matchingId))
-                .fetch();
-
-        LinkedHashMap<String, List<TeamMember>> teamMembersByTeam = new LinkedHashMap<>();
-
-        for (Tuple tuple : result) {
-            String teamName = tuple.get(team.name);
-            TeamMember teamMember = tuple.get(teamMatchJoin.teamMember);
-
-            teamMembersByTeam
-                    .computeIfAbsent(teamName, k -> new ArrayList<>())
-                    .add(teamMember);
-        }
-
-        return teamMembersByTeam;
+                .where(teamMatchJoin.matching.id.eq(matchingId)
+                        .and(teamMatchJoin.teamMember.team.name.eq(teamName)))
+                .fetchOne();
     }
 
     @Override
@@ -86,12 +53,12 @@ public class TeamMatchJoinCustomRepositoryImpl implements TeamMatchJoinCustomRep
     }
 
     @Override
-    public List<String> findTeamNameListByMatching(Matching matching) {
+    public List<User> findAllUsersByMatchingIdAndTeamName(Long matchingId, String teamName) {
         return jpaQueryFactory
-                .select(teamMatchJoin.teamMember.team.name)
+                .select(teamMatchJoin.teamMember.user)
                 .from(teamMatchJoin)
-                .where(teamMatchJoin.matching.eq(matching))
-                .groupBy(teamMatchJoin.teamMember.team.name)
+                .where(teamMatchJoin.teamMember.team.name.eq(teamName)
+                        .and(teamMatchJoin.matching.id.eq(matchingId)))
                 .fetch();
     }
 }

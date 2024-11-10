@@ -1,14 +1,9 @@
 package com.sideProject.DribbleMatch.controller.matching.controller;
 
-import com.sideProject.DribbleMatch.dto.matching.response.EndedMatchingResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
-import com.sideProject.DribbleMatch.dto.matching.response.ReservedMatchingResponseDto;
-import com.sideProject.DribbleMatch.dto.team.response.TeamListResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
-import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
-import com.sideProject.DribbleMatch.service.team.TeamService;
 import com.sideProject.DribbleMatch.service.teamMember.TeamMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -43,7 +38,7 @@ public class MatchingController {
     @GetMapping("/matchingList")
     public String matchingListPage(Model model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<MatchingResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("matchingList", matchingList);
@@ -59,7 +54,7 @@ public class MatchingController {
                                             @RequestParam(name = "date") LocalDate date,
                                             @RequestParam(name = "searchWord") String searchWord) {
 
-        Page<MatchingResponseDto> matchingList = matchingService.searchMatchings(searchWord, pageable, date);
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings(searchWord, pageable, date);
 
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
@@ -83,7 +78,7 @@ public class MatchingController {
                                            Principal principal,
                                            @PathVariable GameKind gameKind,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<ReservedMatchingResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
         model.addAttribute("matchingList", matchingList);
@@ -97,7 +92,7 @@ public class MatchingController {
                                            Principal principal,
                                            @PathVariable GameKind gameKind,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<ReservedMatchingResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.getReservedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
         model.addAttribute("matchingList", matchingList);
@@ -111,7 +106,7 @@ public class MatchingController {
                                            Principal principal,
                                            @PathVariable GameKind gameKind,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<EndedMatchingResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
         model.addAttribute("matchingList", matchingList);
@@ -125,7 +120,7 @@ public class MatchingController {
                                               Principal principal,
                                               @PathVariable GameKind gameKind,
                                               @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        Page<EndedMatchingResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.getEndedMatchingList(Long.valueOf(principal.getName()), gameKind, pageable);
 
         model.addAttribute("gameKind", gameKind);
         model.addAttribute("matchingList", matchingList);
