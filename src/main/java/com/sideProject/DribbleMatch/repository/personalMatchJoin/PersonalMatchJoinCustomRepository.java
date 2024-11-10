@@ -14,8 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PersonalMatchJoinCustomRepository {
-    public Long countPersonalMatchJoinByMatchingAndTeam(Matching matching, PersonalMatchingTeam matchingTeam);
+    public Long countPersonalMatchJoinByMatchingAndTeam(Long matchingId, PersonalMatchingTeam matchingTeam);
     public List<User> findUserByMatchingAndTeam(Long matchingId, PersonalMatchingTeam personalMatchingTeam);
     public Optional<PersonalMatchJoin> findByMatchingIdAndUserId(Long matchingId, Long userId);
-    public LinkedHashMap<String, List<User>> findUserInfoByMatchingAndTeam(Long matchingId);
 }

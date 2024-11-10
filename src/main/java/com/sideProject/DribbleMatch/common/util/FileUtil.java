@@ -31,7 +31,6 @@ public class FileUtil {
 
     public String saveImage(MultipartFile image, String path, String fileName) {
 
-        //todo: 기본 이미지 처리
         try {
             String filePath = path + File.separator + fileName + extractExt(image.getOriginalFilename());
 

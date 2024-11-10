@@ -29,10 +29,10 @@ public class PersonalMatchJoinCustomRepositoryImpl implements PersonalMatchJoinC
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Long countPersonalMatchJoinByMatchingAndTeam(Matching matching, PersonalMatchingTeam matchingTeam) {
+    public Long countPersonalMatchJoinByMatchingAndTeam(Long matchingId, PersonalMatchingTeam matchingTeam) {
         return jpaQueryFactory.select(personalMatchJoin.count())
                 .from(personalMatchJoin)
-                .where(personalMatchJoin.matching.eq(matching)
+                .where(personalMatchJoin.matching.id.eq(matchingId)
                         .and(personalMatchJoin.matchingTeam.eq(matchingTeam)))
                 .fetchOne();
     }
@@ -54,35 +54,6 @@ public class PersonalMatchJoinCustomRepositoryImpl implements PersonalMatchJoinC
                 .where(personalMatchJoin.matching.id.eq(matchingId)
                         .and(personalMatchJoin.user.id.eq(userId)))
                 .fetchOne());
-    }
-
-    @Override
-    public LinkedHashMap<String, List<User>> findUserInfoByMatchingAndTeam(Long matchingId) {
-        // 사용자와 팀 정보를 튜플로 가져오는 쿼리
-        List<Tuple> results = jpaQueryFactory
-                .select(personalMatchJoin.user, personalMatchJoin.matchingTeam)
-                .from(personalMatchJoin)
-                .where(personalMatchJoin.matching.id.eq(matchingId))
-                .fetch();
-
-        // 결과를 저장할 맵 초기화
-        LinkedHashMap<String, List<User>> resultMap = new LinkedHashMap<>();
-        resultMap.put("A팀", new ArrayList<>());
-        resultMap.put("B팀", new ArrayList<>());
-
-        // 결과를 맵에 분류
-        for (Tuple tuple : results) {
-            User user = tuple.get(personalMatchJoin.user);
-            PersonalMatchingTeam team = tuple.get(personalMatchJoin.matchingTeam);
-
-            if (team == PersonalMatchingTeam.UP_TEAM) {
-                resultMap.get("A팀").add(user);
-            } else if (team == PersonalMatchingTeam.DOWN_TEAM) {
-                resultMap.get("B팀").add(user);
-            }
-        }
-
-        return resultMap;
     }
 
 }

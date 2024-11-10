@@ -81,7 +81,7 @@ public class TeamController {
     public String teamDetailPage(Model model, Principal principal, @PathVariable Long teamId) {
 
         model.addAttribute("team", teamService.getTeamDetail(teamId));
-        model.addAttribute("teamRole", teamMemberService.getTeamRoe(Long.valueOf(principal.getName()), teamId));
+        model.addAttribute("teamRole", teamMemberService.getTeamRole(Long.valueOf(principal.getName()), teamId));
 
         return "team/teamDetail";
     }

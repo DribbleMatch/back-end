@@ -36,7 +36,7 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
 
     @Override
     @Transactional
-    public void createTeamApplication(Long userId, Long teamId, String introduce) {
+    public Long createTeamApplication(Long userId, Long teamId, String introduce) {
 
         checkTeamApplication(userId, teamId);
 
@@ -45,11 +45,11 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
         Team team = teamRepository.findById(teamId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM));
 
-        teamApplicationRepository.save(TeamApplication.builder()
+        return teamApplicationRepository.save(TeamApplication.builder()
                 .user(user)
                 .team(team)
                 .introduce(introduce)
-                .build());
+                .build()).getId();
     }
 
     @Override
@@ -69,7 +69,7 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
 
     @Override
     @Transactional
-    public void changeTeamApplicationStatus(Long teamApplicationId, ApplicationStatus status) {
+    public Long changeTeamApplicationStatus(Long teamApplicationId, ApplicationStatus status) {
 
         TeamApplication teamApplication = teamApplicationRepository.findById(teamApplicationId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_TEAM_APPLICATION));
@@ -97,7 +97,7 @@ public class TeamApplicationServiceImpl implements TeamApplicationService{
             teamApplication.refuse();
         }
 
-        teamApplicationRepository.save(teamApplication);
+        return teamApplicationRepository.save(teamApplication).getId();
     }
 
     private void checkTeamApplication(Long userId, Long teamId) {

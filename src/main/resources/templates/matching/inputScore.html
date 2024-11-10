@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="matching-info-div">
-                    <div class="matching-info" th:text="${matching.startAt}">
+                    <div class="matching-info" th:text="${#temporals.format(matching.startAt, 'yyyy / MM / dd (HH:mm)')}">
                         2024 / 07 / 12 (15:00)
                     </div>
                     <div class="matching-info" th:text="${matching.regionString}">

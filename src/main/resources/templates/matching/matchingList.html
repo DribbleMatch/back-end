@@ -30,7 +30,7 @@
             <div class="matching-list" id="matching-list">
                 <div th:each="matching : ${matchingList}" class="matching-card">
                     <div class="matching-time">
-                        <h1 th:text="${matching.startAt}">12:12</h1>
+                        <h1 th:text="${#temporals.format(matching.startAt, 'HH:mm')}">12:12</h1>
                     </div>
                     <div class="matching-info">
                         <div class="matching-name-div">

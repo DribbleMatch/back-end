@@ -7,7 +7,7 @@ import com.sideProject.DribbleMatch.entity.teamApplication.TeamApplication;
 import java.util.List;
 
 public interface TeamApplicationService {
-    public void createTeamApplication(Long userId, Long teamId, String introduce);
+    public Long createTeamApplication(Long userId, Long teamId, String introduce);
     public List<TeamApplicationListResponseDto> getTeamApplicationListByTeam(Long teamId);
-    public void changeTeamApplicationStatus(Long teamApplicationId, ApplicationStatus status);
+    public Long changeTeamApplicationStatus(Long teamApplicationId, ApplicationStatus status);
 }

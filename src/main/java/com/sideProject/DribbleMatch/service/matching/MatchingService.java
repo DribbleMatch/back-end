@@ -19,13 +19,14 @@ import java.util.Map;
 
 public interface MatchingService {
     public Long createMatching(MatchingCreateRequestDto request, Long creatorId);
-    public Page<MatchingResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
-    public MatchingDetailResponseDto getMatchingDetail(Long matchingId);
-    public Page<ReservedMatchingResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
-    public Page<EndedMatchingResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
-    public Boolean checkHasNotInputScore(Long userId);
-    public List<NotInputScoreMatchingResponseDto> getNotInputScoreMatchingList(Long userId);
+    public Long changeDownTeamName(Matching matching, String teamName);
     public void inputScore(MatchingInputScoreRequestDto requestDto);
     public void notPlayMatching(Long matchingId);
+    public Boolean checkHasNotInputScore(Long userId);
+    public List<MatchingSimpleResponseDto> getNotInputScoreMatchingList(Long userId);
     public List<RecentMatchingResponseDto> getRecentMatchingList();
+    public Page<MatchingDetailTestResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
+    public MatchingUserDetailResponseDto getMatchingDetail(Long matchingId);
+    public Page<MatchingDetailTestResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
+    public Page<MatchingDetailTestResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
 }

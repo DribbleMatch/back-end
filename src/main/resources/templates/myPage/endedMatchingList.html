@@ -26,27 +26,27 @@
     <div class="matching-list-div" id="matching-list">
 
       <div class="matching-card" th:each="matching : ${matchingList}">
-        <div class="score-info" th:text="${matching.scoreString}">
+        <div class="score-info" th:text="${matching.upTeamScore} + ' : ' + ${matching.downTeamScore}">
           31 : 51
         </div>
         <div class="team-info">
           <div class="team-name">
             <span th:text="${matching.upTeamName}">A팀</span>
-            <div class="winning" th:if="${matching.winTeamName == matching.upTeamName}">승</div>
-            <div class="losing" th:if="${matching.winTeamName != matching.upTeamName}">패</div>
+            <div class="winning" th:if="${matching.upTeamScore > matching.downTeamScore}">승</div>
+            <div class="losing" th:if="${matching.upTeamScore < matching.downTeamScore}">패</div>
           </div>
           VS
           <div class="team-name">
             <span th:text="${matching.downTeamName}">B팀</span>
-            <div class="winning" th:if="${matching.winTeamName == matching.downTeamName}">승</div>
-            <div class="losing" th:if="${matching.winTeamName != matching.downTeamName}">패</div>
+            <div class="winning" th:if="${matching.upTeamScore < matching.downTeamScore}">승</div>
+            <div class="losing" th:if="${matching.upTeamScore > matching.downTeamScore}">패</div>
           </div>
         </div>
         <div class="matching-info-div">
-          <div class="matching-info" th:text="${matching.startAt}">2024 / 08 / 04</div>
-          <div class="matching-info" th:text="${matching.time}">13 : 00 ~ 15 : 00</div>
+          <div class="matching-info" th:text="${#temporals.format(matching.startAt, 'yyyy / MM / dd')}">2024 / 08 / 04</div>
+          <div class="matching-info" th:text="${#temporals.format(matching.startAt, 'HH:mm')} + ' ~ ' + ${#temporals.format(matching.endAt, 'HH:mm')}">13 : 00 ~ 15 : 00</div>
           <div class="matching-info" th:text="${matching.regionString}">서울 영등포구 당산로</div>
-          <div class="matching-info" th:text="${matching.playMemberNum}">3 VS 3</div>
+          <div class="matching-info" th:text="${matching.playMemberNum} + ' VS ' + ${matching.playMemberNum}">3 VS 3</div>
         </div>
       </div>
       <div th:if="${matchingList.totalElements == 0}" class="no-data">

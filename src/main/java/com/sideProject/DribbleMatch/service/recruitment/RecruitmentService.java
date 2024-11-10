@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface RecruitmentService {
 
-    public void createRecruitment(RecruitmentCreateRequestDto requestDto);
+    public Long createRecruitment(RecruitmentCreateRequestDto requestDto);
     public Page<RecruitmentResponseDto> searchRecruitments(String searchWord, Pageable pageable);
 }

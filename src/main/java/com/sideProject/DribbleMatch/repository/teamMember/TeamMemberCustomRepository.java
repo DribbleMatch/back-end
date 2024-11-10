@@ -1,6 +1,7 @@
 package com.sideProject.DribbleMatch.repository.teamMember;
 
 import com.sideProject.DribbleMatch.entity.teamMember.TeamMember;
+import com.sideProject.DribbleMatch.entity.user.User;
 
 import java.util.List;
 

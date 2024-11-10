@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.controller.personalMatchJoin.restController;
 
+import com.sideProject.DribbleMatch.common.response.ApiResponse;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.service.personalMatchJoin.PersonalMatchJoinService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,10 @@ public class PersonalMatchJoinRestController {
     private final PersonalMatchJoinService personalMatchJoinService;
 
     @PostMapping
-    public void joinPersonalMatch(Principal principal,
-                                  @RequestParam(name = "matchingId") Long matchingId,
-                                  @RequestParam(name = "team") PersonalMatchingTeam personalMatchingTeam) {
+    public ApiResponse<Long> joinPersonalMatch(Principal principal,
+                                         @RequestParam(name = "matchingId") Long matchingId,
+                                         @RequestParam(name = "team") PersonalMatchingTeam personalMatchingTeam) {
 
-        personalMatchJoinService.createPersonalMatchJoin(matchingId, Long.valueOf(principal.getName()), personalMatchingTeam);
+        return ApiResponse.ok(personalMatchJoinService.createPersonalMatchJoin(matchingId, Long.valueOf(principal.getName()), personalMatchingTeam));
     }
 }
