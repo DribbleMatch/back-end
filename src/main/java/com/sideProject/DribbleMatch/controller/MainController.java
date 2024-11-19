@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.controller;
 
+import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class MainController {
 
         model.addAttribute("boardList", new ArrayList<>());
         model.addAttribute("recentMatchingList", matchingService.getRecentMatchingList());
-        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("dateList", CommonUtil.getDateList(LocalDate.now()));
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
