@@ -64,9 +64,22 @@
       </div>
     </div>
     <div class="date-select">
-      <div class="before-date" onclick="previousDate()"></div>
-      <input type="date" class="matching-date-select" id="matching-date-select" th:value="${today}" onchange="getMatchingList()"/>
-      <div class="next-date" onclick="nextDate()"></div>
+      <div class="date-list" id="dateList">
+        <div class="date-div-list">
+          <div th:each="date, stat : ${dateList}"
+               th:classappend="${stat.index == 2} ? 'date-selected-div'"
+               class="date-div"
+               th:text="${#temporals.format(date, 'dd / (EEE)')}"
+               th:attr=""
+          onclick="showHiddenValue(this)">
+          </div>
+        </div>
+        <div class="now-date-div">
+          <img src="/image/icon/etc/before_icon.png" class="before-icon" id="prevButton" onclick="slideRight()"/>
+          <div class="now-date-border"></div>
+          <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft()"/>
+        </div>
+      </div>
     </div>
     <div class="matching-list-div">
       <div class="matching-list" id="matching-list">

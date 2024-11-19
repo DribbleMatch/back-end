@@ -10,29 +10,58 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
+    height: 4rem;
 }
-.before-date {
-    width: 1rem;
+.date-list {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+}
+.date-div-list {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    background-color: #eaeaea;
+    border-radius: 1rem;
+    overflow: hidden;
+    width: 50rem;
+    justify-content: center;
+}
+.date-div {
+    border-radius: 1rem;
+    text-align: center;
+    align-content: center;
+    width: 6rem;
+    font-size: 1.3rem;
+    opacity: 50%;
+    padding: 0.5rem;
+    position: relative;
+}
+.date-selected-div {
+    opacity: 100%;
+}
+.before-icon, .after-icon {
     height: 1rem;
-    border-top: 0.2rem solid #000000;
-    border-right: 0.2rem solid #000000;
-    transform: rotate(225deg);
     cursor: pointer;
-    margin-top: 0.5rem;
 }
-.next-date {
-    width: 1rem;
-    height: 1rem;
-    border-top: 0.2rem solid #000000;
-    border-right: 0.2rem solid #000000;
-    transform: rotate(45deg);
-    cursor: pointer;
-    margin-top: 0.6rem;
+.now-date-div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    position: absolute;
+    left: 50%; /* 부모의 왼쪽에서 50% 이동 */
+    transform: translateX(-50%);
 }
-
-.matching-date-select {
-    border: none;
-    font-size: 2rem;
+.now-date-border {
+    border: black 0.15rem solid;
+    border-radius: 1rem;
+    width: 6rem;
+    height: 3rem;
 }
 
 .matching-list {
