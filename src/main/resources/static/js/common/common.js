@@ -1,7 +1,6 @@
 // REST API JWT 처리
 
 var originalRequestSettings = null;
-const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 
 $.ajaxSetup({
     beforeSend: function(xhr, settings) {
@@ -116,102 +115,4 @@ function logout() {
             commonErrorCallBack(xhr, status, error);
         }
     })
-}
-
-function convertToDate(dateString, month) {
-    const currentYear = new Date().getFullYear();
-
-    const [day, weekday] = dateString.split(' ');
-
-    const dateStr = `${currentYear}-${month + 1}-${day.padStart(2, '0')}`;
-
-    return dateStr;
-}
-
-function slideLeft() {
-
-    const $dateDivList = $(".date-div-list");
-    const $beforeDateDiv = $dateDivList.children().eq(2);
-    const $middleDateDiv = $dateDivList.children().eq(3);
-
-    const selectedDate = convertToDate($middleDateDiv.text(), new Date().getMonth());
-
-    $.ajax({
-        url: '/api/date/next',
-        type: 'GET',
-        data: {
-            selectedDate: selectedDate
-        },
-        success: function (response) {
-            const newDate = response.data;
-
-            const date = new Date(newDate);
-            const day = date.getDate();
-            const weekday = weekdays[date.getDay()];
-
-            const formattedDate = `${day} / (${weekday})`;
-            const newDateDiv = $("<div>").addClass("date-div").text(formattedDate);
-
-            const hiddenInput = $("<input>")
-                .attr("type", "hidden")
-                .attr("value", newDate)
-
-            newDateDiv.append(hiddenInput);
-
-            const $firstChild = $dateDivList.children().first();
-
-            $firstChild.animate(
-                {marginLeft: "-=35%"},
-                500,
-                function () {
-                    $dateDivList.append(newDateDiv);
-                    $firstChild.remove();
-                    $firstChild.css("margin-left", "0");
-                }
-            );
-        },
-        error: function (xhr, status, error) {
-            commonErrorCallBack(xhr, status, error);
-        }
-    })
-}
-
-function slideRight() {
-
-    const $dateDivList = $(".date-div-list");
-    const $middleDateDiv = $dateDivList.children().eq(3);
-    const selectedDate = convertToDate($middleDateDiv.text());
-
-    $.ajax({
-        url: '/api/date/next',
-        type: 'GET',
-        data: {
-            selectedDate: selectedDate
-        },
-        success: function (response) {
-            const $lastChild = $dateDivList.children().last();
-
-            const newDateDiv = $("<div>").addClass("date-div").text(response.data);
-
-            $lastChild.animate(
-                { marginRight: "-=35%" },
-                500,
-                function () {
-                    $dateDivList.prepend(newDateDiv);
-                    $lastChild.remove();
-                }
-            );
-        },
-        error: function (xhr, status, error) {
-            commonErrorCallBack(xhr, status, error);
-        }
-    })
-}
-
-function showHiddenValue(divElement) {
-    // 클릭된 div 내부의 input hidden 태그의 value 값 가져오기
-    const hiddenValue = $(divElement).find("input[type='hidden']").val();
-
-    // 값 alert
-    alert(hiddenValue);
 }

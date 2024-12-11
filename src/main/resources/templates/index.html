@@ -7,6 +7,7 @@
 </th:block>
 <th:block layout:fragment="script">
   <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/common/matchingCommon.js}"></script>
 </th:block>
 
 <div layout:fragment="content">
@@ -64,14 +65,13 @@
       </div>
     </div>
     <div class="date-select">
-      <div class="date-list" id="dateList">
+      <div class="date-list">
         <div class="date-div-list">
           <div th:each="date, stat : ${dateList}"
                th:classappend="${stat.index == 2} ? 'date-selected-div'"
                class="date-div"
                th:text="${#temporals.format(date, 'dd / (EEE)')}"
-               th:attr=""
-          onclick="showHiddenValue(this)">
+               th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
           </div>
         </div>
         <div class="now-date-div">
@@ -80,12 +80,22 @@
           <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft()"/>
         </div>
       </div>
+
+      <div class="date-list-mobile">
+        <div class="date-div-mobile"
+             th:each="date, stat : ${mobileDateList}"
+             th:classappend="${stat.index == 0} ? 'select-date-div'"
+             th:utext="${#temporals.format(date, 'dd')} + '<br>(' + ${#temporals.format(date, 'EEE')} + ')'"
+             th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}"
+             onclick="changeSelectDateStyle(this)">
+        </div>
+      </div>
     </div>
     <div class="matching-list-div">
       <div class="matching-list" id="matching-list">
         <div th:each="matching : ${matchingList}" class="matching-card">
           <div class="matching-time">
-            <h1 th:text="${matching.startAt}">12:12</h1>
+            <h1 th:text="${#temporals.format(matching.startAt, 'HH:mm')}">12:12</h1>
           </div>
           <div class="matching-info">
             <div class="matching-name-div">
