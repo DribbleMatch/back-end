@@ -23,6 +23,11 @@ public class DateRestController {
     @GetMapping("/pre")
     public ApiResponse<LocalDate> getPreDateString(@RequestParam(name = "selectedDate") LocalDate selectedDate) {
         LocalDate returnDate = selectedDate.minusDays(2);
+
+        if (returnDate.isBefore(LocalDate.now())) {
+            return ApiResponse.ok(null);
+        }
+
         return ApiResponse.ok(returnDate);
     }
 }
