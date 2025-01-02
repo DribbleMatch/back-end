@@ -76,11 +76,35 @@
                 <div class="datetime-div" id="datetime">
                     <div class="date-select">
                         <label for="date">날짜 선택</label>
-                        <input type="date" id="date" th:value="${today}" th:min="${today}"/>
+                        <input type="date" id="date" th:value="${today}" th:min="${today}" onkeydown="return false" />
                     </div>
                     <div class="time-select">
                         <label for="time">시작 시간 선택</label>
-                        <input type="time" id="time" step="900"/>
+                        <input type="time" id="time" value="01:00" onclick="showTimePicker()" readonly/>
+                        <div class="time-picker" id="time-picker">
+                            <div class="time-picker-list">
+                                <button type="button" class="time-picker-element select" onclick="selectPeriod(this)">오전</button>
+                                <button type="button" class="time-picker-element" onclick="selectPeriod(this)">오후</button>
+                            </div>
+                            <div class="time-picker-list">
+                                <button type="button" class="time-picker-element select" onclick="selectHour(this)">1</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">2</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">3</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">4</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">5</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">6</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">7</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">8</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">9</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">10</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">11</button>
+                                <button type="button" class="time-picker-element" onclick="selectHour(this)">12</button>
+                            </div>
+                            <div class="time-picker-list">
+                                <button type="button" class="time-picker-element select" onclick="selectMinute(this)">00</button>
+                                <button type="button" class="time-picker-element" onclick="selectMinute(this)">30</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="hour-select">
                         <label for="hour">진행 시간 선택</label>

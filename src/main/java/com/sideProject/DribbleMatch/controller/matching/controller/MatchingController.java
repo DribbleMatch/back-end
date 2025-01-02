@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.controller.matching.controller;
 
+import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -42,7 +45,10 @@ public class MatchingController {
 
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
-        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("dateList", CommonUtil.getDateList(LocalDate.now()));
+        model.addAttribute("mobileDateList", IntStream.range(0, 14)
+                .mapToObj(i -> LocalDate.now().plusDays(i))
+                .collect(Collectors.toList()));
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());

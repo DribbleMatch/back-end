@@ -8,7 +8,7 @@ section .signup-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 55%;
 }
 
 section .signup-container h2 {

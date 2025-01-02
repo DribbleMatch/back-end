@@ -1,5 +1,11 @@
 $(document).ready(function () {
     activeMenu('match-menu');
+
+    $(document).click(function(event) {
+        if (!$(event.target).closest('#time-picker').length && !$(event.target).is('#time')) {
+            $('#time-picker').hide();
+        }
+    });
 })
 
 function click_stadium_address() {
@@ -149,4 +155,62 @@ function toggleTeamSelect(radioButton) {
         teamSelect.val('');
         teamSelect.prop('disabled', true);
     }
+}
+
+function showTimePicker() {
+    $('#time-picker').css('display', 'flex');
+}
+
+function selectPeriod(button) {
+
+    $('.time-picker-list:first-child .time-picker-element').removeClass('select');
+    $(button).addClass('select');
+
+    const timeInput = $('#time');
+    const currentTime = timeInput.val().split(':');
+    let hour = parseInt(currentTime[0]);
+
+    const period = $('.time-picker-list:first-child .time-picker-element.select').text();
+
+    if (period === '오후' && hour < 12) {
+        hour += 12;
+    } else if (period === '오전' && hour >= 12) {
+        hour -= 12;
+    }
+
+    const minute = currentTime[1];
+    timeInput.val(hour.toString().padStart(2, '0') + ':' + minute);
+}
+
+function selectHour(button) {
+
+    const period = $('.time-picker-list:first-child .time-picker-element.select').text();
+
+    $('.time-picker-list:nth-child(2) .time-picker-element').removeClass('select');
+    $(button).addClass('select');
+
+    const timeInput = $('#time');
+    const currentTime = timeInput.val().split(':');
+    const minute = currentTime[1];
+    let hour = parseInt($(button).text());
+
+    if (period === '오후' && hour < 12) {
+        hour += 12;
+    } else if (period === '오전' && hour === 12) {
+        hour = 0;
+    }
+
+    timeInput.val(hour.toString().padStart(2, '0') + ':' + minute);
+}
+
+function selectMinute(button) {
+    $('.time-picker-list:nth-child(3) .time-picker-element').removeClass('select');
+    $(button).addClass('select');
+
+    const timeInput = $('#time');
+    const currentTime = timeInput.val().split(':');
+    const hour = currentTime[0];
+    const minute = $(button).text();
+
+    timeInput.val(hour + ':' + minute);
 }
