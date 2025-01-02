@@ -7,8 +7,8 @@
 </th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/js/common/region.js}"></script>
-    <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
     <script th:src="@{/js/matching/matchingList.js}"></script>
+    <script th:src="@{/js/common/matchingCommon.js}"></script>
 </th:block>
 
 <div layout:fragment="content">
@@ -17,9 +17,31 @@
             <h2>경기</h2>
         </div>
         <div class="date-select">
-            <div class="before-date" onclick="previousDate()"></div>
-            <input type="date" class="matching-date-select" id="matching-date-select" th:value="${today}" onchange="getMatchingList()"/>
-            <div class="next-date" onclick="nextDate()"></div>
+            <div class="date-list" id="dateList">
+                <div class="date-div-list">
+                    <div th:each="date, stat : ${dateList}"
+                         th:classappend="${stat.index == 2} ? 'date-selected-div'"
+                         class="date-div"
+                         th:text="${#temporals.format(date, 'dd / (EEE)')}"
+                         th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
+                    </div>
+                </div>
+                <div class="now-date-div">
+                    <img src="/image/icon/etc/before_icon.png" class="before-icon" id="prevButton" onclick="slideRight()"/>
+                    <div class="now-date-border"></div>
+                    <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft()"/>
+                </div>
+            </div>
+
+            <div class="date-list-mobile">
+                <div class="date-div-mobile"
+                     th:each="date, stat : ${mobileDateList}"
+                     th:classappend="${stat.index == 0} ? 'select-date-div'"
+                     th:utext="${#temporals.format(date, 'dd')} + '<br>(' + ${#temporals.format(date, 'EEE')} + ')'"
+                     th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}"
+                     onclick="changeSelectDateStyle(this)">
+                </div>
+            </div>
         </div>
         <div class="matching-list-div">
             <div class="matching-list-header">
