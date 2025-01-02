@@ -13,55 +13,14 @@
 <div layout:fragment="content">
   <section class="content">
     <div class="content-header">
-      <div class="header-content">
-        <div class="content-title-div">
-          <h2 class="content-title">조회수 TOP 게시글</h2>
-          <h2 class="more-info" onclick="goToPage('/page/openLater')">+</h2>
-        </div>
-        <div class="grade-div" th:if="${boardList.size() > 0}">
-          <div class="grade">
-            <div class="first-grade">1.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="second-grade">2.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="third-grade">3.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="last-grade">4.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="last-grade">5.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-        </div>
-        <div class="grade-div" th:if="${boardList.size() == 0}">
-          <div class="no-data">
-            게시물이 존재하지 않습니다.
-          </div>
-        </div>
+      <div class="banner">
+        <img src="/image/banner/banner1.png" class="banner-img">
       </div>
-      <div class="header-content">
-        <div class="content-title-div">
-          <h2 class="content-title">시작 임박 경기</h2>
-          <h2 class="more-info" onclick="goToPage('/page/matching/matchingList')">+</h2>
-        </div>
-        <div class="recent-matching-div" th:if="${recentMatchingList.size() > 0}">
-          <div class="recent-matching" th:each="recentMatching : ${recentMatchingList}">
-            <div class="time-string" th:text="${recentMatching.remainTime}">1시간</div>
-            <div class="time-matching-name" th:text="${recentMatching.matchingName}" th:onclick="'goMatchingDetail('+ ${recentMatching.id} +')'">안녕하세요. 박주현입니다.</div>
-          </div>
-        </div>
-        <div class="recent-matching-div" th:if="${recentMatchingList.size() == 0}">
-          <div class="no-data">
-            경기가 존재하지 않습니다.
-          </div>
-        </div>
+      <div class="banner-page-list">
+        <div class="banner-page"></div>
+        <div class="banner-page"></div>
+        <div class="banner-page"></div>
+        <div class="banner-page banner-page-now"></div>
       </div>
     </div>
     <div class="date-select">
