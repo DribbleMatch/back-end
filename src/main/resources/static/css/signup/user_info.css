@@ -17,7 +17,7 @@ section .signup-container form {
     flex-direction: column;
     align-items: center;
     margin-top: 5rem;
-    width: 70%;
+    width: 45%;
 }
 
 section .signup-container .label-container {

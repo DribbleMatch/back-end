@@ -1,5 +1,5 @@
 .input-form {
-    width: 80%;
+    width: 51%;
 }
 .input-form .label-container label {
     width: auto;
@@ -97,6 +97,7 @@
 }
 .info-container .datetime-div .time-select {
     width: 33%;
+    position: relative;
 }
 .info-container .datetime-div .hour-select {
     width: 33%;
@@ -275,6 +276,46 @@
 .submit-btn-div {
     width: 100%;
     text-align: center;
+}
+
+.time-picker {
+    display: none;
+    width: 56%;
+    height: 17rem;
+    background-color: #ffffff;
+    flex-direction: row;
+    border-radius: 0.1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 1px 6px rgba(0, 0, 0, 0.1);
+    border: #d1d1d1 0.01rem solid;
+    position: absolute;
+    top: 100%;
+    left: 29.5%;
+}
+.time-picker-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0.1rem;
+    overflow: scroll;
+}
+.time-picker-element {
+    width: 3.3rem;
+    margin-bottom: 0.1rem;
+    border: none;
+    height: 2rem;
+    flex-shrink: 0;
+    background-color: #ffffff;
+}
+.time-picker-element:hover {
+    background-color: #b2d5ff;
+}
+.time-picker-list::-webkit-scrollbar{
+    display:none;
+}
+.time-picker .select {
+    border: black 0.15rem solid;
+    border-radius: 0.2rem;
+    background-color: #0075ff;
+    color: #ffffff;
 }
 
 @media (max-width: 767px) {
