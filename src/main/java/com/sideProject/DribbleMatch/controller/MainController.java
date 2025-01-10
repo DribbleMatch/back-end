@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.controller;
 
 import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
+import com.sideProject.DribbleMatch.service.banner.BannerService;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ import java.util.stream.IntStream;
 public class MainController {
 
     private final MatchingService matchingService;
+    private final BannerService bannerService;
 
     @GetMapping
     public String index(ModelMap model,
@@ -30,8 +32,7 @@ public class MainController {
 
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
-        model.addAttribute("boardList", new ArrayList<>());
-        model.addAttribute("recentMatchingList", matchingService.getRecentMatchingList());
+        model.addAttribute("bannerList", bannerService.getMainPageBannerList());
         model.addAttribute("dateList", CommonUtil.getDateList(LocalDate.now()));
         model.addAttribute("mobileDateList", IntStream.range(0, 14)
                 .mapToObj(i -> LocalDate.now().plusDays(i))

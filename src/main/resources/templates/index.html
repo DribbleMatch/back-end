@@ -13,14 +13,18 @@
 <div layout:fragment="content">
   <section class="content">
     <div class="content-header">
-      <div class="banner">
-        <img src="/image/banner/banner1.png" class="banner-img">
+      <div class="banner-container">
+        <div class="banner" id="banner">
+          <img th:each="banner : ${bannerList}"
+               th:src="@{/api/image(imagePath=${banner.imagePath})}"
+               th:onclick="'goPostDetail('+ ${banner.postId} +')'"
+               class="banner-img">
+        </div>
       </div>
       <div class="banner-page-list">
-        <div class="banner-page"></div>
-        <div class="banner-page"></div>
-        <div class="banner-page"></div>
-        <div class="banner-page banner-page-now"></div>
+        <div th:each="banner, iter : ${bannerList}"
+             th:classappend="${iter.index == 0} ? 'banner-page-now' : ''"
+             class="banner-page"></div>
       </div>
     </div>
     <div class="date-select">
