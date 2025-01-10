@@ -1,6 +1,6 @@
 .recruitment-list-div {
     margin-top: 5rem;
-    width: 80%;
+    width: 45%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,13 +67,11 @@
 }
 .recruitment-title {
     font-size: 1.3rem;
-    font-weight: bold;
     overflow-wrap: break-word;
     text-align: left;
 }
 .team-name {
     font-size: 1.3rem;
-    font-weight: bold;
     overflow-wrap: break-word;
     text-align: left;
     color: #888888;
@@ -93,7 +91,6 @@
     border-radius: 0.5rem;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-weight: bold;
 }
 .team-info-button:hover {
     background-color: #888888;
@@ -106,7 +103,6 @@
     border-radius: 0.5rem;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-weight: bold;
 }
 .team-apply-button:hover {
     background-color: #888888;
@@ -119,7 +115,6 @@
 }
 .position-div {
     font-size: 1.3rem;
-    font-weight: bold;
     width: 40%;
 }
 .date-info {
@@ -249,15 +244,12 @@
     }
     .recruitment-title {
         font-size: 1rem;
-        font-weight: normal;
     }
     .team-name {
         font-size: 1.1rem;
-        font-weight: normal;
     }
     .position-div {
         font-size: 1rem;
-        font-weight: normal;
         width: 35%;
         overflow-wrap: break-word;
     }

@@ -25,7 +25,7 @@ public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
 
     @Override
     @Transactional
-    public void createPersonalMatchJoin(Long matchingId, Long userId, PersonalMatchingTeam personalMatchingTeam) {
+    public Long createPersonalMatchJoin(Long matchingId, Long userId, PersonalMatchingTeam personalMatchingTeam) {
 
         checkAlreadyJoin(matchingId, userId);
 
@@ -34,11 +34,11 @@ public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER));
 
-        personalMatchJoinRepository.save(PersonalMatchJoin.builder()
+        return personalMatchJoinRepository.save(PersonalMatchJoin.builder()
                         .matchingTeam(personalMatchingTeam)
                         .user(user)
                         .matching(matching)
-                .build());
+                .build()).getId();
     }
 
     @Override

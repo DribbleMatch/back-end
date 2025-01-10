@@ -5,7 +5,10 @@
 
 .matching-list {
     width: 70%;
-    display: ruby;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .matching-line {
     display: flex;
@@ -14,7 +17,7 @@
     margin-bottom: 1rem;
 }
 .matching {
-    width: 45%;
+    width: 65%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -53,12 +56,12 @@
     width: 85%;
     font-size: 2rem;
     text-align: center;
-    overflow-y: scroll;
     background-color: #3644ff;
     color: white;
     border-radius: 2rem;
     padding: 0.3rem;
     white-space: nowrap;
+    font-size: 1.2rem;
 }
 .team-score {
     width: 60%;
@@ -90,9 +93,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .submit-btn {
     margin-top: 1rem;
-    width: 30%;
+    width: 15%;
     font-size: 1rem;
-    font-weight: bold;
     background-color: #00247e;
     color: white;
     border-radius: 1rem;
@@ -105,9 +107,8 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .not-matching-btn {
     margin-top: 1rem;
-    width: 30%;
+    width: 15%;
     font-size: 1rem;
-    font-weight: bold;
     background-color: #c55555;
     color: white;
     border-radius: 1rem;

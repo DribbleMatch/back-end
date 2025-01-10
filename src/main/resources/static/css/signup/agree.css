@@ -15,7 +15,7 @@ section .agree-container form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 70%;
+    width: 50%;
 }
 
 section .agree-container .terms {
@@ -32,7 +32,6 @@ section .agree-container .term-title {
     width: 80%;
     font-size: 1.3rem;
     color: #525252;
-    font-weight: bold;
     margin-bottom: 0.3rem;
 }
 
@@ -43,12 +42,10 @@ section .agree-container .terms .title {
 }
 section .agree-container .terms .term-sub-title {
     font-size: 1.3rem;
-    font-weight: bold;
     color: #2c2c2c;
 }
 section .agree-container .terms .sub-title {
     font-size: 1.1rem;
-    font-weight: bold;
     color: #646464;
 }
 section .agree-container .terms .term-content {
@@ -93,9 +90,6 @@ section .agree-container button:hover {
 }
 
 @media (max-width: 767px) {
-    section .agree-container h2 {
-        font-weight: normal;
-    }
     section .agree-container {
         padding: 0;
         margin-top: -3rem;
@@ -107,7 +101,6 @@ section .agree-container button:hover {
     section .agree-container .term-title {
         width: 95%;
         font-size: 1rem;
-        font-weight: normal;
     }
     section .agree-container .terms {
         width: 90%;
@@ -120,10 +113,8 @@ section .agree-container button:hover {
     }
     section .agree-container .terms .term-sub-title {
         font-size: 1.2rem;
-        font-weight: normal;
     }
     section .agree-container .terms .sub-title {
-        font-weight: normal;
         font-size: 1rem;
     }
     section .agree-container .terms .term-content {

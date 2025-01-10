@@ -1,6 +1,6 @@
 .matching-list-div {
     margin-top: 2rem;
-    width: 60%;
+    width: 45%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,29 +10,62 @@
     display: flex;
     justify-content: center;
     gap: 2rem;
+    width: 100%;
+    height: 4rem;
 }
-.before-date {
-    width: 1rem;
-    height: 1rem;
-    border-top: 0.2rem solid #000000;
-    border-right: 0.2rem solid #000000;
-    transform: rotate(225deg);
-    cursor: pointer;
-    margin-top: 0.5rem;
+.date-list {
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    justify-content: center;
 }
-.next-date {
-    width: 1rem;
+.date-div-list {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    background-color: #eaeaea;
+    border-radius: 1rem;
+    overflow: hidden;
+    width: 50rem;
+    justify-content: center;
+}
+.date-div {
+    border-radius: 1rem;
+    text-align: center;
+    align-content: center;
+    width: 6rem;
+    font-size: 1.3rem;
+    opacity: 50%;
+    padding: 0.5rem;
+    position: relative;
+}
+.date-selected-div {
+    opacity: 100%;
+}
+.before-icon, .after-icon {
     height: 1rem;
-    border-top: 0.2rem solid #000000;
-    border-right: 0.2rem solid #000000;
-    transform: rotate(45deg);
     cursor: pointer;
-    margin-top: 0.6rem;
+}
+.now-date-div {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    position: absolute;
+    left: 50%; /* 부모의 왼쪽에서 50% 이동 */
+    transform: translateX(-50%);
+}
+.now-date-border {
+    border: black 0.15rem solid;
+    border-radius: 1rem;
+    width: 6rem;
+    height: 3rem;
 }
 
-.matching-date-select {
-    border: none;
-    font-size: 2rem;
+.date-list-mobile {
+    display: none;
 }
 
 .matching-list-header {
@@ -54,7 +87,6 @@
     border-radius: 1rem;
     background-color: #f38c48;
     color: #dddddd;
-    font-weight: bold;
 }
 .create-matching-btn:hover {
     background-color: #f8802d;
@@ -114,7 +146,6 @@
     font-size: 0.8rem;
     border-radius: 1rem;
     background-color: #bb63cc;
-    font-weight: bold;
     color: #ffffff;
     padding: 0.1rem 0.5rem 0;
 }
@@ -190,23 +221,37 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+
     .date-select {
-        gap: 0.3rem;
+        width: 105%;
     }
-    .before-date {
-        width: 0.5rem;
-        height: 0.5rem;
-        margin-top: 0.55rem;
+    .date-list {
+        display: none;
     }
-    .next-date {
-        width: 0.5rem;
-        height: 0.5rem;
-        margin-bottom: 0.6rem;
+    .date-list-mobile {
+        display: flex;
+        flex-direction: row;
+        overflow: scroll;
+        width: 100%;
+        background-color: #eaeaea;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+        padding: 1rem;
     }
-    .matching-date-select {
-        border: none;
-        font-size: 1.2rem;
-        width: 12rem;
+    .date-list-mobile::-webkit-scrollbar {
+        display: none;
+    }
+    .date-div-mobile {
+        width: 3rem;
+        padding: 0.3rem 0.7rem;
+        border-radius: 2rem;
+        font-size: 0.8rem;
+        color: black;
+    }
+    .select-date-div {
+        background: #ff8e00;
+        color: white;
     }
 
     .matching-list-div {
@@ -220,7 +265,6 @@
     .create-matching-btn {
         width: 4rem;
         height: 1.5rem;
-        font-weight: normal;
         font-size: 0.7rem;
     }
     .matching-list-header .search-bar {
@@ -249,7 +293,6 @@
     .is-only-women {
         height: 1rem;
         font-size: 0.7rem;
-        font-weight: normal;
         padding: 0.1rem 0.3rem 0;
     }
     .matching-info {

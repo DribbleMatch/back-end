@@ -58,7 +58,7 @@ public class TeamServiceImpl implements TeamService{
         Region region = regionRepository.findByRegionString(request.getRegionString()).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
 
-        Team team = teamRepository.save(Team.builder()
+        return teamRepository.save(Team.builder()
                         .name(request.getName())
                         .winning(0)
                         .maxNumber(request.getMaxNum())
@@ -67,15 +67,7 @@ public class TeamServiceImpl implements TeamService{
                         .imagePath(request.getImage() == null ? path + File.separator + "team_default_image.png" : fileUtil.saveImage(request.getImage(), path, request.getName()))
                         .leader(creator)
                         .region(region)
-                .build());
-
-        teamMemberRepository.save(TeamMember.builder()
-                .team(team)
-                .user(creator)
-                .teamRole(TeamRole.ADMIN)
-                .build());
-
-        return team.getId();
+                .build()).getId();
     }
 
     @Override

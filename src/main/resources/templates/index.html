@@ -7,72 +7,58 @@
 </th:block>
 <th:block layout:fragment="script">
   <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/common/matchingCommon.js}"></script>
 </th:block>
 
 <div layout:fragment="content">
   <section class="content">
     <div class="content-header">
-      <div class="header-content">
-        <div class="content-title-div">
-          <h2 class="content-title">조회수 TOP 게시글</h2>
-          <h2 class="more-info" onclick="goToPage('/page/openLater')">+</h2>
-        </div>
-        <div class="grade-div" th:if="${boardList.size() > 0}">
-          <div class="grade">
-            <div class="first-grade">1.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="second-grade">2.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="third-grade">3.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="last-grade">4.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-          <div class="grade">
-            <div class="last-grade">5.</div>
-            <div class="grade-content">안녕하세요. 박주현입니다.</div>
-          </div>
-        </div>
-        <div class="grade-div" th:if="${boardList.size() == 0}">
-          <div class="no-data">
-            게시물이 존재하지 않습니다.
-          </div>
+      <div class="banner-container">
+        <div class="banner" id="banner">
+          <img th:each="banner : ${bannerList}"
+               th:src="@{/api/image(imagePath=${banner.imagePath})}"
+               th:onclick="'goPostDetail('+ ${banner.postId} +')'"
+               class="banner-img">
         </div>
       </div>
-      <div class="header-content">
-        <div class="content-title-div">
-          <h2 class="content-title">시작 임박 경기</h2>
-          <h2 class="more-info" onclick="goToPage('/page/matching/matchingList')">+</h2>
-        </div>
-        <div class="recent-matching-div" th:if="${recentMatchingList.size() > 0}">
-          <div class="recent-matching" th:each="recentMatching : ${recentMatchingList}">
-            <div class="time-string" th:text="${recentMatching.remainTime}">1시간</div>
-            <div class="time-matching-name" th:text="${recentMatching.matchingName}" th:onclick="'goMatchingDetail('+ ${recentMatching.id} +')'">안녕하세요. 박주현입니다.</div>
-          </div>
-        </div>
-        <div class="recent-matching-div" th:if="${recentMatchingList.size() == 0}">
-          <div class="no-data">
-            경기가 존재하지 않습니다.
-          </div>
-        </div>
+      <div class="banner-page-list">
+        <div th:each="banner, iter : ${bannerList}"
+             th:classappend="${iter.index == 0} ? 'banner-page-now' : ''"
+             class="banner-page"></div>
       </div>
     </div>
     <div class="date-select">
-      <div class="before-date" onclick="previousDate()"></div>
-      <input type="date" class="matching-date-select" id="matching-date-select" th:value="${today}" onchange="getMatchingList()"/>
-      <div class="next-date" onclick="nextDate()"></div>
+      <div class="date-list">
+        <div class="date-div-list">
+          <div th:each="date, stat : ${dateList}"
+               th:classappend="${stat.index == 2} ? 'date-selected-div'"
+               class="date-div"
+               th:text="${#temporals.format(date, 'dd / (EEE)')}"
+               th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
+          </div>
+        </div>
+        <div class="now-date-div">
+          <img src="/image/icon/etc/before_icon.png" class="before-icon" id="prevButton" onclick="slideRight()"/>
+          <div class="now-date-border"></div>
+          <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft()"/>
+        </div>
+      </div>
+
+      <div class="date-list-mobile">
+        <div class="date-div-mobile"
+             th:each="date, stat : ${mobileDateList}"
+             th:classappend="${stat.index == 0} ? 'select-date-div'"
+             th:utext="${#temporals.format(date, 'dd')} + '<br>(' + ${#temporals.format(date, 'EEE')} + ')'"
+             th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}"
+             onclick="changeSelectDateStyle(this)">
+        </div>
+      </div>
     </div>
     <div class="matching-list-div">
       <div class="matching-list" id="matching-list">
         <div th:each="matching : ${matchingList}" class="matching-card">
           <div class="matching-time">
-            <h1 th:text="${matching.startAt}">12:12</h1>
+            <h1 th:text="${#temporals.format(matching.startAt, 'HH:mm')}">12:12</h1>
           </div>
           <div class="matching-info">
             <div class="matching-name-div">

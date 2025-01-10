@@ -1,3 +1,9 @@
+.flow-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .title h2 {
     margin-top: 3rem;
     margin-bottom: 3rem;
@@ -8,6 +14,7 @@
 .step-progress {
     display: flex;
     margin-bottom: 3rem;
+    width: 25%;
 }
 
 .step-progress .step {
@@ -49,7 +56,6 @@
     .title h2 {
         margin-top: 1rem;
         margin-bottom: 1rem;
-        font-weight: normal;
     }
 
     .step-progress .step-circle {

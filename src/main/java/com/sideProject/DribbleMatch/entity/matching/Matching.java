@@ -82,6 +82,12 @@ public class Matching extends BaseEntity {
     @Column
     private int downTeamScore;
 
+    @Column
+    private String upTeamName;
+
+    @Column
+    private String downTeamName;
+
     @ManyToOne
     @JoinColumn(name = "creator_id")
     private User creator;
@@ -104,6 +110,8 @@ public class Matching extends BaseEntity {
             String detailAddress,
             int upTeamScore,
             int downTeamScore,
+            String upTeamName,
+            String downTeamName,
             User creator
             ) {
         this.name = name;
@@ -122,6 +130,8 @@ public class Matching extends BaseEntity {
         this.detailAddress = detailAddress;
         this.upTeamScore = upTeamScore;
         this.downTeamScore = downTeamScore;
+        this.upTeamName = upTeamName;
+        this.downTeamName = downTeamName;
         this.creator = creator;
     }
 
@@ -133,5 +143,9 @@ public class Matching extends BaseEntity {
 
     public void notPlayMatching() {
         this.status = MatchingStatus.NOT_PLAY_FINISHED;
+    }
+
+    public void joinTeamMatching(String teamName) {
+        this.downTeamName = teamName;
     }
 }

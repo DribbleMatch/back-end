@@ -9,19 +9,26 @@ body {
     font-family: 'GmarketSansMedium', sans-serif; /* 기본 폰트로 적용 */
 }
 
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
 header .up_header {
     display: flex;
     align-items: center;
+    width: 60%;
+    height: 4rem;
 }
 header .up_header .logo {
-    width: 24rem;
-    height: 8rem;
+    width: 17rem;
     cursor: pointer;
 }
 header .up_header .searchBox {
     margin-left: auto;
-    width: 30rem;
-    height: 2rem;
+    width: 27rem;
+    height: 1.6rem;
     background-color: #d0d0d0;
     opacity: 50%;
     border: none;
@@ -31,31 +38,43 @@ header .up_header .searchBox {
 header .up_header .userInfo-icon {
     margin-left: 1rem;
     margin-right: 1rem;
-    width: 3rem;
+    width: 2.4rem;
     cursor: pointer;
 }
 header .up_header .menu-icon {
-    width: 2.5rem;
+    width: 1.8rem;
+    height: 2rem;
     margin-right: 1rem;
     cursor: pointer;
 }
 header .down-header {
     display: flex;
     align-items: center;
+    width: 60%;
 }
-header .down-header .menu-items{
+header .down-header .menu-items {
     width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: normal;
+    height: 3rem;
+    margin-top: 1rem;
 }
 header .down-header .menu-items:hover{
     border-radius: 0.5rem;
     background-color: #f38c48;
 }
+
+header .down-header .menu-word {
+    font-weight: normal;
+}
+header .down-header .menu-items h3{
+    font-weight: normal;
+}
 header .down-header .menu-icon{
-    width: 3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 2rem;
     margin-right: 1rem;
 }
 .menu-items.active {
@@ -67,13 +86,14 @@ header .down-header .menu-icon{
     header .up_header {
         justify-content: space-between;
         width: 100%;
+        height: 2rem;
     }
     header .down-header {
         display: none; !important;
     }
     header .up_header .logo {
-        width: 11rem;
-        height: 3.5rem;
+        width: 13rem;
+        height: 1.6rem;
     }
     header .up_header .searchBox {
         display: none;

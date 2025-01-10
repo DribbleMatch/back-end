@@ -76,7 +76,6 @@ public class User extends BaseEntity {
     @Column
     private int experience;
 
-    //todo: 숙련도 및 농구 경력 처리
 //     경험치
 //    0 ~ 100: 1레벨
 //    100 ~ 300: 2레벨
@@ -109,5 +108,9 @@ public class User extends BaseEntity {
         this.career = career;
         this.skill = skill;
         this.experience = experience;
+    }
+
+    public void changePassword(String password) {
+        this.password = password;
     }
 }

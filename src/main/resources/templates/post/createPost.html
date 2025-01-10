@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/post/createPost.css}">
+    <link rel="stylesheet" th:href="@{//uicdn.toast.com/editor/latest/toastui-editor.min.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{//uicdn.toast.com/editor/latest/toastui-editor-all.min.js}"></script>
+    <script th:src="@{/js/post/createPost.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="title">
+            <h2>공지 생성</h2>
+        </div>
+        <form class="input-form">
+            <div class="label-container">
+                <label for="title">공지 제목</label>
+            </div>
+            <div class="info-container">
+                <input type="text" class="post-title" id="title" name="title" />
+            </div>
+
+            <div class="label-container">
+                <label for="content">공지 내용</label>
+            </div>
+            <div id="content" class="mb4"></div>
+
+            <div class="label-container mb2">
+                <label>공지 설정</label>
+            </div>
+            <div class="info-container info-container-sub mb4">
+                <div class="sub-input">
+                    <div class="sub-title mr8">공개여부</div>
+                    <div class="checkbox-div">
+                        <label for="SHOW">공개</label>
+                        <input type="radio" id="show" name="post-status" value="SHOW">
+                        <label for="HIDE">비공개</label>
+                        <input type="radio" id="hide" name="post-status" value="HIDE">
+                    </div>
+                </div>
+                <div class="sub-input">
+                    <div class="sub-title mr8">배너유무</div>
+                    <div class="checkbox-div" onclick="toggleBannerInfo()">
+                        <label>있음</label>
+                        <input type="radio" name="has-banner" value="BANNER">
+                        <label>없음</label>
+                        <input type="radio" name="has-banner" value="NO_BANNER">
+                    </div>
+                </div>
+            </div>
+
+            <div class="banner-div" id="banner-div">
+                <div class="label-container">
+                    <label for="content">배너 설정</label>
+                </div>
+
+                <div class="info-container info-container-sub mb4">
+                    <div class="sub-input">
+                        <div class="sub-title mr8">노출 기간</div>
+                        <div class="date-div">
+                            <input type="date" class="banner-date" id="banner-start"/>
+                            <div class="text-to-emo">~</div>
+                            <input type="date" class="banner-date" id="banner-end"/>
+                        </div>
+                    </div>
+                    <div class="sub-input">
+                        <div class="sub-title mr7">이미지 파일</div>
+                        <div class="img-input">
+                            <input type="file" id="banner-image" accept="image/*" onchange="previewImage()">
+                            <div class="sub-text" id="banner-img-preview">미리보기</div>
+                            <div class="img-preview">
+                                <img class="preview" id="preview" src="" alt="이미지 미리보기" style="display: none;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="submit-btn-div">
+                <button type="button" class="submit-btn" onclick="createPost()">공지 생성</button>
+            </div>
+        </form>
+    </section>
+</div>
+</html>

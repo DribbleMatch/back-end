@@ -8,7 +8,7 @@ section .signup-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80%;
+    width: 55%;
 }
 
 section .signup-container h2 {
@@ -27,7 +27,6 @@ section .signup-container form {
 section .signup-container .label-container {
     width: 100%;
     margin-bottom: 1rem;
-    font-weight: bold;
     margin-left: 1rem;
     display: flex;
     position: relative;
@@ -166,7 +165,6 @@ section .signup-container .image-div img {
     }
 
     section .signup-container .label-container {
-        font-weight: normal;
         flex-direction: column;
     }
     section .signup-container .label-container .label-explain {

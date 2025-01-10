@@ -1,5 +1,7 @@
 package com.sideProject.DribbleMatch.controller.teamMember.restController;
 
+import com.sideProject.DribbleMatch.common.response.ApiResponse;
+import com.sideProject.DribbleMatch.entity.teamMember.ENUM.TeamRole;
 import com.sideProject.DribbleMatch.service.teamMember.TeamMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +19,9 @@ public class TeamMemberRestController {
     private final TeamMemberService teamMemberService;
 
     @GetMapping("/{teamId}")
-    public void joinTeam(Principal principal, @PathVariable Long teamId) {
+    public ApiResponse<Long> joinTeam(Principal principal,
+                                      @PathVariable Long teamId) {
 
-        teamMemberService.createTeamMember(Long.valueOf(principal.getName()), teamId);
+        return ApiResponse.ok(teamMemberService.createTeamMember(Long.valueOf(principal.getName()), teamId, TeamRole.MEMBER));
     }
 }

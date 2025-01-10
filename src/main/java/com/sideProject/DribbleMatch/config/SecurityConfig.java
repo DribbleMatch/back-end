@@ -32,11 +32,12 @@ public class SecurityConfig {
                 })
                 .authorizeHttpRequests((authorizeRequests) -> authorizeRequests
                         .requestMatchers(
-                                "/page/signup/**",
-                                "/api/signup/**",
-                                "/page/login/**",
-                                "/api/login/**",
+                                "/page/signup/**", // 회원가입 페이지
+                                "/api/signup/**", // 회원가입 REST API
+                                "/page/login/**", // 로그인 페이지
+                                "/api/login/**", // 회원가입 REST API
                                 "/api/region/**",
+                                "/api/image**",
                                 "/page",
                                 "/error",
                                 "/healthcheck",

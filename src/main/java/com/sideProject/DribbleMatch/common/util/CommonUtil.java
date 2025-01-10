@@ -6,6 +6,9 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -86,5 +89,25 @@ public class CommonUtil {
         }
 
         return result.toString().trim();
+    }
+
+    public static List<LocalDate> getDateList(LocalDate selectedDate) {
+
+        LocalDate today = LocalDate.now();
+        List<LocalDate> dateList = new ArrayList<>(Collections.nCopies(5, null));
+
+        int startIndex = Math.max(0, (int) today.until(selectedDate).getDays() - 2);
+
+        for (int i = 0; i < 5; i++) {
+            LocalDate date = selectedDate.plusDays(i - 2);
+            if (date.isBefore(today)) {
+                continue;
+            }
+            if (startIndex + i < 5) {
+                dateList.set(startIndex + i, date);
+            }
+        }
+
+        return dateList;
     }
 }

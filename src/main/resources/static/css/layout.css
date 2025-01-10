@@ -8,6 +8,10 @@
 body {
     font-family: 'GmarketSansMedium', sans-serif; /* 기본 폰트로 적용 */
 }
+button {
+    appearance: none; /* 버튼의 기본 스타일 리셋 */
+    font-family: 'GmarketSansMedium', sans-serif; /* 버튼 폰트 적용 */
+}
 
 .content {
     display: flex;
@@ -24,4 +28,8 @@ body {
 
 .hide {
     display: none;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
 }

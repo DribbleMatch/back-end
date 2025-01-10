@@ -15,7 +15,7 @@
     height: 100%;
     position: fixed;
     top: 0;
-    left: 74%;
+    left: 80%;
     z-index: 100;
     background-color: white;
     overflow-y: scroll;
@@ -57,7 +57,6 @@
     text-align: left;
     width: 35%;
     cursor: pointer;
-    overflow: scroll;
     white-space: nowrap;
     padding: 0 1rem;
 }
@@ -93,7 +92,6 @@
     margin-top: 2rem;
     font-size: 1.5rem;
     border-bottom: #d3d3d3 solid 0.1rem;
-    font-weight: bold;
     padding-left: 2rem;
 }
 .one-left-menu .small-menu-list {
@@ -102,6 +100,7 @@
     flex-direction: column;
     border-bottom: #d3d3d3 solid 0.1rem;
     padding-top: 0.3rem;
+    gap: 0.3rem;
 }
 .one-left-menu .small-menu {
 
@@ -128,7 +127,8 @@
     }
     .left-menu-header .header-login-btn {
         margin-left: 1rem;
-        width: 4rem;
+        width: 8rem;
+        color: black;
     }
     .left-menu-header .menu-icon {
         width: 2rem;
@@ -139,7 +139,6 @@
     .one-left-menu .menu-big-title {
         margin-top: 1rem;
         font-size: 1.2rem;
-        font-weight: normal;
     }
     .one-left-menu .small-menu {
         height: 1.4rem;
@@ -150,5 +149,10 @@
         font-size: 1.2rem;
         width: 35%;
         padding: 0;
+        margin-left: 0.3rem;
+    }
+    .left-menu-header .logout-btn {
+        width: 6.5rem;
+        color: black;
     }
 }

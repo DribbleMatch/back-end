@@ -1,6 +1,8 @@
 package com.sideProject.DribbleMatch.controller;
 
-import com.sideProject.DribbleMatch.dto.matching.response.MatchingResponseDto;
+import com.sideProject.DribbleMatch.common.util.CommonUtil;
+import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
+import com.sideProject.DribbleMatch.service.banner.BannerService;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -20,26 +24,24 @@ import java.util.ArrayList;
 public class MainController {
 
     private final MatchingService matchingService;
+    private final BannerService bannerService;
 
     @GetMapping
-    public String index(ModelMap model, @PageableDefault(page = 0, size = 10) Pageable pageable) {
+    public String index(ModelMap model,
+                        @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<MatchingResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
+        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
-        model.addAttribute("boardList", new ArrayList<>());
-        model.addAttribute("recentMatchingList", matchingService.getRecentMatchingList());
-        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("bannerList", bannerService.getMainPageBannerList());
+        model.addAttribute("dateList", CommonUtil.getDateList(LocalDate.now()));
+        model.addAttribute("mobileDateList", IntStream.range(0, 14)
+                .mapToObj(i -> LocalDate.now().plusDays(i))
+                .collect(Collectors.toList()));
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
 
         return "index";
-    }
-
-    @GetMapping("/login")
-    public String login(ModelMap model) {
-
-        return "login/login";
     }
 
     @GetMapping("/openLater")

@@ -3,6 +3,8 @@ package com.sideProject.DribbleMatch.service.user;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.common.util.*;
+import com.sideProject.DribbleMatch.dto.user.request.ChangePasswordRequestDto;
+import com.sideProject.DribbleMatch.dto.user.request.FindInfoRequestDto;
 import com.sideProject.DribbleMatch.dto.user.request.SignupPlayerInfoRequestDto;
 import com.sideProject.DribbleMatch.dto.user.request.UserLogInRequestDto;
 import com.sideProject.DribbleMatch.dto.user.response.JwtResponseDto;
@@ -22,6 +24,7 @@ import java.io.File;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -100,7 +103,7 @@ public class UserServiceImpl implements UserService{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);
 
-        String password = encodePassword(requestDto.getPassword());
+        String password = passwordEncoder.encode(requestDto.getPassword());
         String regionString = requestDto.getSiDoString() + " " + requestDto.getSiGunGuString();
         Region region = regionRepository.findByRegionString(regionString).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
@@ -149,8 +152,33 @@ public class UserServiceImpl implements UserService{
                 new CustomException(ErrorCode.NOT_FOUND_USER)).getNickName();
     }
 
-    private String encodePassword(String password) {
-        return passwordEncoder.encode(password);
+    @Override
+    public List<String> getEmailList(FindInfoRequestDto requestDto) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);
+
+        return userRepository.findAllEmailByUserInfo(birth, requestDto.getPhoneNum());
+    }
+
+    @Override
+    public Long getUserId(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_EMAIL)).getId();
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(ChangePasswordRequestDto requestDto) {
+        User user = userRepository.findById(requestDto.getUserId()).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        if (passwordEncoder.matches(requestDto.getPassword(), user.getPassword())) {
+            throw new CustomException(ErrorCode.SAME_PASSWORD_RESET);
+        }
+
+        user.changePassword(passwordEncoder.encode(requestDto.getPassword()));
+        userRepository.save(user);
     }
 
     private String generateAuthCode() {
