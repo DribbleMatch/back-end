@@ -22,6 +22,7 @@ public enum ErrorCode {
         10: stadium
         11: global
         12: etc
+        13: Banner, Post
 
     - 두번째 자리: 에러 종류
         0: 도메인 / Dto 객체 생성 오류 (MethodArgumentValidException, ConstraintViolationException 등)
@@ -93,7 +94,10 @@ public enum ErrorCode {
     FILE_EXIST(400, "12100", "파일이 존재합니다."),
     FILE_SAVE_FAIL(400, "12101", "파일 저장을 실패했습니다."),
     FILE_IMPORT_IMAGE(400, "12300", "이미지를 불러오는데 실패했습니다."),
-    NO_HANDLED_EXCEPTION(400, "12500", "에러 발생. 고객 센터에 문의하세요.");
+    NO_HANDLED_EXCEPTION(400, "12500", "에러 발생. 고객 센터에 문의하세요."),
+
+    NOT_FOUND_POST(400, "13300", "해당 공지가 존재하지 않습니다."),
+    NOT_FOUND_BANNER(400, "13301", "해당 배너가 존재하지 않습니다.");
 
     private final int httpStatus;
     private final String code;

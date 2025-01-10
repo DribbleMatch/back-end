@@ -32,6 +32,7 @@ public class TeamController {
 
         return "team/createTeam";
     }
+
     @GetMapping("/teamList")
     public String teamList(Model model,
                            Principal principal,
