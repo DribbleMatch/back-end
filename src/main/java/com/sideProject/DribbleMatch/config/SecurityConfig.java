@@ -37,6 +37,7 @@ public class SecurityConfig {
                                 "/page/login/**", // 로그인 페이지
                                 "/api/login/**", // 회원가입 REST API
                                 "/api/region/**",
+                                "/api/image**",
                                 "/page",
                                 "/error",
                                 "/healthcheck",

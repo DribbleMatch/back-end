@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/post/postDetail.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/post/postDetail.js}"></script>
+</th:block>
+
+<div layout:fragment="content">
+    <section class="content">
+        <div class="title">
+            <h2>공지 사항</h2>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="post-header">
+            <div class="post-title" th:text="${postDetail.title}">
+                드리블매치 업데이트 내역입니다.
+            </div>
+            <div class="post-info">
+                <div class="post-info-item">
+                    등록일 | <span th:text="${#temporals.format(postDetail.createdAt, 'yyyy-MM-dd')}">2024-12-25</span>
+                </div>
+                <div class="post-info-item">
+                    작성자 | 관리자
+                </div>
+                <div class="post-info-item">
+                    조회 | <span th:text="${postDetail.viewCount}">41</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-divider"></div>
+
+        <div class="post-content" th:utext="${postDetail.content}">
+            test
+        </div>
+
+        <div class="sub-divider"></div>
+
+        <div class="post-footer">
+            <div class="move-div">
+                <div class="left-div" th:if="${postDetail.beforeId}" th:onclick="'movePost('+ ${postDetail.beforeId} +')'">
+                    <div class="pre-icon"></div>
+                    <div class="left-item font-13" th:text="${postDetail.beforeTitle}"></div>
+                    <div class="left-item" th:text="${#temporals.format(postDetail.beforeCreatedAt, 'yyyy-MM-dd')}"></div>
+                </div>
+
+                <div class="left-div no-exist" th:unless="${postDetail.beforeId}">
+                    <div class="pre-icon"></div>
+                    <div class="left-item font-13">
+                        이전글이 없습니다
+                    </div>
+                </div>
+                <div class="right-div" th:if="${postDetail.afterId}" th:onclick="'movePost('+ ${postDetail.afterId} +')'">
+                    <div class="next-icon"></div>
+                    <div class="right-item font-13" th:text="${postDetail.afterTitle}"></div>
+                    <div class="right-item" th:text="${#temporals.format(postDetail.afterCreatedAt, 'yyyy-MM-dd')}"></div>
+                </div>
+                <div class="right-div no-exist" th:unless="${postDetail.afterId}">
+                    <div class="next-icon"></div>
+                    <div class="right-item font-13">
+                        다음글이 없습니다
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="basic-btn" onclick="goToPostList()">목록</button>
+        </div>
+    </section>
+</div>
+</html>

@@ -1,0 +1,131 @@
+.title h2 {
+    margin-bottom: 5rem;
+    font-size: 2.5rem;
+    color: #535353;
+}
+.divider {
+    width: 50%;
+    border: #1a1a1a 0.15rem solid;
+    border-radius: 1rem;
+}
+.sub-divider {
+    width: 50%;
+    border: #b7b7b7 0.06rem solid;
+    border-radius: 1rem;
+}
+
+.post-header {
+    width: 45%;
+    height: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.post-title {
+    font-size: 1.7rem;
+    color: #434343;
+}
+.post-info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    width: 55%;
+    justify-content: space-between;
+}
+.post-info-item {
+    font-size: 0.8rem;
+    color: #959595;
+    width: 10rem;
+    text-align: center;
+}
+
+.basic-btn {
+    width: 8rem;
+    height: 2rem;
+    border: none;
+    border-radius: 1rem;
+    color: white;
+    background-color: #f4a445;
+    font-size: 1rem;
+    cursor: pointer;
+}
+.basic-btn:hover {
+    background-color: #ff991f;
+}
+
+.post-content {
+    width: 35%;
+}
+.post-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.post-footer {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+}
+.move-div {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+.left-div {
+    width: 50%;
+    height: 7rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    gap: 0.5rem;
+    border-right: #b7b7b7 0.15rem solid;
+}
+.right-div {
+    width: 50%;
+    height: 7rem;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: center;
+    gap: 0.5rem;
+}
+.right-item {
+    color: #000000;
+    margin-right: 1rem;
+}
+.left-item {
+    color: #000000;
+    margin-left: 1rem;
+}
+.next-icon {
+    background-image: url("../../image/icon/etc/next_icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 1rem;
+}
+.pre-icon {
+    background-image: url("../../image/icon/etc/before_icon.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 1rem;
+    height: 1rem;
+    margin-left: 1rem;
+}
+.font-13 {
+    font-size: 1.3rem;
+}
+.no-exist {
+    opacity: 60%;
+    cursor: default;
+}
