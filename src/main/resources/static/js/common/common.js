@@ -51,27 +51,37 @@ function goToPage(url) {
     location.href = url;
 }
 
-function activeFlowStep(step) {
+function activeFlowStep(stepNumber) {
+    const steps = document.querySelectorAll('.step');
+    const checkmarkSVG = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"></path>
+        </svg>
+    `;
 
-    var steps = $('.step');
-    steps.removeClass('step-active');
-    steps.removeClass('step-now');
+    steps.forEach((step, index) => {
+        const circle = step.querySelector('.flow-circle');
+        const activeCircle = step.querySelector('.active-circle');
 
-    if (step === 1) {
-        $('#step-agree').addClass('step-now');
-    } else if (step === 2) {
-        $('#step-agree').addClass('step-active');
-        $('#step-user-info').addClass('step-now');
-    } else if (step === 3) {
-        $('#step-agree').addClass('step-active');
-        $('#step-user-info').addClass('step-active');
-        $('#step-player-info').addClass('step-now');
-    } else {
-        $('#step-agree').addClass('step-active');
-        $('#step-user-info').addClass('step-active');
-        $('#step-player-info').addClass('step-active');
-        $('#step-complete').addClass('step-now');
-    }
+        // active-circle 숨기기
+        activeCircle.style.display = 'none';
+
+        if (index + 1 < stepNumber) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+            circle.innerHTML = checkmarkSVG;
+        } else if (index + 1 === stepNumber) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+            circle.textContent = stepNumber;
+
+            // 현재 진행 중인 step의 active-circle만 보이도록 설정
+            activeCircle.style.display = 'block';
+        } else {
+            step.classList.remove('completed', 'active');
+            circle.textContent = index + 1;
+        }
+    });
 }
 
 function openMenu() {
@@ -82,15 +92,15 @@ function openMenu() {
         success: function (response) {
             if (response.data) {
                 $('#user-nickname').text(response.data);
-                $('#on-login').removeClass("hide");
-                $('#not-login').addClass("hide");
+                $('#on-login').show();
+                $('#not-login').removeClass("d-flex").hide();
             } else {
                 $('#user-nickname').text("");
-                $('#on-login').addClass("hide");
-                $('#not-login').removeClass("hide");
+                $('#on-login').removeClass("d-flex").hide();
+                $('#not-login').show();
             }
 
-            $('#dark-area').removeClass("hide");
+            $('#dark-area').removeClass("d-none");
             $('#left-menu').addClass("left-menu");
         },
         error: function (xhr, status, error) {
@@ -101,7 +111,7 @@ function openMenu() {
 
 function closeMenu() {
     $('#left-menu').removeClass("left-menu").addClass("left-menu-hide");
-    $('#dark-area').addClass("hide");
+    $('#dark-area').addClass("d-none");
 }
 
 function logout() {
@@ -116,3 +126,29 @@ function logout() {
         }
     })
 }
+
+$(document).ready(function() {
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    if (mediaQuery.matches) {
+        $('#left-menu').draggable({
+            axis: "y",
+            stop: function(event, ui) {
+                const screenHeight = $(window).height();
+                const menuTop = ui.position.top;
+
+                if (menuTop > (screenHeight * 2 / 3)) {
+                    $(this).css({
+                        left: '',
+                        top: ''
+                    });
+                    closeMenu();
+                } else {
+                    $(this).draggable('disable');
+                    $(this).css("top", "5%");
+                    $(this).draggable('enable');
+                }
+            }
+        });
+    }
+});

@@ -4,33 +4,33 @@
   <title>DribbleMatch - 농구 메이트를 찾으시나요?</title>
 </head>
 <body>
-<header th:fragment="header">
-  <div class="up_header">
-    <img class="logo" src="/image/DribbleMatch-logo.png" alt="logo.png" onclick="goToPage('/page')">
-    <input type="text" class="searchBox" placeholder="지역, 경기명으로 경기 검색"/>
-    <img class="userInfo-icon" src="/image/icon/etc/userInfo_icon.png" alt="userInfo_icon.png" onclick="goToPage('/page/user/myPage')">
-    <img class="menu-icon" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="openMenu()">
+<header th:fragment="header" class="header h-auto mb-5 d-flex flex-column align-items-center justify-content-between">
+  <div class="up_header d-flex align-items-center">
+    <img class="logo-img cs-p" src="/image/DribbleMatch-logo.png" alt="logo.png" onclick="goToPage('/page')">
+    <input type="text" class="searchBox ms-auto ps-2 border-0 rounded opacity-50" placeholder="지역, 경기명으로 경기 검색"/>
+    <img class="userInfo-icon mx-4 my-0 cs-p" src="/image/icon/etc/userInfo_icon.png" alt="userInfo_icon.png" onclick="goToPage('/page/user/myPage')">
+    <img class="menu-icon me-4 cs-p" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="openMenu()">
   </div>
-  <div class="down-header">
-    <div class="menu-items" id="ranking-menu" onclick="goToPage('/page/openLater')">
-      <img class="menu-icon" src="/image/icon/header/ranking_icon.png">
-      <h4 class="menu-word">랭킹</h4>
+  <div class="down-header d-flex align-items-center">
+    <div class="menu-items mt-1 d-flex align-items-center justify-content-center rounded" id="ranking-menu" onclick="goToPage('/page/openLater')">
+      <img class="down-menu-icon me-4" src="/image/icon/header/ranking_icon.png">
+      <div>랭킹</div>
     </div>
-    <div class="menu-items" id="team-menu" onclick="goToPage('/page/team/teamList')">
-      <img class="menu-icon" src="/image/icon/header/team_icon.png">
-      <h4 class="menu-word">팀</h4>
+    <div class="menu-items mt-1 d-flex align-items-center justify-content-center rounded" id="team-menu" onclick="goToPage('/page/team/teamList')">
+      <img class="down-menu-icon me-4" src="/image/icon/header/team_icon.png">
+      <div>팀</div>
     </div>
-    <div class="menu-items" id="match-menu" onclick="goToPage('/page/matching/matchingList')">
-      <img class="menu-icon" src="/image/icon/header/basketball.png" style="margin-bottom: 0.5rem">
-      <h4 class="menu-word">경기</h4>
+    <div class="menu-items mt-1 d-flex align-items-center justify-content-center rounded" id="match-menu" onclick="goToPage('/page/matching/matchingList')">
+      <img class="down-menu-icon me-4" src="/image/icon/header/basketball.png" style="margin-bottom: 0.5rem">
+      <div>경기</div>
     </div>
-    <div class="menu-items" id="competition-menu" onclick="goToPage('/page/openLater')">
-      <img class="menu-icon" src="/image/icon/header/competition_icon.png">
-      <h4 class="menu-word">대회</h4>
+    <div class="menu-items mt-1 d-flex align-items-center justify-content-center rounded" id="competition-menu" onclick="goToPage('/page/openLater')">
+      <img class="down-menu-icon me-4" src="/image/icon/header/competition_icon.png">
+      <div>대회</div>
     </div>
-    <div class="menu-items" id="board-menu" onclick="goToPage('/page/openLater')">
-      <img class="menu-icon" src="/image/icon/header/board_icon.png">
-      <h4 class="menu-word">커뮤니티</h4>
+    <div class="menu-items mt-1 d-flex align-items-center justify-content-center rounded" id="board-menu" onclick="goToPage('/page/openLater')">
+      <img class="down-menu-icon me-4" src="/image/icon/header/board_icon.png">
+      <div>커뮤니티</div>
     </div>
   </div>
 </header>

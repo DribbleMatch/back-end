@@ -1,0 +1,57 @@
+.stepper {
+    width: 35rem;
+}
+.step .flow-circle {
+    width: 2rem;
+    height: 2rem;
+    background: #e0e0e0;
+}
+.step.completed .flow-circle {
+    background-color: #ff7600;
+}
+.step.active .flow-circle {
+    background-color: #ff7600;
+}
+.stepper .label {
+    width: 7rem;
+    position: absolute;
+    left: -123%;
+    color: #6c757d;
+}
+.line {
+    height: .2rem;
+    top: 0;
+    background: #e0e0e0;
+    flex: 4;
+}
+.step.completed + .line {
+    background-color: #ff7600;
+}
+.step .active-circle {
+    width: 1.2rem;
+    height: 1.2rem;
+    display: none;
+    top: 20%;
+    left: 19.5%;
+}
+
+@media (max-width: 767px) {
+    .container.flow-bar {
+        height: 4rem;
+        margin: 0 !important;
+        margin-top: 2rem !important;
+        padding: 0 !important;
+    }
+
+    .stepper {
+        width: 85%;
+    }
+    .stepper .label {
+        width: 4rem;
+        left: -55%;
+        font-size: .6rem !important;
+    }
+    .stepper .label.up-label{
+        top: -40%;
+    }
+}

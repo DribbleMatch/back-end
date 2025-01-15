@@ -4,34 +4,38 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
-  <link rel="stylesheet" href="/css/header.css">
+  <link rel="stylesheet" href="/css/fragments/header.css">
   <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/signup/signup_step.css">
+  <link rel="stylesheet" href="/css/fragments/flow-bar.css">
   <th:block layout:fragment="css"></th:block>
 </head>
 <body>
-<section class="flow-bar" th:fragment="flow-bar">
-  <div class="title">
-    <h2>회원 가입</h2>
+  <div class="container flow-bar mt-5  d-flex flex-column align-items-center" th:fragment="flow-bar">
+    <div class="stepper d-flex align-items-center justify-content-between">
+      <div class="step text-center position-relative" id="first-step">
+        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">1</div>
+        <div class="label fs-6">약관 동의</div>
+        <div class="active-circle position-absolute bg-white rounded-pill"></div>
+      </div>
+      <div class="line position-relative z-n1"></div>
+      <div class="step text-center position-relative" id="second-step">
+        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">2</div>
+        <div class="label fs-6 up-label">회원 정보 입력</div>
+        <div class="active-circle position-absolute bg-white rounded-pill"></div>
+      </div>
+      <div class="line position-relative z-n1"></div>
+      <div class="step text-center position-relative" id="third-step">
+        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">3</div>
+        <div class="label fs-6">선수 정보 입력</div>
+        <div class="active-circle position-absolute bg-white rounded-pill"></div>
+      </div>
+      <div class="line position-relative z-n1"></div>
+      <div class="step text-center position-relative" id="fourth-step">
+        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">4</div>
+        <div class="label fs-6 up-label">가입 완료</div>
+        <div class="active-circle position-absolute bg-white rounded-pill"></div>
+      </div>
+    </div>
   </div>
-  <div class="step-progress">
-    <div class="step" id="step-agree">
-      <div class="step-circle">1</div>
-      <div class="step-label">약관 동의</div>
-    </div>
-    <div class="step" id="step-user-info">
-      <div class="step-circle">2</div>
-      <div class="step-label">회원 정보 입력</div>
-    </div>
-    <div class="step" id="step-player-info">
-      <div class="step-circle">3</div>
-      <div class="step-label">선수 정보 입력</div>
-    </div>
-    <div class="step" id="step-complete">
-      <div class="step-circle">4</div>
-      <div class="step-label">완료</div>
-    </div>
-  </div>
-</section>
 </body>
 </html>

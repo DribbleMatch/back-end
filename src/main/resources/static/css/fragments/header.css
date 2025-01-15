@@ -1,0 +1,73 @@
+header {
+    min-width: 65rem;
+}
+header .up_header, .down-header {
+    width: 60rem;
+}
+header .logo-img {
+    width: 17rem;
+}
+header .searchBox {
+    width: 25rem;
+    height: 1.6rem;
+    background-color: #d0d0d0;
+}
+header .userInfo-icon {
+    width: 2.4rem;
+}
+header .menu-icon {
+    width: 1.8rem;
+    height: 2rem;
+}
+
+header .menu-items {
+    width: 12rem;
+    height: 3rem;
+}
+header .menu-items:hover{
+    width: 12rem;
+    background-color: #f38c48;
+}
+
+header .down-menu-icon{
+    width: 2rem;
+    height: 2rem;
+}
+.menu-items.active {
+    border-radius: 0.5rem;
+    background-color: #f38c48;
+}
+
+@media (max-width: 767px) {
+    header {
+        min-width: 0;
+    }
+    header .header {
+        align-items: unset !important;
+        margin-bottom: 1rem !important;
+    }
+    header .up_header {
+        width: 100%;
+    }
+    header .logo-img {
+        width: 50%;
+        margin-left: .5rem;
+    }
+    header .searchBox {
+        display: none !important;
+    }
+    header .down-header {
+        display: none !important;
+    }
+    header .userInfo-icon {
+        margin: 0 !important;
+        margin-left: auto !important;
+        width: 2rem;
+    }
+    header .menu-icon {
+        width: 1.3rem;
+        height: 1.6rem;
+        margin: 0.1rem 0 0 !important;
+        margin-right: 0.5rem !important;
+    }
+}

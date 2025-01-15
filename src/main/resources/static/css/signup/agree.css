@@ -1,101 +1,47 @@
-section .agree-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.container form {
+    width: 60%;
 }
-
-section .agree-container h2 {
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 1.5rem;
+.container .terms {
+    height: 15rem;
 }
-
-section .agree-container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-}
-
-section .agree-container .terms {
-    height: 10rem;
-    width: 80%;
-    overflow-y: scroll;
-    border-radius: 1rem;
-    background-color: #eceaea;
-    padding: 0 2rem;
-    text-align: left;
-}
-
-section .agree-container .term-title {
-    width: 80%;
-    font-size: 1.3rem;
+.container .term-title {
     color: #525252;
-    margin-bottom: 0.3rem;
 }
-
-section .agree-container .terms .title {
-    margin-bottom: 3rem;
-    text-align: center;
-    font-size: 1.5rem;
-}
-section .agree-container .terms .term-sub-title {
-    font-size: 1.3rem;
+.container .terms .first-depth-title {
     color: #2c2c2c;
 }
-section .agree-container .terms .sub-title {
-    font-size: 1.1rem;
+section .container .terms .second-depth-title {
     color: #646464;
 }
-section .agree-container .terms .term-content {
+section .container .terms .term-content {
     font-size: 1rem;
     color: #5c5c5c;
 }
-
 section .agree-checkbox-div {
-    display: flex;
-    flex-direction: row;
-    width: 80%;
-    gap: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 2rem;
-}
-section .agree-checkbox-div .agree-text {
-    color: #888888;
-    padding-top: 0.2rem;
     cursor: pointer;
 }
-section .agree-container input[type="text"],
-section .agree-container input[type="email"],
-section .agree-container input[type="password"] {
-    margin-bottom: 15px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
 
-section .agree-container button {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #f38c48;
-    color: #fff;
-    cursor: pointer;
-    margin-top: 1rem;
-}
+/*section .container button {*/
+/*    padding: 10px;*/
+/*    border: none;*/
+/*    border-radius: 4px;*/
+/*    background-color: #f38c48;*/
+/*    color: #fff;*/
+/*    cursor: pointer;*/
+/*    margin-top: 1rem;*/
+/*}*/
 
-section .agree-container button:hover {
+section .container button:hover {
     background-color: #f8802d;
 }
 
 @media (max-width: 767px) {
-    section .agree-container {
+    section .container {
         padding: 0;
         margin-top: -3rem;
     }
 
-    section .agree-container form {
+    section .container form {
         width: 90%;
     }
     section .agree-container .term-title {
@@ -111,7 +57,7 @@ section .agree-container button:hover {
     section .agree-container button {
         margin-top: 0;
     }
-    section .agree-container .terms .term-sub-title {
+    section .agree-container .terms .first-depth-title {
         font-size: 1.2rem;
     }
     section .agree-container .terms .sub-title {
@@ -122,5 +68,20 @@ section .agree-container button:hover {
     }
     section .agree-checkbox-div .agree-text {
         font-size: 0.8rem;
+    }
+
+    .container .term-title {
+        font-size: 1rem !important;
+    }
+
+    .container .first-depth-title {
+        font-size: 1.2rem !important;
+    }
+    .container .second-depth-title {
+        font-size: .9rem !important;
+    }
+    .container .term-content {
+        font-size: 1rem;
+        color: #5c5c5c;
     }
 }

@@ -45,3 +45,11 @@
 ### - 나머지 두자리: 순서 부여
 
 - 00 ~ 99 까지 순서대로 부여
+
+## CSS 적용 순서 (코드 가독성 및 유지보수를 위함)
+- 1: 크기 (width, height 순)
+- 2: 여백 (margin, padding 순)
+- 3: 배치 (display, 정렬, position, 위치 순)
+- 4: 기타 속성
+  - a: text 속성 (color, size, weight 순)
+  - b: 요소 속성 (배경색, 테두리, 기타 순)

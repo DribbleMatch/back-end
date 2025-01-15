@@ -1,0 +1,88 @@
+.left-menu-container .left-menu-hide {
+    width: 24rem;
+    height: 100%;
+    top: 0;
+    right: -24rem;
+    transition: right 0.5s ease;
+    z-index: 100;
+}
+.left-menu-container .left-menu {
+    top: 0;
+    right: 0;
+    transform: translateZ(0);
+}
+
+.left-menu-container .dark-area {
+    z-index: 10;
+}
+
+.left-menu-container .left-menu-header {
+    height: 3rem;
+    border-bottom: #727272 solid 0.1rem;
+}
+.left-menu-container .nickname {
+    width: 14rem;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.left-menu-container .menu-icon {
+    width: 2rem;
+}
+
+.left-menu-container .logout-btn {
+    width: 5rem;
+    border: black solid 0.15rem;
+}
+.left-menu-container .header-login-btn {
+    width: 5rem;
+    border: black solid 0.15rem;
+}
+.left-menu-container .menu-first-depth-title {
+    border-bottom: #d3d3d3 solid 0.1rem;
+}
+.left-menu-container .menu-second-depth-list {
+    border-bottom: #d3d3d3 solid 0.1rem;
+}
+.left-menu-container .second-depth-menu {
+    height: 2rem;
+}
+.left-menu-container .second-depth-menu:hover {
+    background-color: #888888;
+}
+
+@media (max-width: 767px) {
+    .left-menu-container .left-menu-hide {
+        width: 100%;
+        height: 110%;
+        border-radius: 1rem;
+        left: 0;
+        top: 100%;
+        transition: top 0.5s ease;
+    }
+    .left-menu-container .left-menu {
+        top: 5%;
+    }
+    .left-menu-container .nickname {
+        width: 6rem;
+        padding: .3rem !important;
+    }
+    .left-menu-container .logout-btn {
+        width: 5rem;
+        margin-right: .4rem;
+    }
+
+    .left-menu-container .slide-bar-div {
+        width: 100%;
+        height: 2rem;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    .left-menu-container .slide-bar {
+        width: 50%;
+        height: 1rem;
+        display: block !important;
+        border-top: .3rem #e3e3e3 solid;
+    }
+}
