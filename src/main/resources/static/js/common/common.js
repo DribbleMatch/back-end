@@ -1,5 +1,4 @@
-// REST API JWT 처리
-
+/** REST API JWT 처리 **/
 var originalRequestSettings = null;
 
 $.ajaxSetup({
@@ -41,51 +40,12 @@ function commonErrorCallBack(xhr, status, error) {
     }
 }
 
-function activeMenu(menuId) {
-    $('.menu-items').removeClass('active');
+/** REST API JWT 처리 끝 **/
 
-    $('#' + menuId).addClass('active');
-}
-
-function goToPage(url) {
-    location.href = url;
-}
-
-function activeFlowStep(stepNumber) {
-    const steps = document.querySelectorAll('.step');
-    const checkmarkSVG = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 6L9 17l-5-5"></path>
-        </svg>
-    `;
-
-    steps.forEach((step, index) => {
-        const circle = step.querySelector('.flow-circle');
-        const activeCircle = step.querySelector('.active-circle');
-
-        // active-circle 숨기기
-        activeCircle.style.display = 'none';
-
-        if (index + 1 < stepNumber) {
-            step.classList.add('completed');
-            step.classList.remove('active');
-            circle.innerHTML = checkmarkSVG;
-        } else if (index + 1 === stepNumber) {
-            step.classList.add('active');
-            step.classList.remove('completed');
-            circle.textContent = stepNumber;
-
-            // 현재 진행 중인 step의 active-circle만 보이도록 설정
-            activeCircle.style.display = 'block';
-        } else {
-            step.classList.remove('completed', 'active');
-            circle.textContent = index + 1;
-        }
-    });
-}
+/** 메뉴 처리 **/
+const mediaQuery = window.matchMedia("(max-width: 767px)");
 
 function openMenu() {
-
     $.ajax({
         url: '/api/login/checkLogIn',
         type: 'GET',
@@ -101,7 +61,19 @@ function openMenu() {
             }
 
             $('#dark-area').removeClass("d-none");
-            $('#left-menu').addClass("left-menu");
+
+            if (mediaQuery.matches) {
+                $('#left-menu').animate({
+                    top: '5%'
+                }, 500, function() {
+                    $(this).addClass('left-menu').css({
+                        top: '',
+                        left: ''
+                    });
+                });
+            } else  {
+                $('#left-menu').addClass('left-menu')
+            }
         },
         error: function (xhr, status, error) {
             alert("서버 오류. 고객센터에 문의하세요.");
@@ -110,10 +82,92 @@ function openMenu() {
 }
 
 function closeMenu() {
-    $('#left-menu').removeClass("left-menu").addClass("left-menu-hide");
+    if (mediaQuery.matches) {
+        $('#left-menu').animate({top: "100%"}, 300, function () {
+            $(this).css({
+                top: '',
+                left: ''
+            }).removeClass("left-menu").addClass("left-menu-hide");
+        });
+    } else  {
+        $('#left-menu').removeClass("left-menu").addClass("left-menu-hide");
+    }
+
     $('#dark-area').addClass("d-none");
 }
 
+$(document).ready(function() {
+    if (mediaQuery.matches) {
+        $('#left-menu').draggable({
+            axis: "y",
+            cancel: "#left-menu-content",
+            stop: function(event, ui) {
+                const screenHeight = $(window).height();
+                const menuTop = ui.position.top;
+
+                if (menuTop > (screenHeight * 1 / 3)) {
+                    closeMenu();
+                } else {
+                    $(this).draggable('disable');
+                    $(this).css("top", "5%");
+                    $(this).draggable('enable');
+                }
+            }
+        });
+
+        $('#left-menu-content').on('touchstart touchmove touchend', function(e) {
+            e.stopPropagation();
+        });
+    }
+});
+
+/** 메뉴 처리 끝 **/
+
+/** 네비게이션바 처리 **/
+function activeMenu(menuId) {
+    $('.menu-items').removeClass('active');
+
+    $('#' + menuId).addClass('active');
+}
+
+/** 회원 가입 스텝 UI 처리 **/
+function activeFlowStep(stepNumber) {
+    const steps = document.querySelectorAll('.step');
+    const checkmarkSVG = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"></path>
+        </svg>
+    `;
+
+    steps.forEach((step, index) => {
+        const circle = step.querySelector('.flow-circle');
+        const activeCircle = step.querySelector('.active-circle');
+
+        activeCircle.style.display = 'none';
+
+        if (index + 1 < stepNumber) {
+            step.classList.add('completed');
+            step.classList.remove('active');
+            circle.innerHTML = checkmarkSVG;
+        } else if (index + 1 === stepNumber) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+            circle.textContent = stepNumber;
+
+            activeCircle.style.display = 'block';
+        } else {
+            step.classList.remove('completed', 'active');
+            circle.textContent = index + 1;
+        }
+    });
+}
+
+/** 페이지 이동 **/
+function goToPage(url) {
+    location.href = url;
+}
+
+/** 로그아웃 **/
 function logout() {
     $.ajax({
         url: '/api/login/logout',
@@ -126,29 +180,3 @@ function logout() {
         }
     })
 }
-
-$(document).ready(function() {
-
-    const mediaQuery = window.matchMedia("(max-width: 767px)");
-    if (mediaQuery.matches) {
-        $('#left-menu').draggable({
-            axis: "y",
-            stop: function(event, ui) {
-                const screenHeight = $(window).height();
-                const menuTop = ui.position.top;
-
-                if (menuTop > (screenHeight * 2 / 3)) {
-                    $(this).css({
-                        left: '',
-                        top: ''
-                    });
-                    closeMenu();
-                } else {
-                    $(this).draggable('disable');
-                    $(this).css("top", "5%");
-                    $(this).draggable('enable');
-                }
-            }
-        });
-    }
-});

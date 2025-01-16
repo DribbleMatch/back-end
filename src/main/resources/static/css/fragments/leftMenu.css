@@ -10,6 +10,7 @@
     top: 0;
     right: 0;
     transform: translateZ(0);
+    will-change: transform;
 }
 
 .left-menu-container .dark-area {
@@ -18,7 +19,6 @@
 
 .left-menu-container .left-menu-header {
     height: 3rem;
-    border-bottom: #727272 solid 0.1rem;
 }
 .left-menu-container .nickname {
     width: 14rem;
@@ -27,19 +27,29 @@
     overflow-y: hidden;
 }
 .left-menu-container .menu-icon {
-    width: 2rem;
+    width: 1rem;
 }
 
-.left-menu-container .logout-btn {
+.left-menu-container .left-menu-header-btn {
     width: 5rem;
-    border: black solid 0.15rem;
+    border: #757575 solid 0.15rem;
+    color: #434343;
 }
-.left-menu-container .header-login-btn {
-    width: 5rem;
-    border: black solid 0.15rem;
+
+.left-menu-container .one-menu {
+    width: 20rem;
 }
 .left-menu-container .menu-first-depth-title {
-    border-bottom: #d3d3d3 solid 0.1rem;
+    height: 2rem;
+    font-weight: 500;
+    color: #434343;
+}
+.left-menu-container .menu-first-depth-title:hover .left-menu-icon {
+    filter: invert(1) brightness(1000%);
+}
+.left-menu-container .menu-first-depth-title:hover {
+    background-color: #ff9819;
+    color: white;
 }
 .left-menu-container .menu-second-depth-list {
     border-bottom: #d3d3d3 solid 0.1rem;
@@ -50,15 +60,17 @@
 .left-menu-container .second-depth-menu:hover {
     background-color: #888888;
 }
+.left-menu-container .left-menu-icon {
+    width: 1.15rem;
+}
 
 @media (max-width: 767px) {
     .left-menu-container .left-menu-hide {
         width: 100%;
-        height: 110%;
+        height: 200%;
         border-radius: 1rem;
         left: 0;
         top: 100%;
-        transition: top 0.5s ease;
     }
     .left-menu-container .left-menu {
         top: 5%;
@@ -84,5 +96,15 @@
         height: 1rem;
         display: block !important;
         border-top: .3rem #e3e3e3 solid;
+    }
+    .left-menu-container .left-menu-content {
+        height: 43%;
+        overflow: scroll;
+    }
+    .left-menu-container .menu-first-depth-title {
+        padding-left: 1rem !important;
+    }
+    .left-menu-container .one-menu {
+        width: 95%;
     }
 }

@@ -11,80 +11,79 @@
       <div class="slide-bar d-none"></div>
     </div>
     <div class="left-menu-header w-100 d-flex flex-row align-items-center justify-content-between" id="on-login">
-    <div class="nickname px-3 text-start fs-4 cs-p" id="user-nickname" onclick="goToPage('/page/user/myPage')">
-      최강주현
-    </div>
-    <button type="button" class="logout-btn h-75 bg-white rounded-5 cs-p" onclick="logout()">
-      로그아웃
-    </button>
-    <img class="menu-icon me-3 cs-p" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="closeMenu()">
-  </div>
-  <div class="left-menu-header w-100 d-flex flex-row align-items-center justify-content-between" id="not-login">
-      <button type="button" class="header-login-btn h-75 ms-4 bg-white rounded-5 cs-p" onclick="goToPage('/page/login')">
-        로그인
-      </button>
+      <div class="nickname px-3 text-start fs-4 cs-p" id="user-nickname" onclick="goToPage('/page/user/myPage')"></div>
+      <button type="button" class="left-menu-header-btn h-75 bg-white rounded-5 cs-p" onclick="logout()">로그아웃</button>
       <img class="menu-icon me-3 cs-p" src="/image/icon/etc/menu_icon.png" alt="menu_icon.png" onclick="closeMenu()">
     </div>
-    <div class="left-menu-content">
-      <div class="w-100">
-        <div class="menu-first-depth-title mt-4 ps-4 fs-5">
+    <div class="left-menu-header w-100 d-flex flex-row align-items-center justify-content-between" id="not-login">
+      <button type="button" class="left-menu-header-btn h-75 ms-4 bg-white rounded-5 cs-p" onclick="goToPage('/page/login')">로그인</button>
+      <img class="menu-icon me-3 cs-p" src="/image/icon/menu/menu-close-icon.png" alt="menu_icon.png" onclick="closeMenu()">
+    </div>
+    <div class="left-menu-content d-flex flex-column align-items-center gap-3" id="left-menu-content">
+      <div class="one-menu">
+        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
+          <img src="/image/icon/menu/simple-ranking-icon.png" class="left-menu-icon me-3 mb-1">
           랭킹 (RANKING)
         </div>
-        <div class="menu-second-depth-list w-100 d-flex flex-column">
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">
-            개인 순위 (오픈 예정) >
-          </div>
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">
-            팀 순위 (오픈 예정) >
-          </div>
-        </div>
+<!--        <div class="menu-second-depth-list w-100 d-flex flex-column">-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
+<!--            개인 순위 (오픈 예정) >-->
+<!--          </div>-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
+<!--            팀 순위 (오픈 예정) >-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
 
-      <div class="w-100">
-        <div class="menu-first-depth-title mt-4 ps-4 fs-5">
+      <div class="one-menu">
+        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
+          <img src="/image/icon/menu/simple-team-icon.png" class="left-menu-icon me-3 mb-1">
           팀 (TEAM)
         </div>
-        <div class="menu-second-depth-list w-100 d-flex flex-column">
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/team/create')">
-            새 팀 >
-          </div>
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/recruitment/recruitmentList')">
-            팀원 모집 >
-          </div>
-        </div>
+<!--        <div class="menu-second-depth-list w-100 d-flex flex-column">-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/team/create')">-->
+<!--            새 팀 >-->
+<!--          </div>-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/recruitment/recruitmentList')">-->
+<!--            팀원 모집 >-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
 
-      <div class="w-100">
-        <div class="menu-first-depth-title mt-4 ps-4 fs-5">
+      <div class="one-menu">
+        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
+          <img src="/image/icon/menu/simple-matching-icon.png" class="left-menu-icon me-3 mb-1">
           경기 (MATCHING)
         </div>
-        <div class="menu-second-depth-list w-100 d-flex flex-column">
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/matching/create')">
-            경기 생성 >
-          </div>
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">
-            팀 경기 (오픈 예정) >
-          </div>
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">
-            개인 경기 (오픈 예정) >
-          </div>
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">
-            여성 전용 (오픈 예정) >
-          </div>
-          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/matching/inputScore')">
-            경기 점수 입력 >
-          </div>
-        </div>
+<!--        <div class="menu-second-depth-list w-100 d-flex flex-column">-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/matching/create')">-->
+<!--            경기 생성 >-->
+<!--          </div>-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
+<!--            팀 경기 (오픈 예정) >-->
+<!--          </div>-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
+<!--            개인 경기 (오픈 예정) >-->
+<!--          </div>-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
+<!--            여성 전용 (오픈 예정) >-->
+<!--          </div>-->
+<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/matching/inputScore')">-->
+<!--            경기 점수 입력 >-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
 
-      <div class="w-100">
-        <div class="menu-first-depth-title mt-4 ps-4 fs-5">
+      <div class="one-menu">
+        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
+          <img src="/image/icon/menu/simple-challenge-icon.png" class="left-menu-icon me-3 mb-1">
           대회 (오픈 예정)
         </div>
       </div>
 
-      <div class="w-100">
-        <div class="menu-first-depth-title mt-4 ps-4 fs-5">
+      <div class="one-menu">
+        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
+          <img src="/image/icon/menu/simple-board-icon.png" class="left-menu-icon me-3 mb-1">
           게시판 (오픈 예정)
         </div>
       </div>
