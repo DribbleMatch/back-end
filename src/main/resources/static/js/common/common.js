@@ -121,6 +121,24 @@ $(document).ready(function() {
     }
 });
 
+function toggleMenu(element) {
+
+    // 꺽새 아이콘 회전
+    var svgIcon = element.find('svg');
+    var currentRotation = svgIcon.data('rotation') || 0;
+    var newRotation = currentRotation === 0 ? 180 : 0;
+    svgIcon.css({
+        'transition': 'transform 0.3s ease',
+        'transform': 'rotate(' + newRotation + 'deg)'
+    });
+    svgIcon.data('rotation', newRotation);
+
+    // 하위 메뉴 노출
+    var submenu = element.next('.menu-second-depth-list');
+    // submenu.css('display', 'flex');
+    submenu.slideToggle(300);
+}
+
 /** 메뉴 처리 끝 **/
 
 /** 네비게이션바 처리 **/

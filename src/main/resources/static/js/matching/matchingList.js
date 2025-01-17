@@ -4,7 +4,10 @@ $(document).ready(function () {
 
 function viewPage(pageNum) {
 
-    var date = $('#matching-date-select').val();
+    const $dateDivList = $(".date-div-list");
+    const $middleDateDiv = $dateDivList.children().eq(2);
+    const date = $middleDateDiv.attr('date');
+
     var searchWord = $('#search-word').val();
 
     $.ajax({

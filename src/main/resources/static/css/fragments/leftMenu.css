@@ -52,16 +52,36 @@
     color: white;
 }
 .left-menu-container .menu-second-depth-list {
-    border-bottom: #d3d3d3 solid 0.1rem;
+    display: none;
+    width: 85%;
+    gap: 1rem;
 }
 .left-menu-container .second-depth-menu {
     height: 2rem;
 }
 .left-menu-container .second-depth-menu:hover {
-    background-color: #888888;
+    background-color: #ff9819;
+    color: white;
 }
 .left-menu-container .left-menu-icon {
     width: 1.15rem;
+}
+
+.left-menu-container .depth-line {
+    display: none;
+    width: 1rem;
+    height: 3rem;
+    top: -100%;
+    border-bottom: .15rem #adadad solid;
+    border-left: .15rem #adadad solid;
+    left: -8.3%;
+}
+.left-menu-container .depth-line.first {
+    height: 1.7rem;
+    top: -33%;
+}
+.left-menu-container .right-chevrons {
+    margin-bottom: .1rem;
 }
 
 @media (max-width: 767px) {
@@ -98,7 +118,7 @@
         border-top: .3rem #e3e3e3 solid;
     }
     .left-menu-container .left-menu-content {
-        height: 43%;
+        height: 42%;
         overflow: scroll;
     }
     .left-menu-container .menu-first-depth-title {

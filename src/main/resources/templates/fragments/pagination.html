@@ -5,21 +5,17 @@
     <link rel="stylesheet" href="/css/fragments/pagination.css">
 </head>
 <body>
-<div th:fragment="pagination(currentPage, totalPage)">
-    <div class="pagination" id="pagination">
-        <button type="button" class="move-btn" th:disabled="${currentPage <= 4}" th:text="'이전'" th:onclick="'viewPage('+${currentPage - (currentPage % 5) - 4}+')'"></button>
-
-        <div class="page-btn-div" th:with="startPage=${(currentPage - (currentPage % 5) + 1)}, endPage=${startPage + 4}">
-            <div class="page-btn"
-                 th:each="i : ${#numbers.sequence(startPage, endPage)}"
-                 th:if="${i <= totalPage}"
-                 th:text="${i}"
-                 th:classappend="${i == (currentPage + 1)} ? 'current-page-btn'"
-                 th:onclick="'viewPage('+${i}+')'">
-            </div>
+<div th:fragment="pagination(currentPage, totalPage)" class="w-100">
+    <div class="pagination pagination-sm" id="pagination" th:with="startPage=${(currentPage - (currentPage % 5) + 1)}, endPage=${startPage + 4}">
+        <button type="button" class="page-link" th:disabled="${currentPage <= 4}" th:text="'이전'" th:onclick="'viewPage('+${currentPage - (currentPage % 5) - 4}+')'"></button>
+        <div class="page-link"
+             th:each="i : ${#numbers.sequence(startPage, endPage)}"
+             th:if="${i <= totalPage}"
+             th:text="${i}"
+             th:classappend="${i == (currentPage + 1)} ? 'active'"
+             th:onclick="'viewPage('+${i}+')'">
         </div>
-
-        <button type="button" class="move-btn" th:disabled="${(currentPage + (5 - (currentPage % 5))) >= totalPage}" th:text="'다음'" th:onclick="'viewPage('+${currentPage + 6 - (currentPage % 5)}+')'"></button>
+        <button type="button" class="page-link" th:disabled="${(currentPage + (5 - (currentPage % 5))) >= totalPage}" th:text="'다음'" th:onclick="'viewPage('+${currentPage + 6 - (currentPage % 5)}+')'"></button>
     </div>
 </div>
 </body>

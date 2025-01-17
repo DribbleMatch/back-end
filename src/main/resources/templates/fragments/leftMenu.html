@@ -21,70 +21,112 @@
     </div>
     <div class="left-menu-content d-flex flex-column align-items-center gap-3" id="left-menu-content">
       <div class="one-menu">
-        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
-          <img src="/image/icon/menu/simple-ranking-icon.png" class="left-menu-icon me-3 mb-1">
+        <div class="menu-first-depth-title ps-3 d-flex flex-row align-content-center align-items-center fs-6 rounded-pill cs-p" onclick="toggleMenu($(this))">
+          <img src="/image/icon/menu/simple-ranking-icon.png" class="left-menu-icon me-3">
           랭킹 (RANKING)
+          <svg class="ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+            <path d="M8 14l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-<!--        <div class="menu-second-depth-list w-100 d-flex flex-column">-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
-<!--            개인 순위 (오픈 예정) >-->
-<!--          </div>-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
-<!--            팀 순위 (오픈 예정) >-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="menu-second-depth-list mt-3 ms-auto">
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/openLater')">
+            개인 순위 (오픈 예정)
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/openLater')">
+            팀 순위 (오픈 예정)
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
       </div>
 
       <div class="one-menu">
-        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
-          <img src="/image/icon/menu/simple-team-icon.png" class="left-menu-icon me-3 mb-1">
+        <div class="menu-first-depth-title ps-3 d-flex flex-row align-content-center align-items-center fs-6 rounded-pill cs-p" onclick="toggleMenu($(this))">
+          <img src="/image/icon/menu/simple-team-icon.png" class="left-menu-icon me-3">
           팀 (TEAM)
+          <svg class="ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+            <path d="M8 14l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-<!--        <div class="menu-second-depth-list w-100 d-flex flex-column">-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/team/create')">-->
-<!--            새 팀 >-->
-<!--          </div>-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/recruitment/recruitmentList')">-->
-<!--            팀원 모집 >-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="menu-second-depth-list mt-3 ms-auto">
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/team/create')">
+            새 팀
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/recruitment/recruitmentList')">
+            팀원 모집
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
       </div>
 
       <div class="one-menu">
-        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
-          <img src="/image/icon/menu/simple-matching-icon.png" class="left-menu-icon me-3 mb-1">
+        <div class="menu-first-depth-title ps-3 d-flex flex-row align-content-center align-items-center fs-6 rounded-pill cs-p" onclick="toggleMenu($(this))">
+          <img src="/image/icon/menu/simple-matching-icon.png" class="left-menu-icon me-3">
           경기 (MATCHING)
+          <svg class="ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+            <path d="M8 14l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
-<!--        <div class="menu-second-depth-list w-100 d-flex flex-column">-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/matching/create')">-->
-<!--            경기 생성 >-->
-<!--          </div>-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
-<!--            팀 경기 (오픈 예정) >-->
-<!--          </div>-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
-<!--            개인 경기 (오픈 예정) >-->
-<!--          </div>-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/openLater')">-->
-<!--            여성 전용 (오픈 예정) >-->
-<!--          </div>-->
-<!--          <div class="second-depth-menu w-100 align-content-center ps-3" onclick="goToPage('/page/matching/inputScore')">-->
-<!--            경기 점수 입력 >-->
-<!--          </div>-->
-<!--        </div>-->
+        <div class="menu-second-depth-list mt-3 ms-auto">
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/matching/create')">
+            경기 생성
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/openLater')">
+            팀 경기 (오픈 예정)
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/openLater')">
+            개인 경기 (오픈 예정)
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/openLater')">
+            여성 전용 (오픈 예정)
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="second-depth-menu position-relative align-content-center mb-2 ps-3 rounded-pill cs-p" onclick="goToPage('/page/matching/inputScore')">
+            경기 점수 입력
+            <svg class="right-chevrons ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+              <path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
       </div>
 
       <div class="one-menu">
-        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
-          <img src="/image/icon/menu/simple-challenge-icon.png" class="left-menu-icon me-3 mb-1">
+        <div class="menu-first-depth-title ps-3 d-flex flex-row align-content-center align-items-center fs-6 rounded-pill cs-p" onclick="toggleMenu($(this))">
+          <img src="/image/icon/menu/simple-challenge-icon.png" class="left-menu-icon me-3">
           대회 (오픈 예정)
+          <svg class="ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+            <path d="M8 14l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
       </div>
 
       <div class="one-menu">
-        <div class="menu-first-depth-title ps-4 align-content-center fs-6 rounded-pill">
-          <img src="/image/icon/menu/simple-board-icon.png" class="left-menu-icon me-3 mb-1">
+        <div class="menu-first-depth-title ps-3 d-flex flex-row align-content-center align-items-center fs-6 rounded-pill cs-p" onclick="toggleMenu($(this))">
+          <img src="/image/icon/menu/simple-board-icon.png" class="left-menu-icon me-3">
           게시판 (오픈 예정)
+          <svg class="ms-auto me-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25">
+            <path d="M8 14l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
       </div>
     </div>
