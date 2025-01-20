@@ -1,7 +1,11 @@
 .pagination {
     width: 100%;
+    gap: 0.3rem;
 }
-
+.pagination button:disabled {
+    cursor: unset;
+    background-color: #f4f4f4;
+}
 .no-data {
     width: 100%;
     text-align: center;

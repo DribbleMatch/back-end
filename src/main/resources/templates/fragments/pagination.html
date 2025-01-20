@@ -6,16 +6,21 @@
 </head>
 <body>
 <div th:fragment="pagination(currentPage, totalPage)" class="w-100">
-    <div class="pagination pagination-sm" id="pagination" th:with="startPage=${(currentPage - (currentPage % 5) + 1)}, endPage=${startPage + 4}">
-        <button type="button" class="page-link" th:disabled="${currentPage <= 4}" th:text="'이전'" th:onclick="'viewPage('+${currentPage - (currentPage % 5) - 4}+')'"></button>
-        <div class="page-link"
+    <div class="pagination pagination-sm d-flex flex-row justify-content-center" id="pagination" th:with="startPage=${(currentPage - (currentPage % 5) + 1)}, endPage=${startPage + 4}">
+        <button type="button" class="page-link base-color cs-p rounded-2" th:disabled="${currentPage <= 4}" th:text="'이전'" th:onclick="'viewPage('+${currentPage - (currentPage % 5) - 4}+')'"></button>
+        <div class="page-link base-color cs-p rounded-2"
              th:each="i : ${#numbers.sequence(startPage, endPage)}"
              th:if="${i <= totalPage}"
              th:text="${i}"
-             th:classappend="${i == (currentPage + 1)} ? 'active'"
+             th:classappend="${i == (currentPage + 1)} ? 'base-hover'"
              th:onclick="'viewPage('+${i}+')'">
         </div>
-        <button type="button" class="page-link" th:disabled="${(currentPage + (5 - (currentPage % 5))) >= totalPage}" th:text="'다음'" th:onclick="'viewPage('+${currentPage + 6 - (currentPage % 5)}+')'"></button>
+        <button type="button"
+                class="page-link base-color cs-p rounded-2"
+                th:disabled="${(currentPage == totalPage)}"
+                th:text="'다음'"
+                th:onclick="'viewPage('+${(currentPage - (currentPage % 5) + 5) >= totalPage ? totalPage : (currentPage - (currentPage % 5) + 5)}+')'">
+        </button>
     </div>
 </div>
 </body>

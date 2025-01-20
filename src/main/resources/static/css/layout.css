@@ -53,15 +53,29 @@ html, body {
     height: 100%;
 }
 
-.container {
-
+.basic-title {
+    font-size: 1.7rem;
+    font-weight: 500;
 }
-
 .basic-btn {
     width: 6rem;
-    background-color: #f38c48 !important;
+    background-color: #ff9819 !important;
     color: white !important;
     border-radius: 2rem !important;
+    border: none !important;
+}
+.basic-input {
+
+}
+.base-color {
+    color: #ff9819 !important;
+}
+.base-bg-color {
+    background-color: #ff9819 !important;
+}
+.base-hover {
+    color: #ffffff !important;
+    background-color: #ff9819 !important;
 }
 .w-60 {
     width: 60%;

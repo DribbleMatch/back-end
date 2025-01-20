@@ -3,26 +3,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}">
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/login/forgetEmail.css}">
 </th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/js/login/findInfo.js}"></script>
 </th:block>
 
-<div layout:fragment="content">
-    <section class="content">
-        <div class="login-container">
-            <h2>이메일 찾기</h2>
-            <form action="/page/login/findEmail" method="post" onsubmit="return checkFindEmailInput()">
-                <div class="input-div">
-                    <input type="text" id="birth" name="birth" placeholder="생년월일 (YYYYMMDD)">
-                    <input type="text" id="phone-num" name="phoneNum" placeholder="전화번호">
-                </div>
-                <div class="btn-div">
-                    <button type="submit" class="login-btn">이메일 찾기</button>
-                </div>
-            </form>
+<div layout:fragment="content" class="container d-flex flex-column justify-content-center align-items-center">
+    <div class="basic-title mb-5">이메일 찾기</div>
+    <form action="/page/login/findEmail" method="post" onsubmit="return checkFindEmailInput()">
+        <div class="d-flex flex-column justify-content-center gap-3">
+            <input type="text" class="basic-input" id="birth" name="birth" placeholder="생년월일 (YYYYMMDD)" />
+            <input type="text" id="phone-num" name="phoneNum" placeholder="전화번호" />
         </div>
-    </section>
+        <div>
+            <button type="submit" class="basic-btn">이메일 찾기</button>
+        </div>
+    </form>
 </div>
 </html>

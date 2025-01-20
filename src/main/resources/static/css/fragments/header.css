@@ -26,7 +26,7 @@ header .menu-items {
 }
 header .menu-items:hover{
     width: 12rem;
-    background-color: #f38c48;
+    background-color: #ff9819;
 }
 
 header .down-menu-icon{
@@ -35,7 +35,7 @@ header .down-menu-icon{
 }
 .menu-items.active {
     border-radius: 0.5rem;
-    background-color: #f38c48;
+    background-color: #ff9819;
 }
 
 @media (max-width: 767px) {
