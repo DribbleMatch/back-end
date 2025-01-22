@@ -47,35 +47,75 @@
     font-style: normal;
 }
 
+/* layout */
 html, body {
     font-family: 'Paperlogy', sans-serif !important;
     width: 100%;
     height: 100%;
 }
-
+header {
+    min-width: 65rem;
+}
+header.simple-header {
+    min-width: unset;
+}
 .basic-title {
-    font-size: 1.7rem;
+    font-size: 1.8rem;
     font-weight: 500;
 }
+.basic-input-title {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+/* button */
 .basic-btn {
     width: 6rem;
+    height: 2.2rem;
     background-color: #ff9819 !important;
     color: white !important;
     border-radius: 2rem !important;
     border: none !important;
 }
-.basic-input {
+.basic-btn.long-ver {
+    width: 20rem;
+}
+.basic-btn:hover {
+    color: #ffffff !important;
+    background-color: #ff8700 !important;
+}
 
+/* input */
+.basic-input {
+    height: 2rem;
+    border-radius: .3rem;
+    border: .15rem #c1c1c1 solid;
+    padding: .2rem .6rem;
+}
+.basic-input.long-ver {
+    width: 10rem;
+}
+.basic-input.super-long-ver {
+    width: 25rem;
+}
+
+/* style */
+.d-flex-changeable {
+    display: flex;
 }
 .base-color {
     color: #ff9819 !important;
 }
+.sub-color {
+    color: #7b7b7b !important;
+}
 .base-bg-color {
     background-color: #ff9819 !important;
 }
-.base-hover {
-    color: #ffffff !important;
-    background-color: #ff9819 !important;
+
+/* custom-style */
+.w-15 {
+    width: 15%;
 }
 .w-60 {
     width: 60%;
@@ -83,9 +123,27 @@ html, body {
 .cs-p {
     cursor: pointer;
 }
+.hide-toggle {
+    display: none;
+}
+.custom-radio-btn {
+    width: 50%;
+    border: #e7e7e7 .13rem solid;
+    border-radius: .5rem;
+    background-color: #ffffff;
+    color: #000000;
+}
+.custom-radio-btn.active, .custom-radio-btn:hover {
+    background-color: #ff9819;
+    color: #ffffff;
+}
 
 @media (max-width: 767px) {
     html, body {
         overflow-x: hidden;
+    }
+
+    header {
+        min-width: 0;
     }
 }

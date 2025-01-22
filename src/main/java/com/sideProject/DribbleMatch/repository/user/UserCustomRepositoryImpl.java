@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.repository.user;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,11 +17,11 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public List<String> findAllEmailByUserInfo(LocalDate birth, String phone) {
+    public List<Tuple> findAllEmailByUserInfo(String name, String phone) {
         return jpaQueryFactory
-                .select(user.email)
+                .select(user.email, user.createdAt)
                 .from(user)
-                .where(user.birth.eq(birth).and(user.phone.eq(phone)))
+                .where(user.name.eq(name).and(user.phone.eq(phone)))
                 .fetch();
     }
 }

@@ -1,0 +1,13 @@
+header .up_header {
+    width: 60rem;
+}
+header .logo-img {
+    width: 17rem;
+}
+
+@media (max-width: 767px) {
+    header .logo-img {
+        width: 50%;
+        margin-left: .5rem;
+    }
+}

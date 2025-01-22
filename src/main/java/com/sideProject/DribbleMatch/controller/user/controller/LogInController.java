@@ -24,21 +24,16 @@ public class LogInController {
         return "login/login";
     }
 
-    @GetMapping("/forgetEmail")
-    public String forgetEmailPage(Model model) {
-        return "login/forgetEmail";
+    @GetMapping("/forgetUserInfo")
+    public String forgetUserInfoPage(Model model) {
+        return "login/forgetUserInfo";
     }
 
-    @PostMapping("/findEmail")
-    public String findEmailPage(Model model,
+    @PostMapping("/findEmailResult")
+    public String findEmailResultPage(Model model,
                                 FindInfoRequestDto requestDto) {
-        model.addAttribute("emailList", userService.getEmailList(requestDto));
-        return "login/findEmail";
-    }
-
-    @GetMapping("/forgetPassword")
-    public String forgetPasswordPage(Model model) {
-        return "login/forgetPassword";
+        model.addAttribute("emailInfoList", userService.getEmailList(requestDto));
+        return "login/findEmailResult";
     }
 
     @PostMapping("/resetPassword")

@@ -1,0 +1,8 @@
+.login-container .timer {
+    top: 50%;
+    left: 95%;
+    transform: translate(-110%, -50%);
+}
+.login-container .radio-div {
+    height: 2rem;
+}

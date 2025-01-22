@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/login_layout}"
+      lang="ko">
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/login/forgetUserInfo.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/login/forgetUserInfo.js}"></script>
+</th:block>
+
+<div layout:fragment="content" class="container login-container d-flex flex-column align-items-center">
+    <div class="basic-title mt-5 mb-4">이메일 • 비밀번호 찾기</div>
+    <div class="radio-div w-100 mb-5 d-flex justify-content-center gap-1">
+        <button type="button" class="custom-radio-btn active" id="email-radio">이메일 찾기</button>
+        <button type="button" class="custom-radio-btn" id="password-radio">비밀번호 찾기</button>
+    </div>
+    <form class="w-75" id="findEmailForm" method="post">
+        <div class="d-flex flex-column justify-content-center gap-3">
+            <input type="text" class="basic-input" id="name" name="name" placeholder="이름"/>
+            <input type="text" class="basic-input hide-toggle" id="email" name="email" placeholder="이메일"/>
+            <input type="text" class="basic-input" id="phone-num" name="phoneNum" placeholder="전화번호"/>
+            <div class="hide-toggle w-100 position-relative" id="pin-num-div">
+                <input type="text" class="basic-input w-100" id="pin-num" name="pin-num" placeholder="인증번호"/>
+                <div class="timer position-absolute" id="timer">05:00</div>
+            </div>
+        </div>
+        <div class="mt-5 d-flex justify-content-center">
+            <button type="submit" class="basic-btn long-ver mb-5" id="complete-btn">인증번호 전송</button>
+        </div>
+    </form>
+</div>
+</html>

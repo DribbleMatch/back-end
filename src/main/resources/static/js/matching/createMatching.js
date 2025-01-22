@@ -6,17 +6,32 @@ $(document).ready(function () {
             $('#time-picker').hide();
         }
     });
+
+    $('input[name="game-kind"]').on('change', function() {
+        var teamSelect = $('#team-select');
+
+        if (this.value === 'TEAM') {
+            teamSelect.prop('disabled', false);
+        } else {
+            teamSelect.val('');
+            teamSelect.prop('disabled', true);
+        }
+    });
+
+    $('input[name="stadium_region_select"]').on('change', function() {
+        if (this.id === 'stadium') {
+            $('#region-info').hide();
+            $('#region-info2').hide();
+            $('#stadium-info').show();
+            $('#stadium-info2').show();
+        } else if (this.id === 'region') {
+            $('#region-info').css('display', 'flex');
+            $('#region-info2').css('display', 'flex');
+            $('#stadium-info').hide()
+            $('#stadium-info2').hide();
+        }
+    });
 })
-
-function click_stadium_address() {
-    $('#region-info').css('display', 'none');
-    $('#stadium-info').show();
-}
-
-function click_region() {
-    $('#region-info').show();
-    $('#stadium-info').css('display', 'none');
-}
 
 function selectAddress() {
 
@@ -144,17 +159,6 @@ function createMatching() {
             commonErrorCallBack(xhr, status, error);
         }
     })
-}
-
-function toggleTeamSelect(radioButton) {
-    var teamSelect = $('#team-select');
-
-    if (radioButton.value === 'TEAM') {
-        teamSelect.prop('disabled', false);
-    } else {
-        teamSelect.val('');
-        teamSelect.prop('disabled', true);
-    }
 }
 
 function showTimePicker() {

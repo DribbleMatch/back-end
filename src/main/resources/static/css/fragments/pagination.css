@@ -6,6 +6,9 @@
     cursor: unset;
     background-color: #f4f4f4;
 }
+.pagination .current-page {
+    background-color: #f4f4f4;
+}
 .no-data {
     width: 100%;
     text-align: center;

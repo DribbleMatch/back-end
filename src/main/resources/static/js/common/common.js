@@ -39,8 +39,8 @@ function commonErrorCallBack(xhr, status, error) {
         commonErrorMessageCallBack(response);
     }
 }
-
 /** REST API JWT 처리 끝 **/
+
 
 /** 메뉴 처리 **/
 const mediaQuery = window.matchMedia("(max-width: 767px)");
@@ -138,8 +138,8 @@ function toggleMenu(element) {
     // submenu.css('display', 'flex');
     submenu.slideToggle(300);
 }
-
 /** 메뉴 처리 끝 **/
+
 
 /** 네비게이션바 처리 **/
 function activeMenu(menuId) {
@@ -198,3 +198,11 @@ function logout() {
         }
     })
 }
+
+/** validation **/
+function validate_password(password) {
+    var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    return passwordPattern.test(password);
+}
+/** validation 끝 **/

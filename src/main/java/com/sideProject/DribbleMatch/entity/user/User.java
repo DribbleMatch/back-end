@@ -26,6 +26,10 @@ public class User extends BaseEntity {
     @Column
     private Long id;
 
+    @Column
+    @NotNull
+    private String name;
+
     @Column(unique = true)
     @NotNull
     private String email;
@@ -82,7 +86,8 @@ public class User extends BaseEntity {
 //    300 ~ 600: 3레벨
 
     @Builder
-    public User(String email,
+    public User(String name,
+                String email,
                 String password,
                 String nickName,
                 Gender gender,
@@ -95,6 +100,7 @@ public class User extends BaseEntity {
                 int career,
                 Skill skill,
                 int experience) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.nickName = nickName;

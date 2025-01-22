@@ -1,5 +1,6 @@
 package com.sideProject.DribbleMatch.service.user;
 
+import com.querydsl.core.Tuple;
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
 import com.sideProject.DribbleMatch.common.util.*;
@@ -24,7 +25,10 @@ import java.io.File;
 import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -153,12 +157,18 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<String> getEmailList(FindInfoRequestDto requestDto) {
+    public List<Map<String, Object>> getEmailList(FindInfoRequestDto requestDto) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        LocalDate birth = LocalDate.parse(requestDto.getBirth(), formatter);
+        List<Tuple> emailInfoList =  userRepository.findAllEmailByUserInfo(requestDto.getName(), requestDto.getPhoneNum());
 
-        return userRepository.findAllEmailByUserInfo(birth, requestDto.getPhoneNum());
+        return emailInfoList.stream()
+                .map(tuple -> {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("name", tuple.get(0, String.class));
+                    map.put("createdAt", tuple.get(1, LocalDate.class));
+                    return map;
+                })
+                .collect(Collectors.toList());
     }
 
     @Override

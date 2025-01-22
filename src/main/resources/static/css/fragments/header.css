@@ -1,6 +1,3 @@
-header {
-    min-width: 65rem;
-}
 header .up_header, .down-header {
     width: 60rem;
 }
@@ -39,9 +36,6 @@ header .down-menu-icon{
 }
 
 @media (max-width: 767px) {
-    header {
-        min-width: 0;
-    }
     header .header {
         align-items: unset !important;
         margin-bottom: 1rem !important;

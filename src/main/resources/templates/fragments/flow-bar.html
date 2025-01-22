@@ -1,41 +1,40 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-  <link rel="stylesheet" href="/css/fragments/header.css">
-  <link rel="stylesheet" href="/css/layout.css">
-  <link rel="stylesheet" href="/css/fragments/flow-bar.css">
-  <th:block layout:fragment="css"></th:block>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <body>
-  <div class="container flow-bar mt-5  d-flex flex-column align-items-center" th:fragment="flow-bar">
+<div class="flow-bar container mt-5  d-flex flex-column align-items-center" th:fragment="flow-bar">
     <div class="stepper d-flex align-items-center justify-content-between">
-      <div class="step text-center position-relative" id="first-step">
-        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">1</div>
-        <div class="label fs-6">약관 동의</div>
-        <div class="active-circle position-absolute bg-white rounded-pill"></div>
-      </div>
-      <div class="line position-relative z-n1"></div>
-      <div class="step text-center position-relative" id="second-step">
-        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">2</div>
-        <div class="label fs-6 up-label">회원 정보 입력</div>
-        <div class="active-circle position-absolute bg-white rounded-pill"></div>
-      </div>
-      <div class="line position-relative z-n1"></div>
-      <div class="step text-center position-relative" id="third-step">
-        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">3</div>
-        <div class="label fs-6">선수 정보 입력</div>
-        <div class="active-circle position-absolute bg-white rounded-pill"></div>
-      </div>
-      <div class="line position-relative z-n1"></div>
-      <div class="step text-center position-relative" id="fourth-step">
-        <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">4</div>
-        <div class="label fs-6 up-label">가입 완료</div>
-        <div class="active-circle position-absolute bg-white rounded-pill"></div>
-      </div>
+        <div class="step text-center position-relative" id="first-step">
+            <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">
+                1
+            </div>
+            <div class="label fs-6">약관 동의</div>
+            <div class="active-circle position-absolute bg-white rounded-pill"></div>
+        </div>
+        <div class="line position-relative z-n1"></div>
+        <div class="step text-center position-relative" id="second-step">
+            <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">
+                2
+            </div>
+            <div class="label fs-6 up-label">회원 정보 입력</div>
+            <div class="active-circle position-absolute bg-white rounded-pill"></div>
+        </div>
+        <div class="line position-relative z-n1"></div>
+        <div class="step text-center position-relative" id="third-step">
+            <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">
+                3
+            </div>
+            <div class="label fs-6">선수 정보 입력</div>
+            <div class="active-circle position-absolute bg-white rounded-pill"></div>
+        </div>
+        <div class="line position-relative z-n1"></div>
+        <div class="step text-center position-relative" id="fourth-step">
+            <div class="flow-circle mx-auto d-flex align-items-center justify-content-center text-white fw-bold rounded-circle">
+                4
+            </div>
+            <div class="label fs-6 up-label">가입 완료</div>
+            <div class="active-circle position-absolute bg-white rounded-pill"></div>
+        </div>
     </div>
-  </div>
+</div>
 </body>
 </html>
