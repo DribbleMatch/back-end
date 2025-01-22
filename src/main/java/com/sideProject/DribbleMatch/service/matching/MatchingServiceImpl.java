@@ -58,7 +58,7 @@ public class MatchingServiceImpl implements MatchingService{
 
         // 팀 멤버가 최대 모집 인원보다 많으면 에러
         List<TeamMember> teamMemberList = teamMemberRepository.findAllByTeamName(requestDto.getTeamName());
-        if (requestDto.getMaxPeople() < teamMemberList.size()) {
+        if (requestDto.getMaxNum() < teamMemberList.size()) {
             throw new CustomException(ErrorCode.TEAM_MAX_MEMBER_NUM);
         }
 
@@ -77,8 +77,8 @@ public class MatchingServiceImpl implements MatchingService{
 
         return matchingRepository.save(Matching.builder()
                 .name(requestDto.getName())
-                .playPeople(requestDto.getPlayPeople())
-                .maxPeople(requestDto.getMaxPeople())
+                .playNum(requestDto.getPlayNum())
+                .maxNum(requestDto.getMaxNum())
                 .startAt(requestDto.getStartAt())
                 .endAt(requestDto.getStartAt().plusHours(requestDto.getHour()))
                 .hour(requestDto.getHour())
@@ -173,8 +173,8 @@ public class MatchingServiceImpl implements MatchingService{
                         .name(matching.getName())
                         .isOnlyWomen(matching.getIsOnlyWomen())
                         .gameKind(matching.getGameKind())
-                        .playMemberNum(matching.getPlayPeople())
-                        .maxMemberNum(matching.getMaxPeople())
+                        .playMemberNum(matching.getPlayNum())
+                        .maxMemberNum(matching.getMaxNum())
                         .regionString(regionRepository.findRegionStringById(matching.getRegion().getId()).orElseThrow(() ->
                                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING)))
                         .isReservedStadium(matching.getIsReserved())
@@ -206,8 +206,8 @@ public class MatchingServiceImpl implements MatchingService{
                 .name(matching.getName())
                 .isReservedStadium(matching.getIsReserved())
                 .regionString(createMatchingRegionString(matching))
-                .playMemberNum(matching.getPlayPeople())
-                .maxMemberNum(matching.getMaxPeople())
+                .playMemberNum(matching.getPlayNum())
+                .maxMemberNum(matching.getMaxNum())
                 .isOnlyWomen(matching.getIsOnlyWomen())
                 .gameKind(matching.getGameKind())
                 .startAt(matching.getStartAt())
@@ -251,8 +251,8 @@ public class MatchingServiceImpl implements MatchingService{
                         .startAt(matching.getStartAt())
                         .endAt(matching.getEndAt())
                         .regionString(createMatchingRegionString(matching))
-                        .playMemberNum(matching.getPlayPeople())
-                        .maxMemberNum(matching.getMaxPeople())
+                        .playMemberNum(matching.getPlayNum())
+                        .maxMemberNum(matching.getMaxNum())
                         .build()
                 ).collect(Collectors.toList());
 
@@ -280,7 +280,7 @@ public class MatchingServiceImpl implements MatchingService{
                         .startAt(matching.getStartAt())
                         .endAt(matching.getEndAt())
                         .regionString(createMatchingRegionString(matching))
-                        .playMemberNum(matching.getPlayPeople())
+                        .playMemberNum(matching.getPlayNum())
                         .build()
                 ).collect(Collectors.toList());
 

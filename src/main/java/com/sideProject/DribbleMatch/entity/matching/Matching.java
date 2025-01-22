@@ -30,10 +30,10 @@ public class Matching extends BaseEntity {
     private String name;
 
     @Column
-    private int playPeople;
+    private int playNum;
 
     @Column
-    private int maxPeople;
+    private int maxNum;
 
     @NotNull
     @Column
@@ -96,8 +96,8 @@ public class Matching extends BaseEntity {
     @Builder
     protected Matching(
             String name,
-            int playPeople,
-            int maxPeople,
+            int playNum,
+            int maxNum,
             LocalDateTime startAt,
             LocalDateTime endAt,
             int hour,
@@ -115,8 +115,8 @@ public class Matching extends BaseEntity {
             User creator
             ) {
         this.name = name;
-        this.playPeople = playPeople;
-        this.maxPeople = maxPeople;
+        this.playNum = playNum;
+        this.maxNum = maxNum;
         this.startAt = startAt;
         this.endAt = endAt;
         this.hour = hour;
