@@ -31,7 +31,7 @@
 }
 
 .left-menu-container .left-menu-header-btn {
-    width: 5rem;
+    width: 6rem;
     border: #757575 solid 0.15rem;
     color: #434343;
 }
@@ -98,10 +98,13 @@
     .left-menu-container .nickname {
         width: 6rem;
         padding: .3rem !important;
+        margin-left: .5rem;
     }
-    .left-menu-container .logout-btn {
-        width: 5rem;
-        margin-right: .4rem;
+    .left-menu-container #logout-btn {
+        margin-right: 1rem;
+    }
+    .left-menu-container .menu-icon {
+        display: none;
     }
 
     .left-menu-container .slide-bar-div {

@@ -33,7 +33,7 @@ public class MatchingController {
                                      Principal principal) {
 
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
-        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("tomorrow", LocalDate.now().plusDays(1));
         model.addAttribute("teamList", teamMemberService.getTeamNameListByUserId(Long.valueOf(principal.getName())));
 
         return "matching/createMatching";

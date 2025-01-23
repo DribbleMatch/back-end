@@ -206,3 +206,21 @@ function validate_password(password) {
     return passwordPattern.test(password);
 }
 /** validation 끝 **/
+
+/** module **/
+function convertTime(input) {
+    const period = input.slice(0, 2);
+    const time = input.slice(3);
+
+    const [hour, minute] = time.split(":").map(Number);
+
+    let newHour = hour;
+
+    if (period === "오후" && hour !== 12) {
+        newHour += 12;
+    } else if (period === "오전" && hour === 12) {
+        newHour = 0;
+    }
+
+    return newHour.toString().padStart(2, '0') + ":" + minute.toString().padStart(2, '0');
+}

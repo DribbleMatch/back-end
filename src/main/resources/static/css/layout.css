@@ -53,6 +53,9 @@ html, body {
     width: 100%;
     height: 100%;
 }
+button {
+    color: #000000;
+}
 header {
     min-width: 65rem;
 }
@@ -91,12 +94,17 @@ header.simple-header {
     border-radius: .3rem;
     border: .15rem #c1c1c1 solid;
     padding: .2rem .6rem;
+    background-color: #ffffff;
+    color: #000000;
 }
 .basic-input.long-ver {
     width: 10rem;
 }
 .basic-input.super-long-ver {
     width: 25rem;
+}
+.basic-input:disabled {
+    background-color: #f5f5f5;
 }
 
 /* style */
@@ -145,5 +153,13 @@ header.simple-header {
 
     header {
         min-width: 0;
+    }
+
+    input[type="time"][readonly] {
+        pointer-events: none;
+    }
+
+    .w-100-m {
+        width: 100% !important;
     }
 }

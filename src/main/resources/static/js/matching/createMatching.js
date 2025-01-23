@@ -1,5 +1,6 @@
 $(document).ready(function () {
     activeMenu('match-menu');
+    setTime();
 
     $(document).click(function(event) {
         if (!$(event.target).closest('#time-picker').length && !$(event.target).is('#time')) {
@@ -31,6 +32,26 @@ $(document).ready(function () {
             $('#stadium-info2').hide();
         }
     });
+
+    $('.time-picker-element').on('click', function() {
+        var parentList = $(this).closest('.time-picker-list');
+        parentList.find('.time-picker-element').removeClass('select');
+        $(this).addClass('select');
+        setTime();
+    });
+
+    /** for mobile **/
+    $("#date").on("change", function () {
+        const selectedDate = new Date($(this).val());
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        if (selectedDate < tomorrow) {
+            alert("오늘 이후의 날짜의 경기만 생성 가능합니다");
+            $(this).val(tomorrow.toLocaleDateString('en-CA'));
+        }
+    });
 })
 
 function selectAddress() {
@@ -47,6 +68,23 @@ function selectAddress() {
             }
         }
     }).open();
+}
+
+function showTimePicker() {
+    $('#time-picker').css('display', 'flex');
+}
+
+function setTime() {
+    var $time = $('#time');
+    var period = $('#period-list .select').attr('id');
+    var hours = $('#hour-list .select').attr('id');
+    var minutes = $('#minute-list .select').attr('id');
+    
+    if (period === 'am') {
+        $time.val('오전 ' + hours + ":" + minutes);
+    } else {
+        $time.val('오후 ' + hours + ":" + minutes);
+    }
 }
 
 function createMatching() {
@@ -95,14 +133,6 @@ function createMatching() {
         return;
     }
 
-    var currentDate = new Date();
-    var targetDateTime = new Date(date + " " + time);
-    currentDate.setHours(currentDate.getHours() + 2);
-    if (currentDate >= targetDateTime) {
-        alert("두 시간 이후의 경기만 생성 가능합니다");
-        return
-    }
-
     if (gameKind === 'TEAM' && !teamSelect) {
         alert("팀을 선택해주세요.");
         return;
@@ -142,9 +172,9 @@ function createMatching() {
 
     var formData = {
         "name": name,
-        "playPeople": playNum,
-        "maxPeople": maxNum,
-        "startAt": date + "T" + time,
+        "playNum": playNum,
+        "maxNum": maxNum,
+        "startAt": date + "T" + convertTime(time),
         "hour": hour,
         "gameKind": gameKind,
         "teamName": teamSelect,
@@ -168,62 +198,4 @@ function createMatching() {
             commonErrorCallBack(xhr, status, error);
         }
     })
-}
-
-function showTimePicker() {
-    $('#time-picker').css('display', 'flex');
-}
-
-function selectPeriod(button) {
-
-    $('.time-picker-list:first-child .time-picker-element').removeClass('select');
-    $(button).addClass('select');
-
-    const timeInput = $('#time');
-    const currentTime = timeInput.val().split(':');
-    let hour = parseInt(currentTime[0]);
-
-    const period = $('.time-picker-list:first-child .time-picker-element.select').text();
-
-    if (period === '오후' && hour < 12) {
-        hour += 12;
-    } else if (period === '오전' && hour >= 12) {
-        hour -= 12;
-    }
-
-    const minute = currentTime[1];
-    timeInput.val(hour.toString().padStart(2, '0') + ':' + minute);
-}
-
-function selectHour(button) {
-
-    const period = $('.time-picker-list:first-child .time-picker-element.select').text();
-
-    $('.time-picker-list:nth-child(2) .time-picker-element').removeClass('select');
-    $(button).addClass('select');
-
-    const timeInput = $('#time');
-    const currentTime = timeInput.val().split(':');
-    const minute = currentTime[1];
-    let hour = parseInt($(button).text());
-
-    if (period === '오후' && hour < 12) {
-        hour += 12;
-    } else if (period === '오전' && hour === 12) {
-        hour = 0;
-    }
-
-    timeInput.val(hour.toString().padStart(2, '0') + ':' + minute);
-}
-
-function selectMinute(button) {
-    $('.time-picker-list:nth-child(3) .time-picker-element').removeClass('select');
-    $(button).addClass('select');
-
-    const timeInput = $('#time');
-    const currentTime = timeInput.val().split(':');
-    const hour = currentTime[0];
-    const minute = $(button).text();
-
-    timeInput.val(hour + ':' + minute);
 }

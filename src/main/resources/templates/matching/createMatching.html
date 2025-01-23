@@ -14,7 +14,7 @@
 <div layout:fragment="content" class="container d-flex flex-column align-items-center">
     <div class="basic-title mb-5">경기 생성</div>
     <form class="input-form">
-        <div class="input-container mb-5 d-flex flex-column">
+        <div class="mb-5 d-flex flex-column">
             <label for="name" class="basic-input-title ms-2 d-flex flex-row">
                 경기명
                 <span class="ms-4 align-content-end sub-color fs-6 fw-normal">재미있는 경기명은 사람들을 끌어들입니다</span>
@@ -22,42 +22,42 @@
             <input type="text" class="basic-input" id="name" name="name"/>
         </div>
 
-        <div class="input-container mb-5 d-flex flex-column">
+        <div class="mb-5 d-flex flex-column">
             <label class="basic-input-title ms-2 d-flex flex-row">
                 경기 인원
                 <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기 진행 인원을 선택해주세요. 한 팀 기준으로 선택해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">경기 참여 인원</div>
-                    <div class="d-flex flex-row gap-5">
-                        <label class="d-flex flex-column fs-6">
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기 참여 인원</div>
+                    <div class="radio-mobile d-flex flex-row gap-5">
+                        <label class="d-flex flex-column align-items-center fs-6">
                             <input type="radio" name="play-num" value="1">
                             1 VS 1
                         </label>
-                        <label class="d-flex flex-column fs-6">
+                        <label class="d-flex flex-column align-items-center fs-6">
                             <input type="radio" name="play-num" value="1">
                             2 VS 2
                         </label>
-                        <label class="d-flex flex-column fs-6">
+                        <label class="d-flex flex-column align-items-center fs-6">
                             <input type="radio" name="play-num" value="3">
                             3 VS 3
                         </label>
-                        <label class="d-flex flex-column fs-6">
+                        <label class="d-flex flex-column align-items-center fs-6">
                             <input type="radio" name="play-num" value="4">
                             4 VS 4
                         </label>
-                        <label class="d-flex flex-column fs-6">
+                        <label class="d-flex flex-column align-items-center fs-6">
                             <input type="radio" name="play-num" value="5">
                             5 VS 5
                         </label>
                     </div>
                 </div>
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">최대 모집 인원</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">최대 모집 인원</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-row fs-6">
-                            <input type="number" class="basic-input w-50 text-end" id="max-num" name="max-num" value="5">
+                            <input type="number" pattern="\d*" class="basic-input w-50 text-end" id="max-num" name="max-num" placeholder="인원수 입력">
                             <span class="align-content-center ms-2">명</span>
                         </label>
                     </div>
@@ -65,57 +65,58 @@
             </div>
         </div>
 
-        <div class="input-container d-flex flex-column mb-5">
+        <div class="d-flex flex-column mb-5">
             <label class="basic-input-title d-flex flex-row ms-2">
                 경기 일시
                 <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기를 진행할 날짜와 시간을 선택해주세요</span>
             </label>
             <div class="d-flex flex-column mt-4 gap-4">
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">날짜 선택</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">날짜 선택</div>
                     <div class="w-75 d-flex flex-row gap-5">
                         <label class="w-50 d-flex flex-row fs-6">
-                            <input type="date" class="basic-input long-ver text-center" id="date" th:value="${today}" th:min="${today}" onkeydown="return false"/>
+                            <input type="date" class="basic-input long-ver text-center" id="date" th:value="${tomorrow}"
+                                   th:min="${tomorrow}" onkeydown="return false"/>
                         </label>
                     </div>
                 </div>
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">시작 시간 선택</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">시작 시간 선택</div>
                     <div class="w-75 d-flex flex-row position-relative gap-5">
                         <label class="w-50 d-flex flex-row fs-6">
-                            <input type="time" class="basic-input long-ver text-end" id="time" value="01:00" onclick="showTimePicker()" readonly/>
+                            <input type="text" class="basic-input long-ver text-end cs-p" id="time" value="오후 06:00" onclick="showTimePicker()" readonly/>
                         </label>
-                        <div class="time-picker z-1" id="time-picker">
-                            <div class="time-picker-list">
-                                <button type="button" class="time-picker-element select" onclick="selectPeriod(this)">오전</button>
-                                <button type="button" class="time-picker-element" onclick="selectPeriod(this)">오후</button>
+                        <div class="time-picker position-absolute hide-toggle bg-white z-1" id="time-picker">
+                            <div class="time-picker-list d-flex flex-column" id="period-list">
+                                <button type="button" class="time-picker-element" id="am">오전</button>
+                                <button type="button" class="time-picker-element select" id="pm">오후</button>
                             </div>
-                            <div class="time-picker-list">
-                                <button type="button" class="time-picker-element select" onclick="selectHour(this)">1</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">2</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">3</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">4</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">5</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">6</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">7</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">8</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">9</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">10</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">11</button>
-                                <button type="button" class="time-picker-element" onclick="selectHour(this)">12</button>
+                            <div class="time-picker-list d-flex flex-column" id="hour-list">
+                                <button type="button" class="time-picker-element" id="12">12</button>
+                                <button type="button" class="time-picker-element select" id="01">1</button>
+                                <button type="button" class="time-picker-element" id="02">2</button>
+                                <button type="button" class="time-picker-element" id="03">3</button>
+                                <button type="button" class="time-picker-element" id="04">4</button>
+                                <button type="button" class="time-picker-element" id="05">5</button>
+                                <button type="button" class="time-picker-element" id="06">6</button>
+                                <button type="button" class="time-picker-element" id="07">7</button>
+                                <button type="button" class="time-picker-element" id="08">8</button>
+                                <button type="button" class="time-picker-element" id="09">9</button>
+                                <button type="button" class="time-picker-element" id="10">10</button>
+                                <button type="button" class="time-picker-element" id="11">11</button>
                             </div>
-                            <div class="time-picker-list">
-                                <button type="button" class="time-picker-element select" onclick="selectMinute(this)">00</button>
-                                <button type="button" class="time-picker-element" onclick="selectMinute(this)">30</button>
+                            <div class="time-picker-list d-flex flex-column" id="minute-list">
+                                <button type="button" class="time-picker-element select" id="00">00</button>
+                                <button type="button" class="time-picker-element" id="30">30</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">진행 시간 선택</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">진행 시간 선택</div>
                     <div class="w-75 d-flex flex-row gap-5">
-                        <label class="w-50 d-flex flex-row fs-6">
-                            <input type="number" class="basic-input long-ver text-end" id="hour" value="2">
+                        <label class="w-100-m w-50 d-flex flex-row fs-6">
+                            <input type="number" class="basic-input long-ver text-end" id="hour" placeholder="시간 입력">
                             <span class="align-content-center ms-2">시간</span>
                         </label>
                     </div>
@@ -123,38 +124,39 @@
             </div>
         </div>
 
-        <div class="input-container mb-5 d-flex flex-column">
+        <div class="mb-5 d-flex flex-column">
             <label class="basic-input-title ms-2 d-flex flex-row">
                 경기 설정
                 <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기의 간단한 설정을 해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">경기 종류</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기 종류</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-column fs-6">
-                            <input type="radio" id="team" name="game-kind" value="TEAM" onclick="toggleTeamSelect(this)" checked>
+                            <input type="radio" id="team" name="game-kind" value="TEAM" checked>
                             팀 경기
                         </label>
                         <label class="d-flex flex-column fs-6">
-                            <input type="radio" id="personal" name="game-kind" value="PERSONAL" onclick="toggleTeamSelect(this)">
+                            <input type="radio" id="personal" name="game-kind" value="PERSONAL">
                             개인 경기
                         </label>
                     </div>
                 </div>
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">경기 참여팀 선택</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기 참여팀 선택</div>
                     <div class="d-flex flex-row gap-5" id="team-list">
                         <label class="d-flex flex-column fs-6">
                             <select class="basic-input long-ver" id="team-select" name="team-select">
                                 <option value="">팀 선택</option>
-                                <option th:each="teamName : ${teamList}" th:value="${teamName}" th:text="${teamName}"></option>
+                                <option th:each="teamName : ${teamList}" th:value="${teamName}"
+                                        th:text="${teamName}"></option>
                             </select>
                         </label>
                     </div>
                 </div>
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">여성 전용 경기</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">여성 전용 경기</div>
                     <div class="d-flex flex-row gap-5">
                         <label>
                             <input type="checkbox" id="is-only-women" value="1"/>
@@ -164,7 +166,7 @@
             </div>
         </div>
 
-        <div class="input-container mb-5 d-flex flex-column">
+        <div class="mb-5 d-flex flex-column">
             <label class="basic-input-title ms-2 d-flex flex-row">
                 경기 장소
                 <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기장이 정해져 있다면 경기장 정보를, 없다면 경기를 원하는 지역을 입력해주세요</span>
@@ -208,7 +210,8 @@
                     <div class="w-15 me-4 align-content-center text-end">시/도</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-row fs-6">
-                            <select class="basic-input long-ver" id="siDo" name="siDo" onchange="getSiGunGuList()" required>
+                            <select class="basic-input long-ver" id="siDo" name="siDo" onchange="getSiGunGuList()"
+                                    required>
                                 <option value="">시/도</option>
                                 <option th:each="siDo : ${siDoList}" th:value="${siDo}" th:text="${siDo}"></option>
                             </select>
