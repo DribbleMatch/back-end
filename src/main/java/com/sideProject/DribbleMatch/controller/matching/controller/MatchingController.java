@@ -3,9 +3,11 @@ package com.sideProject.DribbleMatch.controller.matching.controller;
 import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
+import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import com.sideProject.DribbleMatch.service.teamMember.TeamMemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,18 +31,24 @@ public class MatchingController {
     private final TeamMemberService teamMemberService;
 
     @GetMapping("/create")
-    public String createMatchingPage(Model model,
+    public String createMatchingPage(HttpServletRequest request,
+                                     Model model,
                                      Principal principal) {
 
         model.addAttribute("siDoList", regionRepository.findAllSiDo());
         model.addAttribute("tomorrow", LocalDate.now().plusDays(1));
         model.addAttribute("teamList", teamMemberService.getTeamNameListByUserId(Long.valueOf(principal.getName())));
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
 
         return "matching/createMatching";
     }
 
     @GetMapping("/matchingList")
-    public String matchingListPage(Model model,
+    public String matchingListPage(HttpServletRequest request,
+                                   Model model,
+                                   Principal principal,
                                    @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
         Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
@@ -52,12 +60,17 @@ public class MatchingController {
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
 
         return "matching/matchingList";
     }
 
     @PostMapping("/replace/matchingList")
-    public String replaceMatchingListByDateAndSearch(Model model,
+    public String replaceMatchingListByDateAndSearch(HttpServletRequest request,
+                                                     Model model,
+                                                     Principal principal,
                                                      @PageableDefault(page = 0, size = 10) Pageable pageable,
                                                      @RequestParam(name = "date") LocalDate date,
                                                      @RequestParam(name = "searchWord") String searchWord) {
@@ -67,24 +80,32 @@ public class MatchingController {
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
 
         return "matching/matchingList :: #matching-list";
     }
 
     @GetMapping("/detail/{matchingId}")
-    public String matchingDetailPage(Model model,
+    public String matchingDetailPage(HttpServletRequest request,
+                                     Model model,
                                      Principal principal,
                                      @PathVariable Long matchingId) {
 
         model.addAttribute("matchingDetail", matchingService.getMatchingDetail(matchingId));
         model.addAttribute("teamList", teamMemberService.getTeamNameListByUserId(Long.valueOf(principal.getName())));
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
 
         return "matching/matchingDetail";
     }
 
     // 마이페이지
     @GetMapping("/reservedMatchingList/{gameKind}")
-    public String reservedMatchingListPage(Model model,
+    public String reservedMatchingListPage(HttpServletRequest request,
+                                           Model model,
                                            Principal principal,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable,
                                            @PathVariable GameKind gameKind) {
@@ -94,11 +115,16 @@ public class MatchingController {
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
+
         return "myPage/reservedMatchingList";
     }
 
     @GetMapping("/replace/reservedMatchingList/{gameKind}")
-    public String replaceReservedMatchingList(Model model,
+    public String replaceReservedMatchingList(HttpServletRequest request,
+                                              Model model,
                                               Principal principal,
                                               @PageableDefault(page = 0, size = 10) Pageable pageable,
                                               @PathVariable GameKind gameKind) {
@@ -112,7 +138,8 @@ public class MatchingController {
     }
 
     @GetMapping("/endedMatchingList/{gameKind}")
-    public String endedMatchingListPage(Model model,
+    public String endedMatchingListPage(HttpServletRequest request,
+                                        Model model,
                                         Principal principal,
                                         @PageableDefault(page = 0, size = 10) Pageable pageable,
                                         @PathVariable GameKind gameKind) {
@@ -122,11 +149,16 @@ public class MatchingController {
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
+
         return "myPage/endedMatchingList";
     }
 
     @GetMapping("/replace/endedMatchingList/{gameKind}")
-    public String replaceEndedMatchingList(Model model,
+    public String replaceEndedMatchingList(HttpServletRequest request,
+                                           Model model,
                                            Principal principal,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable,
                                            @PathVariable GameKind gameKind) {
@@ -136,13 +168,10 @@ public class MatchingController {
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());
         model.addAttribute("totalPage", matchingList.getTotalPages());
-        return "myPage/endedMatchingList :: #matching-list";
-    }
+        if (request.getAttribute("haveInput").equals(1)) {
+            model.addAttribute("inputList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
+        }
 
-    @GetMapping("/inputScore")
-    public String inputScorePage(Model model,
-                                 Principal principal) {
-        model.addAttribute("matchingList", matchingService.getNotInputScoreMatchingList(Long.valueOf(principal.getName())));
-        return "matching/inputScore";
+        return "myPage/endedMatchingList :: #matching-list";
     }
 }

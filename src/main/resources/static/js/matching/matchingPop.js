@@ -1,23 +1,17 @@
-$(document).ready(function() {
-
-    if ($('.matching').length > 0) {
-        alert("생성 후 진행이 완료된 경기의 점수를 입력하여야 경기 이용이 가능합니다.");
-    } else {
-        alert("점수를 입력할 경기가 없습니다.");
-        location.href = "/page";
-    }
-});
-
 function inputScore(button) {
 
-    const matchingDiv = $(button).closest('.matching');
+    const cardDiv = $(button).closest('.card');
 
-    const matchingId = matchingDiv.find('#matching-id').val();
-    const upTeamScore = matchingDiv.find('.team-info-div .team-score').first().val();
-    const downTeamScore = matchingDiv.find('.team-info-div .team-score').last().val();
+    const matchingId = cardDiv.find('#matching-id').val();
+    const upTeamScore = cardDiv.find('input.basic-input').first().val();
+    const downTeamScore = cardDiv.find('input.basic-input').last().val();
 
     if (!upTeamScore || !downTeamScore) {
         alert("점수를 입력해주세요");
+        return;
+    }
+
+    if (!confirm("점수를 입력하시겠습니까?")) {
         return;
     }
 
@@ -31,11 +25,7 @@ function inputScore(button) {
             downTeamScore: downTeamScore
         }),
         success: function(response) {
-            if (response.data) {
-                location.href = "/page";
-            } else {
-                location.reload();
-            }
+            location.reload();
         },
         error: function(xhr, status, error) {
             commonErrorCallBack(xhr, status, error);
@@ -45,8 +35,8 @@ function inputScore(button) {
 
 function notMatching(button) {
 
-    const matchingDiv = $(button).closest('.matching');
-    const matchingId = matchingDiv.find('#matching-id').val();
+    const cardDiv = $(button).closest('.card');
+    const matchingId = cardDiv.find('#matching-id').val();
 
     if (!confirm("해당 매칭이 실제로 진행되지 않았습니까? 경기가 취소처리 됩니다.")) {
         return;
@@ -56,11 +46,7 @@ function notMatching(button) {
         url: '/api/matching/notFinishMatching/' + matchingId,
         type: 'GET',
         success: function(response) {
-            if (response.data) {
-                location.href = "/page";
-            } else {
-                location.reload();
-            }
+            location.reload();
         },
         error: function(xhr, status, error) {
             commonErrorCallBack(xhr, status, error);

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/default}">
+      layout:decorate="~{layouts/matching_layout}">
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/matching/createMatching.css}">
 </th:block>
@@ -13,11 +13,11 @@
 
 <div layout:fragment="content" class="container d-flex flex-column align-items-center">
     <div class="basic-title mb-5">경기 생성</div>
-    <form class="input-form">
+    <form class="default-width">
         <div class="mb-5 d-flex flex-column">
             <label for="name" class="basic-input-title ms-2 d-flex flex-row">
                 경기명
-                <span class="ms-4 align-content-end sub-color fs-6 fw-normal">재미있는 경기명은 사람들을 끌어들입니다</span>
+                <span class="ms-4 align-content-end second-color fs-6 fw-normal">재미있는 경기명은 사람들을 끌어들입니다</span>
             </label>
             <input type="text" class="basic-input" id="name" name="name"/>
         </div>
@@ -25,7 +25,7 @@
         <div class="mb-5 d-flex flex-column">
             <label class="basic-input-title ms-2 d-flex flex-row">
                 경기 인원
-                <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기 진행 인원을 선택해주세요. 한 팀 기준으로 선택해주세요</span>
+                <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기 진행 인원을 선택해주세요. 한 팀 기준으로 선택해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
                 <div class="sub-input-div d-flex flex-row gap-4">
@@ -68,7 +68,7 @@
         <div class="d-flex flex-column mb-5">
             <label class="basic-input-title d-flex flex-row ms-2">
                 경기 일시
-                <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기를 진행할 날짜와 시간을 선택해주세요</span>
+                <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기를 진행할 날짜와 시간을 선택해주세요</span>
             </label>
             <div class="d-flex flex-column mt-4 gap-4">
                 <div class="sub-input-div d-flex flex-row gap-4">
@@ -127,11 +127,11 @@
         <div class="mb-5 d-flex flex-column">
             <label class="basic-input-title ms-2 d-flex flex-row">
                 경기 설정
-                <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기의 간단한 설정을 해주세요</span>
+                <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기의 간단한 설정을 해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
                 <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기 종류</div>
+                    <div class="sub-input-title w-15 me-4 mb-2 align-content-center text-end">경기 종류</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-column fs-6">
                             <input type="radio" id="team" name="game-kind" value="TEAM" checked>
@@ -159,7 +159,8 @@
                     <div class="sub-input-title w-15 me-4 align-content-center text-end">여성 전용 경기</div>
                     <div class="d-flex flex-row gap-5">
                         <label>
-                            <input type="checkbox" id="is-only-women" value="1"/>
+                            <input type="checkbox" class="ms-2" id="is-only-women" value="1"/>
+                            여성전용
                         </label>
                     </div>
                 </div>
@@ -169,11 +170,11 @@
         <div class="mb-5 d-flex flex-column">
             <label class="basic-input-title ms-2 d-flex flex-row">
                 경기 장소
-                <span class="ms-4 align-content-end sub-color fs-6 fw-normal">경기장이 정해져 있다면 경기장 정보를, 없다면 경기를 원하는 지역을 입력해주세요</span>
+                <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기장이 정해져 있다면 경기장 정보를, 없다면 경기를 원하는 지역을 입력해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
-                <div class="d-flex flex-row gap-4">
-                    <div class="w-15 me-4 align-content-center text-end">경기장</div>
+                <div class="sub-input-div d-flex flex-row gap-4">
+                    <div class="sub-input-title w-15 me-4 mb-2 align-content-center text-end">경기장</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-column fs-6">
                             <input type="radio" id="stadium" name="stadium_region_select" value="stadium" checked>
@@ -186,28 +187,28 @@
                     </div>
                 </div>
 
-                <div class="d-flex-changeable flex-row gap-4" id="stadium-info">
-                    <div class="w-15 me-4 align-content-center text-end">경기장 주소</div>
-                    <div class="d-flex flex-row gap-5">
-                        <label class="d-flex flex-row fs-6">
-                            <input type="text" class="basic-input super-long-ver" id="stadium-load-address" disabled>
+                <div class="sub-input-div d-flex-changeable flex-row gap-4" id="stadium-info">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기장 주소</div>
+                    <div class="d-flex flex-column-m flex-row gap-1">
+                        <label class="d-flex flex-row align-items-center fs-6">
+                            <input type="text" class="basic-input super-long-ver w-100" id="stadium-load-address" disabled>
                         </label>
                         <input type="hidden" id="stadium-jibun-address" disabled>
                         <button type="button" class="basic-btn" onclick="selectAddress()">주소 검색</button>
                     </div>
                 </div>
 
-                <div class="d-flex-changeable flex-row gap-4" id="stadium-info2">
-                    <div class="w-15 me-4 align-content-center text-end">상세 주소</div>
-                    <div class="d-flex flex-row gap-5">
+                <div class="sub-input-div d-flex-changeable flex-row gap-4" id="stadium-info2">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">상세 주소</div>
+                    <div>
                         <label class="d-flex flex-row fs-6">
-                            <input type="text" class="basic-input super-long-ver" id="stadium-detail-address">
+                            <input type="text" class="basic-input super-long-ver w-100" id="stadium-detail-address">
                         </label>
                     </div>
                 </div>
 
-                <div class="hide-toggle flex-row gap-4" id="region-info">
-                    <div class="w-15 me-4 align-content-center text-end">시/도</div>
+                <div class="sub-input-div hide-toggle flex-row gap-4" id="region-info">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">시/도</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-row fs-6">
                             <select class="basic-input long-ver" id="siDo" name="siDo" onchange="getSiGunGuList()"
@@ -219,8 +220,8 @@
                     </div>
                 </div>
 
-                <div class="hide-toggle flex-row gap-4" id="region-info2">
-                    <div class="w-15 me-4 align-content-center text-end">시/군/구</div>
+                <div class="sub-input-div hide-toggle flex-row gap-4" id="region-info2">
+                    <div class="sub-input-title w-15 me-4 align-content-center text-end">시/군/구</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-row fs-6">
                             <select class="basic-input long-ver" id="siGunGu" name="siGunGu" required disabled>

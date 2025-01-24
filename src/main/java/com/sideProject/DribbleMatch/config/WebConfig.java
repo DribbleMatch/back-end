@@ -15,9 +15,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(matchingInterceptor)
-                .addPathPatterns("/page/matching/**", "/api/matching/**")
-                .excludePathPatterns("/page/matching/inputScore")
-                .excludePathPatterns("/api/matching/inputScore")
-                .excludePathPatterns("/api/matching/notFinishMatching/**");
+                .addPathPatterns("/page/matching/**");
     }
 }
