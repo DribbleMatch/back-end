@@ -112,6 +112,13 @@ header.simple-header {
 .basic-input:disabled {
     background-color: #f5f5f5;
 }
+.img-div-6 {
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 /* style */
 .d-flex-changeable {
@@ -128,6 +135,9 @@ header.simple-header {
 }
 .base-bg-color {
     background-color: #ff9819 !important;
+}
+.second-bg-color {
+    background-color: #fffaf5 !important;
 }
 
 /* custom-style */
@@ -180,10 +190,17 @@ header.simple-header {
         pointer-events: none;
     }
 
+    .default-width {
+        width: 100% !important;
+    }
     .w-100-m {
         width: 100% !important;
     }
     .flex-column-m {
         flex-direction: column !important;
+    }
+
+    .basic-btn {
+        width: 7rem;
     }
 }

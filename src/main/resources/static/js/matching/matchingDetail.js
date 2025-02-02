@@ -11,7 +11,7 @@ function closePersonalMatchJoinPop() {
 }
 
 function openTeamMatchJoinPop() {
-    document.getElementById("team-match-join-pop").style.display = "flex";
+    $('#team-match-join-pop').addClass('d-flex');
 }
 
 function closeTeamMatchJoinPop() {

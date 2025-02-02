@@ -26,7 +26,6 @@ public class Matching extends BaseEntity {
     private Long id;
 
     @NotNull
-    @Column(unique = true)
     private String name;
 
     @Column

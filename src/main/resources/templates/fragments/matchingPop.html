@@ -10,20 +10,20 @@
         </div>
         <div th:each="input : ${inputList}" class="card w-100 h-auto p-2 d-flex flex-column bg-gray gap-2">
             <input type="hidden" id="matching-id" th:value="${input.id}"/>
-            <div class="d-flex flex-row align-items-center justify-content-between">
-                <div class="w-20 text-center fs-5" th:text="${input.upTeamName}">최강팀</div>
-                <input type="number" class="basic-input w-25" placeholder="점수 입력"/>
+            <div class="d-flex flex-row flex-column-m align-items-center justify-content-between" id="matching-card">
+                <div class="w-20 w-100-m text-center fs-5" th:text="${input.upTeamName}">최강팀</div>
+                <input type="number" class="basic-input w-25 w-100-m text-center" placeholder="점수 입력"/>
                 <div class="fs-5">VS</div>
-                <input type="number" class="basic-input w-25" placeholder="점수 입력"/>
-                <div class="w-20 text-center fs-5" th:text="${input.downTeamName}">초강력팀</div>
+                <input type="number" class="basic-input w-25 w-100-m text-center" placeholder="점수 입력"/>
+                <div class="w-20 w-100-m text-center fs-5" th:text="${input.downTeamName}">초강력팀</div>
             </div>
             <div class="d-flex flex-column align-items-center">
-                <div th:text="${#temporals.format(input.startAt, 'yyyy / MM / dd (HH:mm)')}">2025-01-25 (월)</div>
-                <div th:text="${input.regionString}">서울 영등포구 당산동</div>
+                <div th:text="${#temporals.format(input.startAt, 'yyyy / MM / dd (HH:mm)')}" class="text-center">2025-01-25 (월)</div>
+                <div th:text="${input.regionString}" class="text-center">서울 영등포구 당산동</div>
             </div>
             <div class="d-flex flex-row align-items-center justify-content-center gap-2">
-                <button type="button" class="basic-btn" onclick="inputScore(this)">점수 입력</button>
-                <button type="button" class="basic-btn" onclick="notMatching(this)">경기 미진행</button>
+                <button type="button" class="basic-btn w-7-rem" onclick="inputScore(this)">점수 입력</button>
+                <button type="button" class="basic-btn w-7-rem" onclick="notMatching(this)">경기 미진행</button>
             </div>
         </div>
     </div>

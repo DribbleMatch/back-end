@@ -88,53 +88,62 @@ function setTime() {
 }
 
 function createMatching() {
-    var name = $('#name').val();
-    var playNum = $('input[name="play-num"]:checked').val();
-    var maxNum = $('#max-num').val();
-    var date = $('#date').val();
-    var time = $('#time').val();
-    var hour = $('#hour').val();
+    var name = $('#name')
+    var playNum = $('input[name="play-num"]:checked');
+    var maxNum = $('#max-num');
+    var date = $('#date');
+    var time = $('#time');
+    var hour = $('#hour');
     var gameKind = $('input[name="game-kind"]:checked').val();
-    var teamSelect = $('#team-select').val();
+    var teamSelect = $('#team-select');
     var isOnlyWomen;
     var stadiumRegionSelect = $('input[name="stadium_region_select"]:checked').val();
-    var stadiumLoadAddress = $('#stadium-load-address').val();
-    var stadiumJibunAddress = $('#stadium-jibun-address').val();
-    var detailAddress = $('#stadium-detail-address').val();
+    var stadiumLoadAddress = $('#stadium-load-address');
+    var stadiumJibunAddress = $('#stadium-jibun-address');
+    var detailAddress = $('#stadium-detail-address');
     var siDoString = $('#siDo').val();
     var siGunGuString = $('#siGunGu').val();
 
-    if (!name) {
+    if (!name.val()) {
         alert("경기명을 입력해주세요");
+        name.focus();
         return;
     }
-    if (!playNum) {
+    if (!playNum.val()) {
         alert("경기 참여 인원을 입력해주세요");
+        $('input[name="play-num"]').first().focus();
         return;
     }
-    if (!maxNum) {
+    if (!maxNum.val()) {
         alert("최대 모집 인원을 입력해수제요");
+        maxNum.focus();
+        return;
     }
-    if (parseInt(maxNum, 10) < parseInt(playNum, 10)) {
+    if (parseInt(maxNum.val(), 10) < parseInt(playNum.val(), 10)) {
         alert("경기 참여 최대 인원이 경기 인원 보다 적을 수 없습니다");
+        maxNum.focus();
         return;
     }
 
-    if (!date) {
+    if (!date.val()) {
         alert("경기 날짜를 입력해주세요.");
+        date.focus();
         return;
     }
-    if (!time) {
+    if (!time.val()) {
         alert("경기 시간을 입력해주세요.");
+        time.focus();
         return;
     }
-    if (hour < 1) {
+    if (hour.val() < 1) {
         alert("경기 진행 시간은 최소 한시간입니다.");
+        hour.focus();
         return;
     }
 
-    if (gameKind === 'TEAM' && !teamSelect) {
+    if (gameKind === 'TEAM' && !teamSelect.val()) {
         alert("팀을 선택해주세요.");
+        teamSelect.focus();
         return;
     }
     if($('#is-only-women').is(':checked')) {
@@ -145,15 +154,17 @@ function createMatching() {
 
     var regionString = "";
     if (stadiumRegionSelect === "stadium") {
-        if (!stadiumLoadAddress) {
+        if (!stadiumLoadAddress.val()) {
             alert("경기장 주소를 입력해주세요.");
+            stadiumLoadAddress.focus();
             return;
         }
-        if (!detailAddress) {
+        if (!detailAddress.val()) {
+            detailAddress.focus();
             alert("상세 주소를 입력해주세요.");
             return;
         }
-        if (!stadiumJibunAddress) {
+        if (!stadiumJibunAddress.val()) {
             alert("잘못된 접근. 고객센터에 문의하세요.");
             return;
         }
@@ -171,17 +182,17 @@ function createMatching() {
     }
 
     var formData = {
-        "name": name,
-        "playNum": playNum,
-        "maxNum": maxNum,
-        "startAt": date + "T" + convertTime(time),
-        "hour": hour,
+        "name": name.val(),
+        "playNum": playNum.val(),
+        "maxNum": maxNum.val(),
+        "startAt": date.val() + "T" + convertTime(time.val()),
+        "hour": hour.val(),
         "gameKind": gameKind,
-        "teamName": teamSelect,
+        "teamName": teamSelect.val(),
         "isOnlyWomen": isOnlyWomen,
-        "stadiumLoadAddress": stadiumLoadAddress,
-        "stadiumJibunAddress": stadiumJibunAddress,
-        "detailAddress": detailAddress,
+        "stadiumLoadAddress": stadiumLoadAddress.val(),
+        "stadiumJibunAddress": stadiumJibunAddress.val(),
+        "detailAddress": detailAddress.val(),
         "regionString": regionString
     }
 

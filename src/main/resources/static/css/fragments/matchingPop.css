@@ -1,0 +1,23 @@
+.matching-pop {
+    width: 50rem;
+    max-height: 40rem;
+    border: #000000 .1rem solid;
+    transform: translate(-50%, -50%);
+    overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+    .matching-pop {
+        width: 90%;
+        height: 90%;
+        border: none;
+    }
+    .matching-pop span {
+        font-size: .8rem !important;
+    }
+    #matching-card {
+        border: #c9c9c9 .1rem solid;
+        border-radius: 1rem;
+        padding: .4rem;
+    }
+}

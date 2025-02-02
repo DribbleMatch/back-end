@@ -1,7 +1,0 @@
-.matching-pop {
-    width: 50rem;
-    max-height: 40rem;
-    border: #000000 .1rem solid;
-    transform: translate(-50%, -50%);
-    overflow-y: auto;
-}
