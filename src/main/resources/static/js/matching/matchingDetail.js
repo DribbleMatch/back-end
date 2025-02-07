@@ -1,22 +1,32 @@
 $(document).ready(function () {
     activeMenu('match-menu');
+
+    /** scroll **/
+    let lastScrollTop = 0;
+    let $topFollow = $("#topFollow");
+
+    $(window).on("scroll touchmove touchend", function () {
+            setTimeout(function () {
+                let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+                if (currentScroll > 110) {
+                    $topFollow.css({top: "0", opacity: "1"});
+                } else if (currentScroll < 110 || currentScroll <= 0) {
+                    $topFollow.css({top: "-100px", opacity: "0"});
+                }
+
+            }, 100);
+
+            setTimeout(function () {
+                let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+                if (currentScroll <= 110) {
+                    $topFollow.css({top: "-100px", opacity: "0"});
+                }
+
+            }, 1000);
+    });
 })
-
-function openPersonalMatchJoinPop() {
-    document.getElementById("personal-match-join-pop").style.display = "flex";
-}
-
-function closePersonalMatchJoinPop() {
-    document.getElementById("personal-match-join-pop").style.display = "none";
-}
-
-function openTeamMatchJoinPop() {
-    $('#team-match-join-pop').addClass('d-flex');
-}
-
-function closeTeamMatchJoinPop() {
-    document.getElementById("team-match-join-pop").style.display = "none";
-}
 
 function joinPersonalMatch() {
 
@@ -46,12 +56,17 @@ function joinPersonalMatch() {
 
 function joinTeamMatch() {
 
+    var teamName = $('#team-select').val();
+    var matchingId = $('#matching-id').val();
+
     if (!confirm("해당 경기에 참여하시겠습니까?")) {
         return;
     }
 
-    var teamName = $('#team-select').val();
-    var matchingId = $('#matching-id').val();
+    if (!teamName) {
+        alert("경기가 참가할 팀을 선택해주세요");
+        return;
+    }
 
     $.ajax({
         url: '/api/teamMatchJoin',

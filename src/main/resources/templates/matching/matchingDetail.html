@@ -10,43 +10,42 @@
 </th:block>
 
 <div layout:fragment="content" class="container d-flex flex-column align-items-center">
-    <div class="default-width short-ver d-flex flex-row justify-content-between align-items-center mb-4">
+    <div class="col-12 col-md-7 d-flex flex-column-reverse flex-md-row justify-content-between align-items-center mb-4">
         <input type="hidden" id="matching-id" th:value="${matchingDetail.id}"/>
         <div class="fs-3 fw-semibold" th:text="${matchingDetail.name}">매칭 이름</div>
-        <button type="button" class="basic-btn"
-                th:onclick="${matchingDetail.gameKind.toString() == 'TEAM'} ? 'openTeamMatchJoinPop()' : 'openPersonalMatchJoinPop()'">
+        <button type="button" class="basic-btn col-3 ms-auto" data-bs-toggle="modal" th:data-bs-target="${matchingDetail.gameKind.toString() == 'TEAM' ? '#teamSelectPop' : '#personalSelectPop'}">
             경기 참여
         </button>
     </div>
-    <div class="default-width short-ver d-flex flex-column gap-2">
-        <div class="matching-info-title fs-5 fw-500">경기 정보</div>
+    <div class="col-12 col-md-7 d-flex flex-column gap-2">
+        <div class="ms-3 fs-5 fw-500">경기 정보</div>
         <div class="d-flex flex-row gap-4">
-            <div class="w-10 third-color text-end">경기장</div>
+            <div class="col-3 col-md-2 third-color text-center">경기장</div>
             <div class="detail" th:text="${matchingDetail.isReservedStadium.toString() == 'RESERVED' ? '경기장 확정' : '경기장 미정'}"></div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="w-10 third-color text-end">장소</div>
+            <div class="col-3 col-md-2 third-color text-center">장소</div>
             <div class="detail" th:text="${matchingDetail.regionString}">서울특별시 영등포구 당산동</div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="w-10 third-color text-end">경기 인원</div>
+            <div class="col-3 col-md-2 third-color text-center">경기 인원</div>
             <div class="detail" th:text="${matchingDetail.playMemberNum + ' VS ' + matchingDetail.playMemberNum}">3 VS 3</div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="w-10 third-color text-end">모집 인원</div>
+            <div class="col-3 col-md-2 third-color text-center">모집 인원</div>
             <div class="detail" th:text="${'팀 당 ' + matchingDetail.maxMemberNum + '명'}">팀 당 5명</div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="w-10 third-color text-end">여성 전용</div>
+            <div class="col-3 col-md-2 third-color text-center">여성 전용</div>
             <div class="detail" th:text="${matchingDetail.isOnlyWomen.toString() == 'ONLY_WOMEN' ? 'O' : 'X'}">X</div>
         </div>
         <div class="d-flex flex-row gap-4 mb-4">
-            <div class="w-10 third-color text-end">경기 종류</div>
+            <div class="col-3 col-md-2 third-color text-center">경기 종류</div>
             <div class="detail" th:text="${matchingDetail.gameKind.toString() == 'TEAM' ? '팀 경기' : '개인 경기'}">팀 경기</div>
         </div>
-        <div class="w-100 d-flex flex-row justify-content-center align-items-center gap-5">
-            <div class="round-border w-75 d-flex justify-content-center align-items-center">
-                <div class="w-45 px-3 align-content-center second-bg-color border-none rounded shadow-sm">
+        <div class="col-12 d-flex flex-row justify-content-center align-items-center gap-5">
+            <div class="col-12 col-md-9 round-border d-flex justify-content-center align-items-center">
+                <div class="col-5 px-3 align-content-center second-bg-color border-none rounded shadow-sm">
                     시작일<br>
                     <span th:text="${#temporals.format(matchingDetail.startAt, 'yyyy-MM-dd (EEE)')}" />
                     <br>
@@ -57,7 +56,7 @@
                         3시간
                     </div>
                 </div>
-                <div class="w-45 px-3 align-content-center text-end second-bg-color border-none rounded shadow-sm">
+                <div class="col-5 px-3 align-content-center text-end second-bg-color border-none rounded shadow-sm">
                     종료일<br>
                     <span th:text="${#temporals.format(matchingDetail.endAt, 'yyyy-MM-dd (EEE)')}" />
                     <br>
@@ -66,16 +65,27 @@
             </div>
         </div>
     </div>
-    <div class="default-width short-ver mt-4 d-flex flex-column gap-2">
-        <div class="matching-info-title fs-5 fw-500">인원 정보</div>
-        <div class="d-flex flex-column justify-content-center">
-            <div class="w-100 text-center fs-5" th:text="${matchingDetail.upTeamName}">A팀</div>
-            <div class="team-container w-100 p-2 d-flex flex-row gap-1 shadow overflow-scroll">
+    <div class="col-12 col-md-7 mt-4 d-flex flex-column gap-2">
+        <div class="ms-3 fs-5 fw-500">규칙 정보</div>
+        <div class="text-secondary mx-3 fs-6">
+            <div class="mb-1">1. 해당 경기를 생성한 플레이어는 경기 종료 후 경기 결과를 입력해주세요.</div>
+            <div class="mb-1">2. 심판 / 룰북은 따로 제공되지 않습니다. 파울 등에 대한 규칙에 대해 정한 뒤 경기를 진행해주세요.</div>
+            <div class="mb-1">3. 경기 인원 수가 모이지 않을 경우 해당 경기는 미진행 처리가 되어 승/패 기록에 남지 않습니다.</div>
+            <div class="mb-1">4. 해당 경기의 시작 시간 3시간 전까지만 참여 취소가 가능하고, 지각이나 불참 등은 패널티가 발생할 수 있습니다.</div>
+            <div class="mb-1">5. 부상 위험이 있는 플레이는 지양해야합니다.</div>
+        </div>
+    </div>
+    <div class="col-12 col-md-7 mt-4 d-flex flex-column">
+        <div class="ms-3 fs-5 fw-500">인원 정보</div>
+        <div class="mb-5 d-flex flex-column justify-content-center">
+            <div class="col-12 text-center fs-5" th:text="${matchingDetail.upTeamName}">A팀</div>
+            <div class="col-12 pe-2 text-end fw-bold text-secondary" th:text="${matchingDetail.upTeamMember.size()} + ' / ' + ${matchingDetail.maxMemberNum}"></div>
+            <div class="col-12 p-2 d-flex flex-row gap-1 shadow overflow-auto hover-scroll">
                 <div class="member-card p-2 d-flex flex-row align-items-center justify-content-start gap-1 rounded" th:each="member : ${matchingDetail.upTeamMember}">
                     <div class="img-div-6">
-                        <img class="w-100 h-100" th:src="@{/api/image(imagePath=${member.imagePath})}"/>
+                        <img class="w-100" th:src="@{/api/image(imagePath=${member.imagePath})}"/>
                     </div>
-                    <div class="d-flex flex-column">
+                    <div class="ms-1 ps-2 d-flex flex-column border-start border-2">
                         <div class="fs-5" th:text="${member.nickName}">최강주현</div>
                         <div class="fs-6" th:text="${member.positionString}">C, PW, SG, PG, SM</div>
                         <div class="fs-6" th:text="'Lv ' + ${member.level}">Lv.3</div>
@@ -95,21 +105,23 @@
                     모집 완료
                 </div>
             </div>
-            <div class="w-100 mt-5 mb-4 text-center fs-1 fw-semibold text-black">
+            <div class="col-12 mt-5 mb-4 text-center fs-1 fw-semibold text-black">
                 VS
             </div>
-            <div class="w-100 text-center fs-5"
+            <div class="col-12 text-center fs-5"
                  th:text="${matchingDetail.downTeamName}"
-                 th:style="${matchingDetail.downTeamName == '(모집중)' ? 'opacity: 0.5;' : ''}">B팀</div>
-            <div class="team-container w-100 p-2 d-flex flex-row gap-1 shadow overflow-scroll">
+                 th:style="${matchingDetail.downTeamName == '(모집중)' ? 'opacity: 0.5;' : ''}">B팀
+            </div>
+            <div class="col-12 pe-2 text-end fw-bold text-secondary" th:text="${matchingDetail.downTeamMember.size()} + ' / ' + ${matchingDetail.maxMemberNum}"></div>
+            <div class="col-12 p-2 d-flex flex-row gap-1 shadow overflow-auto hover-scroll">
                 <div class="member-card p-2 d-flex flex-row align-items-center justify-content-start gap-1 rounded" th:each="member : ${matchingDetail.downTeamMember}">
                     <div class="img-div-6">
-                        <img class="w-100 h-100" th:src="@{/api/image(imagePath=${member.imagePath})}" alt="memberImage.png"/>
+                        <img class="w-100" th:src="@{/api/image(imagePath=${member.imagePath})}" alt="memberImage.png"/>
                     </div>
-                    <div class="member-info">
-                        <div class="member-name" th:text="${member.nickName}">최강주현</div>
-                        <div class="member-position" th:text="${member.positionString}">C, PW, SG, PG, SM</div>
-                        <div class="member-level" th:text="'Lv ' + ${member.level}">Lv.3</div>
+                    <div class="ms-1 ps-2 d-flex flex-column border-start border-2">
+                        <div class="fs-5" th:text="${member.nickName}">최강주현</div>
+                        <div class="fs-6" th:text="${member.positionString}">C, PW, SG, PG, SM</div>
+                        <div class="fs-6" th:text="'Lv ' + ${member.level}">Lv.3</div>
                     </div>
                 </div>
                 <div class="member-card p-2 d-flex align-items-center justify-content-center rounded"
@@ -137,52 +149,59 @@
         </div>
     </div>
 
+    <div class="top-follow col-12 col-md-5 d-flex align-items-center justify-content-center position-fixed bg-white" id="topFollow">
+        <div class="fs-3 fw-semibold" th:text="${matchingDetail.name}">매칭 이름</div>
+        <button type="button" class="basic-btn col-3 ms-auto" data-bs-toggle="modal" th:data-bs-target="${matchingDetail.gameKind.toString() == 'TEAM' ? '#teamSelectPop' : '#personalSelectPop'}">
+            경기 참여
+        </button>
+    </div>
+
     <!-- 개인 경기 참여 팝업 -->
-    <div class="popup-overlay" id="personal-match-join-pop">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h2>경기 참여</h2>
-                <button class="close-popup" onclick="closePersonalMatchJoinPop()">X</button>
-            </div>
-            <div class="popup-body">
-                <label class="sub-title">팀 선택</label>
-                <div class="team-radio-div">
-                    <div class="radio-div">
-                        <input type="radio" id="A" name="team-select" value="UP_TEAM" checked onclick="toggleTeamSelect(this)">
+    <div class="modal fade" id="personalSelectPop" tabindex="1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">팀 선택</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex justify-content-start">
+                    <label class="me-4" for="team-select">팀 선택</label>
+                    <div class="me-3">
+                        <input class="form-check-input" type="radio" id="A" name="team-select" value="UP_TEAM" checked>
                         <label for="A">A팀</label>
                     </div>
-                    <div class="radio-div">
-                        <input type="radio" id="B" name="team-select" value="DOWN_TEAM" onclick="toggleTeamSelect(this)">
+                    <div>
+                        <input class="form-check-input" type="radio" id="B" name="team-select" value="DOWN_TEAM">
                         <label for="B">B팀</label>
                     </div>
                 </div>
-            </div>
-            <div class="popup-footer">
-                <button class="join-btn" onclick="joinPersonalMatch()">참가하기</button>
-                <button class="close-btn" onclick="closePersonalMatchJoinPop()">닫기</button>
+                <div class="modal-footer justify-content-center">
+                    <button class="basic-btn col-3" onclick="joinPersonalMatch()">참가하기</button>
+                    <button class="basic-btn col-3" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- 팀 경기 참여 팝업 -->
-    <div class="popup-overlay" style="display:none;" id="team-match-join-pop">
-        <div class="popup-content">
-            <div class="popup-header">
-                <h2>경기 참여</h2>
-                <button class="close-popup" onclick="closeTeamMatchJoinPop()">X</button>
-            </div>
-            <div class="popup-body">
-                <label for="team-select" class="sub-title">팀 선택</label>
-                <div class="team-select-div" id="team-list">
-                    <select class="team-select" id="team-select" name="team-select">
+    <div class="modal fade" id="teamSelectPop" tabindex="1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">팀 선택</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label class="me-4" for="team-select">팀 선택</label>
+                    <select class="col-6 border border-2 text-center rounded" id="team-select" name="team-select">
                         <option value="">팀 선택</option>
                         <option th:each="teamName : ${teamList}" th:value="${teamName}" th:text="${teamName}"></option>
                     </select>
                 </div>
-            </div>
-            <div class="popup-footer">
-                <button class="join-btn" onclick="joinTeamMatch()">참가하기</button>
-                <button class="close-btn" onclick="closeTeamMatchJoinPop()">닫기</button>
+                <div class="modal-footer justify-content-center">
+                    <button class="basic-btn col-3" onclick="joinTeamMatch()">참가하기</button>
+                    <button class="basic-btn col-3" data-bs-dismiss="modal" aria-label="Close">닫기</button>
+                </div>
             </div>
         </div>
     </div>

@@ -1,3 +1,8 @@
+.date-div-test {
+    height: 10rem;;
+
+}
+
 .matching-list-div {
     margin-top: 2rem;
     width: 50rem;
@@ -30,6 +35,7 @@
     overflow: hidden;
     width: 50rem;
     justify-content: center;
+    position: relative;
 }
 .date-div {
     border-radius: 1rem;
@@ -213,6 +219,25 @@
     border-left: 0;
     margin-top: -0.75rem;
     margin-left: -0.5rem;
+}
+.click-div {
+    position: absolute;
+    background-color: unset;
+    width: 5rem;
+    height: 4rem;
+    z-index: 1;
+}
+.click-div.first {
+    left: 13%;
+}
+.click-div.second {
+    left: 29%;
+}
+.click-div.third {
+    left: 61%;
+}
+.click-div.fourth {
+    left: 77%;
 }
 
 @media (max-width: 767px) {

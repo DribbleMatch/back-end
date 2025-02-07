@@ -61,6 +61,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public void checkEmailAndPhone(String email, String phone) {
+        if (userRepository.findByEmailAndPhone(email, phone).isEmpty()) {
+            throw new CustomException(ErrorCode.NOT_FOUND_EMAIL);
+        }
+    }
+
+    @Override
     public void sendAuthMessage(String phone) {
 
         String authCode = generateAuthCode();

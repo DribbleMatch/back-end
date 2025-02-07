@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <body>
-<div th:fragment="pagination(currentPage, totalPage)" class="w-100">
+<div th:fragment="pagination(currentPage, totalPage)" class="col-12">
     <div class="pagination pagination-sm d-flex flex-row justify-content-center" id="pagination" th:with="startPage=${(currentPage - (currentPage % 5) + 1)}, endPage=${startPage + 4}">
         <button type="button" class="page-link base-color cs-p rounded-2"
                 th:disabled="${currentPage <= 4}"

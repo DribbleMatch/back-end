@@ -4,23 +4,25 @@
       layout:decorate="~{layouts/login_layout}"
       lang="ko">
 <th:block layout:fragment="script">
-    <script th:src="@{/js/login.js}"></script>
+    <script th:src="@{/js/login/login.js}"></script>
 </th:block>
 
-<div layout:fragment="content" class="container login-container d-flex flex-column align-items-center">
-    <div class="basic-title mt-5 mb-4">로그인</div>
-    <form class="w-75" id="loginForm">
-        <div class="d-flex flex-column justify-content-center gap-3">
-            <input type="email" class="basic-input" id="email" name="email" placeholder="이메일">
-            <input type="password" class="basic-input" id="password" name="password" placeholder="비밀번호">
-        </div>
-        <div class="mt-1 d-flex flex-row justify-content-between">
-            <div class="fs-6 cs-p" onclick="goToPage('/page/login/forgetUserInfo')">이메일 / 비밀번호 찾기</div>
-            <div class="fs-6 cs-p" onclick="goToPage('/page/signup/agree')">회원 가입</div>
-        </div>
-        <div class="mt-5 d-flex justify-content-center">
-            <button type="submit" class="basic-btn long-ver mb-5">로그인</button>
-        </div>
-    </form>
+<div layout:fragment="content" class="container d-flex justify-content-center">
+    <div class="login-container d-flex flex-column align-items-center">
+        <div class="basic-title mt-5 mb-4">로그인</div>
+        <form class="col-9" id="loginForm">
+            <div class="d-flex flex-column justify-content-center gap-3">
+                <input type="email" class="basic-input" id="email" name="email" placeholder="이메일">
+                <input type="password" class="basic-input" id="password" name="password" placeholder="비밀번호">
+            </div>
+            <div class="mt-1 d-flex flex-row justify-content-between">
+                <div class="fs-6 cs-p" onclick="goToPage('/page/login/forgetUserInfo')">이메일 / 비밀번호 찾기</div>
+                <div class="fs-6 cs-p" onclick="goToPage('/page/signup/agree')">회원 가입</div>
+            </div>
+            <div class="mt-5 d-flex justify-content-center">
+                <button type="submit" class="basic-btn col-10 mb-5">로그인</button>
+            </div>
+        </form>
+    </div>
 </div>
 </html>

@@ -1,62 +1,62 @@
 const weekdays = ["일", "월", "화", "수", "목", "금", "토"];
 let isAnimating = false;
 
-function slideLeft() {
-
-    if (isAnimating) {
-        return;
-    }
-
-    const $dateDivList = $(".date-div-list");
-    const $middleDateDiv = $dateDivList.children().eq(3);
-    const middleDate = $middleDateDiv.attr('date');
-
-    $.ajax({
-        url: '/api/date/next',
-        type: 'GET',
-        data: {
-            selectedDate: middleDate
-        },
-        beforeSend: function () {
-            isAnimating = true;
-        },
-        success: function (response) {
-            const newDate = response.data;
-
-            const date = new Date(newDate);
-            const day = date.getDate();
-            const weekday = weekdays[date.getDay()];
-
-            const formattedDate = `${day} / (${weekday})`;
-            const newDateDiv = $("<div>")
-                .addClass("date-div")
-                .attr("date", newDate)
-                .text(formattedDate);
-
-            if (newDate === new Date().toISOString().split('T')[0]) {
-                newDateDiv.addClass('date-selected-div')
-            }
-
-            const $firstChild = $dateDivList.children().first();
-
-            $firstChild.animate(
-                {marginLeft: "-=35%"},
-                500,
-                function () {
-                    $dateDivList.append(newDateDiv);
-                    $firstChild.remove();
-                    $firstChild.css("margin-left", "0");
-                    isAnimating = false;
-                }
-            );
-
-            replaceListByDate(middleDate);
-        },
-        error: function (xhr, status, error) {
-            commonErrorCallBack(xhr, status, error);
-        }
-    })
-}
+// function slideLeft() {
+//
+//     if (isAnimating) {
+//         return;
+//     }
+//
+//     const $dateDivList = $(".date-div-list");
+//     const $middleDateDiv = $dateDivList.children().eq(3);
+//     const middleDate = $middleDateDiv.attr('date');
+//
+//     $.ajax({
+//         url: '/api/date/next',
+//         type: 'GET',
+//         data: {
+//             selectedDate: middleDate
+//         },
+//         beforeSend: function () {
+//             isAnimating = true;
+//         },
+//         success: function (response) {
+//             const newDate = response.data;
+//
+//             const date = new Date(newDate);
+//             const day = date.getDate();
+//             const weekday = weekdays[date.getDay()];
+//
+//             const formattedDate = `${day} / (${weekday})`;
+//             const newDateDiv = $("<div>")
+//                 .addClass("date-div")
+//                 .attr("date", newDate)
+//                 .text(formattedDate);
+//
+//             if (newDate === new Date().toISOString().split('T')[0]) {
+//                 newDateDiv.addClass('date-selected-div')
+//             }
+//
+//             const $firstChild = $dateDivList.children().first();
+//
+//             $firstChild.animate(
+//                 {marginLeft: "-=16rem"},
+//                 500,
+//                 function () {
+//                     $dateDivList.append(newDateDiv);
+//                     $firstChild.remove();
+//                     $firstChild.css("margin-left", "0");
+//                     isAnimating = false;
+//                 }
+//             );
+//
+//             replaceListByDate(middleDate);
+//         },
+//         error: function (xhr, status, error) {
+//             commonErrorCallBack(xhr, status, error);
+//         }
+//     })
+// }
 
 function slideRight() {
 
@@ -173,4 +173,65 @@ function changeSelectDateStyle(clickedElement) {
 
     $(".select-date-div").removeClass("select-date-div");
     $(clickedElement).addClass("select-date-div");
+}
+
+function slideLeft(moveNum) {
+
+    if (isAnimating) {
+        return;
+    }
+
+    const $dateDivList = $(".date-div-list");
+    const $middleDateDiv = $dateDivList.children(".date-div").eq(3);
+    var middleDate = $middleDateDiv.attr('date');
+
+    var newDate = new Date(middleDate);
+    newDate.setDate(newDate.getDate() + 2);
+    const day = newDate.getDate();
+    const weekday = weekdays[newDate.getDay()];
+
+    const formattedDate = `${day} / (${weekday})`;
+
+    const newDateDiv = $("<div>")
+        .addClass("date-div")
+        .attr("date", newDate.toISOString().split('T')[0])
+        .text(formattedDate);
+
+    const $firstChild = $dateDivList.children(".date-div").first();
+
+    const newDate2 = new Date(newDate);
+    newDate2.setDate(newDate2.getDate() + 1);
+
+    $firstChild.animate(
+        {marginLeft: `-=${16 * moveNum}rem`},
+        500,
+        function () {
+            $dateDivList.append(newDateDiv);
+            $firstChild.remove();
+            $firstChild.css("margin-left", "0");
+            isAnimating = false;
+
+            if (moveNum === 2) {
+                var $secondChild = $dateDivList.children(".date-div").first();
+                $secondChild.remove();
+
+                const day2 = newDate2.getDate();
+                const weekday2 = weekdays[newDate2.getDay()];
+
+                const formattedDate2 = `${day2} / (${weekday2})`;
+
+                const newDateDiv2 = $("<div>")
+                    .addClass("date-div")
+                    .attr("date", newDate2.toISOString().split('T')[0])
+                    .text(formattedDate2);
+
+                $dateDivList.append(newDateDiv2);
+
+                newDate2.setDate(newDate2.getDate() - 2)
+                middleDate = newDate2.toISOString().split('T')[0];
+            }
+
+            replaceListByDate(middleDate);
+        }
+    );
 }

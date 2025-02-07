@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    $('#email').focus();
     $('#loginForm').submit(function(event) {
         event.preventDefault();
 

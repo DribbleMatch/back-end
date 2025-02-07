@@ -13,10 +13,6 @@
     will-change: transform;
 }
 
-.left-menu-container .dark-area {
-    z-index: 10;
-}
-
 .left-menu-container .left-menu-header {
     height: 3rem;
 }

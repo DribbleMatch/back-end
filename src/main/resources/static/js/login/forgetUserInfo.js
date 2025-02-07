@@ -59,7 +59,8 @@ $(document).ready(function () {
             type: 'POST',
             data: {
                 phone: phoneNum,
-                authCode: pinNum
+                authCode: pinNum,
+                email: email
             },
             success: function (response) {
                 alert(response.data)

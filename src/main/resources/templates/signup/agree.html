@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/join_layout}">
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/signup/agree.css}">
-    </th:block>
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/signup/agree.js}"></script>
-    </th:block>
+<th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/signup/agree.css}">
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/js/signup/agree.js}"></script>
+</th:block>
 
     <div layout:fragment="content">
         <section>
@@ -15,7 +15,7 @@
                 <h2 class="mt-5 mb-3 fs-4">약관 동의</h2>
                 <form id="terms-form" class="d-flex flex-column align-items-center">
                     <div class="term-title ms-3 mb-1 fs-5 w-100">드리블매치 서비스 이용 약관</div>
-                    <div class="terms w-100 overflow-scroll rounded-4 bg-light p-3 text-start">
+                    <div class="terms col-12 overflow-scroll rounded-4 bg-light p-3 text-start">
                         <p class="first-depth-title fs-4">제 1장 총칙</p>
 
                         <p class="second-depth-title fs-5">제 1 조 (목적)</p>
@@ -158,12 +158,12 @@
                         <p class="second-depth-title fs-5">[부 칙]</p>
                         <p class="term-content">(시행일) 이 약관은 2024년 10월 17일부터 적용됩니다.</p>
                     </div>
-                    <div class="agree-checkbox-div d-flex flex-row gap-1 mt-2 mb-4 ms-3 w-100">
+                    <div class="agree-checkbox-div col-12 d-flex flex-row gap-1 mt-2 mb-4 ms-3">
                         <input type="checkbox" id="agreeUse" name="agree" required>
                         <div class="agree-text fw-medium" onclick="clickText('#agreeUse')">이용약관 동의 (필수)</div>
                     </div>
 
-                    <div class="term-title ms-3 mb-1 fs-5 w-100">개인정보 처리 방침</div>
+                    <div class="term-title col-12 ms-3 mb-1 fs-5">개인정보 처리 방침</div>
                     <div class="terms overflow-scroll rounded-3 bg-light p-3 text-start">
                         <p class="second-depth-title fs-5">제 1 조 (목적)</p>
                         <p class="term-content">
@@ -352,7 +352,7 @@
                             회사는 이용자들의 신고사항에 대해 신속하게 충분한 답변을 드릴 것입니다.
                         </p>
                     </div>
-                    <div class="agree-checkbox-div d-flex flex-row gap-1 mt-2 mb-4 ms-3 w-100">
+                    <div class="agree-checkbox-div col-12 d-flex flex-row gap-1 mt-2 mb-4 ms-3">
                         <input type="checkbox" id="agreePrivacy" name="agree" required>
                         <div class="agree-text fw-medium" onclick="clickText('#agreePrivacy')">개인정보 수집 및 이용 동의 (필수)</div>
                     </div>

@@ -52,6 +52,22 @@ $(document).ready(function () {
             $(this).val(tomorrow.toLocaleDateString('en-CA'));
         }
     });
+
+    /** scroll **/
+    let lastScrollTop = 0;
+    let $bottomFollow = $("#bottomFollow");
+
+    $(window).on("scroll touchmove", function () {
+        let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+        if (currentScroll < lastScrollTop) {
+            $bottomFollow.css({ bottom: "0", opacity: "1" });
+        } else if (currentScroll > lastScrollTop) {
+            $bottomFollow.css({ bottom: "-100px", opacity: "0" });
+        }
+
+        lastScrollTop = currentScroll;
+    });
 })
 
 function selectAddress() {
@@ -171,9 +187,9 @@ function createMatching() {
     }
 
     if (stadiumRegionSelect === "region") {
-        stadiumLoadAddress = "";
-        stadiumJibunAddress = "";
-        detailAddress = "";
+        stadiumLoadAddress.val("");
+        stadiumJibunAddress.val("");
+        detailAddress.val("");
         if (!siDoString || !siGunGuString) {
             alert("지역을 선택해주세요.");
             return;

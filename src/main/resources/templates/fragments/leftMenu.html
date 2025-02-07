@@ -2,26 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <body>
 <div th:fragment="left-menu" class="left-menu-container">
-    <div class="dark-area w-100 h-100 d-none position-fixed top-0 start-0 bg-black opacity-50" id="dark-area"
+    <div class="w-100 h-100 d-none position-fixed top-0 start-0 bg-black opacity-50 z-1" id="dark-area"
          onclick="closeMenu()"></div>
     <div class="left-menu-hide position-fixed bg-white overflow-scroll" id="left-menu">
         <div class="slide-bar-div d-none">
             <div class="slide-bar d-none"></div>
         </div>
-        <div class="left-menu-header w-100 d-flex flex-row align-items-center justify-content-between" id="on-login">
+        <div class="left-menu-header col-12 d-flex flex-row align-items-center justify-content-between" id="on-login">
             <div class="nickname px-3 text-start fs-4 cs-p" id="user-nickname"
                  onclick="goToPage('/page/user/myPage')"></div>
-            <button type="button" id="logout-btn" class="left-menu-header-btn h-75 bg-white rounded-5 cs-p" onclick="logout()">로그아웃
-            </button>
-            <img class="menu-icon me-3 cs-p" src="/image/icon/menu/menu-close-icon.png" alt="menu_icon.png"
-                 onclick="closeMenu()">
+            <button type="button" id="logout-btn" class="left-menu-header-btn h-75 bg-white rounded-5 cs-p" onclick="logout()">로그아웃</button>
+            <button class="btn-close me-3 cs-p" onclick="closeMenu()"></button>
         </div>
-        <div class="left-menu-header w-100 d-flex flex-row align-items-center justify-content-between" id="not-login">
+        <div class="left-menu-header col-12 d-flex flex-row align-items-center justify-content-between" id="not-login">
             <button type="button" class="left-menu-header-btn h-75 ms-4 bg-white rounded-5 cs-p"
                     onclick="goToPage('/page/login')">로그인
             </button>
-            <img class="menu-icon me-3 cs-p" src="/image/icon/menu/menu-close-icon.png" alt="menu_icon.png"
-                 onclick="closeMenu()">
+            <button class="btn-close me-3 cs-p" onclick="closeMenu()"></button>
         </div>
         <div class="left-menu-content d-flex flex-column align-items-center gap-3" id="left-menu-content">
             <div class="one-menu">

@@ -22,11 +22,15 @@
                      th:text="${#temporals.format(date, 'dd / (EEE)')}"
                      th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
                 </div>
+                <div class="click-div first" onclick="slideRight(2)"></div>
+                <div class="click-div second" onclick="slideRight(1)"></div>
+                <div class="click-div third" onclick="slideLeft(1)"></div>
+                <div class="click-div fourth" onclick="slideLeft(2)"></div>
             </div>
             <div class="now-date-div">
-                <img src="/image/icon/etc/before_icon.png" class="before-icon" id="prevButton" onclick="slideRight()"/>
+                <img src="/image/icon/etc/before_icon.png" class="before-icon" id="prevButton" onclick="slideRight(1)"/>
                 <div class="now-date-border"></div>
-                <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft()"/>
+                <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft(1)"/>
             </div>
         </div>
 

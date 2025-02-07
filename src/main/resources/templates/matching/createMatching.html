@@ -12,24 +12,30 @@
 </th:block>
 
 <div layout:fragment="content" class="container d-flex flex-column align-items-center">
+    <div class="col-12 mb-4 pt-3 flex-row align-items-center justify-content-between hide-toggle d-flex-m">
+        <i class="bi bi-arrow-left fs-3" onclick="history.back()"></i>
+        <h2 class="m-0">경기 정보를 입력합니다</h2>
+    </div>
     <div class="basic-title mb-5">경기 생성</div>
-    <form class="input-form">
-        <div class="mb-5 d-flex flex-column">
-            <label for="name" class="basic-input-title ms-2 d-flex flex-row">
+    <form class="col-12 col-md-6 d-flex flex-column align-items-center">
+        <div class="col-12 d-flex flex-column">
+            <label for="name" class="basic-input-title ms-2 d-flex flex-row flex-column-m">
                 경기명
                 <span class="ms-4 align-content-end second-color fs-6 fw-normal">재미있는 경기명은 사람들을 끌어들입니다</span>
             </label>
-            <input type="text" class="basic-input" id="name" name="name"/>
+            <input type="text" class="basic-input mt-4" id="name" name="name"/>
         </div>
 
-        <div class="mb-5 d-flex flex-column">
-            <label class="basic-input-title ms-2 d-flex flex-row">
+        <hr class="mt-4 mb-4">
+
+        <div class="col-12 d-flex flex-column">
+            <label class="basic-input-title ms-2 d-flex flex-row flex-column-m">
                 경기 인원
                 <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기 진행 인원을 선택해주세요. 한 팀 기준으로 선택해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기 참여 인원</div>
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">경기 참여 인원</div>
                     <div class="radio-mobile d-flex flex-row gap-5">
                         <label class="d-flex flex-column align-items-center fs-6">
                             <input type="radio" name="play-num" value="1">
@@ -53,11 +59,11 @@
                         </label>
                     </div>
                 </div>
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">최대 모집 인원</div>
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">최대 모집 인원</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-row fs-6">
-                            <input type="number" pattern="\d*" class="basic-input w-50 text-end" id="max-num" name="max-num" placeholder="인원수 입력">
+                            <input type="number" pattern="\d*" class="basic-input col-6 text-end" id="max-num" name="max-num" placeholder="인원수 입력">
                             <span class="align-content-center ms-2">명</span>
                         </label>
                     </div>
@@ -65,26 +71,28 @@
             </div>
         </div>
 
-        <div class="d-flex flex-column mb-5">
-            <label class="basic-input-title d-flex flex-row ms-2">
+        <hr class="mt-4 mb-4">
+
+        <div class="col-12 d-flex flex-column">
+            <label class="basic-input-title d-flex flex-row flex-column-m ms-2">
                 경기 일시
                 <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기를 진행할 날짜와 시간을 선택해주세요</span>
             </label>
             <div class="d-flex flex-column mt-4 gap-4">
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">날짜 선택</div>
-                    <div class="w-75 d-flex flex-row gap-5">
-                        <label class="w-50 d-flex flex-row fs-6">
-                            <input type="date" class="basic-input long-ver text-center" id="date" th:value="${tomorrow}"
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">날짜 선택</div>
+                    <div class="col-9 d-flex flex-row gap-5">
+                        <label class="col-6 d-flex flex-row fs-6">
+                            <input type="date" class="basic-input col-12 col-md-8 text-center" id="date" th:value="${tomorrow}"
                                    th:min="${tomorrow}" onkeydown="return false"/>
                         </label>
                     </div>
                 </div>
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">시작 시간 선택</div>
-                    <div class="w-75 d-flex flex-row position-relative gap-5">
-                        <label class="w-50 d-flex flex-row fs-6">
-                            <input type="text" class="basic-input long-ver text-end cs-p" id="time" value="오후 06:00" onclick="showTimePicker()" readonly/>
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">시작 시간 선택</div>
+                    <div class="col-9 d-flex flex-row position-relative gap-5">
+                        <label class="col-6 d-flex flex-row fs-6">
+                            <input type="text" class="basic-input col-12 col-md-8 text-end cs-p" id="time" value="오후 06:00" onclick="showTimePicker()" readonly/>
                         </label>
                         <div class="time-picker position-absolute hide-toggle bg-white z-1" id="time-picker">
                             <div class="time-picker-list d-flex flex-column" id="period-list">
@@ -112,11 +120,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">진행 시간 선택</div>
-                    <div class="w-75 d-flex flex-row gap-5">
-                        <label class="w-100-m w-50 d-flex flex-row fs-6">
-                            <input type="number" class="basic-input long-ver text-end" id="hour" placeholder="시간 입력">
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">진행 시간 선택</div>
+                    <div class="col-9 d-flex flex-row gap-5">
+                        <label class="col-12 com-md-6 d-flex flex-row fs-6">
+                            <input type="number" class="basic-input col-4 text-end" id="hour" placeholder="시간 입력">
                             <span class="align-content-center ms-2">시간</span>
                         </label>
                     </div>
@@ -124,14 +132,16 @@
             </div>
         </div>
 
-        <div class="mb-5 d-flex flex-column">
-            <label class="basic-input-title ms-2 d-flex flex-row">
+        <hr class="mt-4 mb-4">
+
+        <div class="col-12 d-flex flex-column">
+            <label class="basic-input-title ms-2 d-flex flex-row flex-column-m">
                 경기 설정
                 <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기의 간단한 설정을 해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 mb-2 align-content-center text-end">경기 종류</div>
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">경기 종류</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-column fs-6">
                             <input type="radio" id="team" name="game-kind" value="TEAM" checked>
@@ -143,11 +153,11 @@
                         </label>
                     </div>
                 </div>
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기 참여팀 선택</div>
-                    <div class="d-flex flex-row gap-5" id="team-list">
-                        <label class="d-flex flex-column fs-6">
-                            <select class="basic-input long-ver" id="team-select" name="team-select">
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">경기 참여팀 선택</div>
+                    <div class="col-12 d-flex flex-row gap-5" id="team-list">
+                        <label class="col-12 d-flex flex-column fs-6">
+                            <select class="basic-input col-6" id="team-select" name="team-select">
                                 <option value="">팀 선택</option>
                                 <option th:each="teamName : ${teamList}" th:value="${teamName}"
                                         th:text="${teamName}"></option>
@@ -155,8 +165,8 @@
                         </label>
                     </div>
                 </div>
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">여성 전용 경기</div>
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">여성 전용 경기</div>
                     <div class="d-flex flex-row gap-5">
                         <label>
                             <input type="checkbox" class="ms-2" id="is-only-women" value="1"/>
@@ -167,14 +177,16 @@
             </div>
         </div>
 
-        <div class="mb-5 d-flex flex-column">
-            <label class="basic-input-title ms-2 d-flex flex-row">
+        <hr class="mt-4 mb-4">
+
+        <div class="col-12 d-flex flex-column">
+            <label class="basic-input-title ms-2 d-flex flex-row flex-column-m">
                 경기 장소
                 <span class="ms-4 align-content-end second-color fs-6 fw-normal">경기장이 정해져 있다면 경기장 정보를, 없다면 경기를 원하는 지역을 입력해주세요</span>
             </label>
             <div class="mt-4 d-flex flex-column gap-4">
-                <div class="sub-input-div d-flex flex-row gap-4">
-                    <div class="sub-input-title w-15 me-4 mb-2 align-content-center text-end">경기장</div>
+                <div class="sub-input-div d-flex flex-row flex-column-m gap-4">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">경기장</div>
                     <div class="d-flex flex-row gap-5">
                         <label class="d-flex flex-column fs-6">
                             <input type="radio" id="stadium" name="stadium_region_select" value="stadium" checked>
@@ -187,31 +199,31 @@
                     </div>
                 </div>
 
-                <div class="sub-input-div d-flex-changeable flex-row gap-4" id="stadium-info">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">경기장 주소</div>
+                <div class="sub-input-div d-flex-changeable flex-row flex-column-m gap-4" id="stadium-info">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">경기장 주소</div>
                     <div class="d-flex flex-column-m flex-row gap-1">
                         <label class="d-flex flex-row align-items-center fs-6">
-                            <input type="text" class="basic-input super-long-ver w-100" id="stadium-load-address" disabled>
+                            <input type="text" class="basic-input col-12" id="stadium-load-address" disabled>
                         </label>
                         <input type="hidden" id="stadium-jibun-address" disabled>
-                        <button type="button" class="basic-btn" onclick="selectAddress()">주소 검색</button>
+                        <button type="button" class="basic-btn col-3" onclick="selectAddress()">주소 검색</button>
                     </div>
                 </div>
 
-                <div class="sub-input-div d-flex-changeable flex-row gap-4" id="stadium-info2">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">상세 주소</div>
+                <div class="sub-input-div d-flex-changeable flex-row flex-column-m gap-4" id="stadium-info2">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">상세 주소</div>
                     <div>
                         <label class="d-flex flex-row fs-6">
-                            <input type="text" class="basic-input super-long-ver w-100" id="stadium-detail-address">
+                            <input type="text" class="basic-input col-12" id="stadium-detail-address">
                         </label>
                     </div>
                 </div>
 
-                <div class="sub-input-div hide-toggle flex-row gap-4" id="region-info">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">시/도</div>
-                    <div class="d-flex flex-row gap-5">
-                        <label class="d-flex flex-row fs-6">
-                            <select class="basic-input long-ver" id="siDo" name="siDo" onchange="getSiGunGuList()"
+                <div class="sub-input-div hide-toggle flex-row flex-column-m gap-4" id="region-info">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">시/도</div>
+                    <div class="col-6 col-md-4 d-flex flex-row gap-5">
+                        <label class="col-12 d-flex flex-row fs-6">
+                            <select class="basic-input col-12" id="siDo" name="siDo" onchange="getSiGunGuList()"
                                     required>
                                 <option value="">시/도</option>
                                 <option th:each="siDo : ${siDoList}" th:value="${siDo}" th:text="${siDo}"></option>
@@ -220,11 +232,11 @@
                     </div>
                 </div>
 
-                <div class="sub-input-div hide-toggle flex-row gap-4" id="region-info2">
-                    <div class="sub-input-title w-15 me-4 align-content-center text-end">시/군/구</div>
-                    <div class="d-flex flex-row gap-5">
-                        <label class="d-flex flex-row fs-6">
-                            <select class="basic-input long-ver" id="siGunGu" name="siGunGu" required disabled>
+                <div class="sub-input-div hide-toggle flex-row flex-column-m gap-4" id="region-info2">
+                    <div class="col-6 col-md-2 me-4 align-content-center text-start">시/군/구</div>
+                    <div class="col-6 col-md-4 d-flex flex-row gap-5">
+                        <label class="col-12 d-flex flex-row fs-6">
+                            <select class="basic-input col-12" id="siGunGu" name="siGunGu" required disabled>
                                 <option>시/군/구</option>
                             </select>
                         </label>
@@ -232,9 +244,12 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 d-flex justify-content-center mt-5 mb-5">
+            <button type="button" class="basic-btn big-ver col-10 col-md-8" onclick="createMatching()">경기 생성</button>
+        </div>
 
-        <div class="d-flex justify-content-center mb-5">
-            <button type="button" class="basic-btn" onclick="createMatching()">경기 생성</button>
+        <div class="bottom-follow col-12 d-flex align-items-center justify-content-center position-fixed bg-white" id="bottomFollow">
+            <button type="button" class="basic-btn big-ver col-10 col-md-3" onclick="createMatching()">경기 생성</button>
         </div>
     </form>
 </div>

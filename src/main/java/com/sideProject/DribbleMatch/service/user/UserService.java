@@ -15,6 +15,7 @@ import java.util.Objects;
 public interface UserService {
     public void checkNickName(String nickName);
     public void checkEmail(String email);
+    public void checkEmailAndPhone(String email, String phone);
     public void sendAuthMessage(String phone);
     public void getAuth(String phone, String authCode);
     public JwtResponseDto login(UserLogInRequestDto requestDto);

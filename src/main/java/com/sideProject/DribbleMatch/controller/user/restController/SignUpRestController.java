@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,8 +47,13 @@ public class SignUpRestController {
     // 휴대폰 번호 인증 번호 확인
     @PostMapping("/getAuth")
     public ApiResponse<String> getAuth(@RequestParam(name = "phone") String phone,
-                                       @RequestParam(name = "authCode") String authCode) {
+                                       @RequestParam(name = "authCode") String authCode,
+                                       @RequestParam(name = "email") String email
+    ) {
 
+        if (!Objects.equals(email, "")) {
+            userService.checkEmailAndPhone(email, phone);
+        }
         userService.getAuth(phone, authCode);
 
         return ApiResponse.ok("인증이 완료되었습니다.");
