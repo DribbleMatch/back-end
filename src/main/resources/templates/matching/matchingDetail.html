@@ -13,7 +13,7 @@
     <div class="col-12 col-md-7 d-flex flex-column-reverse flex-md-row justify-content-between align-items-center mb-4">
         <input type="hidden" id="matching-id" th:value="${matchingDetail.id}"/>
         <div class="fs-3 fw-semibold" th:text="${matchingDetail.name}">매칭 이름</div>
-        <button type="button" class="basic-btn col-3 ms-auto" data-bs-toggle="modal" th:data-bs-target="${matchingDetail.gameKind.toString() == 'TEAM' ? '#teamSelectPop' : '#personalSelectPop'}">
+        <button type="button" class="basic-btn col-4 ms-auto" data-bs-toggle="modal" th:data-bs-target="${matchingDetail.gameKind.toString() == 'TEAM' ? '#teamSelectPop' : '#personalSelectPop'}">
             경기 참여
         </button>
     </div>
@@ -149,11 +149,13 @@
         </div>
     </div>
 
-    <div class="top-follow col-12 col-md-5 d-flex align-items-center justify-content-center position-fixed bg-white" id="topFollow">
-        <div class="fs-3 fw-semibold" th:text="${matchingDetail.name}">매칭 이름</div>
-        <button type="button" class="basic-btn col-3 ms-auto" data-bs-toggle="modal" th:data-bs-target="${matchingDetail.gameKind.toString() == 'TEAM' ? '#teamSelectPop' : '#personalSelectPop'}">
-            경기 참여
-        </button>
+    <div class="top-follow col-12 d-flex justify-content-center position-fixed bg-white" id="topFollow">
+        <div class="col-10 col-md-6 d-flex align-items-center justify-content-between">
+            <div class="fs-3 fw-semibold" th:text="${matchingDetail.name}">매칭 이름</div>
+            <button type="button" class="basic-btn col-4 ms-auto" data-bs-toggle="modal" th:data-bs-target="${matchingDetail.gameKind.toString() == 'TEAM' ? '#teamSelectPop' : '#personalSelectPop'}">
+                경기 참여
+            </button>
+        </div>
     </div>
 
     <!-- 개인 경기 참여 팝업 -->

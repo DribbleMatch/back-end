@@ -43,7 +43,7 @@ $(document).ready(function () {
     /** for mobile **/
     $("#date").on("change", function () {
         const selectedDate = new Date($(this).val());
-        const tomorrow = new Date();
+        const tomorrow = new Date(Date.now() - offset)
         tomorrow.setDate(tomorrow.getDate() + 1);
         tomorrow.setHours(0, 0, 0, 0);
 
@@ -58,15 +58,28 @@ $(document).ready(function () {
     let $bottomFollow = $("#bottomFollow");
 
     $(window).on("scroll touchmove", function () {
-        let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+            setTimeout(function () {
+                let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
 
-        if (currentScroll < lastScrollTop) {
-            $bottomFollow.css({ bottom: "0", opacity: "1" });
-        } else if (currentScroll > lastScrollTop) {
-            $bottomFollow.css({ bottom: "-100px", opacity: "0" });
-        }
+                if (currentScroll < lastScrollTop) {
+                    $bottomFollow.css({bottom: "0", opacity: "1"});
+                } else if (currentScroll > lastScrollTop) {
+                    $bottomFollow.css({bottom: "-100px", opacity: "0"});
+                }
 
-        lastScrollTop = currentScroll;
+                lastScrollTop = currentScroll;
+            }, 100);
+
+        setTimeout(function () {
+            let currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+            if (currentScroll < lastScrollTop) {
+                $bottomFollow.css({bottom: "0", opacity: "1"});
+            } else if (currentScroll > lastScrollTop) {
+                $bottomFollow.css({bottom: "-100px", opacity: "0"});
+            }
+
+        }, 1000);
     });
 })
 

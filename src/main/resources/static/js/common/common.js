@@ -1,3 +1,5 @@
+const offset = new Date().getTimezoneOffset() * 60000;
+
 /** REST API JWT 처리 **/
 var originalRequestSettings = null;
 
