@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/default}">
+      layout:decorate="~{layouts/matching_layout}">
 <th:block layout:fragment="css">
     <link rel="stylesheet" th:href="@{/css/matching/matchingList.css}">
 </th:block>
@@ -12,44 +12,56 @@
 </th:block>
 
 <div layout:fragment="content" class="container d-flex flex-column align-items-center">
-    <div class="basic-title mb-5">경기</div>
-    <div class="date-select">
-        <div class="date-list" id="dateList">
-            <div class="date-div-list">
-                <div th:each="date, stat : ${dateList}"
-                     th:classappend="${stat.index == 2} ? 'date-selected-div'"
-                     class="date-div"
-                     th:text="${#temporals.format(date, 'dd / (EEE)')}"
-                     th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
-                </div>
-                <div class="click-div first" onclick="slideRight(2)"></div>
-                <div class="click-div second" onclick="slideRight(1)"></div>
-                <div class="click-div third" onclick="slideLeft(1)"></div>
-                <div class="click-div fourth" onclick="slideLeft(2)"></div>
+    <div class="col-12 col-md-7 d-flex position-relative mb-5">
+        <div class="col-12 date-div-list d-flex justify-content-center position-relative third-bg-color rounded overflow-hidden gap-5">
+            <div th:each="date, stat : ${dateList}"
+                 th:classappend="${stat.index == 2} ? 'black'"
+                 class="date-div"
+                 th:text="${#temporals.format(date, 'dd / (EEE)')}"
+                 th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
             </div>
-            <div class="now-date-div">
-                <img src="/image/icon/etc/before_icon.png" class="before-icon" id="prevButton" onclick="slideRight(1)"/>
-                <div class="now-date-border"></div>
-                <img src="/image/icon/etc/next_icon.png" class="after-icon" id="nextButton" onclick="slideLeft(1)"/>
-            </div>
+            <div class="click-div first" onclick="slideRight(2)"></div>
+            <div class="click-div second" onclick="slideRight(1)"></div>
+            <div class="click-div third" onclick="slideLeft(1)"></div>
+            <div class="click-div fourth" onclick="slideLeft(2)"></div>
         </div>
-
-        <div class="date-list-mobile">
-            <div class="date-div-mobile"
-                 th:each="date, stat : ${mobileDateList}"
-                 th:classappend="${stat.index == 0} ? 'select-date-div'"
-                 th:utext="${#temporals.format(date, 'dd')} + '<br>(' + ${#temporals.format(date, 'EEE')} + ')'"
-                 th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}"
-                 onclick="changeSelectDateStyle(this)">
-            </div>
+        <div class="d-flex align-items-center position-absolute top-50 start-50 translate-middle gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left cs-p second-color" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"
+                 id="prevButton" onclick="slideRight(1)">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
+            </svg>
+            <div class="now-date-border"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right cs-p second-color" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"
+                 id="nextButton" onclick="slideLeft(1)">
+                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
         </div>
     </div>
 
-    <div class="matching-list-div">
-        <div class="matching-list-header">
-            <input type="text" id="search-word" class="search-bar" placeholder="경기 명 또는 지역 검색..."
-                   oninput="searchMatching()">
-            <button type="button" class="create-matching-btn" onclick="goToPage('/page/matching/create')">경기 생성</button>
+    <div class="show-only-mobile">
+        <div class="date-div-mobile"
+             th:each="date, stat : ${mobileDateList}"
+             th:classappend="${stat.index == 0} ? 'select-date-div'"
+             th:utext="${#temporals.format(date, 'dd')} + '<br>(' + ${#temporals.format(date, 'EEE')} + ')'"
+             th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}"
+             onclick="changeSelectDateStyle(this)">
+        </div>
+    </div>
+
+    <div class="col-12 col-md-7">
+        <div class="d-flex align-items-center justify-content-center position-relative gap-3">
+            <input class="col-9 px-2 border border-2 border-secondary rounded search-bar" type="text" id="search-word" placeholder="경기 명 또는 지역 검색..."
+                   oninput="searchMatching()" />
+            <i class="bi bi-search position-absolute second-color fs-5 cs-p"></i>
+            <div class="position-relative">
+                <svg class="plus-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 5V19M5 12H19" stroke="#333333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="plus-menu hide-toggle position-absolute bg-white shadow rounded-1">
+                    <div class="menu-item p-2 cs-p" onclick="goToPage('/page/matching/create')">경기 생성</div>
+                    <div class="menu-item p-2 cs-p">내 경기</div>
+                </div>
+            </div>
         </div>
 
         <div class="matching-list" id="matching-list">
@@ -78,40 +90,7 @@
                     3시간
                 </div>
                 <div class="join-info-div">
-                    <div class="join-info">
-                        <div class="join-people-img-div">
-                            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-                                <img th:src="${i <= matching.upTeamMemberNum ? '/image/matching/matching_join.png' : '/image/matching/matching_empty.png'}"
-                                     class="matching-join-img">
-                            </th:block>
-                        </div>
-                        <div class="more-people-div" th:if="${matching.upTeamMemberNum > 5}">
-                            <img src="/image/matching/more_people.png" class="more-people-img"
-                                 onmouseover="showMemberNum('up')" onmouseout="hideMemberNum('up')">
-                            <div id="up-member-num-bubble" class="speech-bubble"
-                                 th:text="${matching.upTeamMemberNum} + ' / ' + ${matching.maxMemberNum}"
-                                 style="display:none;">
-                                12 / 15
-                            </div>
-                        </div>
-                    </div>
-                    <div class="join-info">
-                        <div class="join-people-img-div">
-                            <th:block th:each="i : ${#numbers.sequence(1, 5)}">
-                                <img th:src="${i <= matching.downTeamMemberNum ? '/image/matching/matching_join.png' : '/image/matching/matching_empty.png'}"
-                                     class="matching-join-img">
-                            </th:block>
-                        </div>
-                        <div class="more-people-div" th:if="${matching.downTeamMemberNum > 5}">
-                            <img src="/image/matching/more_people.png" class="more-people-img"
-                                 onmouseover="showMemberNum('down')" onmouseout="hideMemberNum('down')">
-                            <div id="down-member-num-bubble" class="speech-bubble"
-                                 th:text="${matching.downTeamMemberNum} + ' / ' + ${matching.maxMemberNum}"
-                                 style="display: none">
-                                12 / 15
-                            </div>
-                        </div>
-                    </div>
+                    <button type="button">모집중</button>
                 </div>
             </div>
             <div th:if="${matchingList.totalElements == 0}" class="no-data">

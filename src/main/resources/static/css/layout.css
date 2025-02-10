@@ -136,7 +136,7 @@ header.simple-header {
     background-color: #fffaf5 !important;
 }
 .third-bg-color {
-    background-color: #b5b5b5; !important
+    background-color: #f5f5f5; !important
 }
 
 /* for-bootstrap */
@@ -147,6 +147,9 @@ header.simple-header {
     font-weight: 500;
 }
 .hide-toggle {
+    display: none;
+}
+.show-only-mobile {
     display: none;
 }
 
@@ -216,5 +219,8 @@ header.simple-header {
     }
     .basic-input-title {
         font-size: 1.3rem;
+    }
+    .show-only-mobile {
+        display: flex;
     }
 }

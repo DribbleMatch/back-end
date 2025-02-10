@@ -1,5 +1,18 @@
 $(document).ready(function () {
     activeMenu('match-menu');
+
+    $(".plus-icon").click(function (event) {
+        $(".plus-menu").toggleClass("hide-toggle");
+        event.stopPropagation();
+    });
+
+    $(document).click(function () {
+        $(".plus-menu").addClass("hide-toggle");
+    });
+
+    $(".plus-menu").click(function (event) {
+        event.stopPropagation();
+    });
 })
 
 function viewPage(pageNum) {

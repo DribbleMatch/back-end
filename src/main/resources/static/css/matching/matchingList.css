@@ -1,101 +1,37 @@
-.date-div-test {
-    height: 10rem;;
-
-}
-
-.matching-list-div {
-    margin-top: 2rem;
-    width: 50rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.date-select {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    width: 100%;
-    height: 4rem;
-}
-.date-list {
-    display: flex;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    justify-content: center;
-}
-.date-div-list {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 2rem;
-    background-color: #eaeaea;
-    border-radius: 1rem;
-    overflow: hidden;
-    width: 50rem;
-    justify-content: center;
-    position: relative;
-}
 .date-div {
-    border-radius: 1rem;
-    text-align: center;
-    align-content: center;
     width: 6rem;
-    font-size: 1.3rem;
-    opacity: 50%;
     padding: 0.5rem;
+    align-content: center;
     position: relative;
-}
-.date-selected-div {
-    opacity: 100%;
-}
-.before-icon, .after-icon {
-    height: 1rem;
-    cursor: pointer;
-}
-.now-date-div {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-    position: absolute;
-    left: 50%; /* 부모의 왼쪽에서 50% 이동 */
-    transform: translateX(-50%);
+    color: #4f4f4f;
+    font-size: 1.3rem;
+    text-align: center;
+    border-radius: 1rem;
+    margin: .5rem 0;
 }
 .now-date-border {
-    border: black 0.15rem solid;
+    border: #7b7b7b 0.15rem solid;
     border-radius: 1rem;
     width: 6rem;
     height: 3rem;
 }
 
-.date-list-mobile {
-    display: none;
+.bi-search {
+    right: 17%;
+}
+.plus-icon:hover {
+    background-color: #e4e4e4;
+    border-radius: .5rem;
 }
 
-.matching-list-header {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 2rem;
+.plus-menu {
+    width: 10rem;
+    bottom: -10%;
+    left: 120%;
 }
-.matching-list-header .search-bar {
-    padding: 0.5rem;
-    width: 70%;
-    border-radius: 0.3rem;
-    border: 0.1rem solid #ddd;
-}
-.create-matching-btn {
-    width: 7rem;
-    border: none;
-    border-radius: 1rem;
-    background-color: #f38c48;
-    color: #dddddd;
-}
-.create-matching-btn:hover {
-    background-color: #f8802d;
+.plus-menu .menu-item:hover {
+    background-color: #5c5c5c;
+    color: #ffffff;
 }
 
 .matching-list {
@@ -228,16 +164,16 @@
     z-index: 1;
 }
 .click-div.first {
-    left: 13%;
+    left: 7%
 }
 .click-div.second {
-    left: 29%;
+    left: 26%;
 }
 .click-div.third {
-    left: 61%;
+    left: 64%;
 }
 .click-div.fourth {
-    left: 77%;
+    left: 83%;
 }
 
 @media (max-width: 767px) {
