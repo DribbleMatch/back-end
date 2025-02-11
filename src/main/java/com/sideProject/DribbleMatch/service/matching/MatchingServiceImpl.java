@@ -163,11 +163,11 @@ public class MatchingServiceImpl implements MatchingService{
     }
 
     @Override
-    public Page<MatchingDetailTestResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date) {
+    public Page<MatchingSimpleResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date) {
         Page<Matching> matchingPage = matchingRepository.searchMatchingListByStartDateOrderByStartTime(searchWord, pageable, date);
 
-        List<MatchingDetailTestResponseDto> responseList = matchingPage.stream()
-                .map(matching -> MatchingDetailTestResponseDto.builder()
+        List<MatchingSimpleResponseDto> responseList = matchingPage.stream()
+                .map(matching -> MatchingSimpleResponseDto.builder()
                         .id(matching.getId())
                         .startAt(matching.getStartAt())
                         .name(matching.getName())
@@ -179,16 +179,7 @@ public class MatchingServiceImpl implements MatchingService{
                                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING)))
                         .isReservedStadium(matching.getIsReserved())
                         .hour(matching.getHour())
-                        .upTeamMemberNum(
-                                matching.getGameKind() == GameKind.TEAM ?
-                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingIdAndTeamName(matching.getId(), matching.getUpTeamName()).intValue() :
-                                        personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.UP_TEAM).intValue()
-                        )
-                        .downTeamMemberNum(
-                                matching.getGameKind() == GameKind.TEAM ?
-                                        teamMatchJoinRepository.countTeamMatchJoinByMatchingIdAndTeamName(matching.getId(), matching.getDownTeamName()).intValue() :
-                                        personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), PersonalMatchingTeam.DOWN_TEAM).intValue()
-                        )
+                        .status(matching.getStatus())
                         .build())
                 .collect(Collectors.toList());
 

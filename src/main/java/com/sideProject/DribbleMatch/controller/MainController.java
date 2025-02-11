@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.controller;
 
 import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.MatchingSimpleResponseDto;
 import com.sideProject.DribbleMatch.service.banner.BannerService;
 import com.sideProject.DribbleMatch.service.matching.MatchingService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class MainController {
     public String index(ModelMap model,
                         @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
+        Page<MatchingSimpleResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
         model.addAttribute("bannerList", bannerService.getMainPageBannerList());
         model.addAttribute("dateList", CommonUtil.getDateList(LocalDate.now()));

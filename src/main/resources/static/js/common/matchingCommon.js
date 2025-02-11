@@ -19,7 +19,7 @@ function slideLeft(moveNum) {
     const formattedDate = `${day} / (${weekday})`;
 
     const newDateDiv = $("<div>")
-        .addClass("date-div")
+        .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
         .attr("date", newDate.toISOString().split('T')[0])
         .text(formattedDate);
 
@@ -29,7 +29,7 @@ function slideLeft(moveNum) {
     newDate2.setDate(newDate2.getDate() + 1);
 
     $firstChild.animate(
-        {marginLeft: `-=${18 * moveNum}rem`},
+        {marginLeft: `-=${18.5 * moveNum}rem`},
         500,
         function () {
             $dateDivList.append(newDateDiv);
@@ -47,7 +47,7 @@ function slideLeft(moveNum) {
                 const formattedDate2 = `${day2} / (${weekday2})`;
 
                 const newDateDiv2 = $("<div>")
-                    .addClass("date-div")
+                    .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
                     .attr("date", newDate2.toISOString().split('T')[0])
                     .text(formattedDate2);
 
@@ -93,7 +93,7 @@ function slideRight(moveNum) {
     }
 
     const newDateDiv = $("<div>")
-        .addClass("date-div")
+        .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
         .attr("date", newDate.toISOString().split('T')[0])
         .text(formattedDate);
 
@@ -103,7 +103,7 @@ function slideRight(moveNum) {
     newDate2.setDate(newDate2.getDate() - 1);
 
     $lastChild.animate(
-        {marginRight: `-=${18 * moveNum}rem`},
+        {marginRight: `-=${18.5 * moveNum}rem`},
         500,
         function () {
             $dateDivList.prepend(newDateDiv);
@@ -125,7 +125,7 @@ function slideRight(moveNum) {
                 }
 
                 const newDateDiv2 = $("<div>")
-                    .addClass("date-div")
+                    .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
                     .attr("date", newDate2.toISOString().split('T')[0])
                     .text(formattedDate2);
 
@@ -192,6 +192,6 @@ function changeSelectDateStyle(clickedElement) {
 
     replaceListByDate(date);
 
-    $(".select-date-div").removeClass("select-date-div");
-    $(clickedElement).addClass("select-date-div");
+    $(".selected-date").removeClass("selected-date");
+    $(clickedElement).addClass("selected-date");
 }

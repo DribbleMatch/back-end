@@ -141,7 +141,7 @@ public class Matching extends BaseEntity {
     }
 
     public void notPlayMatching() {
-        this.status = MatchingStatus.NOT_PLAY_FINISHED;
+        this.status = MatchingStatus.CANCELLED;
     }
 
     public void joinTeamMatching(String teamName) {

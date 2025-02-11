@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.controller.matching.controller;
 
 import com.sideProject.DribbleMatch.common.util.CommonUtil;
 import com.sideProject.DribbleMatch.dto.matching.response.MatchingDetailTestResponseDto;
+import com.sideProject.DribbleMatch.dto.matching.response.MatchingSimpleResponseDto;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.repository.region.RegionRepository;
@@ -51,7 +52,7 @@ public class MatchingController {
                                    Principal principal,
                                    @PageableDefault(page = 0, size = 10) Pageable pageable) {
 
-        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
+        Page<MatchingSimpleResponseDto> matchingList = matchingService.searchMatchings("", pageable, LocalDate.now());
 
         model.addAttribute("dateList", CommonUtil.getDateList(LocalDate.now()));
         model.addAttribute("mobileDateList", IntStream.range(0, 14)
@@ -75,7 +76,7 @@ public class MatchingController {
                                                      @RequestParam(name = "date") LocalDate date,
                                                      @RequestParam(name = "searchWord") String searchWord) {
 
-        Page<MatchingDetailTestResponseDto> matchingList = matchingService.searchMatchings(searchWord, pageable, date);
+        Page<MatchingSimpleResponseDto> matchingList = matchingService.searchMatchings(searchWord, pageable, date);
 
         model.addAttribute("matchingList", matchingList);
         model.addAttribute("currentPage", matchingList.getPageable().getPageNumber());

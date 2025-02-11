@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.dto.matching.response;
 
 import com.sideProject.DribbleMatch.entity.matching.ENUM.GameKind;
 import com.sideProject.DribbleMatch.entity.matching.ENUM.IsReservedStadium;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,4 +29,5 @@ public class MatchingSimpleResponseDto {
     private String regionString;
     private String upTeamName;
     private String downTeamName;
+    private MatchingStatus status;
 }

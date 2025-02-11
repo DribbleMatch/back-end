@@ -25,7 +25,7 @@ public interface MatchingService {
     public Boolean checkHasNotInputScore(Long userId);
     public List<MatchingSimpleResponseDto> getNotInputScoreMatchingList(Long userId);
     public List<RecentMatchingResponseDto> getRecentMatchingList();
-    public Page<MatchingDetailTestResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
+    public Page<MatchingSimpleResponseDto> searchMatchings(String searchWord, Pageable pageable, LocalDate date);
     public MatchingUserDetailResponseDto getMatchingDetail(Long matchingId);
     public Page<MatchingDetailTestResponseDto> getReservedMatchingList(Long userId, GameKind gameKind, Pageable pageable);
     public Page<MatchingDetailTestResponseDto> getEndedMatchingList(Long userId, GameKind gameKind, Pageable pageable);

@@ -71,7 +71,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
                 .join(personalMatchJoin).on(personalMatchJoin.matching.id.eq(matching.id))
                 .where(personalMatchJoin.user.id.eq(userId)
                         .and(status == MatchingStatus.RECRUITING ?
-                                matching.status.eq(status).or(matching.status.eq(MatchingStatus.WAITING_START)) : matching.status.eq(status))
+                                matching.status.eq(status).or(matching.status.eq(MatchingStatus.LAST_MINUTE)) : matching.status.eq(status))
                         .and(matching.gameKind.eq(GameKind.PERSONAL)))
                 .orderBy(matching.startAt.asc())
                 .offset(pageable.getOffset())
@@ -100,7 +100,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
                 .join(teamMatchJoin).on(teamMatchJoin.matching.id.eq(matching.id))
                 .where(teamMatchJoin.teamMember.user.id.eq(userId)
                         .and(status == MatchingStatus.RECRUITING ?
-                                matching.status.eq(status).or(matching.status.eq(MatchingStatus.WAITING_START)) : matching.status.eq(status))
+                                matching.status.eq(status).or(matching.status.eq(MatchingStatus.LAST_MINUTE)) : matching.status.eq(status))
                         .and(matching.gameKind.eq(GameKind.TEAM)))
                 .orderBy(matching.startAt.asc())
                 .offset(pageable.getOffset())
@@ -111,7 +111,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
                 .select(teamMatchJoin.count())
                 .where(teamMatchJoin.teamMember.user.id.eq(userId)
                         .and(status == MatchingStatus.RECRUITING ?
-                                matching.status.eq(status).or(matching.status.eq(MatchingStatus.WAITING_START)) : matching.status.eq(status))
+                                matching.status.eq(status).or(matching.status.eq(MatchingStatus.LAST_MINUTE)) : matching.status.eq(status))
                         .and(matching.gameKind.eq(GameKind.TEAM)))
                 .from(teamMatchJoin)
                 .fetchOne();
@@ -130,7 +130,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
                 .where(matching.upTeamScore.eq(0).and(matching.downTeamScore.eq(0)
                         .and(matching.endAt.before(LocalDateTime.now())))
                         .and(matching.creator.id.eq(userId))
-                        .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.NOT_PLAY_FINISHED))))
+                        .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.CANCELLED))))
                 .fetchOne();
     }
 
@@ -142,7 +142,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
                 .where(matching.upTeamScore.eq(0).and(matching.downTeamScore.eq(0)
                         .and(matching.endAt.before(LocalDateTime.now())))
                         .and(matching.creator.id.eq(userId))
-                        .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.NOT_PLAY_FINISHED))))
+                        .and(matching.status.ne(MatchingStatus.FINISHED).and(matching.status.ne(MatchingStatus.CANCELLED))))
                 .fetch();
     }
 
@@ -151,7 +151,7 @@ public class MatchingCustomRepositoryImpl implements MatchingCustomRepository{
 
         return jpaQueryFactory
                 .selectFrom(matching)
-                .where((matching.status.eq(MatchingStatus.RECRUITING).or(matching.status.eq(MatchingStatus.WAITING_START)))
+                .where((matching.status.eq(MatchingStatus.RECRUITING).or(matching.status.eq(MatchingStatus.LAST_MINUTE)))
                         .and(matching.startAt.after(LocalDateTime.now())))
                 .orderBy(matching.startAt.asc())
                 .limit(5)

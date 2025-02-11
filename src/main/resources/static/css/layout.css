@@ -47,6 +47,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
 /* layout */
 html, body {
     font-family: 'Paperlogy', sans-serif !important;
@@ -63,7 +70,10 @@ header.simple-header {
     min-width: unset;
 }
 .container {
-    min-width: 65rem;
+    min-width: 1320px;
+}
+.number-font {
+    font-family: 'Pretendard-Regular', sans-serif;
 }
 
 /** utility **/
@@ -123,6 +133,9 @@ header.simple-header {
 .base-color {
     color: #ff9819 !important;
 }
+.first-color {
+    color: #2f2f2f !important;
+}
 .second-color {
     color: #7b7b7b !important;
 }
@@ -151,6 +164,11 @@ header.simple-header {
 }
 .show-only-mobile {
     display: none;
+}
+
+/* height */
+.h-3r {
+    height: 3rem;
 }
 
 /* custom-style */
@@ -213,6 +231,9 @@ header.simple-header {
     .d-flex-m {
         display: flex !important;
     }
+    .border-none-mobile {
+        border: none !important;
+    }
 
     .basic-title {
         margin-bottom: 0 !important;
@@ -221,6 +242,9 @@ header.simple-header {
         font-size: 1.3rem;
     }
     .show-only-mobile {
-        display: flex;
+        display: flex !important;
+    }
+    .hide-only-mobile {
+        display: none !important;
     }
 }

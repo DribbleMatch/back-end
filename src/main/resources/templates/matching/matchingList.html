@@ -11,12 +11,11 @@
     <script th:src="@{/js/common/matchingCommon.js}"></script>
 </th:block>
 
-<div layout:fragment="content" class="container d-flex flex-column align-items-center">
-    <div class="col-12 col-md-7 d-flex position-relative mb-5">
-        <div class="col-12 date-div-list d-flex justify-content-center position-relative third-bg-color rounded overflow-hidden gap-5">
-            <div th:each="date, stat : ${dateList}"
-                 th:classappend="${stat.index == 2} ? 'black'"
-                 class="date-div"
+<div layout:fragment="content" class="container p-0 d-flex flex-column align-items-center">
+    <div class="hide-only-mobile col-12 col-md-7 d-flex position-relative mb-5">
+        <div class="col-12 date-div-list d-flex justify-content-center position-relative third-bg-color rounded overflow-hidden gap-4">
+            <div class="date-div col-2 my-2 p-2 fs-5 text-center first-color"
+                 th:each="date, stat : ${dateList}"
                  th:text="${#temporals.format(date, 'dd / (EEE)')}"
                  th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
             </div>
@@ -25,24 +24,24 @@
             <div class="click-div third" onclick="slideLeft(1)"></div>
             <div class="click-div fourth" onclick="slideLeft(2)"></div>
         </div>
-        <div class="d-flex align-items-center position-absolute top-50 start-50 translate-middle gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left cs-p second-color" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"
+        <div class="col-3 d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-secondary cs-p" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"
                  id="prevButton" onclick="slideRight(1)">
                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0"/>
             </svg>
-            <div class="now-date-border"></div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right cs-p second-color" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"
+            <div class="col-6 h-3r rounded-pill border border-secondary border-2"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="text-secondary cs-p" viewBox="0 0 16 16" stroke="currentColor" stroke-width="1.5"
                  id="nextButton" onclick="slideLeft(1)">
                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
             </svg>
         </div>
     </div>
 
-    <div class="show-only-mobile">
-        <div class="date-div-mobile"
+    <div class="show-only-mobile col-12 px-3 py-3 overflow-auto gap-2">
+        <div class="col-2 py-1 number-font text-center rounded-pill"
              th:each="date, stat : ${mobileDateList}"
-             th:classappend="${stat.index == 0} ? 'select-date-div'"
-             th:utext="${#temporals.format(date, 'dd')} + '<br>(' + ${#temporals.format(date, 'EEE')} + ')'"
+             th:classappend="${stat.index == 0} ? 'selected-date'"
+             th:utext="${#temporals.format(date, 'dd')} + '<br>' + ${#temporals.format(date, 'EEE')} + ''"
              th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}"
              onclick="changeSelectDateStyle(this)">
         </div>
@@ -52,7 +51,7 @@
         <div class="d-flex align-items-center justify-content-center position-relative gap-3">
             <input class="col-9 px-2 border border-2 border-secondary rounded search-bar" type="text" id="search-word" placeholder="경기 명 또는 지역 검색..."
                    oninput="searchMatching()" />
-            <i class="bi bi-search position-absolute second-color fs-5 cs-p"></i>
+            <i class="bi bi-search position-absolute second-color fs-5"></i>
             <div class="position-relative">
                 <svg class="plus-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 5V19M5 12H19" stroke="#333333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -64,39 +63,63 @@
             </div>
         </div>
 
-        <div class="matching-list" id="matching-list">
-            <div th:each="matching : ${matchingList}" class="matching-card">
-                <div class="matching-time">
-                    <h1 th:text="${#temporals.format(matching.startAt, 'HH:mm')}">12:12</h1>
+        <div class="col-12 mt-4 d-flex flex-column gap-md-4" id="matching-list">
+            <div th:each="matching : ${matchingList}"
+                 class="matching-card col-12 py-3 d-flex flex-row align-items-center justify-content-center rounded">
+                <div class="col-2 fs-3 text-center first-color number-font fw-semibold"
+                     th:text="${#temporals.format(matching.startAt, 'HH:mm')}">
                 </div>
-                <div class="matching-info">
-                    <div class="matching-name-div">
-                        <div class="matching-name" th:text="${matching.name}"
+                <div class="col-9 col-md-10 d-flex flex-column border-start border-none-mobile">
+                    <div class="col-7 col-md-12 mb-md-1 ps-2 d-flex align-items-center border-bottom border-none-mobile">
+                        <div class="fs-5 fw-500 text-break font-mobile" th:text="${matching.name}"
                              th:onclick="'goMatchingDetail('+ ${matching.id} +')'"></div>
-                        <div th:if="${matching.isOnlyWomen.toString() == 'ONLY_WOMEN'}" class="is-only-women">
+                        <div th:if="${matching.isOnlyWomen.toString() == 'ONLY_WOMEN'}" class="ms-2 px-2 text-white bg-info rounded-pill font-mobile">
                             여성전용
                         </div>
                     </div>
-                    <div class="matching-kind"
-                         th:text="${matching.gameKind.toString() == 'TEAM' ? '팀 경기 ' : '개인 경기 '} + ${matching.playMemberNum} + ' VS ' + ${matching.playMemberNum} + ' (모집 인원: 팀 당 ' + ${matching.maxMemberNum} + '명)'">
-                        팀 경기 3 VS 3 (모집 인원: 팀 당 3명)
+
+                    <div class="col-12 d-flex align-items-center">
+                        <div class="col-7 ps-2 d-flex flex-column text-secondary font-mobile text-break">
+                            <div th:text="${matching.gameKind.toString() == 'TEAM' ? '팀경기 ' : '개인경기 '} + ${matching.playMemberNum} + ' VS ' + ${matching.playMemberNum} + ' (모집인원: 팀 당 ' + ${matching.maxMemberNum} + '명)'">
+                                팀경기 3 VS 3 (모집인원: 팀 당 3명)
+                            </div>
+                            <div th:text="${matching.regionString} + ' (' + ${matching.isReservedStadium.toString() == 'RESERVED' ? '경기장 확정' : '경기장 미정'} + ')'">
+                                서울시 영등포구 (경기장 미정)
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="fw-500 font-mobile" th:text="${matching.hour} + '시간'">
+                                3시간
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <button th:if="${matching.status.toString() == 'RECRUITING'}"
+                                    type="button"
+                                    class="col-10 p-1 rounded-pill btn btn-primary font-mobile"
+                                    th:onclick="'goMatchingDetail('+ ${matching.id} +')'">
+                                모집중
+                            </button>
+                            <button th:if="${matching.status.toString() == 'LAST_MINUTE'}"
+                                    type="button"
+                                    class="col-10 p-1 rounded-pill btn btn-danger font-mobile"
+                                    th:onclick="'goMatchingDetail('+ ${matching.id} +')'">
+                                마감임박
+                            </button>
+                            <button th:unless="${matching.status.toString() == 'RECRUITING' or matching.status.toString() == 'LAST_MINUTE'}"
+                                    type="button"
+                                    class="col-10 p-1 rounded-pill btn btn-secondary font-mobile"
+                                    disabled>
+                                마감
+                            </button>
+                        </div>
                     </div>
-                    <div class="matching-region"
-                         th:text="${matching.regionString} + ' (' + ${matching.isReservedStadium.toString() == 'RESERVED' ? '경기장 확정' : '경기장 미정'} + ')'">
-                        서울시 영등포구 (경기장 미정)
-                    </div>
-                </div>
-                <div class="hour-div" th:text="${matching.hour} + '시간'">
-                    3시간
-                </div>
-                <div class="join-info-div">
-                    <button type="button">모집중</button>
                 </div>
             </div>
             <div th:if="${matchingList.totalElements == 0}" class="no-data">
                 해당 날에 경기가 아직 없습니다.
             </div>
-            <div th:if="${matchingList.totalElements != 0}"
+            <div class="mt-4"
+                 th:if="${matchingList.totalElements != 0}"
                  th:include="fragments/pagination :: pagination(${currentPage}, ${totalPage})"></div>
         </div>
     </div>
