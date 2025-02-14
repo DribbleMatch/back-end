@@ -20,32 +20,32 @@
     <div class="col-12 col-md-7 d-flex flex-column gap-2">
         <div class="ms-3 fs-5 fw-500">경기 정보</div>
         <div class="d-flex flex-row gap-4">
-            <div class="col-3 col-md-2 third-color text-center">경기장</div>
+            <div class="col-3 col-md-2 text-dark-second text-center">경기장</div>
             <div class="detail" th:text="${matchingDetail.isReservedStadium.toString() == 'RESERVED' ? '경기장 확정' : '경기장 미정'}"></div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="col-3 col-md-2 third-color text-center">장소</div>
+            <div class="col-3 col-md-2 text-dark-second text-center">장소</div>
             <div class="detail" th:text="${matchingDetail.regionString}">서울특별시 영등포구 당산동</div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="col-3 col-md-2 third-color text-center">경기 인원</div>
+            <div class="col-3 col-md-2 text-dark-second text-center">경기 인원</div>
             <div class="detail" th:text="${matchingDetail.playMemberNum + ' VS ' + matchingDetail.playMemberNum}">3 VS 3</div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="col-3 col-md-2 third-color text-center">모집 인원</div>
+            <div class="col-3 col-md-2 text-dark-second text-center">모집 인원</div>
             <div class="detail" th:text="${'팀 당 ' + matchingDetail.maxMemberNum + '명'}">팀 당 5명</div>
         </div>
         <div class="d-flex flex-row gap-4">
-            <div class="col-3 col-md-2 third-color text-center">여성 전용</div>
+            <div class="col-3 col-md-2 text-dark-second text-center">여성 전용</div>
             <div class="detail" th:text="${matchingDetail.isOnlyWomen.toString() == 'ONLY_WOMEN' ? 'O' : 'X'}">X</div>
         </div>
         <div class="d-flex flex-row gap-4 mb-4">
-            <div class="col-3 col-md-2 third-color text-center">경기 종류</div>
+            <div class="col-3 col-md-2 text-dark-second text-center">경기 종류</div>
             <div class="detail" th:text="${matchingDetail.gameKind.toString() == 'TEAM' ? '팀 경기' : '개인 경기'}">팀 경기</div>
         </div>
         <div class="col-12 d-flex flex-row justify-content-center align-items-center gap-5">
             <div class="col-12 col-md-9 round-border d-flex justify-content-center align-items-center">
-                <div class="col-5 px-3 align-content-center second-bg-color border-none rounded shadow-sm">
+                <div class="col-5 px-3 align-content-center bg-yellow-first border-none rounded shadow-sm">
                     시작일<br>
                     <span th:text="${#temporals.format(matchingDetail.startAt, 'yyyy-MM-dd (EEE)')}" />
                     <br>
@@ -56,7 +56,7 @@
                         3시간
                     </div>
                 </div>
-                <div class="col-5 px-3 align-content-center text-end second-bg-color border-none rounded shadow-sm">
+                <div class="col-5 px-3 align-content-center text-end bg-yellow-first border-none rounded shadow-sm">
                     종료일<br>
                     <span th:text="${#temporals.format(matchingDetail.endAt, 'yyyy-MM-dd (EEE)')}" />
                     <br>
@@ -81,8 +81,9 @@
             <div class="col-12 text-center fs-5" th:text="${matchingDetail.upTeamName}">A팀</div>
             <div class="col-12 pe-2 text-end fw-bold text-secondary" th:text="${matchingDetail.upTeamMember.size()} + ' / ' + ${matchingDetail.maxMemberNum}"></div>
             <div class="col-12 p-2 d-flex flex-row gap-1 shadow overflow-auto hover-scroll">
-                <div class="member-card p-2 d-flex flex-row align-items-center justify-content-start gap-1 rounded" th:each="member : ${matchingDetail.upTeamMember}">
-                    <div class="img-div-6">
+                <div class="member-card p-2 d-flex flex-row align-items-center justify-content-start gap-1 rounded"
+                     th:each="member : ${matchingDetail.upTeamMember}">
+                    <div class="img-div sm-ver">
                         <img class="w-100" th:src="@{/api/image(imagePath=${member.imagePath})}"/>
                     </div>
                     <div class="ms-1 ps-2 d-flex flex-column border-start border-2">
@@ -91,15 +92,15 @@
                         <div class="fs-6" th:text="'Lv ' + ${member.level}">Lv.3</div>
                     </div>
                 </div>
-                <div class="member-card p-2 d-flex align-items-center justify-content-center fs-4 text-center second-color rounded"
-                     th:if="${matchingDetail.gameKind.toString() == 'PERSONAL'}"
+                <div class="member-card p-2 d-flex align-items-center justify-content-center fs-4 text-center text-dark-second rounded"
+                     th:if="${matchingDetail.gameKind.toString() == 'PERSONAL' && matchingDetail.getUpTeamMember().size() < matchingDetail.maxMemberNum}"
                      th:each="i : ${#numbers.sequence(matchingDetail.getUpTeamMember().size(), matchingDetail.maxMemberNum - 1)}">
-                    <div class="img-div-6 cs-p" th:if="${i == matchingDetail.getUpTeamMember().size()}" onclick="joinPersonalMatchTeam('UP_TEAM')">
+                    <div class="img-div sm-ver cs-p" th:if="${i == matchingDetail.getUpTeamMember().size()}" onclick="joinPersonalMatchTeam('UP_TEAM')">
                         <img class="w-50 h-50" src="/image/matching/join_matching.png" alt="join_matching.png">
                     </div>
                     <div class="" th:if="${i != matchingDetail.getUpTeamMember().size()}">모집 중</div>
                 </div>
-                <div class="member-card p-2 align-content-center fs-4 text-center second-color rounded"
+                <div class="member-card p-2 align-content-center fs-4 text-center text-dark-second rounded"
                      th:if="${matchingDetail.gameKind.toString() == 'TEAM'}"
                      th:each="i : ${#numbers.sequence(matchingDetail.getUpTeamMember().size(), matchingDetail.maxMemberNum - 1)}">
                     모집 완료
@@ -115,7 +116,7 @@
             <div class="col-12 pe-2 text-end fw-bold text-secondary" th:text="${matchingDetail.downTeamMember.size()} + ' / ' + ${matchingDetail.maxMemberNum}"></div>
             <div class="col-12 p-2 d-flex flex-row gap-1 shadow overflow-auto hover-scroll">
                 <div class="member-card p-2 d-flex flex-row align-items-center justify-content-start gap-1 rounded" th:each="member : ${matchingDetail.downTeamMember}">
-                    <div class="img-div-6">
+                    <div class="img-div sm-ver">
                         <img class="w-100" th:src="@{/api/image(imagePath=${member.imagePath})}" alt="memberImage.png"/>
                     </div>
                     <div class="ms-1 ps-2 d-flex flex-column border-start border-2">
@@ -125,22 +126,22 @@
                     </div>
                 </div>
                 <div class="member-card p-2 d-flex align-items-center justify-content-center rounded"
-                     th:if="${matchingDetail.gameKind.toString() == 'PERSONAL'}"
+                     th:if="${matchingDetail.gameKind.toString() == 'PERSONAL' && matchingDetail.getDownTeamMember().size() < matchingDetail.maxMemberNum}"
                      th:each="i : ${#numbers.sequence(matchingDetail.getDownTeamMember().size(), matchingDetail.maxMemberNum - 1)}">
-                    <div class="img-div-6 cs-p" th:if="${i == matchingDetail.getDownTeamMember().size()}" onclick="joinPersonalMatchTeam('DOWN_TEAM')">
+                    <div class="img-div sm-ver cs-p" th:if="${i == matchingDetail.getDownTeamMember().size()}" onclick="joinPersonalMatchTeam('DOWN_TEAM')">
                         <img class="w-50 h-50" src="/image/matching/join_matching.png" alt="join_matching.png">
                     </div>
-                    <div class="fs-4 second-color" th:if="${i != matchingDetail.getDownTeamMember().size()}">모집 중</div>
+                    <div class="fs-4 text-dark-second" th:if="${i != matchingDetail.getDownTeamMember().size()}">모집 중</div>
                 </div>
                 <div class="member-card p-2 d-flex align-items-center justify-content-center rounded"
                      th:if="${matchingDetail.gameKind.toString() == 'TEAM' && matchingDetail.getDownTeamMember().size() == 0}"
                      th:each="i : ${#numbers.sequence(0, matchingDetail.maxMemberNum - 1)}">
-                    <div class="img-div-6 cs-p" th:if="${i == 0}" onclick="openTeamMatchJoinPop()">
+                    <div class="img-div sm-ver cs-p" th:if="${i == 0}" onclick="openTeamMatchJoinPop()">
                         <img class="w-50 h-50" src="/image/matching/join_matching.png" alt="join_matching.png">
                     </div>
-                    <div class="fs-4 second-color" th:if="${i != 0}">모집 중</div>
+                    <div class="fs-4 text-dark-second" th:if="${i != 0}">모집 중</div>
                 </div>
-                <div class="member-card p-2 align-content-center fs-4 text-center second-color rounded"
+                <div class="member-card p-2 align-content-center fs-4 text-center text-dark-second rounded"
                      th:if="${matchingDetail.gameKind.toString() == 'TEAM' && matchingDetail.getDownTeamMember().size() != 0}"
                      th:each="i : ${#numbers.sequence(matchingDetail.getDownTeamMember().size(), matchingDetail.maxMemberNum - 1)}">
                     모집 완료

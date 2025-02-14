@@ -2,6 +2,7 @@ package com.sideProject.DribbleMatch.service.personalMatchJoin;
 
 import com.sideProject.DribbleMatch.common.error.CustomException;
 import com.sideProject.DribbleMatch.common.error.ErrorCode;
+import com.sideProject.DribbleMatch.entity.matching.ENUM.MatchingStatus;
 import com.sideProject.DribbleMatch.entity.matching.Matching;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.ENUM.PersonalMatchingTeam;
 import com.sideProject.DribbleMatch.entity.personalMatchJoin.PersonalMatchJoin;
@@ -27,12 +28,13 @@ public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
     @Transactional
     public Long createPersonalMatchJoin(Long matchingId, Long userId, PersonalMatchingTeam personalMatchingTeam) {
 
-        checkAlreadyJoin(matchingId, userId);
-
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_MATCHING));
         User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_USER));
+
+        checkAlreadyJoin(matchingId, userId);
+        checkMaxNum(matching, personalMatchingTeam);
 
         return personalMatchJoinRepository.save(PersonalMatchJoin.builder()
                         .matchingTeam(personalMatchingTeam)
@@ -42,9 +44,38 @@ public class PersonalMatchJoinServiceImpl implements PersonalMatchJoinService{
     }
 
     @Override
+    @Transactional
+    public void updateMatchingStatus(Long matchingId) {
+
+        Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
+                new CustomException(ErrorCode.NOT_FOUND_MATCHING));
+
+        Long upTeamMemberNum = personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matchingId, PersonalMatchingTeam.UP_TEAM);
+        Long downTeamMemberNum = personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matchingId, PersonalMatchingTeam.DOWN_TEAM);
+
+        if ((upTeamMemberNum + downTeamMemberNum) >= (matching.getMaxNum() * 2 * 8L / 10)) {
+            matching.updateStatus(MatchingStatus.LAST_MINUTE);
+            matchingRepository.save(matching);
+        }
+
+        if (upTeamMemberNum + downTeamMemberNum == matching.getMaxNum() * 2L - 1) {
+            matching.updateStatus(MatchingStatus.RECRUITMENT_CLOSED);
+            matchingRepository.save(matching);
+        }
+    }
+
+    @Override
     public void checkAlreadyJoin(Long matchingId, Long userId) {
         if (personalMatchJoinRepository.findByMatchingIdAndUserId(matchingId, userId).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_JOIN_PERSONAL_MATCH);
         }
     }
+
+    @Override
+    public void checkMaxNum(Matching matching, PersonalMatchingTeam personalMatchingTeam) {
+        if (personalMatchJoinRepository.countPersonalMatchJoinByMatchingAndTeam(matching.getId(), personalMatchingTeam) == matching.getMaxNum()) {
+            throw new CustomException(ErrorCode.LIMIT_MEMBER_NUM);
+        }
+    }
+
 }

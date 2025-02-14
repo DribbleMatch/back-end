@@ -85,20 +85,28 @@ header.simple-header {
     font-size: 1.5rem;
     font-weight: 400;
 }
-.img-div-6 {
+.img-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-div.sm-ver {
     width: 6rem;
     height: 6rem;
     min-width: 6rem;
     min-height: 6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+.img-div.lg-ver {
+    width: 13rem;
+    height: 13rem;
+    min-width: 13rem;
+    min-height: 13rem;
 }
 
 /* button */
 .basic-btn {
     height: 2.2rem;
-    background-color: #ff9819 !important;
+    background-color: var(--base-color) !important;
     color: white !important;
     border-radius: 2rem !important;
     border: none !important;
@@ -110,7 +118,7 @@ header.simple-header {
 }
 .basic-btn:hover {
     color: #ffffff !important;
-    background-color: #ff8700 !important;
+    background-color: var(--base-hover-color) !important;
 }
 
 /* input */
@@ -126,30 +134,41 @@ header.simple-header {
     background-color: #f5f5f5;
 }
 
+/* color */
+:root {
+    --base-color: #ff9819;
+    --base-hover-color: #ff8700;
+
+    --dark-first-color: #2f2f2f;
+    --dark-second-color: #7b7b7b;
+    --dark-last-color: #f5f5f5;
+
+    --yellow-first-color: #fffaf5;
+}
+
 /* style */
 .d-flex-changeable {
     display: flex;
 }
-.base-color {
-    color: #ff9819 !important;
+
+.text-base {
+    color: var(--base-color) !important;
 }
-.first-color {
-    color: #2f2f2f !important;
+.text-dark-first {
+    color: var(--dark-first-color) !important;
 }
-.second-color {
-    color: #7b7b7b !important;
+.text-dark-second {
+    color: var(--dark-second-color) !important;
 }
-.third-color {
-    color: #a2a2a2 !important;
+
+.bg-base {
+    background-color: var(--base-color) !important;
 }
-.base-bg-color {
-    background-color: #ff9819 !important;
+.bg-yellow-first {
+    background-color: var(--yellow-first-color) !important;
 }
-.second-bg-color {
-    background-color: #fffaf5 !important;
-}
-.third-bg-color {
-    background-color: #f5f5f5; !important
+.bg-dark-last {
+    background-color: var(--dark-last-color); !important
 }
 
 /* for-bootstrap */
@@ -180,7 +199,7 @@ header.simple-header {
     color: #000000;
 }
 .custom-radio-btn.active, .custom-radio-btn:hover {
-    background-color: #ff9819;
+    background-color: var(--base-color);
     color: #ffffff;
 }
 

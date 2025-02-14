@@ -13,8 +13,8 @@
 
 <div layout:fragment="content" class="container p-0 d-flex flex-column align-items-center">
     <div class="hide-only-mobile col-12 col-md-7 d-flex position-relative mb-5">
-        <div class="col-12 date-div-list d-flex justify-content-center position-relative third-bg-color rounded overflow-hidden gap-4">
-            <div class="date-div col-2 my-2 p-2 fs-5 text-center first-color"
+        <div class="col-12 date-div-list d-flex justify-content-center position-relative bg-dark-last rounded overflow-hidden gap-4">
+            <div class="date-div col-2 my-2 p-2 fs-5 text-center text-dark-first"
                  th:each="date, stat : ${dateList}"
                  th:text="${#temporals.format(date, 'dd / (EEE)')}"
                  th:attr="date=${#temporals.format(date, 'yyyy-MM-dd')}">
@@ -51,7 +51,7 @@
         <div class="d-flex align-items-center justify-content-center position-relative gap-3">
             <input class="col-9 px-2 border border-2 border-secondary rounded search-bar" type="text" id="search-word" placeholder="경기 명 또는 지역 검색..."
                    oninput="searchMatching()" />
-            <i class="bi bi-search position-absolute second-color fs-5"></i>
+            <i class="bi bi-search position-absolute text-dark-second fs-5"></i>
             <div class="position-relative">
                 <svg class="plus-icon" width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 5V19M5 12H19" stroke="#333333" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>
@@ -66,14 +66,14 @@
         <div class="col-12 mt-4 d-flex flex-column gap-md-4" id="matching-list">
             <div th:each="matching : ${matchingList}"
                  class="matching-card col-12 py-3 d-flex flex-row align-items-center justify-content-center rounded">
-                <div class="col-2 fs-3 text-center first-color number-font fw-semibold"
+                <div class="col-2 fs-3 text-center text-dark-first number-font fw-semibold"
                      th:text="${#temporals.format(matching.startAt, 'HH:mm')}">
                 </div>
                 <div class="col-9 col-md-10 d-flex flex-column border-start border-none-mobile">
                     <div class="col-7 col-md-12 mb-md-1 ps-2 d-flex align-items-center border-bottom border-none-mobile">
                         <div class="fs-5 fw-500 text-break font-mobile" th:text="${matching.name}"
                              th:onclick="'goMatchingDetail('+ ${matching.id} +')'"></div>
-                        <div th:if="${matching.isOnlyWomen.toString() == 'ONLY_WOMEN'}" class="ms-2 px-2 text-white bg-info rounded-pill font-mobile">
+                        <div th:if="${matching.isOnlyWomen.toString() == 'ONLY_WOMEN'}" class="only-women-btn ms-2 px-1 px-md-3 rounded-pill font-mobile-sm">
                             여성전용
                         </div>
                     </div>
@@ -88,20 +88,20 @@
                             </div>
                         </div>
                         <div class="col-2">
-                            <div class="fw-500 font-mobile" th:text="${matching.hour} + '시간'">
+                            <div class="fw-500 text-center font-mobile" th:text="${matching.hour} + '시간'">
                                 3시간
                             </div>
                         </div>
                         <div class="col-3">
                             <button th:if="${matching.status.toString() == 'RECRUITING'}"
                                     type="button"
-                                    class="col-10 p-1 rounded-pill btn btn-primary font-mobile"
+                                    class="recruiting-btn col-10 p-1 btn text-white rounded-pill font-mobile"
                                     th:onclick="'goMatchingDetail('+ ${matching.id} +')'">
                                 모집중
                             </button>
                             <button th:if="${matching.status.toString() == 'LAST_MINUTE'}"
                                     type="button"
-                                    class="col-10 p-1 rounded-pill btn btn-danger font-mobile"
+                                    class="deadline-btn col-10 p-1 btn text-white rounded-pill font-mobile"
                                     th:onclick="'goMatchingDetail('+ ${matching.id} +')'">
                                 마감임박
                             </button>

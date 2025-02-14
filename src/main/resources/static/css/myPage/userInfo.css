@@ -1,42 +1,4 @@
-.user-details-container {
-    background-color: white;
-    border-radius: 10px;
-    padding: 20px;
-    width: 60%;
-    max-width: 800px;
-}
 
-.user-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-}
-.image-div {
-    width: 15rem;
-    height: 15rem;
-    background-color: #777777;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.image-div .user-image{
-    max-width: 105%;
-    max-height: 105%;
-}
-.user-header-right {
-    text-align: right;
-    width: 40%;
-    height: 100%;
-}
-.level-div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 .level {
     text-align: left;
     width: 15%;
@@ -47,7 +9,7 @@
     border-radius: 1rem;
 }
 .percent-bar {
-    background-color: #4caf50; /* 차오르는 색 (초록) */
+    background-color: #4caf50;
     height: 100%;
     border-radius: 1rem;
 }

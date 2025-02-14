@@ -140,8 +140,8 @@ public class Matching extends BaseEntity {
         this.status = MatchingStatus.FINISHED;
     }
 
-    public void notPlayMatching() {
-        this.status = MatchingStatus.CANCELLED;
+    public void updateStatus(MatchingStatus status) {
+        this.status = status;
     }
 
     public void joinTeamMatching(String teamName) {

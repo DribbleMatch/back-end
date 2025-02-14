@@ -29,8 +29,6 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
     public Matching createTeamMatchJoin(Long matchingId, Long userId, String teamName) {
         //refactor: 현재는 경기 생성시 팀을 설정하면 팀의 전체 멤베가 참여하도록 구현. 추후 팀에서 멤버도 선택할 수 있도록 재설계
 
-        checkAlreadyJoin(matchingId, userId);
-
         if (Objects.equals(teamName, "")) {
             throw new CustomException(ErrorCode.EMPTY_TEAM_NAME);
         }
@@ -39,6 +37,9 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
 
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_MATCHING));
+
+        checkAlreadyJoin(matchingId, userId);
+        checkMaxNum(matching, teamMembers.size());
 
         List<TeamMatchJoin> teamMatchJoinList = teamMembers.stream()
                 .map(teamMember -> TeamMatchJoin.builder()
@@ -55,6 +56,13 @@ public class TeamMatchJoinServiceImpl implements TeamMatchJoinService{
     public void checkAlreadyJoin(Long matchingId, Long userId) {
         if (teamMatchJoinRepository.findByMatchingIdAndUserId(matchingId, userId).isPresent()) {
             throw new CustomException(ErrorCode.ALREADY_JOIN_TEAM_MATCH);
+        }
+    }
+
+    @Override
+    public void checkMaxNum(Matching matching, int teamMemberNum) {
+        if (matching.getMaxNum() < teamMemberNum) {
+            throw new CustomException(ErrorCode.LIMIT_MEMBER_NUM);
         }
     }
 }

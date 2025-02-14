@@ -46,6 +46,22 @@
     left: 85%;
 }
 
+.only-women-btn {
+    color: #ffffff;
+    background-color: #ff6b6b;
+}
+.recruiting-btn {
+    background-color: #60a0ff;
+}
+.recruiting-btn:hover {
+    background-color: #3084ff;
+}
+.deadline-btn {
+    background-color: #ff4949;
+}
+.deadline-btn:hover {
+    background-color: #ff4949;
+}
 
 
 @media (max-width: 767px) {
@@ -59,6 +75,9 @@
     }
     .font-mobile {
         font-size: .7rem !important;
+    }
+    .font-mobile-sm {
+        font-size: .5rem !important;
     }
 
     .bi-search {

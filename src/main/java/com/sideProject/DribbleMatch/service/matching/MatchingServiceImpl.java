@@ -59,7 +59,12 @@ public class MatchingServiceImpl implements MatchingService{
         // 팀 멤버가 최대 모집 인원보다 많으면 에러
         List<TeamMember> teamMemberList = teamMemberRepository.findAllByTeamName(requestDto.getTeamName());
         if (requestDto.getMaxNum() < teamMemberList.size()) {
-            throw new CustomException(ErrorCode.TEAM_MAX_MEMBER_NUM);
+            throw new CustomException(ErrorCode.MORE_TEAM_MEMBER);
+        }
+
+        // 팀 멤버가 경기 인원보다 적으면 에러
+        if (requestDto.getPlayNum() > teamMemberList.size()) {
+            throw new CustomException(ErrorCode.LESS_TEAM_MEMBER);
         }
 
         if (requestDto.getRegionString().isEmpty()) {  // 경기장 확정
@@ -123,7 +128,7 @@ public class MatchingServiceImpl implements MatchingService{
         Matching matching = matchingRepository.findById(matchingId).orElseThrow(() ->
                 new CustomException(ErrorCode.NOT_FOUND_MATCHING));
 
-        matching.notPlayMatching();
+        matching.updateStatus(MatchingStatus.CANCELLED);
 
         matchingRepository.save(matching);
     }

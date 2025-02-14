@@ -44,4 +44,13 @@ public class MatchingJoinServiceImpl implements MatchingJoinService{
         Matching matching = teamMatchJoinService.createTeamMatchJoin(matchingId, userId, teamName);
         return matchingService.changeDownTeamName(matching, teamName);
     }
+
+    @Override
+    @Transactional
+    public Long joinPersonalMatching(Long matchingId, Long userId, PersonalMatchingTeam personalMatchingTeam) {
+
+        personalMatchJoinService.updateMatchingStatus(matchingId);
+
+        return personalMatchJoinService.createPersonalMatchJoin(matchingId, userId, personalMatchingTeam);
+    }
 }

@@ -19,7 +19,7 @@ function slideLeft(moveNum) {
     const formattedDate = `${day} / (${weekday})`;
 
     const newDateDiv = $("<div>")
-        .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
+        .addClass("date-div col-2 my-2 p-2 fs-5 text-center text-dark-first")
         .attr("date", newDate.toISOString().split('T')[0])
         .text(formattedDate);
 
@@ -47,7 +47,7 @@ function slideLeft(moveNum) {
                 const formattedDate2 = `${day2} / (${weekday2})`;
 
                 const newDateDiv2 = $("<div>")
-                    .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
+                    .addClass("date-div col-2 my-2 p-2 fs-5 text-center text-dark-first")
                     .attr("date", newDate2.toISOString().split('T')[0])
                     .text(formattedDate2);
 
@@ -93,7 +93,7 @@ function slideRight(moveNum) {
     }
 
     const newDateDiv = $("<div>")
-        .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
+        .addClass("date-div col-2 my-2 p-2 fs-5 text-center text-dark-first")
         .attr("date", newDate.toISOString().split('T')[0])
         .text(formattedDate);
 
@@ -125,7 +125,7 @@ function slideRight(moveNum) {
                 }
 
                 const newDateDiv2 = $("<div>")
-                    .addClass("date-div col-2 my-2 p-2 fs-5 text-center first-color")
+                    .addClass("date-div col-2 my-2 p-2 fs-5 text-center text-dark-first")
                     .attr("date", newDate2.toISOString().split('T')[0])
                     .text(formattedDate2);
 
