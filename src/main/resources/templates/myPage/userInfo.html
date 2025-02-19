@@ -22,22 +22,24 @@
             <div class="fs-6 text-dark-second" th:text="${user.ageAndGender}"></div>
             <div class="fs-6 text-dark-second" th:text="${user.skillString}"></div>
             <div class="fs-6 text-dark-second" th:text="${user.regionString}"></div>
-            <div class="col-12 mt-3 d-flex justify-content-between">
-                <div class="level" th:text="${'Lv.' + user.level}">Lv.1</div>
-                <div class="level-bar">
-                    <div class="percent-bar" th:style="'width: ' + ${user.experience} + '%'"></div>
+            <div class="col-12 mt-3 d-flex gap-3">
+                <div class="col-2 align-content-center fw-semibold" th:text="${'Lv.' + user.level}">Lv.1</div>
+                <div class="level-bar col-10 d-flex flex-column align-items-center justify-content-center rounded-pill">
+                    <div class="percent-bar-div">
+                        <div class="percent-bar rounded-pill" th:style="'width: ' + ${user.experience} + '%'"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="menu-div">
+    <div class="col-12 col-md-7 d-flex flex-column">
         <div class="menu-title">경기 기록</div>
         <div class="menu-line">
             <div class="menu-left-item" onclick="goToEndedMatchingList('TEAM')">종료된 팀 경기 ></div>
             <div class="menu-right-item" onclick="goToReservedMatchingList('TEAM')">예약된 팀 경기 ></div>
         </div>
-        <div class="div-line"></div>
+        <hr>
         <div class="menu-line">
             <div class="menu-left-item" onclick="goToEndedMatchingList('PERSONAL')">종료된 개인 경기 ></div>
             <div class="menu-right-item" onclick="goToReservedMatchingList('PERSONAL')">예약된 개인 경기 ></div>
