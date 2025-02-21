@@ -5,8 +5,8 @@ services:
     image: redis
     ports:
       - 6379:6379
-  dribblematch:
-    image: juhyunpark/dribblematch
+  clutchshot:
+    image: juhyunpark/clutchshot
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -15,6 +15,6 @@ services:
     depends_on:
       - redis
     env_file:
-      - ./dribbleMatch-prod.env
+      - clutchShot-prod.env
     volumes:
       - /home/ec2-user/images:/app/images
