@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignupPlayerInfoRequestDto {
+    @NotNull(message = "이름이 입력되지 않았습니다.")
+    private String name;
     @NotNull(message = "닉네임이 입력되지 않았습니다.")
     private String nickName;
     @NotNull(message = "이메일이 입력되지 않았습니다.")
@@ -36,7 +38,8 @@ public class SignupPlayerInfoRequestDto {
     private MultipartFile image;
 
     @Builder
-    public SignupPlayerInfoRequestDto(String nickName, String email, String birth, String password, String phone, int career, Gender gender, Skill skill, String positionString, String siDoString, String siGunGuString, MultipartFile image) {
+    public SignupPlayerInfoRequestDto(String name, String nickName, String email, String birth, String password, String phone, int career, Gender gender, Skill skill, String positionString, String siDoString, String siGunGuString, MultipartFile image) {
+        this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.birth = birth;

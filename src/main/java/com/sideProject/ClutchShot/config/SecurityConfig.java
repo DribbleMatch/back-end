@@ -42,7 +42,8 @@ public class SecurityConfig {
                                 "/healthcheck",
                                 "/css/**",
                                 "/js/**",
-                                "image/**"
+                                "/image/**",
+                                "/favicon.ico"
                         ).permitAll()
                         .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
                         .anyRequest().authenticated()

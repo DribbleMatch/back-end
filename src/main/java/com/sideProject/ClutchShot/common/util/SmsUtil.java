@@ -32,7 +32,7 @@ public class SmsUtil {
         // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
         message.setFrom("01071967401");
         message.setTo(to);
-        message.setText("[드리블매치] 아래의 인증번호를 입력해주세요\n" + verificationCode);
+        message.setText("[클러치 샷] 아래의 인증번호를 입력해주세요\n" + verificationCode);
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
         return response;

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class SignupUserInfoRequestDto {
+    @NotNull(message = "이름이 입력되지 않았습니다.")
+    private String name;
     @NotNull(message = "닉네임이 입력되지 않았습니다.")
     private String nickName;
     @NotNull(message = "이메일이 입력되지 않았습니다.")
@@ -25,7 +27,8 @@ public class SignupUserInfoRequestDto {
     private String authCode;
 
     @Builder
-    public SignupUserInfoRequestDto(String nickName, String email,String birth, String password, String password_check, String phone, String authCode) {
+    public SignupUserInfoRequestDto(String name, String nickName, String email,String birth, String password, String password_check, String phone, String authCode) {
+        this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.birth = birth;

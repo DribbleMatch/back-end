@@ -120,6 +120,7 @@ public class UserServiceImpl implements UserService{
                 new CustomException(ErrorCode.NOT_FOUND_REGION_STRING));
 
         User signupUser = User.builder()
+                .name(requestDto.getName())
                 .email(requestDto.getEmail())
                 .password(password)
                 .nickName(requestDto.getNickName())

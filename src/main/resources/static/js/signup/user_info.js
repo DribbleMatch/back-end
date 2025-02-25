@@ -132,7 +132,8 @@ function check_verification_code() {
         type: 'POST',
         data: {
             phone: phone,
-            authCode: auth_code
+            authCode: auth_code,
+            email: null
         },
         success: function (response) {
             if (response) {
@@ -172,6 +173,7 @@ function start_timer(duration) {
 }
 
 function check_input() {
+    var name = $('#name').val();
     var nickname = $('#nickname').val();
     var email = $('#email').val();
     var birth = $('#birth').val();
@@ -179,6 +181,11 @@ function check_input() {
     var password_check = $('#password_check').val();
     var phone = $('#phone').val();
     var pin_num = $('#pin_num').val();
+
+    if (!name) {
+        alert("이름을 입력해주세요.");
+        return false;
+    }
 
     if (!nickname) {
         alert("닉네임을 입력해주세요.");

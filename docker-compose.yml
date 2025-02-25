@@ -17,4 +17,4 @@ services:
     env_file:
       - clutchShot-prod.env
     volumes:
-      - /home/ec2-user/images:/app/images
+      - /home/juhyun/Desktop/clutchShot/images

@@ -20,6 +20,6 @@ public class UserController {
     public String myPage(Model model,
                          Principal principal) {
         model.addAttribute("user", userService.getUserDetail(Long.valueOf(principal.getName())));
-        return "myPage/userInfo";
+        return "/myPage/myPage";
     }
 }

@@ -10,7 +10,7 @@
 </th:block>
 
 <div layout:fragment="content" class="container p-0 d-flex flex-column align-items-center">
-    <div class="col-12 col-md-7 pb-3 d-flex justify-content-between border-bottom">
+    <div class="col-12 col-md-7 pb-3 d-flex justify-content-between">
         <div class="img-div lg-ver">
             <img class="w-100" id="team-image"
                  th:src="@{/api/image(imagePath=${user.imagePath})}"
@@ -28,6 +28,38 @@
                     <div class="percent-bar-div">
                         <div class="percent-bar rounded-pill" th:style="'width: ' + ${user.experience} + '%'"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-7 p-3 d-flex justify-content-between border rounded">
+        <div class="col-4 d-flex flex-column text-center">
+            <div class="fw-semibold">승패</div>
+            <div>
+                12<span class="text-success">승</span> 1<span class="text-danger">패</span>
+            </div>
+        </div>
+        <div class="border-start"></div>
+        <div class="col-4 position-relative d-flex flex-column text-center">
+            <i class="bi bi-question-circle position-absolute" style="left: 85%;"></i>
+            <div class="fw-semibold">칭호</div>
+            <div>
+                골밑의 지배자
+            </div>
+        </div>
+        <div class="border-start"></div>
+        <div class="col-4 px-3 position-relative d-flex flex-column text-center">
+            <i class="bi bi-question-circle position-absolute" style="left: 85%;"></i>
+            <div class="fw-semibold">매너 점수</div>
+            <div class="d-flex justify-content-center">
+                <div class="col-12 position-relative">
+                    <hr class="opacity-100">
+                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 0;"></div>
+                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 25%;"></div>
+                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 50%;"></div>
+                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 75%;"></div>
+                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 100%;"></div>
                 </div>
             </div>
         </div>
