@@ -11,6 +11,7 @@ import com.sideProject.ClutchShot.repository.user.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthServiceImpl implements AuthService{
+
+    @Value("${spring.jwt.access-token-expire}")
+    private Long ACCESS_TOKEN_EXPIRE_LENGTH;
+    @Value("${spring.jwt.refresh-token-expire}")
+    private Long REFRESH_TOKEN_EXPIRE_LENGTH;
 
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -49,12 +55,12 @@ public class AuthServiceImpl implements AuthService{
     public void setCookie(JwtResponseDto tokens, HttpServletResponse response) {
 
         Cookie accessToken = new Cookie("accessToken", tokens.getAccessToken());
-        accessToken.setMaxAge(1000000 / 1000);
+        accessToken.setMaxAge((int) (ACCESS_TOKEN_EXPIRE_LENGTH / 1000));
         accessToken.setPath("/");
         accessToken.setHttpOnly(true);
 
         Cookie refreshToken = new Cookie("refreshToken", tokens.getRefreshToken());
-        refreshToken.setMaxAge(1000000 / 1000);
+        refreshToken.setMaxAge((int) (REFRESH_TOKEN_EXPIRE_LENGTH / 100));
         refreshToken.setPath("/");
         refreshToken.setHttpOnly(true);
 

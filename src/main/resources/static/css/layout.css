@@ -171,6 +171,15 @@ header.simple-header {
     background-color: var(--dark-last-color); !important
 }
 
+.fs-7 {
+    font-size: .8rem;
+}
+
+.basic-hover:hover {
+    background-color: var(--base-color) !important;;
+    color: #ffffff !important;
+}
+
 /* for-bootstrap */
 .cs-p {
     cursor: pointer;
@@ -227,6 +236,51 @@ header.simple-header {
     bottom: -100px;
     opacity: 0;
     transition: bottom 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+/** popover **/
+.balloon {
+    position: absolute;
+    border-radius: 1rem;
+    border: #d1d1d1 solid .2rem;
+    height: auto;
+}
+.balloon:after,
+.balloon:before {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    display: block;
+    width: 0;
+    z-index: 1;
+}
+.balloon:after {
+    border-width: 0 .65rem .9rem .65rem;
+    border-color: #FFFFFF transparent;
+}
+.balloon:before {
+    border-width: 0 .9rem 1.2rem .9rem;
+    border-color: #d1d1d1 transparent;
+}
+.balloon_up_left:after {
+    top: 0;
+    left: 20%;
+    transform: translateX(-50%) translateY(-100%);
+}
+.balloon_up_left:before {
+    top: 0;
+    left: 20%;
+    transform: translateX(-50%) translateY(-100%);
+}
+.balloon_up_right:after {
+    top: 0;
+    left: 80%;
+    transform: translateX(-50%) translateY(-100%);
+}
+.balloon_up_right:before {
+    top: 0;
+    left: 80%;
+    transform: translateX(-50%) translateY(-100%);
 }
 
 @media (max-width: 767px) {

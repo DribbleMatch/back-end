@@ -13,6 +13,16 @@
     height: 100%;
     background: linear-gradient(to right, #ff6a28, #fdff00);
 }
+.pointer-img {
+    width: 1.5rem;
+    height: 1.8rem;
+    top: 54%;
+    transform: translateX(-50%);
+}
+
+
+
+
 .div-line {
     border-top: #656565 solid 0.1rem;
 }

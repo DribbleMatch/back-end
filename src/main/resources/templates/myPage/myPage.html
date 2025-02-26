@@ -3,10 +3,10 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/default}">
 <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/myPage/userInfo.css}">
+    <link rel="stylesheet" th:href="@{/css/myPage/myPage.css}">
 </th:block>
 <th:block layout:fragment="script">
-    <script th:src="@{/js/myPage/userInfo.js}"></script>
+    <script th:src="@{/js/myPage/myPage.js}"></script>
 </th:block>
 
 <div layout:fragment="content" class="container p-0 d-flex flex-column align-items-center">
@@ -33,39 +33,129 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-7 p-3 d-flex justify-content-between border rounded">
+    <div class="col-12 col-md-7 p-3 d-flex justify-content-between border rounded shadow-sm">
         <div class="col-4 d-flex flex-column text-center">
-            <div class="fw-semibold">승패</div>
+            <div class="fw-semibold number-font">승패</div>
             <div>
                 12<span class="text-success">승</span> 1<span class="text-danger">패</span>
             </div>
         </div>
         <div class="border-start"></div>
         <div class="col-4 position-relative d-flex flex-column text-center">
-            <i class="bi bi-question-circle position-absolute" style="left: 85%;"></i>
+            <i class="bi bi-question-circle position-absolute cs-p" style="left: 85%;" id="badge-info-btn"></i>
             <div class="fw-semibold">칭호</div>
             <div>
                 골밑의 지배자
             </div>
+            <div class="balloon balloon_up_left hide-toggle col-12 bg-white p-2 z-1" style="top: 70%; right: -67.5%;" id="badge-info-balloon">
+                <div class="text-primary fw-semibold text-start">
+                    칭호
+                </div>
+                <div class="text-secondary fs-7 text-start fw-500">
+                    경기를 진행하거나, 기타 활동으로<br>
+                    칭호를 획득할 수 있습니다.<br>
+                    자신의 대표 칭호를 설정할 수 있고<br>
+                    대표 칭호는 다른 플레이어가 볼 수 있습니다.<br>
+                    <span class="fw-semibold text-primary cs-p">
+                        칭호 바로가기
+                    </span>
+                </div>
+            </div>
         </div>
         <div class="border-start"></div>
         <div class="col-4 px-3 position-relative d-flex flex-column text-center">
-            <i class="bi bi-question-circle position-absolute" style="left: 85%;"></i>
+            <i class="bi bi-question-circle position-absolute cs-p" style="left: 85%;" id="manner-info-btn"></i>
             <div class="fw-semibold">매너 점수</div>
             <div class="d-flex justify-content-center">
                 <div class="col-12 position-relative">
-                    <hr class="opacity-100">
-                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 0;"></div>
-                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 25%;"></div>
-                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 50%;"></div>
-                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 75%;"></div>
-                    <div class="h-50 position-absolute top-25 border-start border-dark" style="top: 25%; left: 100%;"></div>
+                    <hr class="text-secondary border-2 opacity-100">
+                    <div class="h-25 position-absolute top-25 border-start border-2 border-secondary" style="top: 37%; left: 0;"></div>
+                    <div class="h-25 position-absolute top-25 border-start border-2 border-secondary" style="top: 37%; left: 25%;"></div>
+                    <div class="h-25 position-absolute top-25 border-start border-2 border-secondary" style="top: 37%; left: 50%;"></div>
+                    <div class="h-25 position-absolute top-25 border-start border-2 border-secondary" style="top: 37%; left: 75%;"></div>
+                    <div class="h-25 position-absolute top-25 border-start border-2 border-secondary" style="top: 37%; left: 100%;"></div>
+                    <img class="pointer-img position-absolute" src="/image/icon/etc/pointer_reverse.png" style="left: 50%;"  alt="pointer_reverse.png"/>
+                    <div class="number-font position-absolute"  style="top: 65%; left: 50%; transform: translateX(-150%);">50점</div>
+                    <div class="number-font position-absolute"  style="top: 65%; left: 50%; transform: translateX(50%);">50점</div>
+                </div>
+            </div>
+            <div class="balloon balloon_up_right hide-toggle col-12 bg-white p-2 z-1" style="top: 70%; right: -9%;" id="manner-info-balloon">
+                <div class="text-danger fw-semibold text-start">
+                    매너 점수
+                </div>
+                <div class="text-secondary fs-7 text-start fw-500">
+                    경기를 진행하면서 다른 플레이어들이<br>
+                    매너에 대한 점수를 매기게 됩니다.<br>
+                    매너 점수가 높으면<br>
+                    경험치 등의 혜택이 있습니다.
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-12 col-md-7 d-flex flex-column">
+    <div class="col-12 col-md-7 mt-5 d-flex flex-column gap-3">
+        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm">
+            <div class="fw-semibold ms-2 mb-2">
+                내 정보
+            </div>
+            <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
+                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">나의 기록</div>
+                <div class="border-start"></div>
+                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">경기 기록</div>
+            </div>
+            <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
+                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">프로필 수정</div>
+                <div class="border-start"></div>
+                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">칭호</div>
+            </div>
+            <div class="col-12 d-flex justify-content-center gap-4">
+                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">내가 속한 팀</div>
+                <div class="border-start"></div>
+                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">친구</div>
+            </div>
+        </div>
+
+        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm">
+            <div class="fw-semibold ms-2 mb-2">
+                내 정보
+            </div>
+            <div class="col-12 d-flex border-bottom">
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">나의 기록</div>
+                <div class="border-start"></div>
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">경기 기록</div>
+            </div>
+            <div class="col-12 d-flex border-bottom">
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">팀</div>
+                <div class="border-start"></div>
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">칭호</div>
+            </div>
+            <div class="col-12 d-flex">
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">프로필 수정</div>
+                <div class="border-start"></div>
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">친구</div>
+            </div>
+        </div>
+
+        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm">
+            <div class="fw-semibold ms-2 mb-2">
+                플랫폼
+            </div>
+            <div class="col-12 d-flex border-bottom">
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">클러치샷 소개</div>
+                <div class="border-start"></div>
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">경기 기록</div>
+            </div>
+            <div class="col-12 d-flex border-bottom">
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">팀</div>
+                <div class="border-start"></div>
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">칭호</div>
+            </div>
+            <div class="col-12 d-flex">
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">프로필 수정</div>
+                <div class="border-start"></div>
+                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">친구</div>
+            </div>
+        </div>
         <div class="menu-title">경기 기록</div>
         <div class="menu-line">
             <div class="menu-left-item" onclick="goToEndedMatchingList('TEAM')">종료된 팀 경기 ></div>
