@@ -20,6 +20,15 @@ $(document).ready(function () {
             }
         }
     );
+
+    $("#profile-edit").hover(
+        function() {
+            $(this).find("img").attr("src", "/image/icon/myPage/editProfileHover_icon.png");
+        },
+        function() {
+            $(this).find("img").attr("src", "/image/icon/myPage/editProfile_icon.png");
+        }
+    );
 });
 
 function goToReservedMatchingList(gameKind) {

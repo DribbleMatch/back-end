@@ -35,15 +35,16 @@
 
     <div class="col-12 col-md-7 p-3 d-flex justify-content-between border rounded shadow-sm">
         <div class="col-4 d-flex flex-column text-center">
-            <div class="fw-semibold number-font">승패</div>
+            <div class="fw-semibold mb-2">승패</div>
             <div>
-                12<span class="text-primary">승</span> 1<span class="text-danger">패</span>
+                <span class="number-font fw-500">12</span><span class="text-primary fw-500">승</span>
+                <span class="number-font fw-500">1</span><span class="text-danger fw-500">패</span>
             </div>
         </div>
         <div class="border-start"></div>
         <div class="col-4 position-relative d-flex flex-column text-center">
             <i class="bi bi-question-circle position-absolute cs-p" style="left: 85%;" id="badge-info-btn"></i>
-            <div class="fw-semibold">칭호</div>
+            <div class="fw-semibold mb-2">칭호</div>
             <div>
                 골밑의 지배자
             </div>
@@ -99,19 +100,37 @@
                 내 정보
             </div>
             <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
-                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">나의 기록</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/myRecord_icon.png" style="height: 1.5rem;margin-right: .5rem;" />
+                    <div>나의 기록</div>
+                </div>
                 <div class="border-start"></div>
-                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">경기 기록</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/record_icon.png" style="height: 1.5rem;margin-right: .4rem;" />
+                    <div>경기 기록</div>
+                </div>
             </div>
             <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
-                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">프로필 수정</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p" id="profile-edit">
+                    <img src="/image/icon/myPage/editProfile_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>프로필 수정</div>
+                </div>
                 <div class="border-start"></div>
-                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">칭호</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/badge_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>칭호</div>
+                </div>
             </div>
             <div class="col-12 d-flex justify-content-center gap-4">
-                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">내가 속한 팀</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/myTeam_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>내가 속한 팀</div>
+                </div>
                 <div class="border-start"></div>
-                <div class="col-5 m-1 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">친구</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/friend_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>친구</div>
+                </div>
             </div>
         </div>
 
@@ -119,52 +138,28 @@
             <div class="fw-semibold ms-2 mb-2">
                 플랫폼
             </div>
-            <div class="col-12 d-flex border-bottom">
-                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">클러치샷 소개</div>
+            <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/clutchShotInfo_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>클러치샷 소개</div>
+                </div>
                 <div class="border-start"></div>
-                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">진행 규칙</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/rule_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>진행 규칙</div>
+                </div>
             </div>
-            <div class="col-12 d-flex border-bottom">
-                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">설정</div>
+            <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/setting_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>설정</div>
+                </div>
                 <div class="border-start"></div>
-                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">회원 탈퇴</div>
+                <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
+                    <img src="/image/icon/myPage/friend_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <div>회원 탈퇴</div>
+                </div>
             </div>
-            <div class="col-12 d-flex">
-                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">프로필 수정</div>
-                <div class="border-start"></div>
-                <div class="col-6 px-3 py-1 fs-6 basic-hover rounded-pill text-center cs-p">친구</div>
-            </div>
-        </div>
-        <div class="menu-title">경기 기록</div>
-        <div class="menu-line">
-            <div class="menu-left-item" onclick="goToEndedMatchingList('TEAM')">종료된 팀 경기 ></div>
-            <div class="menu-right-item" onclick="goToReservedMatchingList('TEAM')">예약된 팀 경기 ></div>
-        </div>
-        <hr>
-        <div class="menu-line">
-            <div class="menu-left-item" onclick="goToEndedMatchingList('PERSONAL')">종료된 개인 경기 ></div>
-            <div class="menu-right-item" onclick="goToReservedMatchingList('PERSONAL')">예약된 개인 경기 ></div>
-        </div>
-        <div class="div-line"></div>
-        <div class="menu-line">
-            <div class="menu-left-item" onclick="goToPage('/page/matching/create')">경기 생성 ></div>
-            <div class="menu-right-item" onclick="goToPage('/page/openLater')">내 주변 경기 보기 (오픈 예정) ></div>
-        </div>
-
-        <div class="menu-title">기타</div>
-        <div class="menu-line">
-            <div class="menu-left-item" onclick="goToPage('/page/openLater')">프로필 수정 (오픈 예정) ></div>
-            <div class="menu-right-item" onclick="goToPage('/page/team/teamList?myPage=1')">내 팀 보기 ></div>
-        </div>
-        <div class="div-line"></div>
-        <div class="menu-line">
-            <div class="menu-left-item" onclick="goToPage('/page/openLater')">칭호 (오픈 예정) ></div>
-            <div class="menu-right-item" onclick="goToPage('/page/openLater')">나의 커리어 (오픈 예정) ></div>
-        </div>
-        <div class="div-line"></div>
-        <div class="menu-line">
-            <div class="menu-left-item" onclick="goToPage('/page/openLater')">환경설정 (오픈 예정) ></div>
-            <div class="menu-right-item" onclick="logout()">로그아웃 ></div>
         </div>
     </div>
 </div>
