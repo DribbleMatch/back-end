@@ -82,8 +82,8 @@ header.simple-header {
     font-weight: 500;
 }
 .basic-input-title {
-    font-size: 1.5rem;
-    font-weight: 400;
+    font-size: 1.3rem;
+    font-weight: 500;
 }
 .img-div {
     display: flex;
@@ -95,6 +95,12 @@ header.simple-header {
     height: 6rem;
     min-width: 6rem;
     min-height: 6rem;
+}
+.img-div.md-ver {
+    width: 9rem;
+    height: 9rem;
+    min-width: 9rem;
+    min-height: 9rem;
 }
 .img-div.lg-ver {
     width: 13rem;
@@ -307,6 +313,9 @@ header.simple-header {
     .border-none-mobile {
         border: none !important;
     }
+    .shadow-none-mobile {
+        box-shadow: none !important;
+    }
 
     .basic-title {
         margin-bottom: 0 !important;
@@ -319,5 +328,9 @@ header.simple-header {
     }
     .hide-only-mobile {
         display: none !important;
+    }
+    .mobile-hr {
+        width: 200%;
+        border: .3rem solid #979797;
     }
 }

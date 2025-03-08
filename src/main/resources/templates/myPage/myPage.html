@@ -10,21 +10,21 @@
 </th:block>
 
 <div layout:fragment="content" class="container p-0 d-flex flex-column align-items-center">
-    <div class="col-12 col-md-7 pb-3 d-flex justify-content-between">
+    <div class="col-11 col-md-7 pb-3 d-flex align-items-center justify-content-between">
         <div class="img-div lg-ver">
             <img class="w-100" id="team-image"
                  th:src="@{/api/image(imagePath=${user.imagePath})}"
                  alt="팀 이미지">
         </div>
-        <div class="col-5 mt-3 text-end">
-            <div class="mb-2 fs-4 fw-semibold text-dark-first" th:text="${user.nickName}"></div>
+        <div class="col-7 col-md-5 mt-md-3 text-end">
+            <div class="mb-md-2 fs-4 fw-semibold text-dark-first" th:text="${user.nickName}"></div>
             <div class="fs-6 text-dark-second" th:text="${user.positionString}"></div>
             <div class="fs-6 text-dark-second" th:text="${user.ageAndGender}"></div>
             <div class="fs-6 text-dark-second" th:text="${user.skillString}"></div>
             <div class="fs-6 text-dark-second" th:text="${user.regionString}"></div>
-            <div class="col-12 mt-3 d-flex gap-3">
+            <div class="col-12 mt-2 mt-md-3 d-flex gap-3">
                 <div class="col-2 align-content-center fw-semibold" th:text="${'Lv.' + user.level}">Lv.1</div>
-                <div class="level-bar col-10 d-flex flex-column align-items-center justify-content-center rounded-pill">
+                <div class="level-bar col-9 d-flex flex-column align-items-center justify-content-center rounded-pill">
                     <div class="percent-bar-div">
                         <div class="percent-bar rounded-pill" th:style="'width: ' + ${user.experience} + '%'"></div>
                     </div>
@@ -33,7 +33,9 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-7 p-3 d-flex justify-content-between border rounded shadow-sm">
+    <hr class="mobile-hr show-only-mobile m-0">
+
+    <div class="col-12 col-md-7 p-3 d-flex justify-content-between border rounded shadow-sm border-none-mobile shadow-none-mobile">
         <div class="col-4 d-flex flex-column text-center">
             <div class="fw-semibold mb-2">승패</div>
             <div>
@@ -94,69 +96,73 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-7 mt-5 d-flex flex-column gap-3">
-        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm">
+    <hr class="mobile-hr show-only-mobile m-0">
+
+    <div class="col-12 col-md-7 m-0 my-md-5 d-flex flex-column gap-md-3">
+        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm border-none-mobile shadow-none-mobile">
             <div class="fw-semibold ms-2 mb-2">
                 내 정보
             </div>
             <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/myRecord_icon.png" style="height: 1.5rem;margin-right: .5rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/myRecord_icon.png" />
                     <div>나의 기록</div>
                 </div>
                 <div class="border-start"></div>
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/record_icon.png" style="height: 1.5rem;margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/record_icon.png" />
                     <div>경기 기록</div>
                 </div>
             </div>
             <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p" id="profile-edit">
-                    <img src="/image/icon/myPage/editProfile_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/editProfile_icon.png" />
                     <div>프로필 수정</div>
                 </div>
                 <div class="border-start"></div>
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/badge_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/badge_icon.png" />
                     <div>칭호</div>
                 </div>
             </div>
             <div class="col-12 d-flex justify-content-center gap-4">
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/myTeam_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/myTeam_icon.png" />
                     <div>내가 속한 팀</div>
                 </div>
                 <div class="border-start"></div>
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/friend_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/friend_icon.png" />
                     <div>친구</div>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm">
+        <hr class="mobile-hr show-only-mobile m-0">
+
+        <div class="col-12 p-2 d-flex flex-column border rounded shadow-sm border-none-mobile shadow-none-mobile">
             <div class="fw-semibold ms-2 mb-2">
                 플랫폼
             </div>
             <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/clutchShotInfo_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/clutchShotInfo_icon.png" />
                     <div>클러치샷 소개</div>
                 </div>
                 <div class="border-start"></div>
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/rule_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/rule_icon.png" />
                     <div>진행 규칙</div>
                 </div>
             </div>
-            <div class="col-12 d-flex justify-content-center gap-4 border-bottom">
+            <div class="col-12 d-flex justify-content-center gap-4">
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/setting_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/setting_icon.png" />
                     <div>설정</div>
                 </div>
                 <div class="border-start"></div>
                 <div class="basic-hover col-5 m-1 px-3 py-1 d-flex justify-content-center fs-6 rounded-pill text-center cs-p">
-                    <img src="/image/icon/myPage/friend_icon.png" style="height: 1.5rem; margin-right: .4rem;" />
+                    <img class="menu-icon" src="/image/icon/myPage/withdraw_icon.png" />
                     <div>회원 탈퇴</div>
                 </div>
             </div>
